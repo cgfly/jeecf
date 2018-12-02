@@ -1,0 +1,165 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jeecf</groupId>
+	<artifactId>jeecf-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.11.RELEASE</version>
+	</parent>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<springboot.mybatis.version>1.3.0</springboot.mybatis.version>
+		<shiro.version>1.4.0</shiro.version>
+		<com.alibaba.druid.version>1.0.29</com.alibaba.druid.version>
+		<swagger2.version>2.7.0</swagger2.version>
+	</properties>
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${springboot.mybatis.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${com.alibaba.druid.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.google.code.kaptcha/kaptcha -->
+			<dependency>
+				<groupId>com.github.penggle</groupId>
+				<artifactId>kaptcha</artifactId>
+				<version>${kaptcha.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger2.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swagger2.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<distributionManagement>
+		<repository>
+			<id>jeecm-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://47.104.187.199:8081/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>jeecm-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://47.104.187.199:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- YUI Compressor (CSS/JS压缩) -->
+				<plugin>
+					<groupId>net.alchim31.maven</groupId>
+					<artifactId>yuicompressor-maven-plugin</artifactId>
+					<version>1.5.1</version>
+					<executions>
+						<execution>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>compress</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<jswarn>false</jswarn>
+						<nosuffix>true</nosuffix>
+						<linebreakpos>30000</linebreakpos>
+						<force>true</force>
+						<includes>
+							<include>**/*.js</include>
+							<include>**/*.css</include>
+						</includes>
+						<excludes>
+							<exclude>**/*.min.js</exclude>
+							<exclude>**/*.min.css</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				<!-- 生成javadoc文档包的插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<!-- <configuration> <aggregate>true</aggregate> </configuration> -->
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<additionalparam>-Xdoclint:none</additionalparam>
+					</configuration>
+				</plugin>
+				<!-- 生成sources源码包的插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<configuration>
+						<attach>true</attach>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+
+	<modules>
+		<module>jeecf-module-common</module>
+		<module>jeecf-module-manager</module>
+	</modules>
+</project>

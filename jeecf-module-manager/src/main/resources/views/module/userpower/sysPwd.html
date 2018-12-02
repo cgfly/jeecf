@@ -1,0 +1,74 @@
+<div ng-init="sysPwdAs.init()"></div>
+<ul id="top-tab" class="nav nav-tabs">
+	<li class="active"><a href="#sysPwdFormTab" data-toggle="tab">个人用户配置</a></li>
+	<!-- <li><a href="#sysUserFormTab" data-toggle="tab">系统用户配置添加</a></li> -->
+</ul>
+<br />
+<div class="tab-content">
+
+	<div class="tab-pane fade in active" id="sysPwdFormTab">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">个人用户配置</li>
+			<li class="active">密码修改</li>
+		</ol>
+		<div class="form-model">
+			<form class="form-horizontal" ng-submit="submitForm()" name="sysPwdForm">
+				
+			   <div class="form-group">
+					<label class="col-sm-2 control-label">密码：</label>
+					<div class="col-sm-4">
+					    <div class="col-sm-6" style="padding-left:0">
+							<input type="password" class="form-control" id="password" name="password"
+								ng-model="sysPwd.password"  placeholder="请输入密码" ng-maxlength="30" required="required"  />
+                        </div>
+					    <div class="col-sm-6">
+							<span style="color:red" ng-show="sysPwdForm.password.$dirty &amp;&amp; sysPwdForm.password.$invalid">
+								<span ng-show="sysPwdForm.password.$error.required">密码是必须的。</span>
+								<span ng-show="sysPwdForm.password.$error.maxlength">密码长度不超过30</span>
+                        	</span>
+                        </div>
+					</div>
+				</div> 
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">新密码：</label>
+					<div class="col-sm-4">
+					    <div class="col-sm-6" style="padding-left:0">
+							<input type="password" class="form-control" id="newPassword" name="newPassword"
+								ng-model="sysPwd.newPassword" ng-maxlength="30"  placeholder="请输入新密码"  required="required"  />
+                        </div>
+					    <div class="col-sm-6">
+							<span style="color:red" ng-show="sysPwdForm.newPassword.$dirty &amp;&amp; sysPwdForm.newPassword.$invalid">
+								<span ng-show="sysPwdForm.newPassword.$error.required">新密码是必须的。</span>
+								<span ng-show="sysPwdForm.newPassword.$error.maxlength">密码长度不超过30</span>
+                        	</span>
+                        </div>
+					</div>
+				</div> 
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">确认密码：</label>
+					<div class="col-sm-4">
+					    <div class="col-sm-6" style="padding-left:0">
+							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+								ng-model="sysPwd.confirmPassword" ng-maxlength="30"  placeholder="请输入确认密码"  required="required"  />
+                        </div>
+					    <div class="col-sm-6">
+							<span style="color:red" ng-show="sysPwdForm.confirmPassword.$dirty &amp;&amp; sysPwdForm.confirmPassword.$invalid">
+								<span ng-show="sysPwdForm.confirmPassword.$error.required">确认密码是必须的。</span>
+							    <span ng-show="sysPwdForm.confirmPassword.$error.maxlength">密码长度不超过30</span>
+                        	</span>
+                        </div>
+					</div>
+				</div> 
+				
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

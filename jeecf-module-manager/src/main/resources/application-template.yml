@@ -1,0 +1,10 @@
+template:
+    download:
+       prefix:
+          path: /Users/jianyiming/tmp/jeecm
+       suffix:
+          name: zip
+    upload:
+       path:  /Users/jianyiming/tmp/template/real
+       tmp:
+          path: /Users/jianyiming/tmp/template/tmp

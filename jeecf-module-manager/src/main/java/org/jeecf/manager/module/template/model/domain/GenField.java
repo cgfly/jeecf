@@ -1,0 +1,83 @@
+package org.jeecf.manager.module.template.model.domain;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.jeecf.manager.common.model.AuthEntity;
+import org.jeecf.manager.validate.groups.Add;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * 模版参数
+ * 
+ * @author GloryJian
+ * @version 1.0
+ */
+@ApiModel(value = "genField", description = "模版参数实体")
+public class GenField extends AuthEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 名称
+	 */
+	@ApiModelProperty(value = "名称", name = "name")
+	private String name;
+	/**
+	 * 描述
+	 */
+	@ApiModelProperty(value = "描述", name = "descrition")
+	private String descrition;
+	/**
+	 * 模版参数列表
+	 */
+	@ApiModelProperty(value = "模版参数列表实体", name = "genFieldColumn")
+	private List<GenFieldColumn> genFieldColumn;
+
+	public GenField() {
+		super();
+	}
+
+	public GenField(String id) {
+		super(id);
+	}
+	
+	@NotBlank(message="名称输入不能为空",groups= {Add.class})
+	@Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间",groups={Add.class})
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@NotBlank(message="描述输入不能为空",groups= {Add.class})
+	@Length(min = 1, max = 50, message = "描述长度必须介于 0 和 50 之间",groups={Add.class})
+	public String getDescrition() {
+		return descrition;
+	}
+
+	public void setDescrition(String descrition) {
+		this.descrition = descrition;
+	}
+    
+	@Valid
+	@NotNull(message="属性列表输入不能为空",groups= {Add.class})
+	@Size(min=1,max=30,message="超过范围，最大可添加30个参数",groups= {Add.class})
+	public List<GenFieldColumn> getGenFieldColumn() {
+		return genFieldColumn;
+	}
+
+	public void setGenFieldColumn(List<GenFieldColumn> genFieldColumn) {
+		this.genFieldColumn = genFieldColumn;
+	}
+
+}

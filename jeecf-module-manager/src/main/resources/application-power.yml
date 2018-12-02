@@ -1,0 +1,11 @@
+power:
+   function:
+      name: 权限
+   suffix:
+      base: 
+         name: base
+      edit:
+         name: edit
+      view:
+         name: view
+         

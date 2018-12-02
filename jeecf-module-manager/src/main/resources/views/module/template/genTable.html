@@ -1,0 +1,262 @@
+<div ng-init="genTableAs.init()"></div>
+<ul id="top-tab" class="nav nav-tabs">
+	<li class="active"><a href="#genTableList" data-toggle="tab">数表配置列表</a></li>
+	<li shiro:hasPermission="template:genTable:edit"><a
+		href="#genTableForm" data-toggle="tab">数表配置添加</a></li>
+</ul>
+<br />
+<div class="tab-content">
+	<div class="tab-pane fade in active" id="genTableList">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">数表配置</li>
+			<li class="active">列表</li>
+		</ol>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>表名</th>
+					<th>说明</th>
+					<th>类名</th>
+					<th>更新时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="genTable in genTableList">
+					<td>{{ $index+1 }}</td>
+					<td>{{ genTable.name }}</td>
+					<td>{{ genTable.comment }}</td>
+					<td>{{ genTable.className }}</td>
+					<td>{{ genTable.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+					<td><span shiro:hasPermission="template:genTable:edit"><a
+							href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span> <span><a
+							href="javascript:void(0)" ng-click="detailModal($index)">详情</a></span></td>
+				</tr>
+			</tbody>
+		</table>
+		<page-pagination page-id="pageId" page-size="pageSize"
+			page-count="pageCount" page-list="pageList"
+			search-form="searchForm(message)" page-record="pageRecord"
+			page-url-template="urlTemplate"></page-pagination>
+		<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 70%">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">详情</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="col-sm-10" style="padding-left: 0">
+								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
+									<span><label>表名：</label>{{ detailTable.name }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10" style="padding-left: 0">
+								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
+									<span><label>类名：</label>{{ detailTable.className }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10" style="padding-left: 0">
+								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
+									<span><label>说明：</label>{{ detailTable.comment }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10" style="padding-left: 0">
+								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
+									<span><label>父表：</label>{{ detailTable.parentTable }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10" style="padding-left: 0">
+								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
+									<span><label>外键：</label>{{ detailTable.parentTableFk }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<table class="table table-striped table-bordered table-condensed"
+								style="width: 90%; margin-left: 40px;">
+								<thead>
+									<tr>
+										<th>列名</th>
+										<th>说明</th>
+										<th>物理类型</th>
+										<th>属性名称</th>
+										<th>主键</th>
+										<th>非空 </th>
+										<th>插入</th>
+										<th>编辑</th>
+										<th>列表</th>
+										<th>查询</th>
+										<th>查询方式</th>
+										<th>表单类型</th>
+										<th>排序</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="column in detailTable.columns">
+										<td>{{ column.name }}</td>
+										<td>{{ column.comment }}</td>
+										<td>{{ column.jdbcType }}</td>
+										<td>{{ column.field }}</td>
+										<td>{{ column.isKeyName }}</td>
+										<td>{{ column.isNullName }}</td>
+										<td>{{ column.isInsertName }}</td>
+										<td>{{ column.isEditName }}</td>
+										<td>{{ column.isListName }}</td>
+										<td>{{ column.isQueryName }}</td>
+										<td>{{ column.queryTypeName }}</td>
+										<td>{{ column.formTypeName }}</td>
+										<td>{{ column.sort }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	</div>
+	<div class="tab-pane fade" id="genTableForm">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">数表配置</li>
+			<li class="active">添加</li>
+		</ol>
+		<div class="form-model">
+			<form class="form-horizontal form-content-box"
+				ng-submit="submitForm()" name="tableForm">
+				<div class="form-group">
+					<label class="col-sm-2 control-label"
+						style="font-size: 18px; padding-top: 2px">表名：</label>
+					<div class="col-sm-3">
+						<select class="form-control" ng-model="selectedTable"
+							ng-options="table.name for table in tableList">
+						</select>
+					</div>
+					<div class="col-sm-2">
+						<button type="button" class="btn btn-primary queryBaseTableColumn"
+							style="padding: 2px 12px">查询</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">类名:</label>
+					<div style="display: inline-block;">
+						<input type="text" ng-model="table.className" class="form-control"
+							readonly="readonly" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">说明:</label>
+					<div style="display: inline-block;">
+						<input type="text" ng-model="table.comment" id="tableComments"
+							name="tableComments" class="form-control" required="required" />
+					</div>
+					<span style="color: red"
+						ng-show="tableForm.tableComments.$dirty &amp;&amp; tableForm.tableComments.$invalid">
+						<span ng-show="tableForm.tableComments.$error.required">类说明是必须的。</span>
+					</span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">父表:</label>
+					<div style="display: inline-block;">
+						<select class="form-control" ng-model="table.parentTable">
+							<option value="" selected="selected">无</option>
+							<option ng-repeat="table in tableList" value="{{ table.name }}">{{
+								table.name }}</option>
+						</select>
+					</div>
+					&nbsp;&nbsp; <label class="control-label">外键:</label>
+					<div style="display: inline-block;">
+
+						<select class="form-control" ng-model="table.parentTableFk">
+							<option value="" selected="selected">无</option>
+							<option ng-repeat="column in tableColumn"
+								value="{{ column.name }}">{{ column.name }}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<table class="table table-striped table-bordered table-condensed">
+						<thead>
+							<th>列名</th>
+							<th>说明</th>
+							<th>物理类型</th>
+							<th>属性名称</th>
+							<th>主键</th>
+							<th>非空 &nbsp;<input type="checkbox" ng-model="isNullCheck"
+								watch-change="isNullChange" /></th>
+							<th>插入 &nbsp;<input type="checkbox" ng-model="isInsertCheck"
+								watch-change="isInsertChange" /></th>
+							<th>编辑 &nbsp;<input type="checkbox" ng-model="isEditCheck"
+								watch-change="isEditChange" /></th>
+							<th>列表 &nbsp;<input type="checkbox" ng-model="isListCheck"
+								watch-change="isListChange" /></th>
+							<th>查询 &nbsp;<input type="checkbox" ng-model="isQueryCheck"
+								watch-change="isQueryChange" /></th>
+							<th>查询方式</th>
+							<th>表单类型</th>
+							<th>排序</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="column in tableColumn">
+								<td>{{ column.name }}</td>
+								<td><input type="text" ng-model="column.comment"
+									class="form-control pull-right" /></td>
+								<td>{{ column.jdbcType }}</td>
+								<td><input type="text" ng-model="column.field"
+									class="form-control pull-right" /></td>
+								<td>{{ column.isKey.label }}</td>
+								<td><input type="checkbox" ng-model="column.isNull"
+									ng-checked="isChecked(column.isNull)" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><input type="checkbox" ng-model="column.isInsert"
+									ng-checked="isChecked(column.isInsert)" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><input type="checkbox" ng-model="column.isEdit"
+									ng-checked="isChecked(column.isEdit)" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><input type="checkbox" ng-model="column.isList"
+									ng-checked="isChecked(column.isList)" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><input type="checkbox" ng-model="column.isQuery"
+									ng-checked="isChecked(column.isQuery)" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><select class="form-control"
+									ng-model="column.queryType"
+									ng-options="item.label for item in queryTypes">
+								</select></td>
+								<td><select class="form-control" ng-model="column.formType"
+									ng-options="item.label for item in formTypes">
+								</select></td>
+								<td><input type="text" ng-model="column.sort"
+									class="form-control" /></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="form-group">
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-default">提交</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

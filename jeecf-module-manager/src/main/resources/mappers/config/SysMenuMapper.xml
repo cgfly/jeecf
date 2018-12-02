@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="org.jeecf.manager.module.config.dao.SysMenuDao">
+
+	<sql id="columnList">
+		sysMenu.id As "id",
+		sysMenu.name As "name",
+		sysMenu.label As
+		"label",
+		sysMenu.parent_id As "parentId",
+		sysMenu.parent_ids As
+		"parentIds",
+		sysMenu.level As "level",
+		sysMenu.module_label As
+		"moduleLabel",
+		sysMenu.sort As "sort",
+		sysMenu.route AS "route",
+		sysMenu.icon As "icon",
+		sysMenu.is_icon As "isIcon",
+		sysMenu.permission AS "permission",
+		sysMenu.remark As "remark",
+
+		parent.id As "parent.id",
+		parent.name As "parent.name",
+
+		sysMenu.create_by As "createBy",
+		sysMenu.create_date As "createDate",
+		sysMenu.update_by As "updateBy",
+		sysMenu.update_date As "updateDate"
+	</sql>
+
+	<sql id="commonWhere">
+		<where>
+			<if test="data != null">
+				<if test="data.name != null and data.name != '' ">
+					And sysMenu.name = #{data.name}
+				</if>
+				<if test="data.label != null and data.label != '' ">
+					And sysMenu.label = #{data.label}
+				</if>
+				<if test="data.parentId != null and data.parentId != '' ">
+					And sysMenu.parent_id = #{data.parentId}
+				</if>
+				<if test="data.parentIds != null and data.parentIds != '' ">
+					And sysMenu.parent_ids like
+					CONCAT('%',#{data.parentIds},'%')
+				</if>
+				<if test="data.level != null and data.level != '' ">
+					And sysMenu.level = #{data.level}
+				</if>
+				<if test="data.moduleLabel != null and data.moduleLabel != '' ">
+					And sysMenu.module_label = #{data.moduleLabel}
+				</if>
+				<if test="data.sort != null and data.sort != '' ">
+					And sysMenu.sort = #{data.sort}
+				</if>
+				<if test="data.route != null and data.route != '' ">
+					And sysMenu.route = #{data.route}
+				</if>
+				<if test="data.permission != null and data.permission != '' ">
+					And sysMenu.permission = #{data.permission}
+				</if>
+				<include refid="reginWhere" />
+			</if>
+			<include refid="containWhere" />
+		</where>
+	</sql>
+
+	<!-- 通用范围区间查询 -->
+	<sql id="reginWhere">
+		<if test="data.beginCreateDate != null">
+			And sysMenu.create_date &gt;= #{data.beginCreateDate}
+		</if>
+		<if test="data.endCreateDate != null">
+			And sysMenu.create_date &lt;= #{data.endCreateDate}
+		</if>
+		<if test="data.beginUpdateDate != null">
+			And sysMenu.update_date &gt;= #{data.beginUpdateDate}
+		</if>
+		<if test="data.endUpdateDate != null">
+			And sysMenu.update_date &lt;= #{data.endUpdateDate}
+		</if>
+	</sql>
+
+	<!-- in 和 not in的通用查询where -->
+	<sql id="containWhere">
+		<if test="contains != null and contains.size > 0">
+			<foreach item="item" index="i" collection="contains">
+				And sysMenu.${item.columnName} in
+				<foreach item="value" index="i"
+					collection="item.columnValue" separator="," open="(" close=")">
+					#{value}
+				</foreach>
+			</foreach>
+		</if>
+	</sql>
+
+	<!-- 通用排序处理 -->
+	<sql id="commonSorts">
+		<if test="sorts != null and sorts.size > 0">
+			ORDER BY
+			<foreach collection="sorts" item="item" separator=",">
+				${item.columnName} ${item.sortMode}
+			</foreach>
+		</if>
+		<if test="sorts == null">
+			ORDER BY sysMenu.update_date desc
+		</if>
+	</sql>
+
+	<!-- 关联查询 -->
+	<sql id="leftJoinColumn">
+		LEFT JOIN sys_menu parent on parent.id = sysMenu.parent_id
+	</sql>
+
+
+
+	<select id="query"
+		resultType="org.jeecf.manager.module.config.model.result.SysMenuResult">
+		select
+		<include refid="columnList" />
+		from
+		sys_menu sysMenu
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+		<include refid="commonSorts" />
+		<if test="page != null">
+			limit ${page.startNo},${page.size}
+		</if>
+	</select>
+
+	<select id="get"
+		resultType="org.jeecf.manager.module.config.model.result.SysMenuResult">
+		select
+		<include refid="columnList" />
+		from
+		sys_menu sysMenu
+		<include refid="leftJoinColumn" />
+		where sysMenu.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+			<if test="label != null">
+				label,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="parentIds != null">
+				parent_ids,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="moduleLabel != null">
+				module_label,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="route != null">
+				route,
+			</if>
+			<if test="permission != null">
+				permission,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="isIcon != null">
+				is_icon,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="label != null">
+				#{label},
+			</if>
+			<if test="parentId != null">
+				#{parentId},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds},
+			</if>
+			<if test="level != null">
+				#{level},
+			</if>
+			<if test="moduleLabel != null">
+				#{moduleLabel},
+			</if>
+			<if test="sort != null">
+				#{sort},
+			</if>
+			<if test="route != null">
+				#{route},
+			</if>
+			<if test="permission != null">
+				#{permission},
+			</if>
+			<if test="icon != null">
+				#{icon},
+			</if>
+			<if test="isIcon != null">
+				#{isIcon},
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+			<if test="createBy != null">
+				#{createBy},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		update sys_menu
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="label != null">
+				label = #{label},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+			</if>
+			<if test="parentIds != null">
+				parent_ids = #{parentIds},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="moduleLabel != null">
+				module_label = #{moduleLabel},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="route != null">
+				route = #{route},
+			</if>
+			<if test="icon != null">
+				icon = #{icon},
+			</if>
+			<if test="isIcon != null">
+				is_icon = #{isIcon},
+			</if>
+			<if test="permission != null">
+				permission = #{permission},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+
+	<select id="count" resultType="int">
+		select count(1) from sys_menu sysMenu
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+	</select>
+
+	<delete id="delete">
+		delete from sys_menu
+		where id = #{id}
+	</delete>
+
+</mapper>

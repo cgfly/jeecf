@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.jeecf.manager.engine.dao.PhysicalTableDao">
+
+	<select id="findTableList"
+		resultType="org.jeecf.manager.engine.model.PhysicalTable">
+		SELECT t.table_name AS name,t.TABLE_COMMENT AS comment
+		FROM
+		information_schema.`TABLES` t
+		WHERE t.TABLE_SCHEMA = (select
+		database())
+		<if test="name != null and name != ''">
+			AND t.TABLE_NAME = (#{name})
+		</if>
+		ORDER BY t.TABLE_NAME
+	</select>
+	
+	<select id="findTableColumnList" resultType="org.jeecf.manager.engine.model.PhysicalTableColumn">
+		SELECT t.COLUMN_NAME AS name, 
+		  t.table_name AS "tableName",
+		  (CASE WHEN t.IS_NULLABLE = 'YES' THEN '0' ELSE '1' END) AS isNull,
+          (CASE WHEN t.COLUMN_KEY = 'PRI'  THEN '1' ELSE '0' END  ) AS 'isKey',
+		  (t.ORDINAL_POSITION * 10) AS sort,
+		  t.COLUMN_COMMENT AS comment,
+		  t.COLUMN_TYPE AS jdbcType
+		FROM information_schema.`COLUMNS` t
+		WHERE t.TABLE_SCHEMA = (select database())
+		<if test="tableName != null and tableName != ''">
+			AND t.TABLE_NAME = (#{tableName})
+		</if>
+		ORDER BY t.ORDINAL_POSITION
+	</select>
+
+</mapper>

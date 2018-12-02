@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecf.manager.module.operation.dao.CustomerActionLogDao">
+
+	<sql id="columnList">
+		customerActionLog.id AS "id",
+		customerActionLog.ip AS "ip",
+		customerActionLog.user_name AS "userName",
+		customerActionLog.action_type AS "actionType",
+		customerActionLog.action_data AS "actionData",
+		customerActionLog.create_by AS "createBy",
+		customerActionLog.create_date AS "createDate",
+		customerActionLog.update_by AS "updateBy",
+		customerActionLog.update_date AS "updateDate",
+		customerActionLog.remark AS "remark"
+	</sql>
+
+	<sql id="commonWhere">
+		<where>
+			<if test="data != null">
+				<if test="data.actionType != null and data.actionType != '' ">
+					And customerActionLog.action_type  = #{data.actionType}
+				</if>
+				<if test="data.userName != null and data.userName != '' ">
+					And customerActionLog.user_name  = #{data.userName}
+				</if>
+				<if test="data.createBy != null and data.createBy != '' ">
+					And customerActionLog.create_by = #{data.createBy}
+				</if>
+				<include refid="reginWhere" />
+			</if>
+			<include refid="containWhere" />
+		</where>
+	</sql>
+
+	<!-- 通用范围区间查询 -->
+	<sql id="reginWhere">
+		<if test="data.beginCreateDate != null">
+			And customerActionLog.create_date &gt;= #{data.beginCreateDate}
+		</if>
+		<if test="data.endCreateDate != null">
+			And customerActionLog.create_date &lt;= #{data.endCreateDate}
+		</if>
+		<if test="data.beginUpdateDate != null">
+			And customerActionLog.update_date &gt;= #{data.beginUpdateDate}
+		</if>
+		<if test="data.endUpdateDate != null">
+			And customerActionLog.update_date &lt;= #{data.endUpdateDate}
+		</if>
+	</sql>
+
+	<!-- in 和 not in的通用查询where -->
+	<sql id="containWhere">
+		<if test="contains != null and contains.size > 0">
+			<foreach item="item" index="i" collection="contains">
+				And ${item.columnName} in
+				<foreach item="value" index="i"
+					collection="item.columnValue" separator="," open="(" close=")">
+					#{value}
+				</foreach>
+			</foreach>
+		</if>
+	</sql>
+
+	<!-- 通用排序处理 -->
+	<sql id="commonSorts">
+		<if test="sorts != null and sorts.size > 0">
+			ORDER BY
+			<foreach collection="sorts" item="item" separator=",">
+				${item.columnName} ${item.sortMode}
+			</foreach>
+		</if>
+		<if test="sorts == null">
+			ORDER BY customerActionLog.update_date desc
+		</if>
+	</sql>
+
+	<!-- 关联查询 -->
+	<sql id="leftJoinColumn">
+	</sql>
+
+
+
+	<select id="query"
+		resultType="org.jeecf.manager.module.operation.model.result.CustomerActionLogResult">
+		select
+		<include refid="columnList" />
+		from
+		customer_action_log customerActionLog
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+		<include refid="commonSorts" />
+		<if test="page != null">
+			limit ${page.startNo},${page.size}
+		</if>
+	</select>
+
+	<select id="get"
+		resultType="org.jeecf.manager.module.operation.model.result.CustomerActionLogResult">
+		select
+		<include refid="columnList" />
+		from
+		customer_action_log customerActionLog
+		where customerActionLog.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into customer_action_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="actionType != null">
+				action_type,
+			</if>
+			<if test="actionData != null">
+				action_data,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ip != null">
+				#{ip},
+			</if>
+			<if test="userName != null">
+				#{userName},
+			</if>
+			<if test="actionType != null">
+				#{actionType},
+			</if>
+			<if test="actionData != null">
+				#{actionData},
+			</if>
+			<if test="createBy != null">
+				#{createBy},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate},
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		update customer_action_log
+		<set>
+			<if test="ip != null">
+				ip = #{ip},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName},
+			</if>
+			<if test="actionType != null">
+				action_type = #{actionType},
+			</if>
+			<if test="actionData != null">
+				action_data = #{actionData},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+		</set>
+		where id = #{id}
+		<if test="createBy != null">
+			AND create_by = #{createBy}
+		</if>
+	</update>
+
+
+	<select id="count" resultType="int">
+		select count(1) from customer_action_log customerActionLog
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+	</select>
+
+	<delete id="delete">
+		delete from customer_action_log
+		WHERE id = #{id}
+		<if test="createBy != null">
+			AND create_by = #{createBy}
+		</if>
+	</delete>
+
+</mapper>

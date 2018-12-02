@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.jeecf.manager.module.template.dao.GenTableColumnDao">
+
+	<sql id="columnList">
+		genTableColumn.id AS "id",
+		genTableColumn.name AS "name",
+		genTableColumn.comment AS "comment",
+		genTableColumn.field AS "field",
+		genTableColumn.jdbc_type AS "jdbcType",
+		genTableColumn.form_type AS "formType",
+		genTableColumn.query_type AS "queryType",
+		genTableColumn.sort AS "sort",
+		genTableColumn.is_null AS "isNull",
+		genTableColumn.is_insert AS "isInsert",
+		genTableColumn.is_edit AS "isEdit",
+		genTableColumn.is_query AS "isQuery",
+		genTableColumn.is_list AS "isList",
+		genTableColumn.is_key AS "isKey",
+		genTable.id AS  "genTable.id",
+		genTable.name AS "genTable.name",
+		genTable.comment AS "genTable.comment",
+		genTable.class_name AS "genTable.className",
+		genTable.parent_table_id AS "genTable.parentTableId",
+		genTable.parent_table_fk AS "genTable.parentTableFk"
+	</sql>
+
+	<sql id="columnJoins">
+		LEFT JOIN gen_table genTable ON genTable.id =
+		genTableColumn.gen_table_id
+	</sql>
+
+	<sql id="commonWhere">
+		<where>
+			<if test="data != null">
+				<if
+					test="data.genTable != null and data.genTable.id != null and data.genTable.id != '' ">
+					AND genTableColumn.gen_table_id = #{data.genTable.id}
+				</if>
+			</if>
+		</where>
+	</sql>
+
+	<select id="get"
+		resultType="org.jeecf.manager.module.template.model.result.GenTableColumnResult">
+		select
+		<include refid="columnList" />
+		from gen_table_column genTableColumn
+		<include refid="columnJoins" />
+		where id = #{id}
+	</select>
+
+
+	<select id="query"
+		resultType="org.jeecf.manager.module.template.model.result.GenTableColumnResult">
+		select
+		<include refid="columnList" />
+		from gen_table_column genTableColumn
+		<include refid="columnJoins" />
+		<include refid="commonWhere" />
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO gen_table_column
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="genTable.id != null">
+				gen_table_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+			<if test="jdbcType != null">
+				jdbc_type,
+			</if>
+			<if test="field != null">
+				field,
+			</if>
+			<if test="isNull != null">
+				is_null,
+			</if>
+			<if test="isKey != null">
+				is_key,
+			</if>
+			<if test="isInsert != null">
+				is_insert,
+			</if>
+			<if test="isEdit != null">
+				is_edit,
+			</if>
+			<if test="isList != null">
+				is_list,
+			</if>
+			<if test="isQuery != null">
+				is_query,
+			</if>
+			<if test="queryType != null">
+				query_type,
+			</if>
+			<if test="formType != null">
+				form_type,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remark != null">
+				remark
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="genTable.id != null">
+				#{genTable.id},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="comment != null">
+				#{comment},
+			</if>
+			<if test="jdbcType != null">
+				#{jdbcType},
+			</if>
+			<if test="field != null">
+				#{field},
+			</if>
+			<if test="isNull != null">
+				#{isNull},
+			</if>
+			<if test="isKey != null">
+				#{isKey},
+			</if>
+			<if test="isInsert != null">
+				#{isInsert},
+			</if>
+			<if test="isEdit != null">
+				#{isEdit},
+			</if>
+			<if test="isList != null">
+				#{isList},
+			</if>
+			<if test="isQuery != null">
+				#{isQuery},
+			</if>
+			<if test="queryType != null">
+				#{queryType},
+			</if>
+			<if test="formType != null">
+				#{formType},
+			</if>
+			<if test="sort != null">
+				#{sort},
+			</if>
+			<if test="createBy != null">
+				#{createBy},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate},
+			</if>
+			<if test="remark != null">
+				#{remark}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE gen_table_column
+		<set>
+			<if test="comment != null">
+				comment = #{comment},
+			</if>
+			<if test="jdbcType != null">
+				jdbc_type = #{jdbcType},
+			</if>
+			<if test="field != null">
+				field = #{field},
+			</if>
+			<if test="isNull != null">
+				is_null = #{isNull},
+			</if>
+			<if test="isKey != null">
+				is_key = #{isKey},
+			</if>
+			<if test="isInsert != null">
+				is_insert = #{isInsert},
+			</if>
+			<if test="isEdit != null">
+				is_edit = #{isEdit},
+			</if>
+			<if test="isList != null">
+				is_list = #{isList},
+			</if>
+			<if test="isQuery != null">
+				is_query = #{isQuery},
+			</if>
+			<if test="queryType != null">
+				query_type = #{queryType},
+			</if>
+			<if test="formType != null">
+				form_type = #{formType},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remark != null">
+				remark = #{remark}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from gen_table_column WHERE
+		<if test="id != null and id != '' ">
+			id = #{id}
+		</if>
+		<if
+			test="genTable != null and genTable.id != null and genTable.id != '' ">
+			gen_table_id = #{genTable.id}
+		</if>
+	</delete>
+
+	<select id="count" resultType="int">
+		select count(1) from gen_table_column genTableColumn
+		<include refid="columnJoins" />
+		<include refid="commonWhere" />
+	</select>
+
+
+</mapper>

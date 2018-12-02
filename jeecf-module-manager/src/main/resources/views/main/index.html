@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="UTF-8"></meta>
+<title>jeecf</title>
+
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+<link th:href="@{/libs/jquery-select2/3.4/select2.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/jquery-select2/3.4/select2-bootstrap.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/bootstrap-3.3.7/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/css/sb-admin.css}" rel="stylesheet" />
+<link th:href="@{/libs/font-awesome-3.2.1/css/font-awesome.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/jquery-treetable-3.2.0/css/jquery.treetable.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{/libs/jquery-treetable-3.2.0/css/jquery.treetable.theme.default.css}"
+	rel="stylesheet" />
+<link th:href="@{/css/custom.css}" rel="stylesheet" />
+
+<link th:href="@{/libs/jquery-jbox/jBox.css}" rel="stylesheet" />
+<link th:href="@{/libs/jquery-jbox/Playground.Avatars.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/jquery-jbox/plugins/Notice/jBox.Notice.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/jquery-jbox/plugins/Confirm/jBox.Confirm.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/jquery-jbox/themes/NoticeFancy.css}"
+	rel="stylesheet" />
+<link th:href="@{/libs/jquery-zTree/css/zTreeStyle/zTreeStyle.css}"
+	rel="stylesheet" />
+
+<style>
+body {
+	background-color: white;
+	font-size: 15px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.form-model {
+	width: 100%;
+	background-color: white;
+	padding: 20px 20px;
+}
+
+.top-nav {
+	height: 60px;
+}
+
+.top-nav a {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.top-nav li a {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.height-full {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+}
+
+#sidebar {
+	width: 210px;
+	height: auto;
+	/* background-color: #191930; */
+	background-color: #464646;
+	float: left;
+	position: fixed;
+}
+
+#container {
+	border: 0;
+	margin-left: 210px;
+	margin-left: 210px;
+}
+
+#container .header {
+	width: 100%;
+	height: 60px;
+	background-color: #DFDFDF;
+}
+
+#container ul li {
+	text-decoration: none;
+	list-style: none;
+}
+
+#container ul li a {
+	text-decoration: none;
+}
+
+#sidebar .header {
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	background-color: #353535;
+	color: white;
+	font-size: 18px;
+	text-align: center;
+	line-height: 60px;
+	background-color: #353535;
+}
+
+/* #sidebar .navbar-nav {
+	background-color: #464646 ! important;
+} */
+.sidebar-wrapper .sidebar-menu .sidebar-dropdown div {
+	display: none;
+}
+
+.sidebar-wrapper .sidebar-menu .sidebar-dropdown div {
+	background: #3A3A3A;
+}
+
+.main {
+	width: 100%;
+	padding: 5px 5px;
+}
+</style>
+
+</head>
+<body
+	th:attr="data-ctxPath=${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort()  + #httpServletRequest.getContextPath() + '/'}">
+	<!-- 	<div id="wrapper">
+		<header th:include="layout/header :: ${loyout.header}"></header>
+		<div id="page-wrapper">
+			<div ui-view="content"></div>
+		</div>
+	</div> -->
+
+	<div class="container-fluid" style="height: 100%">
+		<div class="row height-full" style="height: 100%; width: 100%">
+			<div id="sidebar" style="height: 100%">
+				<div class="header">JEECF 云工厂 <span style="font-size:15px">v1.0Beta</span></div>
+				<div class="nav-side">
+					<nav id="sidebar" class="sidebar-wrapper" style="color: white">
+						<div class="sidebar-content">
+							<div class="sidebar-menu">
+								<ul>
+									<th:block th:each="sysMenu : ${sysMenus}">
+										<th:block
+											th:if="${sysMenu.level == 1 and sysMenu.hasChild == false}">
+											<li><a th:attr="ui-sref=${sysMenu.routeName}"> <i
+													th:if="${sysMenu.isIcon == 1}"><img
+														th:src="${ '/images/'+ sysMenu.icon+ '.png' }" /></i> <span><th:block
+															th:text="${sysMenu.name}"></th:block></span></a></li>
+										</th:block>
+										<th:block th:if="${sysMenu.level == 1 and sysMenu.hasChild}">
+											<li class="sidebar-dropdown"><a
+												href="javascript:void(0)"> <i
+													th:if="${sysMenu.isIcon == 1}"><img
+														th:src="${ '/images/'+ sysMenu.icon+ '.png' }" /></i> <span><th:block
+															th:text="${sysMenu.name}"></th:block></span></a>
+												<div class="sidebar-submenu">
+													<ul>
+														<th:block th:each="sysMenu2 : ${sysMenus}">
+															<li
+																th:if="${sysMenu2.level == 2 and sysMenu2.parentId.toString() == sysMenu.id }">
+																<a href="#"
+																th:attr="ui-sref=${sysMenu2.routeName},ui-sref-opts=${ '{reload:''' +  sysMenu2.routeName +'''}'}">
+																	<i th:if="${sysMenu2.isIcon == 1}"><img
+																		th:src="${ '/images/'+ sysMenu2.icon+ '.png' }" /></i> <th:block
+																		th:text="${sysMenu2.name}"></th:block>
+															</a>
+															</li>
+														</th:block>
+													</ul>
+												</div></li>
+										</th:block>
+									</th:block>
+								</ul>
+							</div>
+							<!-- sidebar-menu  -->
+						</div>
+					</nav>
+
+				</div>
+			</div>
+
+			<div id="container" style="height: 100%">
+				<div class="header">
+					<ul class="nav navbar-nav" style="height: 60px ! important; line-height: 60px; margin: 0 padding:0; margin-left: 20px; color:rgb(0,100,255);">
+						<li>用户:&nbsp;<span th:text="${#users.getName()}"></span>&nbsp;，</li>
+						<li>命名空间:&nbsp;<span th:text="${#namespaces.getName()}"></span></li>
+					</ul>
+					<ul class="navbar-right"
+						style="height: 60px ! important; line-height: 60px; margin: 0 padding:0; margin-right: 10px;">
+						<li role="presentation" class="dropdown"><a
+							class="dropdown-toggle" data-toggle="dropdown" href="#"
+							role="button" aria-haspopup="true" aria-expanded="false">
+								个人中心 <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/logout}">退出</a></li>
+								<!-- 								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li> -->
+							</ul></li>
+					</ul>
+				</div>
+				<div class="main">
+					<div ui-view="content"></div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<script data-main="/js/main" th:src="@{/js/require.js}"></script>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

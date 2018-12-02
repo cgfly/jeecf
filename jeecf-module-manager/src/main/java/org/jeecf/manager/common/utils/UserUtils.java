@@ -1,0 +1,38 @@
+package org.jeecf.manager.common.utils;
+
+import org.apache.shiro.SecurityUtils;
+import org.jeecf.manager.module.userpower.model.domain.SysUser;
+import org.jeecf.manager.module.userpower.service.SysUserService;
+
+/**
+ * 用户工具类
+ * @author jianyiming
+ *
+ */
+public class UserUtils {
+	
+	private static SysUserService sysUserService = SpringContextUtils.getBean("sysUserService",SysUserService.class);
+	
+	/**
+	 * 获取当前用户标示
+	 * @return
+	 */
+	public static String getCurrentUserId() {
+		String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
+		String id = (String) RedisCacheUtils.getSysCache(sessionId);
+		return id;
+	}
+	
+	/**
+	 * 获取当前用户
+	 * @return
+	 */
+	public static SysUser getCurrentUser() {
+		String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
+		String id = (String) RedisCacheUtils.getSysCache(sessionId);
+		SysUser queryUser = new SysUser();
+		queryUser.setId(id);
+		return sysUserService.get(queryUser).getData();
+	}
+
+}

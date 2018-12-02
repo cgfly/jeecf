@@ -1,0 +1,43 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+.DS_Store
+/target/
+*/.settings/
+/.DS_Store
+/.project
+/.classpathgs/
+/.settings/
+
+/jeecm-module-manager/target/
+/jeecm-module-manager/.settings/
+/jeecm-module-manager/.DS_Store
+/jeecm-module-manager/.project
+/jeecm-module-manager/.classpath
+
+/jeecm-module-common/target/
+/jeecm-module-common/.settings/
+/jeecm-module-common/.DS_Store
+/jeecm-module-common/.project
+/jeecm-module-common/.classpath
+
+
+/Users/
