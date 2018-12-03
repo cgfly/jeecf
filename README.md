@@ -66,61 +66,59 @@ Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企�
 
 8.table.uncapitalizeClassName,首字母小写类名
 
-9.table.comments,业务表注释
+9.table.queryColumns,获取查询字段
 
-10.table.queryColumns,获取查询字段
+10.table.insertColumns,获取插入字段
 
-11.table.insertColumns,获取插入字段
+11.table.updateColumns,获取编辑字段
 
-12.table.updateColumns,获取编辑字段
+12.table.listColumns,获取列表字段
 
-13.table.listColumns,获取列表字段
+13.table.intervalColumns,获取区间字段
 
-14.table.intervalColumns,获取区间字段
+14.table.closeIntervalColumns,获取闭区间字段
 
-15.table.closeIntervalColumns,获取闭区间字段
+15.table.openIntervalColumns,获取开区间字段
 
-16.table.openIntervalColumns,获取开区间字段
+16.table.childList,获取字表
 
-17.table.childList,获取字表
+17.table.genTableColumns,获取表字段实体列表，下面以tableColumn表示字段实体
 
-18.table.genTableColumns,获取表字段实体列表，下面以tableColumn表示字段实体
+18.tableColumn.name,字段名称
 
-19.tableColumn.name,字段名称
+19.tableColumn.isNull,是否为空，0为空，1非空
 
-20.tableColumn.isNull,是否为空，0为空，1非空
+20.tableColumn.sort,字段循序
 
-21.tableColumn.sort,字段循序
+21.tableColumn.isKey,是否是主键
 
-22.tableColumn.isKey,是否是主键
+22.tableColumn.comment,字段注释
 
-23.tableColumn.comment,字段注释
+23.tableColumn.jdbcType,获取jdbc类型
 
-24.tableColumn.jdbcType,获取jdbc类型
+24.tableColumn.type,获取类型
 
-25.tableColumn.type,获取类型
+25.tableColumn.formType,获取form表单类型
 
-26.tableColumn.formType,获取form表单类型
+26.tableColumn.field,获取属性
 
-27.tableColumn.field,获取属性
+27.tableColumn.queryType,获取搜索类型
 
-28.tableColumn.queryType,获取搜索类型
+28.tableColumn.isInsert,是否插入字段
 
-29.tableColumn.isInsert,是否插入字段
+29.tableColumn.isEdit,是否编辑字段
 
-30.tableColumn.isEdit,是否编辑字段
+30.tableColumn.isList,是否列表字段
 
-31.tableColumn.isList,是否列表字段
+31.tableColumn.isQuery,是否查询字段
 
-32.tableColumn.isQuery,是否查询字段
+32.tableColumn.simpleType,获取简写类型
 
-33.tableColumn.simpleType,获取简写类型
+33.tableColumn.simpleJdbcType,获取简写jdbc类型
 
-34.tableColumn.simpleJdbcType,获取简写jdbc类型
+34.tableColumn.simpleField,获取简写属性
 
-35.tableColumn.simpleField,获取简写属性
-
-36.tableColumn.dataLength,获取jdbc属性最大长度
+35.tableColumn.dataLength,获取jdbc属性最大长度
 
 #### java语言 simpleType与jdbcType 对应关系
 
