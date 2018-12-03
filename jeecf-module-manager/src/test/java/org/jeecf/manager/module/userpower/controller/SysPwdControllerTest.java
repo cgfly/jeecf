@@ -3,6 +3,7 @@ package org.jeecf.manager.module.userpower.controller;
 import org.jeecf.manager.Application;
 import org.jeecf.manager.module.userpower.model.domain.SysPwd;
 import org.jeecf.manager.test.helper.BaseMokMvc;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SysPwdControllerTest extends BaseMokMvc {
+	
+	@Before
+	public void setUp() throws Exception {
+		super.init("admin", "123456");
+	}
 
 	@Test
 	public void save() throws Exception {

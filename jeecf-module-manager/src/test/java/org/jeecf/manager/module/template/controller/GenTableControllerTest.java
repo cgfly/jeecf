@@ -31,7 +31,7 @@ public class GenTableControllerTest extends BaseMokMvc{
 	
 	@Before
 	public void setUp() throws Exception {
-		super.init("admin", "jeecm188988rmb?!J");
+		super.init("admin", "123456");
 	}
 	
 	@Test
