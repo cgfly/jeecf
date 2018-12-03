@@ -185,7 +185,9 @@
 
 
 	<select id="count" resultType="int">
-		select count(1) from gen_field
+		select count(1) from gen_field genField
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
 	</select>
 
 	<delete id="delete">

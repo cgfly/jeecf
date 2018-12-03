@@ -227,7 +227,9 @@
 
 
 	<select id="count" resultType="int">
-		select count(1) from gen_template
+		select count(1) from gen_template genTemplate
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
 	</select>
 
 	<delete id="delete">
