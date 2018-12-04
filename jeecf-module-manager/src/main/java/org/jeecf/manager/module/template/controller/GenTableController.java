@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
-import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.engine.model.PhysicalTable;
@@ -80,15 +78,6 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@ApiOperation(value = "更新", notes = "更新代码生成业务表数据")
 	@Override
 	public Response<Integer> save(@RequestBody @Validated({Add.class}) GenTable genTable) {
-		if(genTable.isNewRecord()) {
-			GenTableQuery query = new GenTableQuery();
-			query.setName(genTable.getName());
-			query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-			List<GenTableResult> genTableList = genTableService.findList(new GenTablePO(query)).getData();
-			if(CollectionUtils.isNotEmpty(genTableList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-		}
 		return genTableFacade.saveTable(genTable);
 	}
 	
