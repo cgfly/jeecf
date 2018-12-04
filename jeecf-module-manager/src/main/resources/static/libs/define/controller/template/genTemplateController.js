@@ -32,8 +32,10 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 															// .resolve
 				if (res.success) {
 					data = res.data;
-					for (var i = 0; i < data.length; i++) {
-						data[i]["languageName"] = $scope.toEnumName(data[i].language);
+					if(data != undefined) {
+						for (var i = 0; i < data.length; i++) {
+							data[i]["languageName"] = $scope.toEnumName(data[i].language);
+						}
 					}
 					$scope.genTemplateList = data;
 					$page.setPage($scope, res.page.total);
