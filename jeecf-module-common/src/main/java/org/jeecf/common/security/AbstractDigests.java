@@ -1,6 +1,3 @@
-/**
- * Copyright (c) 2005-2012 springside.org.cn
- */
 package org.jeecf.common.security;
 
 import java.io.IOException;
