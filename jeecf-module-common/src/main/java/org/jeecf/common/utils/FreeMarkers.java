@@ -24,10 +24,10 @@ import freemarker.template.Template;
  */
 public class FreeMarkers {
 
-	public static String renderString(String templateString, Map<String, ?> model) {
+	public static String renderString(String name,String templateString, Map<String, ?> model) {
 		try {
 			StringWriter result = new StringWriter();
-			Template t = new Template("name", new StringReader(templateString),
+			Template t = new Template(name, new StringReader(templateString),
 					new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS));
 			t.process(model, result);
 			return result.toString();

@@ -143,10 +143,10 @@ public class GenUtils {
 	public static boolean generateToFile(GenSchemaTemplate tpl, Map<String, Object> model, String basePath) {
 		// 获取生成文件
 		String fileName = basePath + File.separator
-				+ FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getFilePath()), model) + File.separator
-				+ FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getFileName()), model);
+				+ FreeMarkers.renderString(tpl.getName(),StringUtils.trimToEmpty(tpl.getFilePath()), model) + File.separator
+				+ FreeMarkers.renderString(tpl.getName(),StringUtils.trimToEmpty(tpl.getFileName()), model);
 		// 获取生成文件内容
-		String content = FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getContent()), model);
+		String content = FreeMarkers.renderString(tpl.getName(),StringUtils.trimToEmpty(tpl.getContent()), model);
 
 		// 创建并写入文件
 		if (FileUtils.createFile(fileName)) {
