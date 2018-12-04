@@ -134,17 +134,17 @@ BigDecimal --> decimal
 
 #### go语言 jdbcType 与 simpleType 对应关系
 
-string --> varchar,text
+varchar,text --> string
 
-int64 --> bigint
+bigint --> int64
 
-int32 --> integer,int
+integer,int --> int32
 
-int8 --> tinyint
+tinyint --> int8
 
-float64 --> double,decimal
+double,decimal --> float64
 
-Time --> date,datetime,timestamp
+date,datetime,timestamp --> Time
 
 ### 六.模版文件
 1.上传文件以.zip压缩
