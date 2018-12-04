@@ -68,9 +68,9 @@ public class GenTemplate extends AuthEntity implements Serializable {
 		this.name = name;
 	}
     
-	@NotNull(message="输入不能为空",groups= {Add.class})
-	@Min(value = 1,message="输入错误",groups= {Add.class})
-	@Max(value = 2,message="输入错误",groups= {Add.class})
+	@NotNull(message="	语言输入不能为空",groups= {Add.class})
+	@Min(value = 1,message="语言输入错误",groups= {Add.class})
+	@Max(value = 2,message="语言输入错误",groups= {Add.class})
 	public Integer getLanguage() {
 		return language;
 	}
@@ -79,8 +79,6 @@ public class GenTemplate extends AuthEntity implements Serializable {
 		this.language = language;
 	}
 	
-	@NotNull(message="输入不能为空",groups= {Add.class})
-	@Min(value = 1,message="输入错误",groups= {Add.class})
 	public Integer getGenFieldId() {
 		return genFieldId;
 	}
