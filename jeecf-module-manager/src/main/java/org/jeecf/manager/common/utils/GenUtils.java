@@ -173,6 +173,11 @@ public class GenUtils {
 				}
 				JsonNode pathNode = node.get("path");
 				if (pathNode != null) {
+					String customParams = null;
+					JsonNode paramNode = node.get("params");
+					if(paramNode != null) {
+						customParams = paramNode.toString();
+					}
 					Iterator<Entry<String, JsonNode>> iter = node.get("path").fields();
 					while (iter.hasNext()) {
 						Entry<String, JsonNode> entity = iter.next();
@@ -183,11 +188,13 @@ public class GenUtils {
 						Map<String, Object> model = new HashMap<String, Object>(10);
 					    model.put("table", LanguageFactory.getTargetTable(tableId, language));
 						model.put("nowDate", DateFormatUtils.SF.format(new Date()));
+						model.put("customParams",customParams);
 						if (CollectionUtils.isNotEmpty(genParamsList)) {
 							genParamsList.forEach(genParam -> {
 								model.put(genParam.getName(), genParam.getValue());
 							});
 						}
+						
 						GenUtils.generateToFile(genSchemaTemplate, model, codePath);
 					}
 					OutputStream out = new FileOutputStream(new File(outZip));
