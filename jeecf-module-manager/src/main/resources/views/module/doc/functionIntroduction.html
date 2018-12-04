@@ -65,13 +65,13 @@
 <p>Long --> bigint</p>
 <p>Date --> date,datetime,timestamp</p>
 <p>BigDecimal --> decimal</p>
-<h5>go语言 jdbcType 与 simpleType 对应关系</h5>
-<p>varchar,text --> string</p>
-<p>bigint --> int64</p>
-<p>integer,int --> int32</p>
-<p>tinyint --> int8</p>
-<p>double,decimal --> float64</p>
-<p>date,datetime,timestamp --> Time</p>
+<h5>go语言 simpleType与jdbcType 对应关系</h5>
+<p>string --> varchar,text</p>
+<p>int64 --> bigint</p>
+<p>int32 --> integer,int</p>
+<p>int8 --> tinyint</p>
+<p>float64 --> double,decimal</p>
+<p>Time --> date,datetime,timestamp</p>
 <h4>六.模版文件</h4>
 <p>1.上传文件以.zip压缩</p>
 <p>2.文件夹下有config.json文件，其中path参数描述模版文件相对路径，可配置多个文件路径，模版文件为xml格式。outBaseDir参数，生成文件输出的基础包</p>

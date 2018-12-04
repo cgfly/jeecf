@@ -132,19 +132,19 @@ Date --> date,datetime,timestamp
 
 BigDecimal --> decimal
 
-#### go语言 jdbcType 与 simpleType 对应关系
+#### go语言 simpleType与jdbcType对应关系
 
-varchar,text --> string
+string --> varchar,text
 
-bigint --> int64
+int64 --> bigint
 
-integer,int --> int32
+int32 --> integer,int
 
-tinyint --> int8
+int8 --> tinyint
 
-double,decimal --> float64
+float64 --> double,decimal
 
-date,datetime,timestamp --> Time
+Time --> date,datetime,timestamp
 
 ### 六.模版文件
 1.上传文件以.zip压缩
