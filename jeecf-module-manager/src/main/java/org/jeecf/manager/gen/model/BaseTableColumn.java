@@ -1,12 +1,8 @@
-package org.jeecf.manager.gen.language.java.model;
+package org.jeecf.manager.gen.model;
 
 import org.jeecf.common.lang.StringUtils;
-/**
- * 
- * @author jianyiming
- *
- */
-public class GenTableColumn {
+
+public class BaseTableColumn {
 	
 	/**
 	 * 名称
@@ -229,4 +225,5 @@ public class GenTableColumn {
 		return "0";
 	}
 	
+
 }

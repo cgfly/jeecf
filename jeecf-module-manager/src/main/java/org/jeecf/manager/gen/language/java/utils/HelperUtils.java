@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecf.manager.gen.language.java.model.GenTableColumn;
+import org.jeecf.manager.gen.language.java.model.JavaTableColumn;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.springframework.beans.BeanUtils;
 
@@ -38,10 +38,10 @@ public class HelperUtils {
 		return HelperUtils.TYPE_MAP.get(jdbcType);
 	}
 	
-	public static List<GenTableColumn> toColumn(List<GenTableColumnResult> genTableColumnResultList) {
-		List<GenTableColumn> genTableColumnList = new ArrayList<GenTableColumn>();
+	public static List<JavaTableColumn> toColumn(List<GenTableColumnResult> genTableColumnResultList) {
+		List<JavaTableColumn> genTableColumnList = new ArrayList<JavaTableColumn>();
 		genTableColumnResultList.forEach(tableColumnResult -> {
-			GenTableColumn genTableColumn = new GenTableColumn();
+			JavaTableColumn genTableColumn = new JavaTableColumn();
 			BeanUtils.copyProperties(tableColumnResult, genTableColumn);
 			String type = HelperUtils.toType(genTableColumn.getSimpleJdbcType());
 			genTableColumn.setType(type);

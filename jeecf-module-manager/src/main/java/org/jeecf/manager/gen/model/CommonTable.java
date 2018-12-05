@@ -1,4 +1,4 @@
-package org.jeecf.manager.gen.language.go.model;
+package org.jeecf.manager.gen.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.jeecf.manager.common.enums.EnumUtils;
  * @author jianyiming
  *
  */
-public class GenTableG {
-
+public class CommonTable<T extends BaseTableColumn> {
+	
 	/**
 	 * 名称
 	 */
@@ -27,26 +27,11 @@ public class GenTableG {
 	 * 注释
 	 */
 	private String comment;
-
-	/**
-	 * 父表外键
-	 */
-	private String parentTableFk;
-
-	/**
-	 * 父表外键
-	 */
-	private CommonTable parent;
-
+	
 	/**
 	 * 表字段
 	 */
-	private List<GenTableColumn> genTableColumns;
-
-	/**
-	 * 子表
-	 */
-	private List<CommonTable> childList = new ArrayList<>();
+	private List<T> genTableColumns;
 
 	public String getName() {
 		return name;
@@ -72,41 +57,18 @@ public class GenTableG {
 		this.comment = comment;
 	}
 
-	public List<GenTableColumn> getGenTableColumns() {
+	public List<T> getGenTableColumns() {
 		return genTableColumns;
 	}
 
-	public void setGenTableColumns(List<GenTableColumn> genTableColumns) {
+	public void setGenTableColumns(List<T> genTableColumns) {
 		this.genTableColumns = genTableColumns;
-	}
-
-	public String getParentTableFk() {
-		return parentTableFk;
-	}
-
-	public void setParentTableFk(String parentTableFk) {
-		this.parentTableFk = parentTableFk;
-	}
-
-	public CommonTable getParent() {
-		return parent;
-	}
-
-	public void setParent(CommonTable parent) {
-		this.parent = parent;
-	}
+	} 
 	
-	public List<CommonTable> getChildList() {
-		return childList;
-	}
-
-	public void setChildList(List<CommonTable> childList) {
-		this.childList = childList;
-	}
-
-	public List<GenTableColumn> getQueryColumns() {
-		List<GenTableColumn> qeruyColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	
+	public List<T> getQueryColumns() {
+		List<T> qeruyColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				if (column.getIsQuery() == 1) {
@@ -117,9 +79,9 @@ public class GenTableG {
 		return qeruyColumns;
 	}
 
-	public List<GenTableColumn> getlistColumns() {
-		List<GenTableColumn> listColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	public List<T> getlistColumns() {
+		List<T> listColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				if (column.getIsList() == 1) {
@@ -130,9 +92,9 @@ public class GenTableG {
 		return listColumns;
 	}
 
-	public List<GenTableColumn> getInsertColumns() {
-		List<GenTableColumn> insertColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	public List<T> getInsertColumns() {
+		List<T> insertColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				if (column.getIsInsert() == 1) {
@@ -143,9 +105,9 @@ public class GenTableG {
 		return insertColumns;
 	}
 
-	public List<GenTableColumn> getUpdateColumns() {
-		List<GenTableColumn> updateColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	public List<T> getUpdateColumns() {
+		List<T> updateColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				if (column.getIsEdit() == 1) {
@@ -156,13 +118,13 @@ public class GenTableG {
 		return updateColumns;
 	}
 
-	public List<GenTableColumn> getIntervalColumns() {
-		List<GenTableColumn> intervalColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	public List<T> getIntervalColumns() {
+		List<T> intervalColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				int queryType = column.getQueryType();
-				if (queryType == EnumUtils.QueryType.OPEN_INTERVAL.getCode() || queryType == EnumUtils.QueryType.CLOSE_INTERVAL.getCode()) {
+				if (queryType == EnumUtils.QueryType.CLOSE_INTERVAL.getCode() || queryType == EnumUtils.QueryType.OPEN_INTERVAL.getCode()) {
 					intervalColumns.add(column);
 				}
 			});
@@ -170,13 +132,13 @@ public class GenTableG {
 		return intervalColumns;
 	}
 
-	public List<GenTableColumn> getOpenIntervalColumns() {
-		List<GenTableColumn> intervalColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	public List<T> getOpenIntervalColumns() {
+		List<T> intervalColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				int queryType = column.getQueryType();
-				if (queryType == EnumUtils.QueryType.OPEN_INTERVAL.getCode()) {
+				if (queryType ==  EnumUtils.QueryType.OPEN_INTERVAL.getCode()) {
 					intervalColumns.add(column);
 				}
 			});
@@ -184,13 +146,13 @@ public class GenTableG {
 		return intervalColumns;
 	}
 
-	public List<GenTableColumn> getCloseIntervalColumns() {
-		List<GenTableColumn> intervalColumns = new ArrayList<>();
-		List<GenTableColumn> genTableColumns = this.getGenTableColumns();
+	public List<T> getCloseIntervalColumns() {
+		List<T> intervalColumns = new ArrayList<>();
+		List<T> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				int queryType = column.getQueryType();
-				if (queryType == EnumUtils.QueryType.CLOSE_INTERVAL.getCode()) {
+				if (queryType ==  EnumUtils.QueryType.CLOSE_INTERVAL.getCode()) {
 					intervalColumns.add(column);
 				}
 			});
@@ -205,5 +167,4 @@ public class GenTableG {
 	public String getUncapitalizeClassName() {
 		return StringUtils.uncapitalize(this.getClassName());
 	}
-    
 }

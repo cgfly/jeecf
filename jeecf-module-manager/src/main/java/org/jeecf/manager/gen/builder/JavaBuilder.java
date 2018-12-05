@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.manager.gen.language.java.model.CommonTable;
-import org.jeecf.manager.gen.language.java.model.GenTableJ;
+import org.jeecf.manager.gen.language.java.model.JavaCommonTable;
+import org.jeecf.manager.gen.language.java.model.JavaTable;
 import org.jeecf.manager.gen.language.java.utils.HelperUtils;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
@@ -20,22 +20,22 @@ import org.springframework.beans.BeanUtils;
 public class JavaBuilder extends LanguageBuilder {
 
 	@Override
-	public Object build(Integer tableId) {
+	public JavaTable build(Integer tableId) {
 		GenTable genTable = (GenTable) super.build(tableId);
-		GenTableJ genTableJ = new GenTableJ();
+		JavaTable genTableJ = new JavaTable();
 		BeanUtils.copyProperties(genTable, genTableJ);
 		genTableJ.setGenTableColumns(HelperUtils.toColumn(genTable.getGenTableColumns()));
 		GenTable parentTable = LanguageBuilder.genTableFacade.findParentTable(genTable.getParentTableId()).getData();
-		CommonTable parentCommonTable = new CommonTable();
+		JavaCommonTable parentCommonTable = new JavaCommonTable();
 		if(parentTable != null) {
 			BeanUtils.copyProperties(parentTable, parentCommonTable);
 			parentCommonTable.setGenTableColumns(HelperUtils.toColumn(parentTable.getGenTableColumns()));
 		}
 		List<GenTableResult> tableResultList = LanguageBuilder.genTableFacade.findChildTables(genTable.getId()).getData();
-		List<CommonTable> childTables = new ArrayList<CommonTable>();
+		List<JavaCommonTable> childTables = new ArrayList<JavaCommonTable>();
 		if(CollectionUtils.isNotEmpty(tableResultList)) {
 			tableResultList.forEach(tableResult -> {
-				CommonTable childTable = new CommonTable();
+				JavaCommonTable childTable = new JavaCommonTable();
 				BeanUtils.copyProperties(tableResult, childTable);
 				childTable.setGenTableColumns(HelperUtils.toColumn(tableResult.getGenTableColumns()));
 				childTables.add(childTable);
