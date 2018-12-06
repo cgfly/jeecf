@@ -7,7 +7,7 @@ import lombok.Data;
  *
  */
 @Data
-public class PhysicalTableColumn {
+public class SchemaTableColumn {
 	
 	/**
 	 * 表名

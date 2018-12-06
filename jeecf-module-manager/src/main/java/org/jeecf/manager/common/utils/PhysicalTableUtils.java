@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.manager.engine.model.PhysicalTable;
+import org.jeecf.manager.engine.model.SchemaTable;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 
@@ -40,18 +40,17 @@ public class PhysicalTableUtils {
 		return resultList;
 	}
 	
-	public static List<PhysicalTable> filter(List<PhysicalTable> physicalTableList,SysNamespace sysNamespace) {
-		List<PhysicalTable> resultList = new ArrayList<>();
-		if (CollectionUtils.isNotEmpty(physicalTableList)) {
-			physicalTableList.forEach(physicalTable -> {
-				String[] splitName = physicalTable.getName().split(SPLIT_MATCH);
+	public static List<SchemaTable> filter(List<SchemaTable> SchemaTableList,SysNamespace sysNamespace) {
+		List<SchemaTable> resultList = new ArrayList<>();
+		if (CollectionUtils.isNotEmpty(SchemaTableList)) {
+			SchemaTableList.forEach(SchemaTable -> {
+				String[] splitName = SchemaTable.getName().split(SPLIT_MATCH);
                 if(splitName.length > 1) {
                 	if(splitName[1].equals(sysNamespace.getName())) {
-                		physicalTable.setName(splitName[0]);
-                		resultList.add(physicalTable);
+                		resultList.add(SchemaTable);
                 	}
                 } else {
-                	resultList.add(physicalTable);
+                	resultList.add(SchemaTable);
                 }
 			});
 		}

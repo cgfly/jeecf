@@ -1,18 +1,11 @@
 package org.jeecf.manager.module.template.facade;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.ResponseUtils;
-import org.jeecf.manager.annotation.TargetDataSource;
-import org.jeecf.manager.common.utils.PhysicalTableUtils;
-import org.jeecf.manager.engine.model.PhysicalTable;
-import org.jeecf.manager.engine.model.PhysicalTableColumn;
-import org.jeecf.manager.engine.service.PhysicalTableService;
-import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.domain.GenTableColumn;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
@@ -23,7 +16,6 @@ import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 import org.jeecf.manager.module.template.service.GenTableColumnService;
 import org.jeecf.manager.module.template.service.GenTableService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +35,6 @@ public class GenTableFacade {
 
 	@Autowired
 	private GenTableService genTableService;
-
-	@Autowired
-	private PhysicalTableService physicalTableService;
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> saveTable(GenTable genTable) {
@@ -112,29 +101,5 @@ public class GenTableFacade {
 		return new Response<>(childTableList);
 	}
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	@TargetDataSource
-	public Response<List<PhysicalTable>> findTableList(GenTable genTable, SysNamespace sysNamespace) {
-		PhysicalTable physicalTable = new PhysicalTable();
-		BeanUtils.copyProperties(genTable, physicalTable);
-		return new Response<List<PhysicalTable>>(true,
-				PhysicalTableUtils.filter(physicalTableService.findTableList(physicalTable).getData(), sysNamespace));
-	}
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	@TargetDataSource
-	public Response<List<GenTableColumnResult>> findTableColumnList(GenTableColumn genTableColumn) {
-		List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
-		PhysicalTableColumn physicalTableColumn = new PhysicalTableColumn();
-		BeanUtils.copyProperties(genTableColumn, physicalTableColumn);
-		physicalTableColumn.setTableName(genTableColumn.getGenTable().getName());
-		List<PhysicalTableColumn> physicalTableColumnList = physicalTableService
-				.findTableColumnList(physicalTableColumn).getData();
-		physicalTableColumnList.forEach(column -> {
-			GenTableColumnResult result = new GenTableColumnResult();
-			BeanUtils.copyProperties(column, result);
-			genTableColumnList.add(result);
-		});
-		return new Response<>(genTableColumnList);
-	}
 }

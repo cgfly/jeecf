@@ -7,7 +7,7 @@ import lombok.Data;
  *
  */
 @Data
-public class PhysicalTable {
+public class SchemaTable {
 	/**
 	 * 表名
 	 */

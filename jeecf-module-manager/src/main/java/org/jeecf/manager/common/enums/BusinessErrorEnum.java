@@ -21,7 +21,7 @@ public enum BusinessErrorEnum implements ErrorEnum {
     NAMESPACE_NOT(401,"命名空间不存在"),
     NAMESPACE_IS_CURRENT(402,"当前的命名空间不能删除"),
     ZIP_NOT(501,"不是zip文件"),
-	;
+    ;
 
 	public final int code;
 	public final String msg;
