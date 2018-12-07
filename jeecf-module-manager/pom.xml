@@ -83,7 +83,6 @@
 			<version>${thymeleaf.extras.shiro.version}</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
