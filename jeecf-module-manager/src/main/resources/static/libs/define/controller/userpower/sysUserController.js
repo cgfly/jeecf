@@ -2,7 +2,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm) {
 		
 		$scope.submitForm = function() {
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysUser/save", $scope.sysUser).then(
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/save", $scope.sysUser).then(
 					function(res) { 
 				          if(res.success){
 		                	  $jBoxcm.success("保存数据成功");
@@ -24,7 +24,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.query.page = pageId;
 			$scope.request.page.current = pageId;
 			
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysUser/list",
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/list",
 			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
 				if (res.success) {
 					$scope.sysUserList = res.data;
@@ -39,7 +39,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 		
 		$scope.deleteForm = function(index) {
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysUser/delete/"+$scope.sysUserList[index].id).then(function(res) {
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysUser/delete/"+$scope.sysUserList[index].id).then(function(res) {
 				  		if(res.success){
 				  			$jBoxcm.success("删除数据成功");
 				  			$state.reload($scope.currentRouteName);
@@ -50,7 +50,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 
 		$scope.updateForm = function(){
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysUser/save",
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysUser/save",
 					$scope.updateSysUser).then(function(res) {
 		                  if(res.success){
 		                	  $('#updateModal').modal('hide');
@@ -66,7 +66,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		
 		$scope.updateModal = function(index) {
 			angular.copy($scope.sysUserList[index], $scope.updateSysUser);
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { // 调用承诺API获取数据
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { // 调用承诺API获取数据
 				if (res.success) {
 					var data = res.data;
 					$scope.sysRoleData = data;

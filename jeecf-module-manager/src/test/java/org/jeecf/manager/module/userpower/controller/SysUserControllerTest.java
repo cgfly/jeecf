@@ -43,7 +43,7 @@ public class SysUserControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(request);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysUser/list").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysUser/list").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -57,7 +57,7 @@ public class SysUserControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(sysUser);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysUser/save").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysUser/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -68,7 +68,7 @@ public class SysUserControllerTest extends BaseMokMvc {
 	public void delete() throws Exception {
 		String id = "1";
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysUser/delete/" + id)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysUser/delete/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -79,7 +79,7 @@ public class SysUserControllerTest extends BaseMokMvc {
 	public void roles() throws Exception {
 		String userId = "1";
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysUser/roles/" + userId)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysUser/roles/" + userId)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();

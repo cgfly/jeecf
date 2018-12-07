@@ -47,7 +47,7 @@ import io.swagger.annotations.ApiOperation;
  * @version 1.0
  */
 @Controller
-@RequestMapping(value = { "userPower/sysUser" })
+@RequestMapping(value = { "userpower/sysUser" })
 @Api(value="sysUser api",tags={"系统用户接口"})
 public class SysUserController extends BaseController<SysUserQuery,SysUserResult,SysUserSchema,SysUser> {
 
@@ -64,7 +64,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 	private SecurityFacade securityFacade;
 
 	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("userPower:sysUser:view")
+	@RequiresPermissions("userpower:sysUser:view")
 	@ApiOperation(value = "视图", notes = "查看系统用户视图")
 	@Override
 	public String index(ModelMap map) {
@@ -73,7 +73,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 
 	@PostMapping(value = { "list" })
 	@ResponseBody
-	@RequiresPermissions("userPower:sysUser:view")
+	@RequiresPermissions("userpower:sysUser:view")
 	@ApiOperation(value = "列表", notes = "查询系统用户列表")
 	@Override
 	public Response<List<SysUserResult>> list(@RequestBody Request<SysUserQuery,SysUserSchema> request) {
@@ -88,7 +88,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 
 	@PostMapping(value = { "roles/{userId}" })
 	@ResponseBody
-	@RequiresPermissions("userPower:sysUser:view")
+	@RequiresPermissions("userpower:sysUser:view")
 	@ApiOperation(value = "列表", notes = "查询系统角色列表")
 	public Response<List<SysRoleResult>> roles(@PathVariable("userId") String userId) {
 		Response<List<SysRoleResult>> sysRoleRes = sysRoleService.findList(new SysRolePO(new SysRoleQuery()));
@@ -110,7 +110,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 
 	@PostMapping(value = { "save" })
 	@ResponseBody
-	@RequiresPermissions("userPower:sysUser:edit")
+	@RequiresPermissions("userpower:sysUser:edit")
 	@ApiOperation(value = "更新", notes = "更新系统用户数据")
 	@Override
 	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysUser sysUser) {
@@ -130,7 +130,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 
 	@PostMapping(value = { "delete/{id}" })
 	@ResponseBody
-	@RequiresPermissions("userPower:sysUser:edit")
+	@RequiresPermissions("userpower:sysUser:edit")
 	@ApiOperation(value = "删除", notes = "删除系统用户数据")
 	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {

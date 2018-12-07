@@ -43,7 +43,7 @@ public class SysRoleControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(request);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysRole/list").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/list").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -57,7 +57,7 @@ public class SysRoleControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(sysRole);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysRole/save").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -68,7 +68,7 @@ public class SysRoleControllerTest extends BaseMokMvc {
 	public void delete() throws Exception {
 		String id = "1";
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysRoler/delete/" + id)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRoler/delete/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -79,7 +79,7 @@ public class SysRoleControllerTest extends BaseMokMvc {
 	public void getTree() throws Exception{
 		String roleId = "1";
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysRoler/getTree/" + roleId)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRoler/getTree/" + roleId)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();

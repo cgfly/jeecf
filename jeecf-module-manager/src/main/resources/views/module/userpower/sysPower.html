@@ -1,7 +1,7 @@
 <div ng-init="sysPowerAs.init()"></div>
 <ul id="top-tab" class="nav nav-tabs">
 	<li class="active"><a href="#sysPowerListTab" data-toggle="tab">系统权限配置列表</a></li>
-	<li shiro:hasPermission="userPower:sysPower:edit"><a href="#sysPowerFormTab" data-toggle="tab">系统权限配置添加</a></li>
+	<li shiro:hasPermission="userpower:sysPower:edit"><a href="#sysPowerFormTab" data-toggle="tab">系统权限配置添加</a></li>
 </ul>
 <br />
 <div class="tab-content">
@@ -32,7 +32,7 @@
 					<th>权限标识</th>
 					<th>等级</th>
 					<th>排序</th>
-					<th shiro:hasPermission="userPower:sysPower:edit">操作</th>
+					<th shiro:hasPermission="userpower:sysPower:edit">操作</th>
 				</tr>
 
 			</thead>
@@ -46,7 +46,7 @@
 					<td>{{ sysPower.permission }}</td>
 					<td>{{ sysPower.level }}</td>
 					<td>{{ sysPower.sort }}</td>
-					<td shiro:hasPermission="userPower:sysPower:edit">
+					<td shiro:hasPermission="userpower:sysPower:edit">
 					   <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级权限</a></span> 
 					   <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> 
 					   <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
@@ -75,7 +75,7 @@
 									<div class="col-sm-8" style="padding-left: 0">
 										<selection data-id="updateTreeId" class="btn-group treeTable"
 											data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
-											data-ops="{url:'userPower/sysPower/getTreeData',title:'父级',width:500,height:300}">
+											data-ops="{url:'userpower/sysPower/getTreeData',title:'父级',width:500,height:300}">
 										</selection>
 									</div>
 								</div>
@@ -159,7 +159,7 @@
 							</selection> -->
 							<selection data-id="insertTreeId" class="btn-group treeTable"
 								data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
-								data-ops="{url:'userPower/sysPower/getTreeData',title:'父级',width:500,height:300}">
+								data-ops="{url:'userpower/sysPower/getTreeData',title:'父级',width:500,height:300}">
 							</selection>
 						</div>
 					</div>

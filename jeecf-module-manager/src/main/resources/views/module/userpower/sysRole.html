@@ -1,7 +1,7 @@
 <div ng-init="sysRoleAs.init()"></div>
 <ul id="top-tab" class="nav nav-tabs">
 	<li class="active"><a href="#sysRoleListTab" data-toggle="tab">系统角色配置列表</a></li>
-	<li shiro:hasPermission="userPower:sysRole:edit"><a href="#sysRoleFormTab" data-toggle="tab">系统角色配置添加</a></li>
+	<li shiro:hasPermission="userpower:sysRole:edit"><a href="#sysRoleFormTab" data-toggle="tab">系统角色配置添加</a></li>
 </ul>
 <br />
 <div class="tab-content">
@@ -32,7 +32,7 @@
 				    <th>英文名</th>
 				    <th>备注</th>
 				    <th>创建时间</th>
-				    <th shiro:hasPermission="userPower:sysRole:edit">操作</th>
+				    <th shiro:hasPermission="userpower:sysRole:edit">操作</th>
 				</tr>
 			
 			</thead>
@@ -43,7 +43,7 @@
 				    <td>{{ sysRole.enname }}</td> 
 				    <td>{{ sysRole.remark }}</td> 
 				    <td>{{ sysRole.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-				    <td shiro:hasPermission="userPower:sysRole:edit">
+				    <td shiro:hasPermission="userpower:sysRole:edit">
 				       <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
 				       <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
 				    </td>

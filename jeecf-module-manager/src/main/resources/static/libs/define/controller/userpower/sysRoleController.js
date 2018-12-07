@@ -2,7 +2,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm,$zTreecm) {
 		
 		$scope.submitForm = function() {
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysRole/save", $scope.sysRole).then(
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysRole/save", $scope.sysRole).then(
 					function(res) { 
 				          if(res.success){
 		                	  $jBoxcm.success("保存数据成功");
@@ -24,7 +24,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 			$scope.query.page = pageId;
 			$scope.request.page.current = pageId;
 			
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysRole/list",
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysRole/list",
 			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
 				if (res.success) {
 					$scope.sysRoleList = res.data;
@@ -39,7 +39,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 		};
 		
 		$scope.deleteForm = function(index) {
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysRole/delete/"+$scope.sysRoleList[index].id).then(function(res) {
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysRole/delete/"+$scope.sysRoleList[index].id).then(function(res) {
 				  		if(res.success){
 				  			$jBoxcm.success("删除数据成功");
 				  			$state.reload($scope.currentRouteName);
@@ -50,7 +50,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 		};
 
 		$scope.updateForm = function(){
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysRole/save",
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysRole/save",
 					$scope.updateSysRole).then(function(res) {
 		                  if(res.success){
 		                	  $('#updateModal').modal('hide');
@@ -67,7 +67,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 		$scope.updateModal = function(index) {
 			
 			angular.copy($scope.sysRoleList[index], $scope.updateSysRole);
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysRole/getTree/"+$scope.updateSysRole.id).then(function(res) {
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysRole/getTree/"+$scope.updateSysRole.id).then(function(res) {
 		                  if(res.success){
 		                	    $scope.updateSysRole.sysPowerIds = [];
 		                	    for(var i in res.data.sysPowerList){
@@ -136,7 +136,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 		}
 		
 		$scope.queryAllTree = function (){
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysRole/getAllTree",
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysRole/getAllTree",
 					 {}).then(function(res) { // 调用承诺API获取数据
 						if (res.success) {
 	                	    var setting = $zTreecm.setting({

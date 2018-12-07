@@ -2,7 +2,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm) {
 		
 		$scope.submitForm = function() { console.log($scope.sysPower);
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysPower/save", $scope.sysPower).then(
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysPower/save", $scope.sysPower).then(
 					function(res) { 
 				          if(res.success){
 		                	  $jBoxcm.success("保存数据成功");
@@ -14,7 +14,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 		
 		$scope.searchForm = function() {
-			$httpRequest.post($ctx.getWebPath()+"userPower/sysPower/list",
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysPower/list",
 			$scope.request.data).then(function(res) { // 调用承诺API获取数据 .resolve
 				if (res.success) {
 					$scope.sysPowerList = res.data;
@@ -29,7 +29,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 		
 		$scope.deleteForm = function(index) {
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysPower/delete/"+$scope.sysPowerList[index].id).then(function(res) {
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysPower/delete/"+$scope.sysPowerList[index].id).then(function(res) {
 				  		if(res.success){
 				  			$jBoxcm.success("删除数据成功");
 				  			$state.reload($scope.currentRouteName);
@@ -40,7 +40,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 
 		$scope.updateForm = function(){
-			$httpRequest.post($ctx.getWebPath() + "userPower/sysPower/save",
+			$httpRequest.post($ctx.getWebPath() + "userpower/sysPower/save",
 					$scope.updateSysPower).then(function(res) {
 		                  if(res.success){
 		                	  $('#updateModal').modal('hide');

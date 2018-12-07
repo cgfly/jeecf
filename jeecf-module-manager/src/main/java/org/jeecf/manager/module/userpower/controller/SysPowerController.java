@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
  * @version 1.0
  */
 @Controller
-@RequestMapping(value= {"userPower/sysPower"})
+@RequestMapping(value= {"userpower/sysPower"})
 @Api(value="sysPower api",tags={"系统权限接口"})
 public class SysPowerController extends AbstractController {
 
@@ -46,7 +46,7 @@ public class SysPowerController extends AbstractController {
 	private SecurityFacade securityFacade;
 
 	@GetMapping(value= {"","index"})
-	@RequiresPermissions("userPower:sysPower:view")
+	@RequiresPermissions("userpower:sysPower:view")
 	@ApiOperation(value = "视图", notes = "查看系统权限视图")
 	@Override
 	public String index(ModelMap map) {
@@ -55,7 +55,7 @@ public class SysPowerController extends AbstractController {
 	
 	@PostMapping(value= {"list"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysPower:view")
+	@RequiresPermissions("userpower:sysPower:view")
 	@ApiOperation(value = "列表", notes = "查询系统权限列表")
 	public Response<List<SysPowerResult>> list(@RequestBody SysPowerQuery sysPowerQuery) {
 		return sysPowerService.getTreeData(new SysPowerPO(sysPowerQuery));
@@ -63,7 +63,7 @@ public class SysPowerController extends AbstractController {
 	
 	@PostMapping(value = { "getTreeData" })
 	@ResponseBody
-	@RequiresPermissions("userPower:sysPower:view")
+	@RequiresPermissions("userpower:sysPower:view")
 	@ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
 	public Response<List<SysPowerResult>> getTreeData(SysPowerQuery sysPowerQuery) {
 		return sysPowerService.getTreeData(new SysPowerPO(sysPowerQuery));
@@ -71,7 +71,7 @@ public class SysPowerController extends AbstractController {
 	
 	@PostMapping(value= {"save"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysPower:edit")
+	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "更新", notes = "更新系统权限数据")
 	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysPower sysPower) {
 		if(sysPower.isNewRecord()) {
@@ -87,7 +87,7 @@ public class SysPowerController extends AbstractController {
 	
 	@PostMapping(value= {"delete/{id}"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysPower:edit")
+	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "删除", notes = "删除系统权限数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		return securityFacade.deletePower(new SysPower(id));
