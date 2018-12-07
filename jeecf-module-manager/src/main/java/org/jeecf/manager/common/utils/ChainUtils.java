@@ -1,4 +1,4 @@
-package org.jeecf.manager.config;
+package org.jeecf.manager.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +8,17 @@ import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.gen.handler.BaseParamHandler;
 import org.jeecf.manager.gen.handler.GenHandler;
 import org.jeecf.manager.gen.handler.TableParamHandler;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 /**
- * 责任链配置
+ * 责任链工具类
  * @author jianyiming
  *
  */
-@Configuration
-public class GenChainConfig {
-	
-	@Bean
-	public ChainContext genChainContext() {
+public class ChainUtils {
+	/**
+	 * 获取代码生成责任链
+	 * @return
+	 */
+	public static ChainContext genChainContext() {
 		List<AbstractHandler>  chainHandlers = new ArrayList<>();
 		chainHandlers.add(new BaseParamHandler());
 		chainHandlers.add(new TableParamHandler());

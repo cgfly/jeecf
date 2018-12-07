@@ -8,6 +8,8 @@ import org.jeecf.manager.annotation.TargetDataSource;
 import org.jeecf.manager.common.utils.PhysicalTableUtils;
 import org.jeecf.manager.engine.model.SchemaTable;
 import org.jeecf.manager.engine.model.SchemaTableColumn;
+import org.jeecf.manager.engine.model.SelectTable;
+import org.jeecf.manager.engine.service.BusinessTableService;
 import org.jeecf.manager.engine.service.SchemaTableService;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.template.model.domain.GenTableColumn;
@@ -20,21 +22,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class TargetTableFacade {
-	
 
 	@Autowired
 	private SchemaTableService schemaTableService;
-	
+
+	@Autowired
+	private BusinessTableService businessTableService;
+
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	@TargetDataSource
 	public Response<List<SchemaTable>> findTableList(SysNamespace sysNamespace) {
 		return new Response<List<SchemaTable>>(true,
 				PhysicalTableUtils.filter(schemaTableService.findTableList().getData(), sysNamespace));
 	}
-	
+
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	@TargetDataSource
-	public Response<SchemaTable> getTable(String name,SysNamespace sysNamespace) {
+	public Response<SchemaTable> getTable(String name, SysNamespace sysNamespace) {
 		return schemaTableService.getTable(name);
 	}
 
@@ -53,6 +57,12 @@ public class TargetTableFacade {
 			genTableColumnList.add(result);
 		});
 		return new Response<>(genTableColumnList);
+	}
+
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+	@TargetDataSource
+	public Response<String> selectTable(SelectTable selectTable) {
+		return new Response<>(businessTableService.queryAll(selectTable));
 	}
 
 }

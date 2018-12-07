@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class RedisCacheManagerZ implements CacheManager {
+public class RedisShiroCacheManager implements CacheManager {
 	
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;

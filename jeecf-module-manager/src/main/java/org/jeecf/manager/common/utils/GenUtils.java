@@ -49,7 +49,6 @@ public class GenUtils {
 
 	private static TemplateProperties properties = SpringContextUtils.getBean(TemplateProperties.class);
 
-	private static ChainContext genChainContext = SpringContextUtils.getBean("genChainContext", ChainContext.class);
 
 	/**
 	 * XML文件转换为对象
@@ -154,8 +153,10 @@ public class GenUtils {
 	}
 
 	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language) {
+		ChainContext genChainContext = ChainUtils.genChainContext();
 		String outZip = sourcePath + File.separator + "code.zip";
-		genChainContext.put("parmas", new HashMap<String, Object>());
+		genChainContext.put("params", new HashMap<String, Object>());
+		genChainContext.put("genParamsList", genParamsList);
 		genChainContext.put("tableId", tableId);
 		genChainContext.put("language", language);
 		genChainContext.put("sourcePath",sourcePath);

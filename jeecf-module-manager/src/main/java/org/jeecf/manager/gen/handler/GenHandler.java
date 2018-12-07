@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,9 +36,6 @@ public class GenHandler extends AbstractHandler {
 	public void process() {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-		if (params == null) {
-			params = new HashMap<String, Object>();
-		}
 		String sourcePath = (String) this.chainContext.get("sourcePath");
 		String configPath = (String) this.chainContext.get("configPath");
 		String codePath = (String) this.chainContext.get("codePath");

@@ -6,6 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
+import org.jeecf.manager.module.template.facade.TargetTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
 import org.jeecf.manager.module.template.model.query.GenTableColumnQuery;
@@ -18,7 +19,7 @@ import org.jeecf.manager.module.template.service.GenTableService;
  * @author jianyiming
  *
  */
-public class LanguageBuilder {
+public abstract class LanguageBuilder {
 	
 	protected static GenTableService genTableService = SpringContextUtils.getBean("genTableService",
 			GenTableService.class);
@@ -28,6 +29,9 @@ public class LanguageBuilder {
 
 	protected static GenTableColumnService genTableColumnService = SpringContextUtils.getBean("genTableColumnService",
 			GenTableColumnService.class);
+	
+	protected static TargetTableFacade targetTableFacade = SpringContextUtils.getBean("targetTableFacade",
+			TargetTableFacade.class);
 
 	public Object build(Integer tableId) {
 		GenTableQuery queryGenTable = new GenTableQuery();
@@ -41,10 +45,11 @@ public class LanguageBuilder {
 			List<GenTableColumnResult> tableColumnList = tableColumnRes.getData();
 			if (CollectionUtils.isNotEmpty(tableColumnList)) {
 				genTable.setGenTableColumns(tableColumnList);
-
 			}
 		}
 		return genTable;
 	}
+	
+	public abstract String getData();
 
 }
