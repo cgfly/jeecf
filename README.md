@@ -48,77 +48,79 @@ Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企�
 
 3.模版生成，上传模版文件，选择模版参数和业务表,生成相应代码文件
 
-### 五.业务表内置参数
+### 五.基础参数
 
 1.nowDate,当前时间
 
-2.table,业务表实体
+### 六.业务表内置参数
 
-3.table.name,业务表名称
+1.table,业务表实体
 
-4.table.comment,业务表注释
+2.table.name,业务表名称
 
-5.table.parentTableFk,父表外键名称
+3.table.comment,业务表注释
 
-6.table.parent,父表实体
+4.table.parentTableFk,父表外键名称
 
-7.table.capitalizeClassName,首字母大写类名
+5.table.parent,父表实体
 
-8.table.uncapitalizeClassName,首字母小写类名
+6.table.capitalizeClassName,首字母大写类名
 
-9.table.queryColumns,获取查询字段
+7.table.uncapitalizeClassName,首字母小写类名
 
-10.table.insertColumns,获取插入字段
+8.table.queryColumns,获取查询字段
 
-11.table.updateColumns,获取编辑字段
+9.table.insertColumns,获取插入字段
 
-12.table.listColumns,获取列表字段
+10.table.updateColumns,获取编辑字段
 
-13.table.intervalColumns,获取区间字段
+11.table.listColumns,获取列表字段
 
-14.table.closeIntervalColumns,获取闭区间字段
+12.table.intervalColumns,获取区间字段
 
-15.table.openIntervalColumns,获取开区间字段
+13.table.closeIntervalColumns,获取闭区间字段
 
-16.table.childList,获取字表
+14.table.openIntervalColumns,获取开区间字段
 
-17.table.genTableColumns,获取表字段实体列表，下面以tableColumn表示字段实体
+15.table.childList,获取字表
 
-18.tableColumn.name,字段名称
+16.table.genTableColumns,获取表字段实体列表，下面以tableColumn表示字段实体
 
-19.tableColumn.isNull,是否为空，0为空，1非空
+17.tableColumn.name,字段名称
 
-20.tableColumn.sort,字段循序
+18.tableColumn.isNull,是否为空，0为空，1非空
 
-21.tableColumn.isKey,是否是主键
+19.tableColumn.sort,字段循序
 
-22.tableColumn.comment,字段注释
+20.tableColumn.isKey,是否是主键
 
-23.tableColumn.jdbcType,获取jdbc类型
+21.tableColumn.comment,字段注释
 
-24.tableColumn.type,获取类型
+22.tableColumn.jdbcType,获取jdbc类型
 
-25.tableColumn.formType,获取form表单类型
+23.tableColumn.type,获取类型
 
-26.tableColumn.field,获取属性
+24.tableColumn.formType,获取form表单类型
 
-27.tableColumn.queryType,获取搜索类型
+25.tableColumn.field,获取属性
 
-28.tableColumn.isInsert,是否插入字段
+26.tableColumn.queryType,获取搜索类型
 
-29.tableColumn.isEdit,是否编辑字段
+27.tableColumn.isInsert,是否插入字段
 
-30.tableColumn.isList,是否列表字段
+28.tableColumn.isEdit,是否编辑字段
 
-31.tableColumn.isQuery,是否查询字段
+29.tableColumn.isList,是否列表字段
 
-32.tableColumn.simpleType,获取简写类型
+30.tableColumn.isQuery,是否查询字段
 
-33.tableColumn.simpleJdbcType,获取简写jdbc类型
+31.tableColumn.simpleType,获取简写类型
 
-34.tableColumn.simpleField,获取简写属性
+32.tableColumn.simpleJdbcType,获取简写jdbc类型
 
-35.tableColumn.dataLength,获取jdbc属性最大长度
+33.tableColumn.simpleField,获取简写属性
+
+34.tableColumn.dataLength,获取jdbc属性最大长度
 
 #### java语言 simpleType与jdbcType 对应关系
 
@@ -146,7 +148,42 @@ float64 --> double,decimal
 
 Time --> date,datetime,timestamp
 
-### 六.模版文件
+#### queryType语义对应关系
+
+0 --> "="
+
+1 --> "!="
+
+2 --> "> or <"
+
+3 --> ">= or <="
+
+4 --> "like"
+
+5 --> "like%"
+
+#### formType语义对应关系
+
+0 --> 文本框
+
+1 --> 文本域
+
+2 --> 数字框
+
+3 --> 时间框
+
+4 --> 下拉框
+
+5 --> 表格下拉框
+
+### 七.模版参数
+
+1.在模版参数中配置相应参数
+
+2.模版配置中引入模版参数
+
+### 八.模版文件
+
 1.上传文件以.zip压缩
 
 2.文件夹下有config.json文件，其中path参数描述模版文件相对路径，可配置多个文件路径，模版文件为xml格式。outBaseDir参数，生成文件输出的基础包
