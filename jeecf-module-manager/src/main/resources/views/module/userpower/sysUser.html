@@ -39,7 +39,7 @@
 				    <td>{{ sysUser.name }}</td> 
 				    <td>{{ sysUser.roleNames }}</td> 
 				    <td>{{ sysUser.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-				    <td shiro:hasPermission="uuserpower:sysUser:edit">
+				    <td shiro:hasPermission="userpower:sysUser:edit">
 				       <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
 				       <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
 				    </td>
