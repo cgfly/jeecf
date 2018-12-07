@@ -6,7 +6,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		$scope.submitForm = function() {
 			var sysPwd = $scope.sysPwd;
 			if (sysPwd.newPassword == sysPwd.confirmPassword) {
-				$httpRequest.post($ctx.getWebPath() + "userPower/sysPwd/save",
+				$httpRequest.post($ctx.getWebPath() + "userpower/sysPwd/save",
 						$scope.sysPwd).then(function(res) {
 					if (res.success) {
 						$jBoxcm.success("保存数据成功");

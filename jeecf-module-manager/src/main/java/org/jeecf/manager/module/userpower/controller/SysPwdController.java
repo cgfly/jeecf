@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
  * @version 1.0
  */
 @Controller
-@RequestMapping(value = { "userPower/sysPwd" })
+@RequestMapping(value = { "userpower/sysPwd" })
 @Api(value="sysPwd api",tags={"密码修改接口"})
 public class SysPwdController extends AbstractController{
 	
@@ -34,7 +34,7 @@ public class SysPwdController extends AbstractController{
 	private SecurityFacade securityFacade;
 	
 	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("userPower:sysPwd:view")
+	@RequiresPermissions("userpower:sysPwd:view")
 	@ApiOperation(value = "视图", notes = "查看系统用户密码视图")
 	@Override
 	public String index(ModelMap map) {
@@ -43,7 +43,7 @@ public class SysPwdController extends AbstractController{
 	
 	@PostMapping(value = { "save" })
 	@ResponseBody
-	@RequiresPermissions("userPower:sysPwd:edit")
+	@RequiresPermissions("userpower:sysPwd:edit")
 	@ApiOperation(value = "更新", notes = "更新系统用户密码数据")
 	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysPwd sysPwd) {
 		return securityFacade.updatePassword(sysPwd);

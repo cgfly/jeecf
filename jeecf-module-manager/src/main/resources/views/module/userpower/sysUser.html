@@ -1,7 +1,7 @@
 <div ng-init="sysUserAs.init()"></div>
 <ul id="top-tab" class="nav nav-tabs">
 	<li class="active"><a href="#sysUserListTab" data-toggle="tab">系统用户配置列表</a></li>
-	<li shiro:hasPermission="userPower:sysUser:edit"><a href="#sysUserFormTab" data-toggle="tab">系统用户配置添加</a></li>
+	<li shiro:hasPermission="userpower:sysUser:edit"><a href="#sysUserFormTab" data-toggle="tab">系统用户配置添加</a></li>
 </ul>
 <br />
 <div class="tab-content">
@@ -28,7 +28,7 @@
 				    <th>用户名</th>
 				    <th>角色</th>
 				    <th>创建时间</th>
-				    <th shiro:hasPermission="userPower:sysUser:edit">操作</th>
+				    <th shiro:hasPermission="userpower:sysUser:edit">操作</th>
 				</tr>
 			
 			</thead>
@@ -39,7 +39,7 @@
 				    <td>{{ sysUser.name }}</td> 
 				    <td>{{ sysUser.roleNames }}</td> 
 				    <td>{{ sysUser.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-				    <td shiro:hasPermission="userPower:sysUser:edit">
+				    <td shiro:hasPermission="uuserpower:sysUser:edit">
 				       <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
 				       <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
 				    </td>

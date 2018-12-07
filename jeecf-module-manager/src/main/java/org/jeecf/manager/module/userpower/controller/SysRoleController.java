@@ -47,7 +47,7 @@ import io.swagger.annotations.ApiOperation;
  * @version 1.0
  */
 @Controller
-@RequestMapping(value= {"userPower/sysRole"})
+@RequestMapping(value= {"userpower/sysRole"})
 @Api(value="sysRole api",tags={"系统角色接口"})
 public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult,SysRoleSchema,SysRole>{
 
@@ -64,7 +64,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	private SecurityFacade securityFacade;
 
 	@GetMapping(value= {"","index"})
-	@RequiresPermissions("userPower:sysRole:view")
+	@RequiresPermissions("userpower:sysRole:view")
 	@ApiOperation(value = "视图", notes = "查看系统角色视图")
 	@Override
 	public String index(ModelMap map) {
@@ -73,7 +73,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	
 	@PostMapping(value= {"list"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysRole:view")
+	@RequiresPermissions("userpower:sysRole:view")
 	@ApiOperation(value = "列表", notes = "查询系统角色列表")
 	@Override
 	public Response<List<SysRoleResult>> list(@RequestBody Request<SysRoleQuery,SysRoleSchema> request) {
@@ -83,7 +83,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	
 	@PostMapping(value= {"getTree/{roleId}"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysRole:view")
+	@RequiresPermissions("userpower:sysRole:view")
 	@ApiOperation(value = "列表", notes = "查询系统角色树结构列表")
 	public Response<SysRoleResult> getTree(@PathVariable("roleId") String roleId) {
 		SysRole queryRole = new SysRole(roleId);
@@ -113,7 +113,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	
 	@PostMapping(value= {"getAllTree"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysRole:view")
+	@RequiresPermissions("userpower:sysRole:view")
 	@ApiOperation(value = "列表", notes = "查询系统权限列表")
 	public Response<List<SysPowerResult>> getPowerTree() {
 		return sysPowerService.findList(new SysPowerPO(new SysPowerQuery()));
@@ -121,7 +121,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	
 	@PostMapping(value= {"save"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysRole:edit")
+	@RequiresPermissions("userpower:sysRole:edit")
 	@ApiOperation(value = "更新", notes = "更新系统角色数据")
 	@Override
 	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysRole sysRole) {
@@ -138,7 +138,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	
 	@PostMapping(value= {"delete/{id}"})
 	@ResponseBody
-	@RequiresPermissions("userPower:sysRole:edit")
+	@RequiresPermissions("userpower:sysRole:edit")
 	@ApiOperation(value = "删除", notes = "删除系统角色数据")
 	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {

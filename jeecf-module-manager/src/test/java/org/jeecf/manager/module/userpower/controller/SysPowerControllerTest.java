@@ -38,7 +38,7 @@ public class SysPowerControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(query);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysPower/list").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysPower/list").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -52,7 +52,7 @@ public class SysPowerControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(sysPower);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysPower/save").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysPower/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
@@ -63,7 +63,7 @@ public class SysPowerControllerTest extends BaseMokMvc {
 	public void delete() throws Exception {
 		String id = "1";
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysPower/delete/" + id)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysPower/delete/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();

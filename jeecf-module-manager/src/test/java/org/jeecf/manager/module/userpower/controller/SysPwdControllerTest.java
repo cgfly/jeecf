@@ -37,7 +37,7 @@ public class SysPwdControllerTest extends BaseMokMvc {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(sysPwd);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysPwd/save").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysPwd/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
