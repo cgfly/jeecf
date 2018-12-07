@@ -168,26 +168,26 @@ public class GenUtils {
 				String outZip = sourcePath + File.separator + "code.zip";
 				FileUtils.deleteFile(outZip);
 				FileUtils.deleteDirectory(codePath);
-				if (StringUtils.isNotEmpty(codePath)) {
+				if (StringUtils.isNotEmpty(outBaseDir)) {
 					codePath = codePath + File.separator + outBaseDir;
 				}
 				JsonNode pathNode = node.get("path");
 				if (pathNode != null) {
 					Iterator<Entry<String, JsonNode>> iter = node.get("path").fields();
+					Map<String, Object> model = new HashMap<String, Object>(10);
+					model.put("table", LanguageFactory.getTargetTable(tableId, language));
+					model.put("nowDate", DateFormatUtils.SF.format(new Date()));
+					if (CollectionUtils.isNotEmpty(genParamsList)) {
+						genParamsList.forEach(genParam -> {
+							model.put(genParam.getName(), genParam.getValue());
+						});
+					}
 					while (iter.hasNext()) {
 						Entry<String, JsonNode> entity = iter.next();
 						String value = entity.getValue().asText();
 						File desFile = new File(sourcePath + File.separator + value);
 						FileInputStream desIs = new FileInputStream(desFile);
 						GenSchemaTemplate genSchemaTemplate = GenUtils.xmlToObject(desIs, GenSchemaTemplate.class);
-						Map<String, Object> model = new HashMap<String, Object>(10);
-					    model.put("table", LanguageFactory.getTargetTable(tableId, language));
-						model.put("nowDate", DateFormatUtils.SF.format(new Date()));
-						if (CollectionUtils.isNotEmpty(genParamsList)) {
-							genParamsList.forEach(genParam -> {
-								model.put(genParam.getName(), genParam.getValue());
-							});
-						}
 						GenUtils.generateToFile(genSchemaTemplate, model, codePath);
 					}
 					OutputStream out = new FileOutputStream(new File(outZip));

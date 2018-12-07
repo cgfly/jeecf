@@ -47,7 +47,7 @@ public class PhysicalTableUtils {
 				String[] splitName = physicalTable.getName().split(SPLIT_MATCH);
                 if(splitName.length > 1) {
                 	if(splitName[1].equals(sysNamespace.getName())) {
-                		physicalTable.setName(splitName[0]);
+                		physicalTable.setName(physicalTable.getName());
                 		resultList.add(physicalTable);
                 	}
                 } else {
