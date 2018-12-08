@@ -111,5 +111,14 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 				}
 		    });
 		}
+		
+		$scope.queryRoles = function() {
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { // 调用承诺API获取数据
+				if (res.success) {
+					$scope.sysRoleData = res.data;
+				}	
+			});
+			
+		}
 	};
 });
