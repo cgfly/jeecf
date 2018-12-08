@@ -106,7 +106,7 @@ public class JsonMapper extends ObjectMapper {
 		try {
 			return getInstance().readTree(jsonString);
 		} catch (JsonProcessingException e) {
-			return null;
+			throw new BusinessException(SysErrorEnum.FILE_RESOLVE_ERROR);
 		} catch (IOException e) {
 			throw new BusinessException(SysErrorEnum.IO_ERROR);
 		}

@@ -207,7 +207,7 @@ public class GenTemplateController extends AbstractController {
 			if (sysNamespace != null) {
 				String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getName());
 				String outPath = GenUtils.build(entity.getParams(), entity.getTableId(), sourcePath,
-						genTemplate.getLanguage());
+						genTemplate.getLanguage(), sysNamespace);
 				DownloadUtils.downloadFile(response, outPath);
 			}
 		}

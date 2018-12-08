@@ -123,8 +123,8 @@ public class GenUtils {
 			}
 			return JsonMapper.getJsonNode(sb.toString());
 		} catch (IOException e) {
+			throw new BusinessException(SysErrorEnum.IO_ERROR);
 		}
-		return null;
 	}
 
 	public static <V extends GenEntity> String create(String type, GenEntity entity) {
@@ -152,13 +152,14 @@ public class GenUtils {
 		return true;
 	}
 
-	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language) {
+	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language,SysNamespace sysNamespace) {
 		ChainContext genChainContext = ChainUtils.genChainContext();
 		String outZip = sourcePath + File.separator + "code.zip";
 		genChainContext.put("params", new HashMap<String, Object>());
 		genChainContext.put("genParamsList", genParamsList);
 		genChainContext.put("tableId", tableId);
 		genChainContext.put("language", language);
+		genChainContext.put("sysNamespace", sysNamespace);
 		genChainContext.put("sourcePath",sourcePath);
 		genChainContext.put("configPath",sourcePath + File.separator + "config.json");
 		genChainContext.put("codePath",sourcePath + File.separator + "code");
