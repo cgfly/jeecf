@@ -66,7 +66,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		
 		$scope.updateModal = function(index) {
 			angular.copy($scope.sysUserList[index], $scope.updateSysUser);
-			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { // 调用承诺API获取数据
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { 
 				if (res.success) {
 					var data = res.data;
 					$scope.sysRoleData = data;
@@ -113,7 +113,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.queryRoles = function() {
-			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { // 调用承诺API获取数据
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/-1").then(function(res) { 
 				if (res.success) {
 					$scope.sysRoleData = res.data;
 				}	
