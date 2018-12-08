@@ -32,7 +32,6 @@ public class FreeMarkers {
 			t.process(model, result);
 			return result.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new BusinessException(SysErrorEnum.NOT_CHECK_ERROR);
 		}
 	}

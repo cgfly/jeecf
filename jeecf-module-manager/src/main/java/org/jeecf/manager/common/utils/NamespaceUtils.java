@@ -78,7 +78,6 @@ public class NamespaceUtils {
 		Integer namespaceId = NamespaceUtils.getNamespaceId(userId);
 		if(namespaceId == null || namespaceId <= 0) {
 			List<SysNamespaceResult> sysNamespaceList = sysNamespaceService.findListByAuth(new SysNamespacePO(new SysNamespaceQuery())).getData();
-			System.out.println(sysNamespaceList.size());
 			if(CollectionUtils.isNotEmpty(sysNamespaceList)) {
 				List<SysNamespaceResult>  filterNamespaceList =	PermissionUtils.filter(sysNamespaceList);
 				if(CollectionUtils.isNotEmpty(filterNamespaceList)) {

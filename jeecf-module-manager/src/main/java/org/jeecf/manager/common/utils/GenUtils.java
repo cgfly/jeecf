@@ -129,8 +129,8 @@ public class GenUtils {
 			}
 			return JsonMapper.getJsonNode(sb.toString());
 		} catch (IOException e) {
+			throw new BusinessException(SysErrorEnum.IO_ERROR);
 		}
-		return null;
 	}
 
 	public static <V extends GenEntity> String create(String type, GenEntity entity) {
@@ -196,7 +196,7 @@ public class GenUtils {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new BusinessException(SysErrorEnum.FILE_NO);
 		}
 		return null;
 	}
