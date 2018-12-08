@@ -17,7 +17,7 @@ import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.common.utils.GenUtils;
 import org.jeecf.manager.common.utils.ZipUtils;
-import org.jeecf.manager.template.model.GenSchemaTemplate;
+import org.jeecf.manager.gen.model.GenSchemaTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 /**

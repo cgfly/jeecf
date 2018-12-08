@@ -1,4 +1,4 @@
-package org.jeecf.manager.template.model;
+package org.jeecf.manager.gen.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

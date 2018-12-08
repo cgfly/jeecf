@@ -1,8 +1,0 @@
-gen:
-   dict:
-      java:
-         packageName: common
-         function:
-            name: 枚举工具
-            author: GloryJian
-            version: 1.0

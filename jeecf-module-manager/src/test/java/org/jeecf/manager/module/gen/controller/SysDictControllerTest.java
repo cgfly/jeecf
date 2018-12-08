@@ -74,24 +74,4 @@ public class SysDictControllerTest extends BaseMokMvc {
 		System.out.println(responseString);
 	}
 
-	public void genCreate() throws Exception {
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/gen/sysDict/genCreate")
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-
-	
-	public void downloads() throws Exception {
-		String basePath = "";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/gen/sysDict/"+basePath)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-
 }

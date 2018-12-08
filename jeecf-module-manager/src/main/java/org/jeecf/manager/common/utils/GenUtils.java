@@ -25,13 +25,10 @@ import org.jeecf.common.utils.FreeMarkers;
 import org.jeecf.common.utils.IdGenUtils;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.model.GenEntity;
 import org.jeecf.manager.common.properties.TemplateProperties;
 import org.jeecf.manager.gen.model.GenParams;
+import org.jeecf.manager.gen.model.GenSchemaTemplate;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
-import org.jeecf.manager.module.gen.model.gen.SysDictGenEntity;
-import org.jeecf.manager.template.GenEnumsSchemeTemplate;
-import org.jeecf.manager.template.model.GenSchemaTemplate;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +42,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class GenUtils {
 
-	public static final String[] TYPES = { "enum" };
+//	public static final String[] TYPES = { "enum" };
 
 	private static TemplateProperties properties = SpringContextUtils.getBean(TemplateProperties.class);
 
@@ -127,12 +124,12 @@ public class GenUtils {
 		}
 	}
 
-	public static <V extends GenEntity> String create(String type, GenEntity entity) {
-		if (type.equals(GenUtils.TYPES[0])) {
-			return new GenEnumsSchemeTemplate().create((SysDictGenEntity) entity);
-		}
-		return null;
-	}
+//	public static <V extends GenEntity> String create(String type, GenEntity entity) {
+//		if (type.equals(GenUtils.TYPES[0])) {
+//			return new GenEnumsSchemeTemplate().create((SysDictGenEntity) entity);
+//		}
+//		return null;
+//	}
 
 	public static boolean generateToFile(GenSchemaTemplate tpl, Map<String, Object> model, String basePath) {
 		// 获取生成文件

@@ -90,19 +90,6 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			return $scope.searchForm();
 		};
 		
-		$scope.genCreate = function(){
-			$httpRequest.post($ctx.getWebPath() + "gen/sysDict/genCreate",null
-					).then(function(res) {
-				          if(res.success){
-		                	  $jBoxcm.success("创建枚举工具类成功");
-				        	  var form = $httpRequest.form($ctx.getWebPath() + "gen/sysDict/downloads/"+res.data,"POST");
-				        	  form.submit();
-		                  } else {
-		                	  $jBoxcm.error("创建枚举工具类失败,"+res.errorMessage);
-		                  }		
-					}); 
-		}
-		
 		this.init = function(){
 		    $scope.currentRouteName = $state.current.name;
 			$scope.currentRouteUrl = $state.current.url;
