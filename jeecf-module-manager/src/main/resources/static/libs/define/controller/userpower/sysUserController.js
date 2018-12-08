@@ -25,7 +25,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/list",
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.sysUserList = res.data;
 					$page.setPage($scope,res.page.total);
@@ -110,6 +110,14 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 					$scope.queryRoles();
 				}
 		    });
+		}
+		
+		$scope.queryRoles = function() {
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/-1").then(function(res) {
+				if (res.success) {
+					$scope.sysRoleData = res.data;
+				}	
+			});
 		}
 	};
 });
