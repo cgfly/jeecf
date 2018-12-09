@@ -68,6 +68,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		$scope.updateModal = function(index) {
 			$('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val(null);
 			angular.copy($scope.sysUserList[index], $scope.updateSysUser);
+			console.log($scope.updateSysUser);
 			if($scope.updateSysUser.sysOffice != null ){
 				   $('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val($scope.updateSysUser.sysOffice.name);
 		    }

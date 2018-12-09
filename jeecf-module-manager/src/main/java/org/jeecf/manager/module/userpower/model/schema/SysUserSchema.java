@@ -30,7 +30,11 @@ public class SysUserSchema {
 	 */
 	@ApiModelProperty(value="用户名",name="name")
 	private boolean name = true;
-	
+	/**
+	 * 组织结构id
+	 */
+	@ApiModelProperty(value="组织结构id",name="sysOfficeId")
+	private boolean sysOfficeId = true;
 	/**
 	 * 组织结构
 	 */
@@ -89,5 +93,10 @@ public class SysUserSchema {
 	public void setSysOffice(boolean sysOffice) {
 		this.sysOffice = sysOffice;
 	}
-	
+	public boolean isSysOfficeId() {
+		return sysOfficeId;
+	}
+	public void setSysOfficeId(boolean sysOfficeId) {
+		this.sysOfficeId = sysOfficeId;
+	}
 }

@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.jeecf.manager.common.model.BaseEntity;
+import org.jeecf.manager.common.model.OfficeAuthEntity;
 import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;
 
@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ApiModel(value="sysUser",description="系统用户实体")
-public class SysUser extends BaseEntity implements Serializable {
+public class SysUser extends OfficeAuthEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -42,11 +42,6 @@ public class SysUser extends BaseEntity implements Serializable {
 	 */
 	@ApiModelProperty(value="用户名",name="name")
 	private String name;
-	
-	/**
-	 * 组织结构id
-	 */
-	private Integer sysOfficeId;
 	
 	/**
 	 * 角色集合
@@ -105,13 +100,4 @@ public class SysUser extends BaseEntity implements Serializable {
 		this.sysRoleIds = sysRoleIds;
 	}
 
-	public Integer getSysOfficeId() {
-		return sysOfficeId;
-	}
-
-	public void setSysOfficeId(Integer sysOfficeId) {
-		this.sysOfficeId = sysOfficeId;
-	}
-	
-	
 }
