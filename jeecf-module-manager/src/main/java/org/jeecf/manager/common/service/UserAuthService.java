@@ -69,12 +69,12 @@ public class UserAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntity
 	public Response<List<R>> findPageByAuth(P p) {
 		Page page = p.getPage();
 		p.getData().setCreateBy(UserUtils.getCurrentUserId());
+		p.buildSorts();
+		p.buildContains();
 		if (page != null) {
 			page.setTotal(dao.count(p));
 			page.setStartNo();
 		}
-		p.buildSorts();
-		p.buildContains();
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
 		JqlUtils.build(p.getSchema(), res.getData());
 		return res;

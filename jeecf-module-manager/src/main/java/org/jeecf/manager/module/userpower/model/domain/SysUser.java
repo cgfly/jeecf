@@ -42,11 +42,18 @@ public class SysUser extends BaseEntity implements Serializable {
 	 */
 	@ApiModelProperty(value="用户名",name="name")
 	private String name;
+	
+	/**
+	 * 组织结构id
+	 */
+	private Integer sysOfficeId;
+	
 	/**
 	 * 角色集合
 	 */
 	@ApiModelProperty(value="角色集合",name="sysRoleIds")
 	private List<String> sysRoleIds;
+
 
 	public SysUser() {
 		super();
@@ -97,8 +104,14 @@ public class SysUser extends BaseEntity implements Serializable {
 	public void setSysRoleIds(List<String> sysRoleIds) {
 		this.sysRoleIds = sysRoleIds;
 	}
-	
-	
 
+	public Integer getSysOfficeId() {
+		return sysOfficeId;
+	}
+
+	public void setSysOfficeId(Integer sysOfficeId) {
+		this.sysOfficeId = sysOfficeId;
+	}
+	
 	
 }

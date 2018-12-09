@@ -39,10 +39,10 @@ public class SysOfficeController extends AbstractController {
 	
 	@Autowired
 	private SysOfficeService sysOfficeService;
-
+	
 	@GetMapping(value= {"","index"})
 	@RequiresPermissions("config:sysOffice:view")
-	@ApiOperation(value = "视图", notes = "查看系统权限视图")
+	@ApiOperation(value = "视图", notes = "查看组织结构视图")
 	@Override
 	public String index(ModelMap map) {
 		return "module/config/sysOffice";
@@ -51,7 +51,7 @@ public class SysOfficeController extends AbstractController {
 	@PostMapping(value= {"list"})
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:view")
-	@ApiOperation(value = "列表", notes = "查询系统权限列表")
+	@ApiOperation(value = "列表", notes = "查询组织结构列表")
 	public Response<List<SysOfficeResult>> list(@RequestBody SysOfficeQuery sysOfficeQuery) {
 		return sysOfficeService.getTreeData(new SysOfficePO(sysOfficeQuery));
 	}
@@ -59,7 +59,7 @@ public class SysOfficeController extends AbstractController {
 	@PostMapping(value = { "getTreeData" })
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:view")
-	@ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
+	@ApiOperation(value = "列表", notes = "查询组织结构表格列表")
 	public Response<List<SysOfficeResult>> getTreeData(SysOfficeQuery sysOfficeQuery) {
 		return sysOfficeService.getTreeData(new SysOfficePO(sysOfficeQuery));
 	}
@@ -67,7 +67,7 @@ public class SysOfficeController extends AbstractController {
 	@PostMapping(value= {"save"})
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:edit")
-	@ApiOperation(value = "更新", notes = "更新系统权限数据")
+	@ApiOperation(value = "更新", notes = "更新组织结构数据")
 	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysOffice sysOffice) {
 		if(sysOffice.isNewRecord()) {
 			SysOfficeQuery query = new SysOfficeQuery();
@@ -83,10 +83,9 @@ public class SysOfficeController extends AbstractController {
 	@PostMapping(value= {"delete/{id}"})
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:edit")
-	@ApiOperation(value = "删除", notes = "删除系统权限数据")
+	@ApiOperation(value = "删除", notes = "删除组织结构数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		//return securityFacade.deletePower(new SysPower(id));
-		return null;
+		return sysOfficeService.deleteWithChilds(new SysOffice(id));
 	}
 
 	

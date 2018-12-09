@@ -2,6 +2,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm) {
 		
 		$scope.submitForm = function() {
+			console.log($scope.sysUser);
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/save", $scope.sysUser).then(
 					function(res) { 
 				          if(res.success){
@@ -65,8 +66,12 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.updateModal = function(index) {
+			$('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val(null);
 			angular.copy($scope.sysUserList[index], $scope.updateSysUser);
-			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { // 调用承诺API获取数据
+			if($scope.updateSysUser.sysOffice != null ){
+				   $('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val($scope.updateSysUser.sysOffice.name);
+		    }
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { 
 				if (res.success) {
 					var data = res.data;
 					$scope.sysRoleData = data;
@@ -103,8 +108,9 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page:{current:"",size:""},data:{}};
 			$scope.updateSysUser = {};
-			
+			$scope.sysUser = {}
 			$page.init($scope, $page.getPageSize());
+			$scope.initSection();
 			$('#top-tab a[href="#sysUserFormTab"]').on('shown.bs.tab', function(e){
 				if($scope.sysRoleData == undefined){
 					$scope.queryRoles();
@@ -118,6 +124,23 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 					$scope.sysRoleData = res.data;
 				}	
 			});
+		}
+		
+		$scope.initSection = function(){
+			if($("#insertOfficeTreeIdTable").html() != undefined){
+				$("#insertOfficeTreeIdTable").remove();
+			}
+			if($("#updateOfficeTreeIdTable").html() != undefined){
+				$("#updateOfficeTreeIdTable").remove();
+		    }
+			$(".treeTable ").each(function() {
+			   var id = $(this).attr("id");
+			   if(id == "insertOfficeTreeId"){
+				   $jBoxcm.treeTable($scope, this, $scope.sysUser);
+			   }  else if(id == "updateOfficeTreeId"){
+				   $jBoxcm.treeTable($scope, this, $scope.updateSysUser);
+			   }
+			});  
 		}
 	};
 });

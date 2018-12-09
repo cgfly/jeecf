@@ -8,6 +8,11 @@
 		sysUser.username AS "username",
 		sysUser.password AS "password",
 		sysUser.name AS "name",
+		sysUser.sys_office_id AS "sysOfficeId",
+		sysOffice.name AS "sysOffice.name",
+		sysOffice.enname AS "sysOffice.enname",
+		sysOffice.parent_id AS "sysOffice.parentId",
+		
 		sysUser.remark AS "remark",
 		sysUser.create_date AS "createDate",
 		sysUser.create_by AS "createBy",
@@ -23,6 +28,9 @@
 				</if>
 				<if test="data.password != null and data.password != '' ">
 					And sysUser.password = #{data.password}
+				</if>
+				<if test="data.sysOfficeId != null and data.sysOfficeId != '' ">
+					And sysUser.sys_office_id = #{data.sysOfficeId}
 				</if>
 				<if test="data.name != null and data.name != '' ">
 					And sysUser.name = #{data.name}
@@ -80,6 +88,7 @@
 
 	<!-- 关联查询 -->
 	<sql id="leftJoinColumn">
+	  Left join sys_office sysOffice on sysUser.sys_office_id = sysOffice.id
 	</sql>
 
 
@@ -120,6 +129,9 @@
 			<if test="password != null">
 				password,
 			</if>
+			<if test="sysOfficeId != null">
+				sys_office_id,
+			</if>
 			<if test="name != null">
 				name,
 			</if>
@@ -149,6 +161,9 @@
 			</if>
 			<if test="password != null">
 				#{password},
+			</if>
+			<if test="sysOfficeId != null">
+				#{sysOfficeId},
 			</if>
 			<if test="name != null">
 				#{name},
@@ -182,6 +197,9 @@
 			</if>
 			<if test="name != null">
 				name = #{name},
+			</if>
+			<if test="sysOfficeId != null">
+				sys_office_id = #{sysOfficeId},
 			</if>
 			<if test="remark != null">
 				remark = #{remark},

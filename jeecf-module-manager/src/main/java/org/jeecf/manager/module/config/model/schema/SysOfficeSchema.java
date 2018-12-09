@@ -3,7 +3,7 @@ package org.jeecf.manager.module.config.model.schema;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 组织机构 schema
+ * 组织结构 schema
  * @author jianyiming
  *
  */

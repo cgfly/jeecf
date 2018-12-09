@@ -39,13 +39,15 @@ import org.jeecf.manager.module.userpower.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 /**
  * 安全验证 门面
+ * 
  * @author jianyiming
  *
  */
 @Service
-@Transactional(readOnly = true,rollbackFor=RuntimeException.class)
+@Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class SecurityFacade {
 
 	@Autowired
@@ -65,18 +67,18 @@ public class SecurityFacade {
 
 	public Response<List<SysUserResult>> findUser(SysUserPO sysUserPO) {
 		Response<List<SysUserResult>> userRes = sysUserService.findPage(sysUserPO);
-		if(CollectionUtils.isNotEmpty(userRes.getData())) {
+		if (CollectionUtils.isNotEmpty(userRes.getData())) {
 			userRes.getData().forEach(sysUser -> {
 				Response<String> roleNamesRes = this.findRoleNames(sysUser);
-				if(StringUtils.isNotEmpty(roleNamesRes.getData())) {
+				if (StringUtils.isNotEmpty(roleNamesRes.getData())) {
 					sysUser.setRoleNames(roleNamesRes.getData());
 				}
 			});
 		}
 		return userRes;
-		
+
 	}
-	
+
 	public Response<List<SysRole>> findRole(SysUser sysUser) {
 		List<SysRole> sysRoleList = new ArrayList<SysRole>();
 		SysUserRoleQuery queryUserRole = new SysUserRoleQuery();
@@ -89,7 +91,7 @@ public class SecurityFacade {
 		}
 		return new Response<List<SysRole>>(sysRoleList);
 	}
-	
+
 	public Response<String> findRoleNames(SysUser sysUser) {
 		SysUserRoleQuery queryUserRole = new SysUserRoleQuery();
 		queryUserRole.setSysUser(sysUser);
@@ -97,17 +99,17 @@ public class SecurityFacade {
 		StringBuffer roleNamesBuf = new StringBuffer("");
 		if (userRoleRes.isSuccess() && CollectionUtils.isNotEmpty(userRoleRes.getData())) {
 			userRoleRes.getData().forEach(userRole -> {
-				roleNamesBuf.append(userRole.getSysRole().getName()+",");
+				roleNamesBuf.append(userRole.getSysRole().getName() + ",");
 			});
 		}
 		String roleNames = roleNamesBuf.toString();
-		if(roleNames.length() > 1) {
+		if (roleNames.length() > 1) {
 			roleNames = StringUtils.substringBeforeLast(roleNames, ",");
 		}
 		return new Response<String>(roleNames);
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> saveRole(SysRole sysRole) {
 		if (StringUtils.isNotEmpty(sysRole.getId())) {
 			SysRolePower deleteRolePower = new SysRolePower();
@@ -129,7 +131,7 @@ public class SecurityFacade {
 		return new Response<Integer>(1);
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteRole(SysRole sysRole) {
 		sysRoleService.delete(sysRole);
 		SysRolePower deleteRolePower = new SysRolePower();
@@ -155,7 +157,7 @@ public class SecurityFacade {
 		return new Response<List<SysPower>>(sysPowerList);
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deletePower(SysPower sysPower) {
 		SysPowerResult sysPowerResult = sysPowerService.get(sysPower).getData();
 		if (sysPowerResult != null) {
@@ -174,13 +176,14 @@ public class SecurityFacade {
 		return new Response<Integer>(true, 1);
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> saveUser(SysUser sysUser) {
 		if (StringUtils.isNotEmpty(sysUser.getId())) {
 			SysUserRole deleteUserRole = new SysUserRole();
 			deleteUserRole.setSysUser(sysUser);
 			sysUserRoleService.delete(deleteUserRole);
 		}
+
 		if (StringUtils.isEmpty(sysUser.getId())) {
 			sysUser.setNewRecord(true);
 			sysUser.setId(IdGenUtils.uuid());
@@ -188,7 +191,7 @@ public class SecurityFacade {
 		}
 		sysUserService.save(sysUser);
 		List<String> sysRoleids = sysUser.getSysRoleIds();
-		SysRole sysRole  = new SysRole();
+		SysRole sysRole = new SysRole();
 		if (CollectionUtils.isNotEmpty(sysRoleids)) {
 			sysRoleids.forEach(roleId -> {
 				SysUserRole sysUserRole = new SysUserRole();
@@ -201,7 +204,7 @@ public class SecurityFacade {
 		return new Response<Integer>(1);
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> updatePassword(SysPwd sysPwd) {
 		String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
 		String id = (String) RedisCacheUtils.getSysCache(sessionId);
@@ -220,7 +223,7 @@ public class SecurityFacade {
 		}
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteUser(SysUser sysUser) {
 		sysUserService.deleteByFlag(sysUser);
 		SysUserRole sysUserRole = new SysUserRole();

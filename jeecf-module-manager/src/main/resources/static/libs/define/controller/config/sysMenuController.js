@@ -71,6 +71,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		}
 		
 		$scope.updateModal = function(index) {
+			$('#updateModal #updateTreeId').find('input[name="selectedName"]').val(null);
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysMenuList[index], $scope.updateSysMenu);
 			if($scope.updateSysMenu.parent != null){

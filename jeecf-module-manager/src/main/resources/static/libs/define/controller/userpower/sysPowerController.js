@@ -64,6 +64,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.updateModal = function(index) {
+			$('#updateModal #updateTreeId').find('input[name="selectedName"]').val(null);
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysPowerList[index], $scope.updateSysPower);
 			if($scope.updateSysPower.parent != null){

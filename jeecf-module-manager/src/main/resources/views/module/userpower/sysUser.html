@@ -1,7 +1,8 @@
 <div ng-init="sysUserAs.init()"></div>
 <ul id="top-tab" class="nav nav-tabs">
 	<li class="active"><a href="#sysUserListTab" data-toggle="tab">系统用户配置列表</a></li>
-	<li shiro:hasPermission="userpower:sysUser:edit"><a href="#sysUserFormTab" data-toggle="tab">系统用户配置添加</a></li>
+	<li shiro:hasPermission="userpower:sysUser:edit"><a
+		href="#sysUserFormTab" data-toggle="tab">系统用户配置添加</a></li>
 </ul>
 <br />
 <div class="tab-content">
@@ -11,43 +12,47 @@
 			<li class="active">列表</li>
 		</ol>
 		<form class="form-inline" ng-submit="searchForm()">
-            <div class="form-group">
-				<label>账户:</label>
-				<input type="text" class="form-control" ng-model="request.data.username" />
+			<div class="form-group">
+				<label>账户:</label> <input type="text" class="form-control"
+					ng-model="request.data.username" />
 			</div>
 			<div class="form-group">
-			    <button type="submit" class="btn btn-default">提交</button>
+				<button type="submit" class="btn btn-default">提交</button>
 			</div>
 		</form>
-        
+
 		<table class="table table-striped">
 			<thead>
 				<tr>
-				    <th>序号</th>
-				    <th>账户</th>
-				    <th>用户名</th>
-				    <th>角色</th>
-				    <th>创建时间</th>
-				    <th shiro:hasPermission="userpower:sysUser:edit">操作</th>
+					<th>序号</th>
+					<th>账户</th>
+					<th>用户名</th>
+					<th>角色</th>
+					<th>所属机构</th>
+					<th>创建时间</th>
+					<th shiro:hasPermission="userpower:sysUser:edit">操作</th>
 				</tr>
-			
+
 			</thead>
 			<tbody>
 				<tr ng-repeat="sysUser in sysUserList">
 					<td>{{ $index+1 }}</td>
-				    <td>{{ sysUser.username }}</td> 
-				    <td>{{ sysUser.name }}</td> 
-				    <td>{{ sysUser.roleNames }}</td> 
-				    <td>{{ sysUser.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-				    <td shiro:hasPermission="userpower:sysUser:edit">
-				       <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
-				       <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
-				    </td>
+					<td>{{ sysUser.username }}</td>
+					<td>{{ sysUser.name }}</td>
+					<td>{{ sysUser.roleNames }}</td>
+					<td>{{ sysUser.sysOffice.name }}</td>
+					<td>{{ sysUser.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+					<td shiro:hasPermission="userpower:sysUser:edit"><span><a
+							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span><a
+							href="javascript:void(0)" data-content="{{ $index }}"
+							class="target-click" data-confirm="data-confirm">删除</a></span></td>
 				</tr>
 			</tbody>
 		</table>
-		<page-pagination page-id="pageId" page-size="pageSize"  page-count="pageCount" page-list="pageList" search-form="searchForm(message)"
-			page-record="pageRecord" page-url-template="urlTemplate"></page-pagination>
+		<page-pagination page-id="pageId" page-size="pageSize"
+			page-count="pageCount" page-list="pageList"
+			search-form="searchForm(message)" page-record="pageRecord"
+			page-url-template="urlTemplate"></page-pagination>
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
@@ -59,50 +64,69 @@
 						<h4 class="modal-title">系统用户修改</h4>
 					</div>
 					<div class="modal-body">
-					   	<form class="form-horizontal" ng-submit="updateForm()" id="updateSysUserForm" name="updateSysUserForm">
-							<div class="form-group">	
-				            	<label class="col-sm-2 control-label">账户：</label>
+						<form class="form-horizontal" ng-submit="updateForm()"
+							id="updateSysUserForm" name="updateSysUserForm">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">账户：</label>
 								<div class="col-sm-8">
-					   	 			<div class="col-sm-6" style="padding-left:0">
-										<input type="text" class="form-control" id="updateUsername" name="username"
-											ng-model="updateSysUser.username"  placeholder="请输入账户"  required="required"  />
-                        			</div>
-					    			<div class="col-sm-6">
-										<span style="color:red" ng-show="updateSysUserForm.username.$dirty &amp;&amp; updateSysUserForm.username.$invalid">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateUsername"
+											name="username" ng-model="updateSysUser.username"
+											placeholder="请输入账户" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysUserForm.username.$dirty &amp;&amp; updateSysUserForm.username.$invalid">
 											<span ng-show="updateSysUserForm.username.$error.required">账户是必须的。</span>
-                        				</span>
-                        			</div>
-								</div>							
+										</span>
+									</div>
+								</div>
 							</div>
-							<div class="form-group">	
-				            	<label class="col-sm-2 control-label">用户名：</label>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">用户名：</label>
 								<div class="col-sm-8">
-					   	 			<div class="col-sm-6" style="padding-left:0">
-										<input type="text" class="form-control" id="UpdateName" name="name"
-											ng-model="updateSysUser.name"  placeholder="请输入用户名"  />
-                        			</div>
-                        			<div class="col-sm-6">
-										<span style="color:red" ng-show="updateSysUserForm.name.$dirty &amp;&amp; updateSysUserForm.name.$invalid">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="UpdateName"
+											name="name" ng-model="updateSysUser.name"
+											placeholder="请输入用户名" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysUserForm.name.$dirty &amp;&amp; updateSysUserForm.name.$invalid">
 											<span ng-show="updateSysUserForm.name.$error.required">用户名是必须的。</span>
-                        				</span>
-                        			</div>
-								</div>							
+										</span>
+									</div>
+								</div>
 							</div>
-							<div class="form-group">	
-				            	<label class="col-sm-2 control-label">角色：</label>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">组织结构：</label>
+								<div class="col-sm-10">
+									<div class="col-sm-8" style="padding-left: 0">
+										<selection data-id="updateOfficeTreeId"
+											class="btn-group treeTable"
+											data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'sysOfficeId',ttId:'id',ttParentId:'parentId'}"
+											data-ops="{url:'userpower/sysUser/getTreeData',title:'父级',width:500,height:300}">
+										</selection>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">角色：</label>
 								<div class="col-sm-8">
-					   	 			<div class="col-sm-6" style="padding-left:0">
-						                <select class="form-control select2" multiple="multiple" id="updateRole" ng-model="updateSysUser.sysRoleIds">
-							  　               <option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.name}}</option>
-							            </select>
-                        			</div>
-								</div>							
+									<div class="col-sm-6" style="padding-left: 0">
+										<select class="form-control select2" multiple="multiple"
+											id="updateRole" ng-model="updateSysUser.sysRoleIds">
+											<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.name}}</option>
+										</select>
+									</div>
+								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="submit" class="btn btn-primary" form="updateSysUserForm">提交更改</button>
+						<button type="submit" class="btn btn-primary"
+							form="updateSysUserForm">提交更改</button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
@@ -116,56 +140,75 @@
 			<li class="active">添加</li>
 		</ol>
 		<div class="form-model">
-			<form class="form-horizontal" ng-submit="submitForm()" name="sysUserForm">
+			<form class="form-horizontal" ng-submit="submitForm()"
+				name="sysUserForm">
 				<div class="form-group">
 					<label class="col-sm-2 control-label">账户：</label>
 					<div class="col-sm-4">
-					    <div class="col-sm-6" style="padding-left:0">
-							<input type="text" class="form-control" id="username" name="username"
-								ng-model="sysUser.username"  placeholder="请输入账户"  required="required"  />
-                        </div>
-					    <div class="col-sm-6">
-							<span style="color:red" ng-show="sysUserForm.username.$dirty &amp;&amp; sysUserForm.username.$invalid">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="username"
+								name="username" ng-model="sysUser.username" placeholder="请输入账户"
+								required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysUserForm.username.$dirty &amp;&amp; sysUserForm.username.$invalid">
 								<span ng-show="sysUserForm.username.$error.required">账户是必须的。</span>
-                        	</span>
-                        </div>
+							</span>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">密码：</label>
 					<div class="col-sm-4">
-					    <div class="col-sm-6" style="padding-left:0">
-							<input type="password" class="form-control" id="password" name="password"
-								ng-model="sysUser.password" ng-maxlength="20"  placeholder="请输入密码"  required="required"  />
-                        </div>
-					    <div class="col-sm-6">
-							<span style="color:red" ng-show="sysUserForm.password.$dirty &amp;&amp; sysUserForm.password.$invalid">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="password" class="form-control" id="password"
+								name="password" ng-model="sysUser.password" ng-maxlength="20"
+								placeholder="请输入密码" required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysUserForm.password.$dirty &amp;&amp; sysUserForm.password.$invalid">
 								<span ng-show="sysUserForm.password.$error.required">密码是必须的。</span>
 								<span ng-show="sysUserForm.password.$error.maxlength">密码长度不超过20</span>
-                        	</span>
-                        </div>
+							</span>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">用户名：</label>
 					<div class="col-sm-4">
-					    <div class="col-sm-6" style="padding-left:0">
+						<div class="col-sm-6" style="padding-left: 0">
 							<input type="text" class="form-control" id="name" name="name"
-								ng-model="sysUser.name"  placeholder="请输入用户名" required="required"  />
-                        </div>
-                        <div class="col-sm-6">
-							<span style="color:red" ng-show="sysUserForm.name.$dirty &amp;&amp; sysUserForm.name.$invalid">
+								ng-model="sysUser.name" placeholder="请输入用户名" required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysUserForm.name.$dirty &amp;&amp; sysUserForm.name.$invalid">
 								<span ng-show="sysUserForm.name.$error.required">用户名是必须的</span>
-                        	</span>
-                        </div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">组织结构：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-8" style="padding-left: 0">
+							<selection data-id="insertOfficeTreeId"
+								class="btn-group treeTable"
+								data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'sysOfficeId',ttId:'id',ttParentId:'parentId'}"
+								data-ops="{url:'userpower/sysUser/getTreeData',title:'父级',width:500,height:300}">
+							</selection>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">角色：</label>
 					<div class="col-sm-4">
-					    <div class="col-sm-6" style="padding-left:0">
-							<select  class="form-control select2" theme="bootstrap" multiple="multiple" ng-model="sysUser.sysRoleIds">
-							  　<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.name}}</option>
+						<div class="col-sm-6" style="padding-left: 0">
+							<select class="form-control select2" theme="bootstrap"
+								multiple="multiple" ng-model="sysUser.sysRoleIds">
+								<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.name}}</option>
 							</select>
 						</div>
 					</div>

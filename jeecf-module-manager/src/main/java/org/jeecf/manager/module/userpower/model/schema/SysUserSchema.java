@@ -32,6 +32,12 @@ public class SysUserSchema {
 	private boolean name = true;
 	
 	/**
+	 * 组织结构
+	 */
+	@ApiModelProperty(value="组织结构",name="sysOffice")
+	private boolean sysOffice = true;
+	
+	/**
 	 * 角色集
 	 */
 	@ApiModelProperty(value="角色集",name="roleNames")
@@ -76,6 +82,12 @@ public class SysUserSchema {
 	}
 	public void setPassword(boolean password) {
 		this.password = password;
+	}
+	public boolean isSysOffice() {
+		return sysOffice;
+	}
+	public void setSysOffice(boolean sysOffice) {
+		this.sysOffice = sysOffice;
 	}
 	
 }

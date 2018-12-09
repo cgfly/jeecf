@@ -4,7 +4,11 @@ import org.jeecf.common.model.AbstractEntityPO;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.module.config.model.query.SysOfficeQuery;
 import org.jeecf.manager.module.config.model.schema.SysOfficeSchema;
-
+/**
+ * 组织结构 对照
+ * @author jianyiming
+ *
+ */
 public class SysOfficePO extends AbstractEntityPO<SysOfficeQuery>{
 	
 	public SysOfficePO(SysOfficeQuery data) {
