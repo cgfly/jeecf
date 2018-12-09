@@ -1,0 +1,218 @@
+<div ng-init="sysOfficeAs.init()"></div>
+<ul id="top-tab" class="nav nav-tabs">
+	<li class="active"><a href="#sysOfficeListTab" data-toggle="tab">组织结构配置列表</a></li>
+	<li shiro:hasPermission="config:sysOffice:edit"><a href="#sysOfficeFormTab" data-toggle="tab">组织结构配置添加</a></li>
+</ul>
+<br />
+<div class="tab-content">
+	<div class="tab-pane fade in active" id="sysOfficeListTab">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">组织结构配置</li>
+			<li class="active">列表</li>
+		</ol>
+		<form class="form-inline" ng-submit="searchForm()">
+			<div class="form-group">
+				<label>名称:</label> <input type="text" class="form-control"
+					id="name" ng-model="request.data.name" />
+			</div>
+			<div class="form-group">
+				<label>英文名称:</label> <input type="text" class="form-control"
+					id="enname" ng-model="request.data.enname" />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">提交</button>
+			</div>
+		</form>
+
+		<table class="table table-striped" id="sysOfficeListTreeTable">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>英文名称</th>
+					<th>等级</th>
+					<th>排序</th>
+					<th shiro:hasPermission="config:sysOffice:edit">操作</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr ng-repeat="sysOffice in sysOfficeList"
+					data-tt-id="{{sysOffice.id}}"
+					data-tt-parent-id="{{sysOffice.parentId}}"
+					repeat-finish="renderFinish(this)">
+					<td>{{ $index+1 }}</td>
+					<td>{{ sysOffice.name }}</td>
+					<td>{{ sysOffice.enname }}</td>
+					<td>{{ sysOffice.level }}</td>
+					<td>{{ sysOffice.sort }}</td>
+					<td shiro:hasPermission="config:sysOffice:edit">
+					   <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级组织</a></span> 
+					   <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> 
+					   <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">组织结构修改</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" ng-submit="updateForm()"
+							id="updateSysOfficeForm" name="updateSysOfficeForm">
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">父级：</label>
+								<div class="col-sm-10">
+									<div class="col-sm-8" style="padding-left: 0">
+										<selection data-id="updateTreeId" class="btn-group treeTable"
+											data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
+											data-ops="{url:'config/sysOffice/getTreeData',title:'父级',width:500,height:300}">
+										</selection>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">名称：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="name" name="name"
+											ng-model="updateSysOffice.name" placeholder="请输入名称"
+											required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysOfficeForm.name.$dirty &amp;&amp; updateSysOfficeForm.name.$invalid">
+											<span ng-show="updateSysOfficeForm.name.$error.required">名称是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">英文名称：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="enname"
+											name="enname" ng-model="updateSysOffice.enname"
+											placeholder="请输入英文名称" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysOfficeForm.enname.$dirty &amp;&amp; updateSysOfficeForm.enname.$invalid">
+											<span ng-show="updateSysOfficeForm.enname.$error.required">英文名称是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">排序：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="number" class="form-control" id="sort"
+											name="sort" ng-model="updateSysOffice.sort"
+											placeholder="请输入排序" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysOfficeForm.sort.$dirty &amp;&amp; updateSysOfficeForm.sort.$invalid">
+											<span ng-show="updateSysOfficeForm.sort.$error.required">排序是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="submit" class="btn btn-primary"
+							form="updateSysOfficeForm">提交更改</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	</div>
+	<div class="tab-pane fade" id="sysOfficeFormTab">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">组织结构配置</li>
+			<li class="active">添加</li>
+		</ol>
+		<div class="form-model">
+			<form class="form-horizontal" ng-submit="submitForm()"
+				name="sysOfficeForm">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">父级：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-8" style="padding-left: 0">
+							<selection data-id="insertTreeId" class="btn-group treeTable"
+								data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
+								data-ops="{url:'config/sysOffice/getTreeData',title:'父级',width:500,height:300}">
+							</selection>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">名称：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="name" name="name"
+								ng-model="sysOffice.name" placeholder="请输入名称"
+								required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysOfficeForm.name.$dirty &amp;&amp; sysOfficeForm.name.$invalid">
+								<span ng-show="sysOfficeForm.name.$error.required">名称是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">英文名称：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="enname"
+								name="enname" ng-model="sysOffice.enname"
+								placeholder="请输入英文名称" required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysOfficeForm.enname.$dirty &amp;&amp; sysOfficeForm.enname.$invalid">
+								<span ng-show="sysOfficeForm.enname.$error.required">英文名称是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">排序：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="number" class="form-control" id="sort" name="sort"
+								ng-model="sysOffice.sort" placeholder="请输入排序" required="required"/>
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysOfficeForm.sort.$dirty &amp;&amp; sysOfficeForm.sort.$invalid">
+								<span ng-show="sysOfficeForm.sort.$error.required">排序是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
