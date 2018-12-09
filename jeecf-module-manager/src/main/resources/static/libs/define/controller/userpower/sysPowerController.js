@@ -1,7 +1,7 @@
 define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRequest,$state,$page,$ctx,$jBoxcm) {
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm) {
 		
-		$scope.submitForm = function() { console.log($scope.sysPower);
+		$scope.submitForm = function() { 
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysPower/save", $scope.sysPower).then(
 					function(res) { 
 				          if(res.success){
@@ -64,6 +64,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.updateModal = function(index) {
+			$('#updateModal #updateTreeId').find('input[name="selectedName"]').val(null);
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysPowerList[index], $scope.updateSysPower);
 			if($scope.updateSysPower.parent != null){

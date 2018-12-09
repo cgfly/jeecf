@@ -71,13 +71,13 @@ public class NamespaceAuthService<D extends Dao<P,R,Q,T>, P extends AbstractEnti
 	@Override
 	public Response<List<R>> findPageByAuth(P p) {
 		Page page = p.getPage();
+		p.buildSorts();
+		p.buildContains();
 		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
 		if (page != null) {
 			page.setTotal(dao.count(p));
 			page.setStartNo();
 		}
-		p.buildSorts();
-		p.buildContains();
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
 		JqlUtils.build(p.getSchema(), res.getData());
 		return res;
