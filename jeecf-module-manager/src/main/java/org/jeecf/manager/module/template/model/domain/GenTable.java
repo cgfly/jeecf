@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.jeecf.manager.common.model.AuthEntity;
+import org.jeecf.manager.common.model.NamespaceAuthEntity;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.jeecf.manager.validate.groups.Add;
 
@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ApiModel(value = "genTable", description = "代码生成业务表实体")
-public class GenTable extends AuthEntity implements Serializable {
+public class GenTable extends NamespaceAuthEntity implements Serializable {
 
 	/**
 	 * 

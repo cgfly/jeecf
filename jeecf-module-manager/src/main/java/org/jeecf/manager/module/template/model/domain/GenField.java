@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.jeecf.manager.common.model.AuthEntity;
+import org.jeecf.manager.common.model.NamespaceAuthEntity;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModel;
@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ApiModel(value = "genField", description = "模版参数实体")
-public class GenField extends AuthEntity implements Serializable {
+public class GenField extends NamespaceAuthEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**

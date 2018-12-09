@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.jeecf.manager.common.model.AuthEntity;
+import org.jeecf.manager.common.model.NamespaceAuthEntity;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModel;
@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ApiModel(value = "genTemplate", description = "生成模版实体")
-public class GenTemplate extends AuthEntity implements Serializable {
+public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**

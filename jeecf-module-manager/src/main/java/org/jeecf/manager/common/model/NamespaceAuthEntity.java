@@ -3,16 +3,16 @@ package org.jeecf.manager.common.model;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 数据安全实体
+ * 命名空间安全验证实体
  * @author jianyiming
  *
  */
-public class AuthEntity extends BaseEntity{
+public class NamespaceAuthEntity extends BaseEntity{
 	
-	public AuthEntity() {
+	public NamespaceAuthEntity() {
 	}
 	
-	public AuthEntity(String id) {
+	public NamespaceAuthEntity(String id) {
 		super(id);
 	}
 	/**
