@@ -19,18 +19,18 @@ import org.jeecf.common.enums.SplitCharEnum;
 import lombok.extern.log4j.Log4j;
 
 /**
- * 文件操作工具类
- * 实现文件的创建、删除、复制、压缩、解压以及目录的创建、删除、复制、压缩解压等功能
+ * 文件操作工具类 实现文件的创建、删除、复制、压缩、解压以及目录的创建、删除、复制、压缩解压等功能
+ * 
  * @author ThinkGem
  * @version 2015-3-16
  */
 @Log4j
 public class FileUtils extends org.apache.commons.io.FileUtils {
-	
 
 	/**
 	 * 复制单个文件，如果目标文件存在，则不覆盖
-	 * @param srcFileName 待复制的文件名
+	 * 
+	 * @param srcFileName  待复制的文件名
 	 * @param descFileName 目标文件名
 	 * @return 如果复制成功，则返回true，否则返回false
 	 */
@@ -40,13 +40,13 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 复制单个文件
-	 * @param srcFileName 待复制的文件名
+	 * 
+	 * @param srcFileName  待复制的文件名
 	 * @param descFileName 目标文件名
-	 * @param coverlay 如果目标文件已存在，是否覆盖
+	 * @param coverlay     如果目标文件已存在，是否覆盖
 	 * @return 如果复制成功，则返回true，否则返回false
 	 */
-	public static boolean copyFileCover(String srcFileName,
-			String descFileName, boolean coverlay) {
+	public static boolean copyFileCover(String srcFileName, String descFileName, boolean coverlay) {
 		File srcFile = new File(srcFileName);
 		// 判断源文件是否存在
 		if (!srcFile.exists()) {
@@ -100,8 +100,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 				// 将读取的字节流写入到输出流
 				outs.write(buf, 0, readByte);
 			}
-			log.debug("复制单个文件 " + srcFileName + " 到" + descFileName
-					+ "成功!");
+			log.debug("复制单个文件 " + srcFileName + " 到" + descFileName + "成功!");
 			return true;
 		} catch (Exception e) {
 			log.debug("复制文件失败：" + e.getMessage());
@@ -127,24 +126,24 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 复制整个目录的内容，如果目标目录存在，则不覆盖
-	 * @param srcDirName 源目录名
+	 * 
+	 * @param srcDirName  源目录名
 	 * @param descDirName 目标目录名
 	 * @return 如果复制成功返回true，否则返回false
 	 */
 	public static boolean copyDirectory(String srcDirName, String descDirName) {
-		return FileUtils.copyDirectoryCover(srcDirName, descDirName,
-				false);
+		return FileUtils.copyDirectoryCover(srcDirName, descDirName, false);
 	}
 
 	/**
-	 * 复制整个目录的内容 
-	 * @param srcDirName 源目录名
+	 * 复制整个目录的内容
+	 * 
+	 * @param srcDirName  源目录名
 	 * @param descDirName 目标目录名
-	 * @param coverlay 如果目标目录存在，是否覆盖
+	 * @param coverlay    如果目标目录存在，是否覆盖
 	 * @return 如果复制成功返回true，否则返回false
 	 */
-	public static boolean copyDirectoryCover(String srcDirName,
-			String descDirName, boolean coverlay) {
+	public static boolean copyDirectoryCover(String srcDirName, String descDirName, boolean coverlay) {
 		File srcDir = new File(srcDirName);
 		// 判断源目录是否存在
 		if (!srcDir.exists()) {
@@ -188,23 +187,23 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		boolean flag = true;
 		// 列出源目录下的所有文件名和子目录名
 		File[] files = srcDir.listFiles();
-		for (int i = 0; i < files.length; i++) {
-			// 如果是一个单个文件，则直接复制
-			if (files[i].isFile()) {
-				flag = FileUtils.copyFile(files[i].getAbsolutePath(),
-						descDirName + files[i].getName());
-				// 如果拷贝文件失败，则退出循环
-				if (!flag) {
-					break;
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+				// 如果是一个单个文件，则直接复制
+				if (files[i].isFile()) {
+					flag = FileUtils.copyFile(files[i].getAbsolutePath(), descDirName + files[i].getName());
+					// 如果拷贝文件失败，则退出循环
+					if (!flag) {
+						break;
+					}
 				}
-			}
-			// 如果是子目录，则继续复制目录
-			if (files[i].isDirectory()) {
-				flag = FileUtils.copyDirectory(files[i]
-						.getAbsolutePath(), descDirName + files[i].getName());
-				// 如果拷贝目录失败，则退出循环
-				if (!flag) {
-					break;
+				// 如果是子目录，则继续复制目录
+				if (files[i].isDirectory()) {
+					flag = FileUtils.copyDirectory(files[i].getAbsolutePath(), descDirName + files[i].getName());
+					// 如果拷贝目录失败，则退出循环
+					if (!flag) {
+						break;
+					}
 				}
 			}
 		}
@@ -226,7 +225,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 	 * @return 如果删除成功，则返回true，否是返回false
 	 */
 	public static boolean delFile(String fileName) {
- 		File file = new File(fileName);
+		File file = new File(fileName);
 		if (!file.exists()) {
 			log.debug(fileName + " 文件不存在!");
 			return true;
@@ -282,26 +281,26 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		boolean flag = true;
 		// 列出全部文件及子目录
 		File[] files = dirFile.listFiles();
-		for (int i = 0; i < files.length; i++) {
-			// 删除子文件
-			if (files[i].isFile()) {
-				flag = FileUtils.deleteFile(files[i].getAbsolutePath());
-				// 如果删除文件失败，则退出循环
-				if (!flag) {
-					break;
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+				// 删除子文件
+				if (files[i].isFile()) {
+					flag = FileUtils.deleteFile(files[i].getAbsolutePath());
+					// 如果删除文件失败，则退出循环
+					if (!flag) {
+						break;
+					}
 				}
-			}
-			// 删除子目录
-			else if (files[i].isDirectory()) {
-				flag = FileUtils.deleteDirectory(files[i]
-						.getAbsolutePath());
-				// 如果删除子目录失败，则退出循环
-				if (!flag) {
-					break;
+				// 删除子目录
+				else if (files[i].isDirectory()) {
+					flag = FileUtils.deleteDirectory(files[i].getAbsolutePath());
+					// 如果删除子目录失败，则退出循环
+					if (!flag) {
+						break;
+					}
 				}
 			}
 		}
-
 		if (!flag) {
 			log.debug("删除目录失败!");
 			return false;
@@ -319,6 +318,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 创建单个文件
+	 * 
 	 * @param descFileName 文件名，包含路径
 	 * @return 如果创建成功，则返回true，否则返回false
 	 */
@@ -359,6 +359,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 创建目录
+	 * 
 	 * @param descDirName 目录名,包含路径
 	 * @return 如果创建成功，则返回true，否则返回false
 	 */
@@ -385,6 +386,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 写入文件
+	 * 
 	 * @param file 要写入的文件
 	 */
 	public static void writeToFile(String fileName, String content, boolean append) {
@@ -398,6 +400,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 写入文件
+	 * 
 	 * @param file 要写入的文件
 	 */
 	public static void writeToFile(String fileName, String content, String encoding, boolean append) {
@@ -408,15 +411,15 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 			log.debug("文件 " + fileName + " 写入失败! " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 压缩文件或目录
-	 * @param srcDirName 压缩的根目录
-	 * @param fileName 根目录下的待压缩的文件名或文件夹名，其中*或""表示跟目录下的全部文件
+	 * 
+	 * @param srcDirName   压缩的根目录
+	 * @param fileName     根目录下的待压缩的文件名或文件夹名，其中*或""表示跟目录下的全部文件
 	 * @param descFileName 目标zip文件
 	 */
-	public static void zipFiles(String srcDirName, String fileName,
-			String descFileName) {
+	public static void zipFiles(String srcDirName, String fileName, String descFileName) {
 		// 判断目录是否存在
 		if (srcDirName == null) {
 			log.debug("文件压缩失败，目录 " + srcDirName + " 不存在!");
@@ -430,8 +433,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		String dirPath = fileDir.getAbsolutePath();
 		File descFile = new File(descFileName);
 		try {
-			ZipOutputStream zouts = new ZipOutputStream(new FileOutputStream(
-					descFile));
+			ZipOutputStream zouts = new ZipOutputStream(new FileOutputStream(descFile));
 			if (SplitCharEnum.ASTERISK.getName().equals(fileName) || "".equals(fileName)) {
 				FileUtils.zipDirectoryToZipFile(dirPath, fileDir, zouts);
 			} else {
@@ -439,8 +441,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 				if (file.isFile()) {
 					FileUtils.zipFilesToZipFile(dirPath, file, zouts);
 				} else {
-					FileUtils
-							.zipDirectoryToZipFile(dirPath, file, zouts);
+					FileUtils.zipDirectoryToZipFile(dirPath, file, zouts);
 				}
 			}
 			zouts.close();
@@ -454,15 +455,16 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 解压缩ZIP文件，将ZIP文件里的内容解压到descFileName目录下
-	 * @param zipFileName 需要解压的ZIP文件
+	 * 
+	 * @param zipFileName  需要解压的ZIP文件
 	 * @param descFileName 目标文件
 	 */
 	public static boolean unZipFiles(String zipFileName, String descFileName) {
 		String descFileNames = descFileName;
 		if (!descFileNames.endsWith(File.separator)) {
 			descFileNames = descFileNames + File.separator;
-		}		
-        try {
+		}
+		try {
 			// 根据ZIP文件创建ZipFile对象
 			ZipFile zipFile = new ZipFile(zipFileName);
 			ZipEntry entry = null;
@@ -491,7 +493,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 				// 打开文件输出流
 				OutputStream os = new FileOutputStream(file);
 				// 从ZipFile对象中打开entry的输入流
-		        InputStream is = zipFile.getInputStream(entry);
+				InputStream is = zipFile.getInputStream(entry);
 				while ((readByte = is.read(buf)) != -1) {
 					os.write(buf, 0, readByte);
 				}
@@ -509,35 +511,36 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 将目录压缩到ZIP输出流
+	 * 
 	 * @param dirPath 目录路径
 	 * @param fileDir 文件信息
-	 * @param zouts 输出流
+	 * @param zouts   输出流
 	 */
 	public static void zipDirectoryToZipFile(String dirPath, File fileDir, ZipOutputStream zouts) {
 		if (fileDir.isDirectory()) {
 			File[] files = fileDir.listFiles();
-			// 空的文件夹
-			if (files.length == 0) {
-				// 目录信息
-				ZipEntry entry = new ZipEntry(getEntryName(dirPath, fileDir));
-				try {
-					zouts.putNextEntry(entry);
-					zouts.closeEntry();
-				} catch (Exception e) {
-					e.printStackTrace();
+			if (files != null) {
+				// 空的文件夹
+				if (files.length == 0) {
+					// 目录信息
+					ZipEntry entry = new ZipEntry(getEntryName(dirPath, fileDir));
+					try {
+						zouts.putNextEntry(entry);
+						zouts.closeEntry();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return;
 				}
-				return;
-			}
 
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isFile()) {
-					// 如果是文件，则调用文件压缩方法
-					FileUtils
-							.zipFilesToZipFile(dirPath, files[i], zouts);
-				} else {
-					// 如果是目录，则递归调用
-					FileUtils.zipDirectoryToZipFile(dirPath, files[i],
-							zouts);
+				for (int i = 0; i < files.length; i++) {
+					if (files[i].isFile()) {
+						// 如果是文件，则调用文件压缩方法
+						FileUtils.zipFilesToZipFile(dirPath, files[i], zouts);
+					} else {
+						// 如果是目录，则递归调用
+						FileUtils.zipDirectoryToZipFile(dirPath, files[i], zouts);
+					}
 				}
 			}
 		}
@@ -545,9 +548,10 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 将文件压缩到ZIP输出流
+	 * 
 	 * @param dirPath 目录路径
-	 * @param file 文件
-	 * @param zouts 输出流
+	 * @param file    文件
+	 * @param zouts   输出流
 	 */
 	public static void zipFilesToZipFile(String dirPath, File file, ZipOutputStream zouts) {
 		FileInputStream fin = null;
@@ -577,8 +581,9 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	/**
 	 * 获取待压缩文件在ZIP文件中entry的名字，即相对于跟目录的相对路径名
+	 * 
 	 * @param dirPat 目录名
-	 * @param file entry文件名
+	 * @param file   entry文件名
 	 * @return
 	 */
 	private static String getEntryName(String dirPath, File file) {

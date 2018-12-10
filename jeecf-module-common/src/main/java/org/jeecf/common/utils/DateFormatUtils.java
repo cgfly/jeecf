@@ -7,15 +7,19 @@ import java.text.SimpleDateFormat;
  *
  */
 public class DateFormatUtils {
+	
 	/**
 	 * 秒 格式化
 	 */
-	public static final SimpleDateFormat SF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static SimpleDateFormat getSfFormat() {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	}
+	
 	/**
 	 * 天 格式化
 	 */
-	public static final SimpleDateFormat DF = new SimpleDateFormat("yyyy-MM-dd");
-	
-	
+	public static SimpleDateFormat getDfFormat() {
+		return new SimpleDateFormat("yyyy-MM-dd");
+	}
 
 }

@@ -22,6 +22,6 @@ public class ResponseUtils {
      * @return
      */
 	public static <T> boolean isEmpty(Response<T> response) {
-		return !ResponseUtils.isEmpty(response);
+		return !ResponseUtils.isNotEmpty(response);
 	}
 }

@@ -37,7 +37,11 @@ public class IdGenUtils {
 	 * 使用SecureRandom随机生成Long.
 	 */
 	public static long randomLong() {
-		return Math.abs(random.nextLong());
+		long result = random.nextLong();
+		if(result == Long.MIN_VALUE) {
+			return Long.MAX_VALUE;
+		}
+		return Math.abs(result);
 	}
 
 	/**

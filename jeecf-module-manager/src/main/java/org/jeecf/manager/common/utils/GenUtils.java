@@ -76,22 +76,24 @@ public class GenUtils {
 
 	public static <T> T xmlToObject(InputStream is, Class<T> clazz) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			StringBuilder sb = new StringBuilder();
-			while (true) {
-				String line = br.readLine();
-				if (line == null) {
-					break;
-				}
-				sb.append(line).append("\r\n");
-			}
 			if (is != null) {
-				is.close();
+				BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+				while (true) {
+					String line = br.readLine();
+					if (line == null) {
+						break;
+					}
+					sb.append(line).append("\r\n");
+				}
+				if (is != null) {
+					is.close();
+				}
+				if (br != null) {
+					br.close();
+				}
+				return JaxbMapper.fromXml(sb.toString(), clazz);
 			}
-			if (br != null) {
-				br.close();
-			}
-			return JaxbMapper.fromXml(sb.toString(), clazz);
 		} catch (IOException e) {
 		}
 		return null;
@@ -112,25 +114,28 @@ public class GenUtils {
 
 	public static JsonNode getConfig(InputStream is) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			StringBuilder sb = new StringBuilder();
-			while (true) {
-				String line = br.readLine();
-				if (line == null) {
-					break;
-				}
-				sb.append(line).append("\r\n");
-			}
 			if (is != null) {
-				is.close();
+				BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+				while (true) {
+					String line = br.readLine();
+					if (line == null) {
+						break;
+					}
+					sb.append(line).append("\r\n");
+				}
+				if (is != null) {
+					is.close();
+				}
+				if (br != null) {
+					br.close();
+				}
+				return JsonMapper.getJsonNode(sb.toString());
 			}
-			if (br != null) {
-				br.close();
-			}
-			return JsonMapper.getJsonNode(sb.toString());
 		} catch (IOException e) {
 			throw new BusinessException(SysErrorEnum.IO_ERROR);
 		}
+		return null;
 	}
 
 	public static <V extends GenEntity> String create(String type, GenEntity entity) {
@@ -143,10 +148,11 @@ public class GenUtils {
 	public static boolean generateToFile(GenSchemaTemplate tpl, Map<String, Object> model, String basePath) {
 		// 获取生成文件
 		String fileName = basePath + File.separator
-				+ FreeMarkers.renderString(tpl.getName(),StringUtils.trimToEmpty(tpl.getFilePath()), model) + File.separator
-				+ FreeMarkers.renderString(tpl.getName(),StringUtils.trimToEmpty(tpl.getFileName()), model);
+				+ FreeMarkers.renderString(tpl.getName(), StringUtils.trimToEmpty(tpl.getFilePath()), model)
+				+ File.separator
+				+ FreeMarkers.renderString(tpl.getName(), StringUtils.trimToEmpty(tpl.getFileName()), model);
 		// 获取生成文件内容
-		String content = FreeMarkers.renderString(tpl.getName(),StringUtils.trimToEmpty(tpl.getContent()), model);
+		String content = FreeMarkers.renderString(tpl.getName(), StringUtils.trimToEmpty(tpl.getContent()), model);
 
 		// 创建并写入文件
 		if (FileUtils.createFile(fileName)) {
@@ -157,7 +163,7 @@ public class GenUtils {
 		return true;
 	}
 
-	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath,Integer language) {
+	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language) {
 		File configFile = new File(sourcePath + File.separator + "config.json");
 		try {
 			FileInputStream configIs = new FileInputStream(configFile);
@@ -176,7 +182,7 @@ public class GenUtils {
 					Iterator<Entry<String, JsonNode>> iter = node.get("path").fields();
 					Map<String, Object> model = new HashMap<String, Object>(10);
 					model.put("table", LanguageFactory.getTargetTable(tableId, language));
-					model.put("nowDate", DateFormatUtils.SF.format(new Date()));
+					model.put("nowDate", DateFormatUtils.getSfFormat().format(new Date()));
 					if (CollectionUtils.isNotEmpty(genParamsList)) {
 						genParamsList.forEach(genParam -> {
 							model.put(genParam.getName(), genParam.getValue());
@@ -202,14 +208,15 @@ public class GenUtils {
 	}
 
 	public static String upload(MultipartFile file, SysNamespace sysNamespace) {
-		boolean isZip = FileTypeUtils.isType(properties.getDownloadSuffixName(),SplitCharEnum.DOT.getName()+file.getOriginalFilename());
+		boolean isZip = FileTypeUtils.isType(properties.getDownloadSuffixName(),
+				SplitCharEnum.DOT.getName() + file.getOriginalFilename());
 		if (!isZip) {
 			throw new BusinessException(BusinessErrorEnum.ZIP_NOT);
 		}
 		if (sysNamespace != null) {
 			String uuid = IdGenUtils.uuid();
-			String suffixPath = properties.getUploadTmpPath() + File.separator + sysNamespace.getName()
-					+ File.separator + uuid;
+			String suffixPath = properties.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator
+					+ uuid;
 			String filePath = suffixPath + File.separator + file.getOriginalFilename();
 			try {
 				FileUtils.createDirectory(suffixPath);

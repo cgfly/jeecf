@@ -1,5 +1,7 @@
 package org.jeecf.common.model;
 
+import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 /**
@@ -8,8 +10,13 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ApiModel(value="page",description="分页实体")
-public class Page {
+public class Page implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 当前页
 	 */
@@ -88,7 +95,7 @@ public class Page {
     
 	public void setStartNo() {
 		//设置起始条数
-		if (this.current > 0 && this.size > 0) {
+		if (this.current >= 0 && this.size > 0) {
 			if(this.current < 1)  {
 				this.current = 1;
 			}
