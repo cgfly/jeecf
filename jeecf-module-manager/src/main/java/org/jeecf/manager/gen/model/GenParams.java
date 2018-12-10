@@ -5,11 +5,17 @@ package org.jeecf.manager.gen.model;
  *
  */
 public class GenParams {
-	
+	/**
+	 * 名称
+	 */
 	private String name;
-	
+	/**
+	 * 值
+	 */
 	private String value;
-	
+	/**
+	 * 描述
+	 */
 	private String descrition;
 
 	public String getName() {

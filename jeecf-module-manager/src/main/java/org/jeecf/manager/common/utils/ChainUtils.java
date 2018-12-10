@@ -6,8 +6,9 @@ import java.util.List;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.gen.handler.BaseParamHandler;
+import org.jeecf.manager.gen.handler.ConfigResolveHandler;
 import org.jeecf.manager.gen.handler.GenHandler;
-import org.jeecf.manager.gen.handler.RuleParamHandler;
+import org.jeecf.manager.gen.handler.ToolParamHandler;
 import org.jeecf.manager.gen.handler.TableParamHandler;
 /**
  * 责任链工具类
@@ -22,8 +23,9 @@ public class ChainUtils {
 	public static ChainContext genChainContext() {
 		List<AbstractHandler>  chainHandlers = new ArrayList<>();
 		chainHandlers.add(new BaseParamHandler());
-		chainHandlers.add(new RuleParamHandler());
+		chainHandlers.add(new ToolParamHandler());
 		chainHandlers.add(new TableParamHandler());
+		chainHandlers.add(new ConfigResolveHandler());
 		chainHandlers.add(new GenHandler());
 		ChainContext chainContext = new ChainContext(chainHandlers);
 		return chainContext;

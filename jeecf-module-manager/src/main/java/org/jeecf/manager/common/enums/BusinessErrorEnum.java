@@ -21,6 +21,8 @@ public enum BusinessErrorEnum implements ErrorEnum {
     NAMESPACE_NOT(401,"命名空间不存在"),
     NAMESPACE_IS_CURRENT(402,"当前的命名空间不能删除"),
     ZIP_NOT(501,"不是zip文件"),
+    CONFIG_MODULE_NAME_EMPTY(601,"module name 不能为空"),
+    CONFIG_MODULE_PATH_EMPTY(602,"module path 不能为空"),
     ;
 
 	public final int code;

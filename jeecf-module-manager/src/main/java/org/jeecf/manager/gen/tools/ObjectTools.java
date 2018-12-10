@@ -1,4 +1,4 @@
-package org.jeecf.manager.gen.rule;
+package org.jeecf.manager.gen.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  * @author jianyiming
  *
  */
-public class ObjectRule {
+public class ObjectTools {
 
 	public String toJsonString(Object data) {
 		return JsonMapper.toJson(data);

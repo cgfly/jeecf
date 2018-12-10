@@ -1,27 +1,31 @@
 package org.jeecf.manager.gen.handler;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
-import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.utils.FileUtils;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.common.utils.GenUtils;
 import org.jeecf.manager.common.utils.ZipUtils;
+import org.jeecf.manager.gen.model.ConfigContext;
 import org.jeecf.manager.gen.model.GenSchemaTemplate;
+import org.jeecf.manager.gen.model.ModuleEntity;
+import org.springframework.core.io.Resource;
 
-import com.fasterxml.jackson.databind.JsonNode;
 /**
  * 代码生成责任链
+ * 
  * @author jianyiming
  *
  */
@@ -36,50 +40,36 @@ public class GenHandler extends AbstractHandler {
 	public void process() {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-		String sourcePath = (String) this.chainContext.get("sourcePath");
-		String configPath = (String) this.chainContext.get("configPath");
 		String codePath = (String) this.chainContext.get("codePath");
 		String outZip = (String) this.chainContext.get("outZip");
-		String outDir =codePath;
-		File configFile = new File(configPath);
+		ConfigContext configContext = (ConfigContext) this.chainContext.get("configContext");
+
+		FileUtils.deleteFile(outZip);
+		FileUtils.deleteDirectory(codePath);
+		OutputStream out;
 		try {
-			FileInputStream configIs = new FileInputStream(configFile);
-			JsonNode node = GenUtils.getConfig(configIs);
-			if (node != null) {
-				String outBaseDir = node.get("outBaseDir").asText();
-				FileUtils.deleteFile(outZip);
-				FileUtils.deleteDirectory(codePath);
-				if (StringUtils.isNotEmpty(outBaseDir)) {
-					outDir = outDir + File.separator + outBaseDir;
-				}
-				JsonNode pathNode = node.get("path");
-				if (pathNode != null) {
-					String customParams = null;
-					JsonNode paramNode = node.get("params");
-					if (paramNode != null) {
-						customParams = paramNode.toString();
-					}
-					Iterator<Entry<String, JsonNode>> iter = node.get("path").fields();
-					params.put("customParams", customParams);
-					while (iter.hasNext()) {
-						Entry<String, JsonNode> entity = iter.next();
-						String value = entity.getValue().asText();
-						File desFile = new File(sourcePath + File.separator + value);
-						FileInputStream desIs = new FileInputStream(desFile);
+			List<ModuleEntity> moduleEntitys = configContext.getModuleEntitys();
+			if (CollectionUtils.isNotEmpty(moduleEntitys)) {
+				params.put("params", configContext.getGlobalParams());
+				for (ModuleEntity moduleEntity : moduleEntitys) {
+					Set<Resource> resources = moduleEntity.getPaths();
+					String moduleParams = moduleEntity.getModuleParams();
+					params.put("moduleParams", moduleParams);
+					for (Resource resource : resources) {
+						InputStream desIs = resource.getInputStream();
 						GenSchemaTemplate genSchemaTemplate = GenUtils.xmlToObject(desIs, GenSchemaTemplate.class);
-						GenUtils.generateToFile(genSchemaTemplate, params, outDir);
+						GenUtils.generateToFile(genSchemaTemplate, params, configContext.getOutDir());
 					}
-					OutputStream out = new FileOutputStream(new File(outZip));
-					ZipUtils.toZip(codePath, out, true);
-					this.chainContext.put("params",params);
-					return;
 				}
 			}
+			out = new FileOutputStream(new File(outZip));
+			ZipUtils.toZip(codePath, out, true);
+			return;
 		} catch (FileNotFoundException e) {
-		    throw new BusinessException(SysErrorEnum.FILE_NO);
+			throw new BusinessException(SysErrorEnum.FILE_NO);
+		} catch (IOException e) {
+			throw new BusinessException(SysErrorEnum.IO_ERROR);
 		}
-		this.chainContext.put("params",params);
-		this.chainContext.setFlag(false);
 	}
 
 }
