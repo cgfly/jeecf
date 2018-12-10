@@ -66,7 +66,7 @@ public class SecurityFacade {
 	private SysUserRoleService sysUserRoleService;
 
 	public Response<List<SysUserResult>> findUser(SysUserPO sysUserPO) {
-		Response<List<SysUserResult>> userRes = sysUserService.findPage(sysUserPO);
+		Response<List<SysUserResult>> userRes = sysUserService.findPageByAuth(sysUserPO);
 		if (CollectionUtils.isNotEmpty(userRes.getData())) {
 			userRes.getData().forEach(sysUser -> {
 				Response<String> roleNamesRes = this.findRoleNames(sysUser);

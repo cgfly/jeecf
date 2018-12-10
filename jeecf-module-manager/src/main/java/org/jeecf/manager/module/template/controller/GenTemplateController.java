@@ -130,8 +130,9 @@ public class GenTemplateController extends AbstractController {
 	@RequiresPermissions("template:genTemplate:edit")
 	@ApiOperation(value = "删除", notes = "删除模版配置数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
+		
 		GenTemplate genTemplate = genTemplateService.getByAuth(new GenTemplate(id)).getData();
-		if (genTemplateService != null) {
+		if (genTemplate != null) {
 			String userId = UserUtils.getCurrentUserId();
 			SysNamespace sysNamespace = NamespaceUtils.getNamespace(userId);
 			if (sysNamespace != null) {

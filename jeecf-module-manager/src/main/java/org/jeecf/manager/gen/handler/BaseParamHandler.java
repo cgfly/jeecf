@@ -31,7 +31,7 @@ public class BaseParamHandler extends AbstractHandler{
 		@SuppressWarnings("unchecked")
 		List<GenParams> genParamsList = (List<GenParams>) this.chainContext.get("genParamsList");
 		SysNamespace sysNamespace = (SysNamespace) this.chainContext.get("sysNamespace");
-		params.put("nowDate", DateFormatUtils.SF.format(new Date()));
+		params.put("nowDate", DateFormatUtils.getSfFormat().format(new Date()));
 		params.put("namespace",Integer.valueOf(sysNamespace.getId()) );
 		if (CollectionUtils.isNotEmpty(genParamsList)) {
 			genParamsList.forEach(genParam -> {

@@ -46,7 +46,6 @@ public class GenUtils {
 
 	private static TemplateProperties properties = SpringContextUtils.getBean(TemplateProperties.class);
 
-
 	/**
 	 * XML文件转换为对象
 	 * 
@@ -67,22 +66,26 @@ public class GenUtils {
 
 	public static <T> T xmlToObject(InputStream is, Class<T> clazz) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			StringBuilder sb = new StringBuilder();
-			while (true) {
-				String line = br.readLine();
-				if (line == null) {
-					break;
-				}
-				sb.append(line).append("\r\n");
-			}
+			BufferedReader br = null;
 			if (is != null) {
-				is.close();
+				br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+				while (true) {
+					String line = br.readLine();
+					if (line == null) {
+						break;
+					}
+					sb.append(line).append("\r\n");
+				}
+				if (is != null) {
+					is.close();
+				}
+				if (br != null) {
+					br.close();
+				}
+				return JaxbMapper.fromXml(sb.toString(), clazz);
 			}
-			if (br != null) {
-				br.close();
-			}
-			return JaxbMapper.fromXml(sb.toString(), clazz);
+
 		} catch (IOException e) {
 		}
 		return null;
@@ -103,25 +106,28 @@ public class GenUtils {
 
 	public static JsonNode getConfig(InputStream is) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			StringBuilder sb = new StringBuilder();
-			while (true) {
-				String line = br.readLine();
-				if (line == null) {
-					break;
-				}
-				sb.append(line).append("\r\n");
-			}
 			if (is != null) {
-				is.close();
+				BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+				while (true) {
+					String line = br.readLine();
+					if (line == null) {
+						break;
+					}
+					sb.append(line).append("\r\n");
+				}
+				if (is != null) {
+					is.close();
+				}
+				if (br != null) {
+					br.close();
+				}
+				return JsonMapper.getJsonNode(sb.toString());
 			}
-			if (br != null) {
-				br.close();
-			}
-			return JsonMapper.getJsonNode(sb.toString());
 		} catch (IOException e) {
 			throw new BusinessException(SysErrorEnum.IO_ERROR);
 		}
+		return null;
 	}
 
 //	public static <V extends GenEntity> String create(String type, GenEntity entity) {
@@ -149,7 +155,8 @@ public class GenUtils {
 		return true;
 	}
 
-	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language,SysNamespace sysNamespace) {
+	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language,
+			SysNamespace sysNamespace) {
 		ChainContext genChainContext = ChainUtils.genChainContext();
 		String outZip = sourcePath + File.separator + "code.zip";
 		genChainContext.put("params", new HashMap<String, Object>());
@@ -157,12 +164,12 @@ public class GenUtils {
 		genChainContext.put("tableId", tableId);
 		genChainContext.put("language", language);
 		genChainContext.put("sysNamespace", sysNamespace);
-		genChainContext.put("sourcePath",sourcePath);
-		genChainContext.put("configPath",sourcePath + File.separator + "config.json");
-		genChainContext.put("codePath",sourcePath + File.separator + "code");
-		genChainContext.put("outZip",outZip);
+		genChainContext.put("sourcePath", sourcePath);
+		genChainContext.put("configPath", sourcePath + File.separator + "config.json");
+		genChainContext.put("codePath", sourcePath + File.separator + "code");
+		genChainContext.put("outZip", outZip);
 		genChainContext.next();
-		if(genChainContext.isFlag()) {
+		if (genChainContext.isFlag()) {
 			return outZip;
 		}
 		return null;

@@ -117,7 +117,16 @@ public abstract class AbstractEntityPO<Q> {
 	public void setContain(String columnName, String values) {
 		Contain contain = new Contain();
 		contain.setColumnName(columnName);
-		contain.setColumnValue(StringUtils.toList(values));
+		contain.setColumnValue(StringUtils.toSet(values));
+		List<Contain> containList = this.getContains();
+		if (containList == null) {
+			containList = new ArrayList<Contain>();
+			this.setContains(containList);
+		}
+		containList.add(contain);
+	}
+	
+	public void setContain(Contain contain) {
 		List<Contain> containList = this.getContains();
 		if (containList == null) {
 			containList = new ArrayList<Contain>();

@@ -1,6 +1,6 @@
 package org.jeecf.manager.module.userpower.service;
 
-import org.jeecf.manager.common.service.BaseService;
+import org.jeecf.manager.common.service.OfficeAuthService;
 import org.jeecf.manager.module.userpower.dao.SysUserDao;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
 import org.jeecf.manager.module.userpower.model.po.SysUserPO;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class SysUserService extends BaseService<SysUserDao,SysUserPO,SysUserResult,SysUserQuery,SysUser> {
+public class SysUserService extends OfficeAuthService<SysUserDao,SysUserPO,SysUserResult,SysUserQuery,SysUser> {
 	
 	
 }
