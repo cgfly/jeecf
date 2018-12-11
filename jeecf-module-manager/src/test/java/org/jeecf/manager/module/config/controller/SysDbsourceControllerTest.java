@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.controller;
 
+import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
 import org.jeecf.manager.module.config.model.domain.SysDbsource;
@@ -37,7 +38,11 @@ public class SysDbsourceControllerTest extends BaseMokMvc {
 	public void list() throws Exception {
 		Request<SysDbsourceQuery, SysDbsourceSchema> request = new Request<SysDbsourceQuery, SysDbsourceSchema>();
 		SysDbsourceQuery query = new SysDbsourceQuery();
+		Page page = new Page();
+		page.setCurrent(1);
+		page.setSize(8);
 		request.setData(query);
+		request.setPage(page);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(request);

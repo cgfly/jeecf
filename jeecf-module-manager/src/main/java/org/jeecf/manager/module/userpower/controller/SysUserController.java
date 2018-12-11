@@ -120,7 +120,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 	@RequiresPermissions("userpower:sysUser:edit")
 	@ApiOperation(value = "更新", notes = "更新系统用户数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysUser sysUser) {
+	public Response<SysUserResult> save(@RequestBody @Validated({Add.class}) SysUser sysUser) {
 		if(sysUser.isNewRecord()) {
 			if(StringUtils.isBlank(sysUser.getPassword())) {
 				throw new BusinessException(BusinessErrorEnum.USER_PASSWORD_ERROR);

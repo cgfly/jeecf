@@ -12,6 +12,8 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	
 	DATA_NOT_EXIT(101,"数据不存在"),
 	DATA_EXIT(102,"数据已存在，请重新输入"),
+	INSERT_DATA_FAIL(103,"插入数据失败"),
+	UPDATE_DATA_FAIL(104,"更新数据失败"),
     USER_NOT(201,"用户不存在"),
     USER_PASSWORD_ERROR(202,"用户密码输入错误"),
     USER_USER_AND_PASSWORD_ERROR(203,"用户名或密码错误"),

@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.AbstractEntityPO;
 import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.model.PermissionEntity;
 import org.jeecf.manager.common.utils.PermissionUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,17 +30,17 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> insertByAuth(T t) {
+	public Response<R> insertByAuth(T t) {
 		return super.insert(t);
 	}
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> updateByAuth(T t) {
+	public Response<R> updateByAuth(T t) {
 		if (this.getByAuth(t).getData() != null) {
 			return super.update(t);
 		}
-		return new Response<>(null);
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
 
 	@Override
@@ -95,7 +97,7 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 			return res;
 
 		}
-		return null;
+		return new Response<>();
 	}
 
 	@Override

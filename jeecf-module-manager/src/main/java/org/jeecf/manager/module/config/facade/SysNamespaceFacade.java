@@ -3,6 +3,7 @@ package org.jeecf.manager.module.config.facade;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.utils.PermissionUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
+import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class SysNamespaceFacade {
 	private SysNamespaceService sysNamespaceService;
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> save(SysNamespace sysNamespace) {
+	public Response<SysNamespaceResult> save(SysNamespace sysNamespace) {
 		String permission = sysNamespace.getPermission();
 		// 如果为插入操作则插入相关权限
 		String prefixName = "命名空间";

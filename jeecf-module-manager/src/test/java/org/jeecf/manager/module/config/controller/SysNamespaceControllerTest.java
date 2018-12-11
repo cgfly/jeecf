@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.controller;
 
+import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -35,8 +36,12 @@ public class SysNamespaceControllerTest extends BaseMokMvc{
 	@Test
 	public void list() throws Exception {
 		Request<SysNamespaceQuery, SysNamespaceSchema> request = new Request<SysNamespaceQuery, SysNamespaceSchema>();
+		Page page = new Page();
+		page.setCurrent(1);
+		page.setSize(8);
 		SysNamespaceQuery query = new SysNamespaceQuery();
 		request.setData(query);
+		request.setPage(page);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(request);

@@ -26,7 +26,7 @@ public abstract class BaseController<Q,R,S,T> extends AbstractController{
 	 * @param t
 	 * @return
 	 */
-	public abstract Response<Integer> save(T t);
+	public abstract Response<R> save(T t);
 	/**
 	 * 根据主键删除
 	 * @param id

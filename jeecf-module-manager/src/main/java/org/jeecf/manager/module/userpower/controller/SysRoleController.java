@@ -124,7 +124,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	@RequiresPermissions("userpower:sysRole:edit")
 	@ApiOperation(value = "更新", notes = "更新系统角色数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysRole sysRole) {
+	public Response<SysRoleResult> save(@RequestBody @Validated({Add.class}) SysRole sysRole) {
 		if(sysRole.isNewRecord()) {
 			SysRoleQuery query = new SysRoleQuery();
 			query.setEnname(sysRole.getEnname());

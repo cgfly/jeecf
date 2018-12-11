@@ -104,7 +104,7 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:edit")
 	@ApiOperation(value = "更新", notes = "更新模版配置数据")
-	public Response<Integer> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate, MultipartFile file) {
+	public Response<GenTemplateResult> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate, MultipartFile file) {
 		SysUser sysUser = UserUtils.getCurrentUser();
 		SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
         if(genTemplate.isNewRecord()) {

@@ -29,7 +29,7 @@ public class SysMenuService extends AbstractTreeService<SysMenuDao,SysMenuPO,Sys
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> save(SysMenu sysMenu) {
+	public Response<SysMenuResult> save(SysMenu sysMenu) {
 		if (!StringUtils.isEmpty(sysMenu.getParentId())) {
 			SysMenu queryParentSysMenu = new SysMenu();
 			queryParentSysMenu.setId(sysMenu.getParentId());

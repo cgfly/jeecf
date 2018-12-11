@@ -87,7 +87,7 @@ public class GenFieldController extends BaseController<GenFieldQuery,GenFieldRes
 	@RequiresPermissions("template:genField:edit")
 	@ApiOperation(value = "更新", notes = "更新模版参数数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) GenField genField) {
+	public Response<GenFieldResult> save(@RequestBody @Validated({Add.class}) GenField genField) {
 		if(genField.isNewRecord()) {
 			GenFieldQuery query = new GenFieldQuery();
 			query.setName(genField.getName());

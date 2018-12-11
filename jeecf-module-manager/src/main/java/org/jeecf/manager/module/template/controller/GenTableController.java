@@ -81,7 +81,7 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@RequiresPermissions("template:genTable:edit")
 	@ApiOperation(value = "更新", notes = "更新代码生成业务表数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) GenTable genTable) {
+	public Response<GenTableResult> save(@RequestBody @Validated({Add.class}) GenTable genTable) {
 		return genTableFacade.saveTable(genTable);
 	}
 	

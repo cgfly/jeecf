@@ -68,7 +68,7 @@ public class SysOfficeController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:edit")
 	@ApiOperation(value = "更新", notes = "更新组织结构数据")
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysOffice sysOffice) {
+	public Response<SysOfficeResult> save(@RequestBody @Validated({Add.class}) SysOffice sysOffice) {
 		if(sysOffice.isNewRecord()) {
 			SysOfficeQuery query = new SysOfficeQuery();
 			query.setEnname(sysOffice.getEnname());

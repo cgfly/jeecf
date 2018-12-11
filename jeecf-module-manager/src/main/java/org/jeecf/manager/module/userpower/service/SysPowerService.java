@@ -27,7 +27,7 @@ public class SysPowerService extends AbstractTreeService<SysPowerDao,SysPowerPO,
 	
     @Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> save(SysPower sysPower) {
+	public Response<SysPowerResult> save(SysPower sysPower) {
 		if (!StringUtils.isEmpty(sysPower.getParentId())) {
 			SysPower queryParentSysPower = new SysPower();
 			queryParentSysPower.setId(sysPower.getParentId());

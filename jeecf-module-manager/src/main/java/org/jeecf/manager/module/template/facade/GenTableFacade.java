@@ -37,14 +37,14 @@ public class GenTableFacade {
 	private GenTableService genTableService;
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> saveTable(GenTable genTable) {
+	public Response<GenTableResult> saveTable(GenTable genTable) {
 		GenTableQuery queryTable = new GenTableQuery();
 		queryTable.setName(genTable.getName());
 		List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
 		if (CollectionUtils.isNotEmpty(genTableList)) {
 			genTable.setId(genTableList.get(0).getId());
 		}
-		genTableService.saveByAuth(genTable);
+		Response<GenTableResult> genTableRes = genTableService.saveByAuth(genTable);
 		List<GenTableColumnResult> columnList = genTable.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(columnList)) {
 			for (GenTableColumn column : columnList) {
@@ -52,7 +52,7 @@ public class GenTableFacade {
 				genTableColumnService.save(column);
 			}
 		}
-		return new Response<Integer>(1);
+		return genTableRes;
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)

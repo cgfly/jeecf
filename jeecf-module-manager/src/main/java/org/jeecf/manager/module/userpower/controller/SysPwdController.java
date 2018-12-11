@@ -5,6 +5,7 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.AbstractController;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPwd;
+import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class SysPwdController extends AbstractController{
 	@ResponseBody
 	@RequiresPermissions("userpower:sysPwd:edit")
 	@ApiOperation(value = "更新", notes = "更新系统用户密码数据")
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysPwd sysPwd) {
+	public Response<SysUserResult> save(@RequestBody @Validated({Add.class}) SysPwd sysPwd) {
 		return securityFacade.updatePassword(sysPwd);
 	}
 

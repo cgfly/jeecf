@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.controller;
 
+import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
 import org.jeecf.manager.module.config.model.domain.SysMenu;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 /**
@@ -45,7 +47,7 @@ public class SysMenuControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
 	}
 	
 	@Test
@@ -59,31 +61,49 @@ public class SysMenuControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
 	}
 	
 	@Test
-	public void save() throws Exception {
+	public void dataOperation() throws Exception {
 		SysMenu sysMenu = new SysMenu();
+		sysMenu.setIsIcon(1);
+		sysMenu.setRoute(1);
+		sysMenu.setLabel("test");
+		sysMenu.setSort(10);
+		sysMenu.setName("test");
+		sysMenu.setPermission("test:base");
+		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysMenu));
+		if(saveNode.get("success").asBoolean()) {
+			sysMenu.setName("saveUpdate");
+			sysMenu.setId(saveNode.get("data").get("id").asText());
+			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysMenu));
+			if(updateNode.get("success").asBoolean()) {
+				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysMenu.getId()));
+				assert deleteNode.get("success").asBoolean();
+			}
+			assert updateNode.get("success").asBoolean();
+		}
+		assert saveNode.get("success").asBoolean();
+	}
+	
+	
+	private String save(SysMenu sysMenu ) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(sysMenu);
-		String responseString = mockMvc
+		return mockMvc
 				.perform(MockMvcRequestBuilders.post("/config/sysMenu/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
 	}
 	
-	@Test
-	public void delete() throws Exception {
-		String id = "";
-		String responseString = mockMvc
+	private String delete(String id) throws Exception {
+		return   mockMvc
 				.perform(MockMvcRequestBuilders.post("/config/sysMenu/delete/"+id).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
 	}
 	
 

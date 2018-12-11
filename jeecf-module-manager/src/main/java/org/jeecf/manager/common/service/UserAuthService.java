@@ -26,19 +26,19 @@ public class UserAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntity
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> insertByAuth(T t) {
+	public Response<R> insertByAuth(T t) {
 		return super.insert(t);
 	}
 	
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> updateByAuth(T t) {
+	public Response<R> updateByAuth(T t) {
 		return super.update(t);
 	}
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> saveByAuth(T t) {
+	public Response<R> saveByAuth(T t) {
 		return super.saveByAuth(t);
 	}
 

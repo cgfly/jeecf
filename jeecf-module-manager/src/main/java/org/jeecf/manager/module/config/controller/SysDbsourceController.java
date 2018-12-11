@@ -72,9 +72,11 @@ public class SysDbsourceController
 		Response<List<SysDbsourceResult>> sysDbsourceRes = sysDbsourceService
 				.findPageByAuth(new SysDbsourcePO(request));
 		List<SysDbsourceResult> sysDbsourceList = sysDbsourceRes.getData();
-		sysDbsourceList.forEach(sysDbsourceEnum -> {
-			sysDbsourceEnum.setUsableName(EnumUtils.Usable.getName(sysDbsourceEnum.getUsable()));
-		});
+		if (CollectionUtils.isNotEmpty(sysDbsourceList)) {
+			sysDbsourceList.forEach(sysDbsourceEnum -> {
+				sysDbsourceEnum.setUsableName(EnumUtils.Usable.getName(sysDbsourceEnum.getUsable()));
+			});
+		}
 		return sysDbsourceRes;
 	}
 
@@ -83,7 +85,7 @@ public class SysDbsourceController
 	@RequiresPermissions("config:sysDbsource:edit")
 	@ApiOperation(value = "更新", notes = "更新系统数据源数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({ Add.class }) SysDbsource sysDbsource) {
+	public Response<SysDbsourceResult> save(@RequestBody @Validated({ Add.class }) SysDbsource sysDbsource) {
 		if (sysDbsource.isNewRecord()) {
 			SysDbsourceQuery query = new SysDbsourceQuery();
 			query.setKeyName(sysDbsource.getKeyName());
@@ -92,12 +94,11 @@ public class SysDbsourceController
 				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
 			}
 		}
-		Response<Integer> res = sysDbsourceService.saveByAuth(sysDbsource);
-		if (res.isSuccess() && res.getData() > 0) {
+		Response<SysDbsourceResult> res = sysDbsourceService.saveByAuth(sysDbsource);
+		if (res.isSuccess()) {
 			SysDbsource sysDb = sysDbsourceService.get(sysDbsource).getData();
 			if (sysDb != null) {
-				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(),
-						sysDb.getPassword());
+				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(), sysDb.getPassword());
 				if (flag) {
 					sysDb.setUsable(EnumUtils.Usable.YES.getCode());
 				} else {

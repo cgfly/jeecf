@@ -16,19 +16,19 @@ public abstract class AbstractService<P extends AbstractEntityPO<Q>,R extends T,
 	 * @param t
 	 * @return 
 	 */
-    public abstract Response<Integer> insert(T t);
+    public abstract Response<R> insert(T t);
     /**
      * 数据更新
      * @param t
      * @return
      */
-    public abstract Response<Integer> update(T t);
+    public abstract Response<R> update(T t);
     /**
      * 数据保存
      * @param t
      * @return
      */
-    public abstract Response<Integer> save(T t);
+    public abstract Response<R> save(T t);
     /**
      * 单条数据获取
      * @param t

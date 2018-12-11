@@ -26,7 +26,7 @@ public class SysOfficeService extends AbstractTreeService<SysOfficeDao, SysOffic
 
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> save(SysOffice sysOffice) {
+	public Response<SysOfficeResult> save(SysOffice sysOffice) {
 		if (!StringUtils.isEmpty(sysOffice.getParentId())) {
 			SysOffice queryParentSysOffice = new SysOffice();
 			queryParentSysOffice.setId(sysOffice.getParentId());

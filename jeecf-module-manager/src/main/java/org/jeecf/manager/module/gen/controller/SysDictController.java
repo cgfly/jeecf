@@ -71,7 +71,7 @@ public class SysDictController extends BaseController<SysDictQuery,SysDictResult
 	@RequiresPermissions("gen:sysDict:edit")
 	@ApiOperation(value = "更新", notes = "更新系统字典数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysDict sysDict) {
+	public Response<SysDictResult> save(@RequestBody @Validated({Add.class}) SysDict sysDict) {
 		sysDict.setType(StringUtils.lowerCase(sysDict.getType()));
 		if(!sysDict.getLabel().contains(SplitCharEnum.UNDERLINE.getName())) {
 			sysDict.setLabel(HumpUtils.humpToLine2(sysDict.getLabel()));

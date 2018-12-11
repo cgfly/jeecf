@@ -29,6 +29,7 @@ import org.jeecf.manager.module.userpower.model.query.SysRolePowerQuery;
 import org.jeecf.manager.module.userpower.model.query.SysUserRoleQuery;
 import org.jeecf.manager.module.userpower.model.result.SysPowerResult;
 import org.jeecf.manager.module.userpower.model.result.SysRolePowerResult;
+import org.jeecf.manager.module.userpower.model.result.SysRoleResult;
 import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.jeecf.manager.module.userpower.model.result.SysUserRoleResult;
 import org.jeecf.manager.module.userpower.service.SysPowerService;
@@ -110,13 +111,13 @@ public class SecurityFacade {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> saveRole(SysRole sysRole) {
+	public Response<SysRoleResult> saveRole(SysRole sysRole) {
 		if (StringUtils.isNotEmpty(sysRole.getId())) {
 			SysRolePower deleteRolePower = new SysRolePower();
 			deleteRolePower.setSysRole(sysRole);
 			sysRolePowerService.delete(deleteRolePower);
 		}
-		sysRoleService.save(sysRole);
+		Response<SysRoleResult> sysRoleRes = sysRoleService.save(sysRole);
 		List<String> sysPowerIds = sysRole.getSysPowerIds();
 		if (CollectionUtils.isNotEmpty(sysPowerIds)) {
 			SysPower sysPower = new SysPower();
@@ -128,7 +129,7 @@ public class SecurityFacade {
 				sysRolePowerService.save(sysRolePower);
 			});
 		}
-		return new Response<Integer>(1);
+		return sysRoleRes;
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
@@ -177,7 +178,7 @@ public class SecurityFacade {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> saveUser(SysUser sysUser) {
+	public Response<SysUserResult> saveUser(SysUser sysUser) {
 		if (StringUtils.isNotEmpty(sysUser.getId())) {
 			SysUserRole deleteUserRole = new SysUserRole();
 			deleteUserRole.setSysUser(sysUser);
@@ -189,7 +190,7 @@ public class SecurityFacade {
 			sysUser.setId(IdGenUtils.uuid());
 			sysUser.setPassword(SysEntrypt.entryptPassword(sysUser.getPassword()));
 		}
-		sysUserService.save(sysUser);
+		Response<SysUserResult> sysUserRes = sysUserService.save(sysUser);
 		List<String> sysRoleids = sysUser.getSysRoleIds();
 		SysRole sysRole = new SysRole();
 		if (CollectionUtils.isNotEmpty(sysRoleids)) {
@@ -201,11 +202,11 @@ public class SecurityFacade {
 				sysUserRoleService.save(sysUserRole);
 			});
 		}
-		return new Response<Integer>(1);
+		return sysUserRes;
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> updatePassword(SysPwd sysPwd) {
+	public Response<SysUserResult> updatePassword(SysPwd sysPwd) {
 		String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
 		String id = (String) RedisCacheUtils.getSysCache(sessionId);
 		SysUser sysUser = sysUserService.get(new SysUser(id)).getData();

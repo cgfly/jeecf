@@ -80,7 +80,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	@RequiresPermissions("config:sysNamespace:edit")
 	@ApiOperation(value = "更新", notes = "更新系统命名空间数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysNamespace sysNamespace) {
+	public Response<SysNamespaceResult> save(@RequestBody @Validated({Add.class}) SysNamespace sysNamespace) {
 		if(sysNamespace.isNewRecord()) {
 			SysNamespaceQuery query = new SysNamespaceQuery();
 			query.setName(sysNamespace.getName());
@@ -110,7 +110,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	@ResponseBody
 	@RequiresPermissions("config:sysNamespace:view")
 	@ApiOperation(value = "生效", notes = "生效选中命名空间")
-	public Response<Integer> effect(@RequestBody String id) {
+	public Response<SysUserNamespaceResult> effect(@RequestBody String id) {
 		String userId = UserUtils.getCurrentUserId();
 		SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
 		sysUserNamespace.setUserId(userId);
