@@ -101,11 +101,11 @@ public class SysDbsourceController
 				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(), sysDb.getPassword());
 				if (flag) {
 					sysDb.setUsable(EnumUtils.Usable.YES.getCode());
+					sysDbsourceService.initDbSource();
 				} else {
 					sysDb.setUsable(EnumUtils.Usable.NO.getCode());
 				}
 				sysDbsourceService.saveByAuth(sysDb);
-				sysDbsourceService.initDbSource();
 			}
 		}
 		return res;
