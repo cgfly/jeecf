@@ -141,7 +141,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 	@ApiOperation(value = "删除", notes = "删除系统用户数据")
 	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deleteUser(new SysUser(id));
+		return securityFacade.deleteUser(id);
 	}
 	
 	@PostMapping(value = { "getTreeData" })

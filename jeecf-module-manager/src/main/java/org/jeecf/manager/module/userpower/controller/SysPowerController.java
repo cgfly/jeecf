@@ -90,7 +90,7 @@ public class SysPowerController extends AbstractController {
 	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "删除", notes = "删除系统权限数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deletePower(new SysPower(id));
+		return securityFacade.deletePower(id);
 	}
 
 }

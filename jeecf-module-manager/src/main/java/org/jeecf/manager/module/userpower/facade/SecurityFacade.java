@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.shiro.SecurityUtils;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
@@ -15,7 +14,7 @@ import org.jeecf.common.utils.ResponseUtils;
 import org.jeecf.common.utils.SysEntrypt;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.PermissionUtils;
-import org.jeecf.manager.common.utils.RedisCacheUtils;
+import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
 import org.jeecf.manager.module.userpower.model.domain.SysPwd;
 import org.jeecf.manager.module.userpower.model.domain.SysRole;
@@ -70,7 +69,7 @@ public class SecurityFacade {
 		Response<List<SysUserResult>> userRes = sysUserService.findPageByAuth(sysUserPO);
 		if (CollectionUtils.isNotEmpty(userRes.getData())) {
 			userRes.getData().forEach(sysUser -> {
-				Response<String> roleNamesRes = this.findRoleNames(sysUser);
+				Response<String> roleNamesRes = this.findRoleNames(sysUser.getId());
 				if (StringUtils.isNotEmpty(roleNamesRes.getData())) {
 					sysUser.setRoleNames(roleNamesRes.getData());
 				}
@@ -80,10 +79,10 @@ public class SecurityFacade {
 
 	}
 
-	public Response<List<SysRole>> findRole(SysUser sysUser) {
+	public Response<List<SysRole>> findRole(String userId) {
 		List<SysRole> sysRoleList = new ArrayList<SysRole>();
 		SysUserRoleQuery queryUserRole = new SysUserRoleQuery();
-		queryUserRole.setSysUser(sysUser);
+		queryUserRole.setSysUser(new SysUser(userId));
 		Response<List<SysUserRoleResult>> userRoleRes = sysUserRoleService.findList(new SysUserRolePO(queryUserRole));
 		if (userRoleRes.isSuccess() && CollectionUtils.isNotEmpty(userRoleRes.getData())) {
 			userRoleRes.getData().forEach(userRole -> {
@@ -93,9 +92,9 @@ public class SecurityFacade {
 		return new Response<List<SysRole>>(sysRoleList);
 	}
 
-	public Response<String> findRoleNames(SysUser sysUser) {
+	public Response<String> findRoleNames(String userId) {
 		SysUserRoleQuery queryUserRole = new SysUserRoleQuery();
-		queryUserRole.setSysUser(sysUser);
+		queryUserRole.setSysUser(new SysUser(userId));
 		Response<List<SysUserRoleResult>> userRoleRes = sysUserRoleService.findList(new SysUserRolePO(queryUserRole));
 		StringBuffer roleNamesBuf = new StringBuffer("");
 		if (userRoleRes.isSuccess() && CollectionUtils.isNotEmpty(userRoleRes.getData())) {
@@ -133,7 +132,8 @@ public class SecurityFacade {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deleteRole(SysRole sysRole) {
+	public Response<Integer> deleteRole(String sysRoleId) {
+		SysRole sysRole = new SysRole(sysRoleId);
 		sysRoleService.delete(sysRole);
 		SysRolePower deleteRolePower = new SysRolePower();
 		deleteRolePower.setSysRole(sysRole);
@@ -144,10 +144,10 @@ public class SecurityFacade {
 		return new Response<Integer>(true, 1);
 	}
 
-	public Response<List<SysPower>> findPower(SysRole sysRole) {
+	public Response<List<SysPower>> findPower(String sysRoleId) {
 		List<SysPower> sysPowerList = new ArrayList<SysPower>();
 		SysRolePowerQuery queryRolePower = new SysRolePowerQuery();
-		queryRolePower.setSysRole(sysRole);
+		queryRolePower.setSysRole(new SysRole(sysRoleId));
 		Response<List<SysRolePowerResult>> sysRolePowerRes = sysRolePowerService
 				.findList(new SysRolePowerPO(queryRolePower));
 		if (ResponseUtils.isNotEmpty(sysRolePowerRes)) {
@@ -159,10 +159,10 @@ public class SecurityFacade {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deletePower(SysPower sysPower) {
-		SysPowerResult sysPowerResult = sysPowerService.get(sysPower).getData();
+	public Response<Integer> deletePower(String powerId) {
+		SysPowerResult sysPowerResult = sysPowerService.get(new SysPower(powerId)).getData();
 		if (sysPowerResult != null) {
-			Response<List<SysPowerResult>> sysPowerRes = sysPowerService.findChilds(sysPower.getId());
+			Response<List<SysPowerResult>> sysPowerRes = sysPowerService.findChilds(powerId);
 			List<SysPowerResult> sysPowerList = sysPowerRes.getData();
 			sysPowerList.add(sysPowerResult);
 			if (CollectionUtils.isNotEmpty(sysPowerList)) {
@@ -207,9 +207,7 @@ public class SecurityFacade {
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<SysUserResult> updatePassword(SysPwd sysPwd) {
-		String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
-		String id = (String) RedisCacheUtils.getSysCache(sessionId);
-		SysUser sysUser = sysUserService.get(new SysUser(id)).getData();
+		SysUser sysUser = UserUtils.getCurrentUser();
 		if (sysUser != null) {
 			boolean isLogin = SysEntrypt.validatePassword(sysPwd.getPassword(), sysUser.getPassword());
 			if (isLogin) {
@@ -225,7 +223,8 @@ public class SecurityFacade {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deleteUser(SysUser sysUser) {
+	public Response<Integer> deleteUser(String userId) {
+		SysUser sysUser = new SysUser(userId);
 		sysUserService.deleteByFlag(sysUser);
 		SysUserRole sysUserRole = new SysUserRole();
 		sysUserRole.setSysUser(sysUser);
@@ -234,13 +233,13 @@ public class SecurityFacade {
 	}
 
 	public Response<Set<String>> findPermission(String userId) {
-		Response<List<SysRole>> sysRoleRes = this.findRole(new SysUser(userId));
+		Response<List<SysRole>> sysRoleRes = this.findRole(userId);
 		Set<String> roleSet = new HashSet<>();
 		Set<String> powerSet = new HashSet<String>();
 		if (ResponseUtils.isNotEmpty(sysRoleRes)) {
 			sysRoleRes.getData().forEach(sysRole -> {
 				roleSet.add(sysRole.getEnname());
-				Response<List<SysPower>> sysPowerRes = this.findPower(sysRole);
+				Response<List<SysPower>> sysPowerRes = this.findPower(sysRole.getId());
 				if (ResponseUtils.isNotEmpty(sysPowerRes)) {
 					sysPowerRes.getData().forEach(sysPower -> {
 						String afterLast = StringUtils.substringAfterLast(sysPower.getPermission(), ":");
@@ -259,29 +258,4 @@ public class SecurityFacade {
 		return new Response<Set<String>>(powerSet);
 	}
 	
-	public Response<Set<String>> findPower(String userId) {
-		Response<List<SysRole>> sysRoleRes = this.findRole(new SysUser(userId));
-		Set<String> roleSet = new HashSet<>();
-		Set<String> powerSet = new HashSet<String>();
-		if (ResponseUtils.isNotEmpty(sysRoleRes)) {
-			sysRoleRes.getData().forEach(sysRole -> {
-				roleSet.add(sysRole.getEnname());
-				Response<List<SysPower>> sysPowerRes = this.findPower(sysRole);
-				if (ResponseUtils.isNotEmpty(sysPowerRes)) {
-					sysPowerRes.getData().forEach(sysPower -> {
-						String afterLast = StringUtils.substringAfterLast(sysPower.getPermission(), ":");
-						if (PermissionUtils.MATCH_PERMISSION.equals(afterLast)) {
-							String beforeLast = StringUtils.substringBeforeLast(sysPower.getPermission(), ":");
-							for (String value : PermissionUtils.RESOLVE_PERMISSION) {
-								powerSet.add(beforeLast + ":" + value);
-							}
-						} else {
-							powerSet.add(sysPower.getPermission());
-						}
-					});
-				}
-			});
-		}
-		return new Response<Set<String>>(powerSet);
-	}
 }

@@ -178,7 +178,7 @@ public class PermissionUtils {
 		List<SysPowerResult> sysPowerResultList = sysPowerService.findList(new SysPowerPO(sysPowerQuery)).getData();
 		if (CollectionUtils.isNotEmpty(sysPowerResultList)) {
 			SecurityFacade securityFacade = SpringContextUtils.getBean("securityFacade", SecurityFacade.class);
-			securityFacade.deletePower(sysPowerResultList.get(0));
+			securityFacade.deletePower(sysPowerResultList.get(0).getId());
 		}
 	}
 

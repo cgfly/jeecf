@@ -142,7 +142,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	@ApiOperation(value = "删除", notes = "删除系统角色数据")
 	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deleteRole(new SysRole(id));
+		return securityFacade.deleteRole(id);
 	}
 
 }

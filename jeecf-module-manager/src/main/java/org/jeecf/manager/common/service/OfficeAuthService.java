@@ -14,7 +14,16 @@ import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.OfficeUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.springframework.transaction.annotation.Transactional;
-
+/**
+ * 组织结构验证
+ * @author jianyiming
+ *
+ * @param <D>
+ * @param <P>
+ * @param <R>
+ * @param <Q>
+ * @param <T>
+ */
 public class OfficeAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends OfficeAuthEntity>
 		extends AbstractAuthService<D, P, R, Q, T> {
 	
