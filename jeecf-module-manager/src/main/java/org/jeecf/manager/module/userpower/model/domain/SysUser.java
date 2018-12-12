@@ -3,11 +3,10 @@ package org.jeecf.manager.module.userpower.model.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.OfficeAuthEntity;
 import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;
@@ -21,6 +20,12 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
+@ScriptAssert.List({
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)",message="用户名不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.username)",message="账号不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)",message="密码不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysRoleIds)",message="角色不能为空",groups= {Add.class})
+})
 @ApiModel(value="sysUser",description="系统用户实体")
 public class SysUser extends OfficeAuthEntity implements Serializable {
 
@@ -59,7 +64,6 @@ public class SysUser extends OfficeAuthEntity implements Serializable {
 	}
 	
 	
-	@NotBlank(message="账号输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 20, message = "账户长度必须介于 1 和 20 之间",groups= {Add.class})
 	@English(message="账号只能为英文字符",groups= {Add.class})
 	public String getUsername() {
@@ -80,7 +84,6 @@ public class SysUser extends OfficeAuthEntity implements Serializable {
 		this.password = password;
 	}
 	
-	@NotBlank(message="用户名输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 20, message = "用户名长度必须介于 1 和 20 之间",groups= {Add.class})
 	public String getName() {
 		return name;
@@ -90,7 +93,6 @@ public class SysUser extends OfficeAuthEntity implements Serializable {
 		this.name = name;
 	}
 	
-	@NotNull(message="角色输入不能为空",groups= {Add.class})
 	@Size(min=1,max=5,message="超过范围，最大可添加5个参数",groups= {Add.class})
 	public List<String> getSysRoleIds() {
 		return sysRoleIds;

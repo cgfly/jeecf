@@ -88,7 +88,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	public Response<SysRoleResult> getTree(@PathVariable("roleId") String roleId) {
 		SysRole queryRole = new SysRole(roleId);
 		Response<SysRoleResult> sysRoleRes = sysRoleService.get(queryRole);
-		if(sysRoleRes.isSuccess()) {
+		if(sysRoleRes.isSuccess() && sysRoleRes.getData() != null) {
 			SysRoleResult sysRole = sysRoleRes.getData();
 			SysRolePowerQuery rolePower = new SysRolePowerQuery();
 			queryRole.setId(sysRole.getId());;

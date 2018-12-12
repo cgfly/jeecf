@@ -1,14 +1,11 @@
-package org.jeecf.manager.module.userpower.controller;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.jeecf.manager.module.config.controller;
 
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
-import org.jeecf.manager.module.userpower.model.domain.SysRole;
-import org.jeecf.manager.module.userpower.model.query.SysRoleQuery;
-import org.jeecf.manager.module.userpower.model.schema.SysRoleSchema;
+import org.jeecf.manager.module.config.model.domain.SysOffice;
+import org.jeecf.manager.module.config.model.query.SysOfficeQuery;
+import org.jeecf.manager.module.config.model.schema.SysOfficeSchema;
 import org.jeecf.manager.test.helper.BaseMokMvc;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,52 +22,44 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
- * 系统角色测试
- * 
+ * 组织结构测试
  * @author jianyiming
  *
  */
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SysRoleControllerTest extends BaseMokMvc {
+public class SysOfficeControllerTest extends BaseMokMvc{
 
 	@Before
 	public void setUp() throws Exception {
 		super.init("admin", "123456");
 	}
-	
+
 	@Test
 	public void list() throws Exception {
-		Request<SysRoleQuery, SysRoleSchema> request = new Request<SysRoleQuery, SysRoleSchema>();
-		SysRoleQuery query = new SysRoleQuery();
+		Request<SysOfficeQuery, SysOfficeSchema> request = new Request<SysOfficeQuery, SysOfficeSchema>();
+		SysOfficeQuery query = new SysOfficeQuery();
 		request.setData(query);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(request);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/list").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/config/sysOffice/list").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
-	}
-
-	@Test
-	public void getTree() throws Exception{
-		String roleId = "4";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/getTree/" + roleId)
-						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
 		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
 	}
 	
 	@Test
-	public void getAllTree() throws Exception{
+	public void getTreeData() throws Exception {
+		SysOfficeQuery query = new SysOfficeQuery();
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(query);
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/getAllTree")
-						.contentType(MediaType.APPLICATION_JSON))
+				.perform(MockMvcRequestBuilders.post("/config/sysOffice/getTreeData").contentType(MediaType.APPLICATION_JSON)
+						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
 		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
@@ -78,21 +67,17 @@ public class SysRoleControllerTest extends BaseMokMvc {
 	
 	@Test
 	public void dataOperation() throws Exception {
-		SysRole sysRole = new SysRole();
-		sysRole.setName("test");
-		sysRole.setEnname("test");
-		List<String> powerIds = new ArrayList<>();
-		powerIds.add("30");
-		powerIds.add("31");
-		sysRole.setSysPowerIds(powerIds);
-		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysRole));
+		SysOffice sysOffice = new SysOffice();
+		sysOffice.setName("test");
+		sysOffice.setEnname("test");
+		sysOffice.setSort(10);
+		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysOffice));
 		if(saveNode.get("success").asBoolean()) {
-			sysRole.setName("saveUpdate");
-			sysRole.setId(saveNode.get("data").get("id").asText());
-			sysRole.setSysPowerIds(null);
-			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysRole));
+			sysOffice.setName("saveUpdate");
+			sysOffice.setId(saveNode.get("data").get("id").asText());
+			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysOffice));
 			if(updateNode.get("success").asBoolean()) {
-				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysRole.getId()));
+				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysOffice.getId()));
 				assert deleteNode.get("success").asBoolean();
 			}
 			assert updateNode.get("success").asBoolean();
@@ -100,22 +85,23 @@ public class SysRoleControllerTest extends BaseMokMvc {
 		assert saveNode.get("success").asBoolean();
 	}
 	
-	private String save(SysRole sysRole) throws Exception {
+	
+	private String save(SysOffice sysOffice ) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(sysRole);
+		String requestJson = ow.writeValueAsString(sysOffice);
 		return mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/save").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/config/sysOffice/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
 	}
-
+	
 	private String delete(String id) throws Exception {
-		return mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/delete/" + id)
-						.contentType(MediaType.APPLICATION_JSON))
+		return   mockMvc
+				.perform(MockMvcRequestBuilders.post("/config/sysOffice/delete/"+id).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
 	}
+	
 }

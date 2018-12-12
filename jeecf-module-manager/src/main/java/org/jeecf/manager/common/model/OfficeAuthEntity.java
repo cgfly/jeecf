@@ -2,8 +2,7 @@ package org.jeecf.manager.common.model;
 
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.validate.groups.Add;
 
 /**
@@ -11,6 +10,7 @@ import org.jeecf.manager.validate.groups.Add;
  * @author jianyiming
  *
  */
+@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysOfficeId)",message="组织结构输入不能为空",groups= {Add.class})
 public class OfficeAuthEntity extends BaseEntity{
 	
 	public OfficeAuthEntity() {
@@ -28,7 +28,6 @@ public class OfficeAuthEntity extends BaseEntity{
 	 */
 	private Set<String> sysOfficeIds;
 
-	@NotNull(message="组织结构输入不能为空",groups= {Add.class})
 	public Integer getSysOfficeId() {
 		return sysOfficeId;
 	}
