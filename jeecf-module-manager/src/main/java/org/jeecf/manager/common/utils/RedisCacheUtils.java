@@ -1,42 +1,46 @@
 package org.jeecf.manager.common.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.manager.config.RedisObjectSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import redis.clients.jedis.Jedis;
+
 /**
  * redis 缓存工具
+ * 
  * @author jianyiming
  *
  */
 public class RedisCacheUtils {
 
 	public static final String[] CACHE_TYPE = { "SYS" };
-    
+
+	private static int DEFAULT_TIMEOUT = 24 * 60 * 60;
+
 	private static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 
 	private static RedisObjectSerializer redisObjectSerializer = new RedisObjectSerializer();
 
 	public static void setSysCache(String key, String value) {
 		Jedis jedis = RedisUtils.getJedis();
-		Map<byte[], byte[]> hash = new HashMap<>(10);
-		hash.put(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(value));
-		jedis.hmset(stringRedisSerializer.serialize(CACHE_TYPE[0]), hash);
+		jedis.setex(stringRedisSerializer.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key),
+				DEFAULT_TIMEOUT, stringRedisSerializer.serialize(value));
 		jedis.close();
 	}
 
-	public static String getSysCache(String field) {
+	public static String getSysCache(String key) {
+		String result = null;
 		Jedis jedis = RedisUtils.getJedis();
-		byte[] result = jedis.hget(stringRedisSerializer.serialize(CACHE_TYPE[0]),
-				stringRedisSerializer.serialize(field));
-		jedis.close();
-		if (result != null) {
-			return stringRedisSerializer.deserialize(result);
+		byte[] bytes = jedis
+				.get(stringRedisSerializer.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key));
+		if (bytes != null) {
+			result = stringRedisSerializer.deserialize(bytes);
+			jedis.expire(stringRedisSerializer.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key),
+					DEFAULT_TIMEOUT);
 		}
-		return null;
+		jedis.close();
+		return result;
 	}
 
 	public static void setCache(String key, Object value) {
@@ -45,20 +49,9 @@ public class RedisCacheUtils {
 		jedis.close();
 	}
 
-	public static void setNx(String key, Object value, long timeout) {
+	public static void setCache(String key, Object value, int timeout) {
 		Jedis jedis = RedisUtils.getJedis();
-		jedis.set(stringRedisSerializer.serialize(key), redisObjectSerializer.serialize(value),
-				stringRedisSerializer.serialize("NX"), redisObjectSerializer.serialize("EX"), timeout);
-		jedis.close();
-	}
-
-	public static void setNxIfAbsent(String key, Object value, long timeout) {
-		Jedis jedis = RedisUtils.getJedis();
-		byte[] keyByte = stringRedisSerializer.serialize(key);
-		if (keyByte != null && !jedis.exists(keyByte)) {
-			jedis.set(keyByte, redisObjectSerializer.serialize(value),
-					stringRedisSerializer.serialize("NX"), redisObjectSerializer.serialize("EX"), timeout);
-		}
+		jedis.setex(stringRedisSerializer.serialize(key), timeout, redisObjectSerializer.serialize(value));
 		jedis.close();
 	}
 

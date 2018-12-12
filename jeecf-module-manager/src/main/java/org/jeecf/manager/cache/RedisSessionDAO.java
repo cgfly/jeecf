@@ -27,7 +27,7 @@ public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
 	@Override
 	protected Serializable doCreate(Session session) {
 		Serializable sessionId = super.doCreate(session);
-		RedisCacheUtils.setCache(prefix + sessionId.toString(), session);
+		RedisCacheUtils.setCache(prefix + sessionId.toString(), session,expireTime);
 		return sessionId;
 	}
 
@@ -51,7 +51,7 @@ public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
 	protected void doUpdate(Session session) {
 		super.doUpdate(session);
 		String key = prefix + session.getId().toString();
-		RedisCacheUtils.setNxIfAbsent(key, session, expireTime);
+		RedisCacheUtils.setCache(key, session, expireTime);
 	}
 
 	/**

@@ -36,7 +36,7 @@ public class SysNamespaceFacade {
 		if (sysNamespace != null) {
 			String permission = sysNamespace.getPermission();
 			PermissionUtils.deletePower(permission);
-			return sysNamespaceService.delete(sysNamespace);
+			return sysNamespaceService.deleteByAuth(sysNamespace);
 		}
 		return new Response<>(null);
 	}
