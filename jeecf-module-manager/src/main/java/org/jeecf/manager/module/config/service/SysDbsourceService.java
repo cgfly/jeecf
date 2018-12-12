@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.service.PermissionAuthService;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.config.DynamicDataSourceContextHolder;
@@ -32,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SysDbsourceService
 		extends PermissionAuthService<SysDbsourceDao, SysDbsourcePO, SysDbsourceResult, SysDbsourceQuery, SysDbsource> {
+	
 	@Value("${spring.datasource.primary.url}")
 	private String url;
 
@@ -40,16 +40,6 @@ public class SysDbsourceService
 
 	@Value("${spring.datasource.primary.password}")
 	private String password;
-
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<SysDbsourceResult> saveByAuth(SysDbsource sysDbsource) {
-		Response<SysDbsourceResult> response = super.saveByAuth(sysDbsource);
-		if (response.getData() != null && sysDbsource.getUsable() == EnumUtils.Usable.YES.getCode()) {
-			this.initDbSource();
-		}
-		return response;
-	}
 
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)

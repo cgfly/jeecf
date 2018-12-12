@@ -93,10 +93,10 @@ public class SysDbsourceController
 			if (CollectionUtils.isNotEmpty(sysDbsourcceList)) {
 				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
 			}
-		}
+		} 
 		Response<SysDbsourceResult> res = sysDbsourceService.saveByAuth(sysDbsource);
 		if (res.isSuccess()) {
-			SysDbsource sysDb = sysDbsourceService.get(sysDbsource).getData();
+			SysDbsourceResult sysDb = res.getData();
 			if (sysDb != null) {
 				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(), sysDb.getPassword());
 				if (flag) {
@@ -105,6 +105,7 @@ public class SysDbsourceController
 					sysDb.setUsable(EnumUtils.Usable.NO.getCode());
 				}
 				sysDbsourceService.saveByAuth(sysDb);
+				sysDbsourceService.initDbSource();
 			}
 		}
 		return res;

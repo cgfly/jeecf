@@ -55,9 +55,6 @@ public class SysNamespaceControllerTest extends BaseMokMvc{
 		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
 	}
 	
-	
-	
-	
 	@Test
 	public void effect() throws Exception {
 		String id = "1";

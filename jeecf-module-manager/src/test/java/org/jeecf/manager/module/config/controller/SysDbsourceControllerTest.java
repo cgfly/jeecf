@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.controller;
 
+import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -51,41 +53,57 @@ public class SysDbsourceControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-	
-	@Test
-	public void save() throws Exception {
-		SysDbsource sysDbsource = new SysDbsource();
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(sysDbsource);
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/config/sysDbsource/save").contentType(MediaType.APPLICATION_JSON)
-						.content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-	
-	@Test
-	public void delete() throws Exception {
-		String id = "";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/config/sysDbsource/delete/"+id).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
 	}
 	
 	@Test
 	public void effect() throws Exception {
-		String keyName = "";
+		String keyName = "defaultDataSourceKey";
 		String responseString = mockMvc
 				.perform(MockMvcRequestBuilders.post("/config/sysDbsource/effect/"+keyName).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+	}
+	
+	@Test
+	public void dataOperation() throws Exception {
+		SysDbsource sysDbsource = new SysDbsource();
+		sysDbsource.setKeyName("test");
+		sysDbsource.setUserName("root");
+		sysDbsource.setPermission("config:sysNamespace:work");
+		sysDbsource.setPassword("123456");
+		sysDbsource.setUrl("jdbc:mysql://127.0.0.1:3306/jeecf?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull");
+		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysDbsource));
+		if(saveNode.get("success").asBoolean()) {
+			sysDbsource.setKeyName("saveUpdate");
+			sysDbsource.setId(saveNode.get("data").get("id").asText());
+			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysDbsource));
+			if(updateNode.get("success").asBoolean()) {
+				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysDbsource.getId()));
+				assert deleteNode.get("success").asBoolean();
+			}
+			assert updateNode.get("success").asBoolean();
+		}
+		assert saveNode.get("success").asBoolean();
+	}
+	
+	private String save(SysDbsource sysDbsource) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(sysDbsource);
+		return mockMvc
+				.perform(MockMvcRequestBuilders.post("/config/sysDbsource/save").contentType(MediaType.APPLICATION_JSON)
+						.content(requestJson))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
+	}
+	
+	private String delete(String id) throws Exception {
+		return mockMvc
+				.perform(MockMvcRequestBuilders.post("/config/sysDbsource/delete/"+id).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
 	}
 	
 
