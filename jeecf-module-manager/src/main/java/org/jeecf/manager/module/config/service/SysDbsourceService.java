@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.service.PermissionAuthService;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.config.DynamicDataSourceContextHolder;
@@ -40,17 +39,6 @@ public class SysDbsourceService
 
 	@Value("${spring.datasource.primary.password}")
 	private String password;
-
-	@Override
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> saveByAuth(SysDbsource sysDbsource) {
-		Response<Integer> response = super.saveByAuth(sysDbsource);
-		if (response.getData() != null && response.getData() != 0
-				&& sysDbsource.getUsable() == EnumUtils.Usable.YES.getCode()) {
-			this.initDbSource();
-		}
-		return response;
-	}
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)

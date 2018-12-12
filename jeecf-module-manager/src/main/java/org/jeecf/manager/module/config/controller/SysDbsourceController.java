@@ -100,6 +100,7 @@ public class SysDbsourceController
 						sysDb.getPassword());
 				if (flag) {
 					sysDb.setUsable(EnumUtils.Usable.YES.getCode());
+					sysDbsourceService.initDbSource();
 				} else {
 					sysDb.setUsable(EnumUtils.Usable.NO.getCode());
 				}

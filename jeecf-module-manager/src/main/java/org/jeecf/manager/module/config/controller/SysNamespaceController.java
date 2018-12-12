@@ -106,11 +106,11 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		return sysNamespaceFacade.delete(new SysNamespace(id));
 	}
 
-	@PostMapping(value = { "effect" })
+	@PostMapping(value = { "effect/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysNamespace:view")
 	@ApiOperation(value = "生效", notes = "生效选中命名空间")
-	public Response<Integer> effect(@RequestBody String id) {
+	public Response<Integer> effect(@PathVariable("id") String id) {
 		String userId = UserUtils.getCurrentUserId();
 		SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
 		sysUserNamespace.setUserId(userId);
