@@ -98,7 +98,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		}
 
 		$scope.effectForm = function(index) {
-			$httpRequest.post($ctx.getWebPath() + "config/sysNamespace/effect",
+			$httpRequest.post($ctx.getWebPath() + "config/sysNamespace/effect/"+
 					$scope.sysNamespaceList[index].id).then(function(res) {
 				if (res.success) {
 					$state.reload($scope.currentRouteName);

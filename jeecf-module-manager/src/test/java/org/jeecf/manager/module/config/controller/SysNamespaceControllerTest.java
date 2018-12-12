@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.controller;
 
+import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 /**
@@ -50,41 +52,58 @@ public class SysNamespaceControllerTest extends BaseMokMvc{
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
 	}
 	
-	@Test
-	public void save() throws Exception {
-		SysNamespace sysNamespace = new SysNamespace();
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(sysNamespace);
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/config/sysNamespace/save").contentType(MediaType.APPLICATION_JSON)
-						.content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
 	
-	@Test
-	public void delete() throws Exception {
-		String id = "";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/config/sysNamespace/delete/"+id).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
+	
 	
 	@Test
 	public void effect() throws Exception {
-		String id = "";
+		String id = "1";
 		String responseString = mockMvc
 				.perform(MockMvcRequestBuilders.post("/config/sysNamespace/effect/"+id).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+	}
+	
+	@Test
+	public void dataOperation() throws Exception {
+		SysNamespace sysNamespace = new SysNamespace();
+		sysNamespace.setName("test");
+		sysNamespace.setDescription("test");
+		sysNamespace.setPermission("config:sysNamespace:work");
+		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysNamespace));
+		if(saveNode.get("success").asBoolean()) {
+			sysNamespace.setName("saveUpdate");
+			sysNamespace.setId(saveNode.get("data").get("id").asText());
+			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysNamespace));
+			if(updateNode.get("success").asBoolean()) {
+				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysNamespace.getId()));
+				assert deleteNode.get("success").asBoolean();
+			}
+			assert updateNode.get("success").asBoolean();
+		}
+		assert saveNode.get("success").asBoolean();
+	}
+	
+	private String save(SysNamespace sysNamespace) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(sysNamespace);
+		return mockMvc
+				.perform(MockMvcRequestBuilders.post("/config/sysNamespace/save").contentType(MediaType.APPLICATION_JSON)
+						.content(requestJson))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
+	}
+	
+	private String delete(String id) throws Exception {
+		return mockMvc
+				.perform(MockMvcRequestBuilders.post("/config/sysNamespace/delete/"+id).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
 	}
 
 }

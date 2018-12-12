@@ -102,11 +102,11 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		return sysNamespaceService.deleteByAuth(new SysNamespace(id));
 	}
 
-	@PostMapping(value = { "effect" })
+	@PostMapping(value = { "effect/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysNamespace:view")
 	@ApiOperation(value = "生效", notes = "生效选中命名空间")
-	public Response<SysUserNamespaceResult> effect(@RequestBody String id) {
+	public Response<SysUserNamespaceResult> effect(@PathVariable String id) {
 		String userId = UserUtils.getCurrentUserId();
 		SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
 		sysUserNamespace.setUserId(userId);
@@ -123,12 +123,4 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		return sysUserNamespaceService.save(namespace);
 	}
 	
-	@PostMapping(value = { "queryPermissionList" })
-	@ResponseBody
-	@RequiresPermissions("config:sysNamespace:edit")
-	@ApiOperation(value = "权限列表", notes = "查询权限列表")
-	public void queryPermissionList() {
-		
-	}
-
 }
