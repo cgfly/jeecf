@@ -7,6 +7,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.subject.WebSubject;
 import org.jeecf.common.lang.StringUtils;
+import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -52,6 +53,8 @@ public class BaseMokMvc {
 		subject = new WebSubject.Builder(mockHttpServletRequest, mockHttpServletResponse).buildWebSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password, true);
 		subject.login(token);
+		String id = (String) subject.getPrincipal();
+		RedisCacheUtils.setSysCache((String)subject.getSession().getId(), id);
 		ThreadContext.bind(subject);
 	}
 

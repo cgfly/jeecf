@@ -31,7 +31,10 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
 	public Response<R> insertByAuth(T t) {
-		return super.insert(t);
+		if (PermissionUtils.isExist(t.getPermission())) {
+			return super.insert(t);
+		}
+		throw new BusinessException(BusinessErrorEnum.POWER_DATA_FAIL);
 	}
 
 	@Override
@@ -50,6 +53,7 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 			if (PermissionUtils.isExist(res.getData().getPermission())) {
 				return res;
 			}
+			throw new BusinessException(BusinessErrorEnum.POWER_DATA_FAIL);
 		}
 		return new Response<>(null);
 	}
@@ -106,7 +110,7 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 		if (this.getByAuth(t).getData() != null) {
 			return super.delete(t);
 		}
-		return new Response<>(null);
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
 
 }

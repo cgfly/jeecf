@@ -11,7 +11,6 @@ import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
-import org.jeecf.manager.module.config.facade.SysNamespaceFacade;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.model.domain.SysUserNamespace;
 import org.jeecf.manager.module.config.model.po.SysNamespacePO;
@@ -53,9 +52,6 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	private SysNamespaceService sysNamespaceService;
 	
 	@Autowired
-	private SysNamespaceFacade sysNamespaceFacade;
-
-	@Autowired
 	private SysUserNamespaceService sysUserNamespaceService;
 
 	@GetMapping(value = { "", "index" })
@@ -90,7 +86,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 			}
 			
 		}
-		return sysNamespaceFacade.save(sysNamespace);
+		return sysNamespaceService.saveByAuth(sysNamespace);
 	}
 
 	@PostMapping(value = { "delete/{id}" })
@@ -103,7 +99,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		if(currentId.equals(Integer.valueOf(id))) {
 			throw new BusinessException(BusinessErrorEnum.NAMESPACE_IS_CURRENT);
 		}
-		return sysNamespaceFacade.delete(new SysNamespace(id));
+		return sysNamespaceService.deleteByAuth(new SysNamespace(id));
 	}
 
 	@PostMapping(value = { "effect" })
@@ -125,6 +121,14 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		}
 		namespace.setNamespaceId(Integer.valueOf(id));
 		return sysUserNamespaceService.save(namespace);
+	}
+	
+	@PostMapping(value = { "queryPermissionList" })
+	@ResponseBody
+	@RequiresPermissions("config:sysNamespace:edit")
+	@ApiOperation(value = "权限列表", notes = "查询权限列表")
+	public void queryPermissionList() {
+		
 	}
 
 }

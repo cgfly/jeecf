@@ -233,8 +233,34 @@ public class SecurityFacade {
 		return new Response<Integer>(true, 1);
 	}
 
-	public Response<Set<String>> findPower(SysUser sysUser) {
-		Response<List<SysRole>> sysRoleRes = this.findRole(sysUser);
+	public Response<Set<String>> findPermission(String userId) {
+		Response<List<SysRole>> sysRoleRes = this.findRole(new SysUser(userId));
+		Set<String> roleSet = new HashSet<>();
+		Set<String> powerSet = new HashSet<String>();
+		if (ResponseUtils.isNotEmpty(sysRoleRes)) {
+			sysRoleRes.getData().forEach(sysRole -> {
+				roleSet.add(sysRole.getEnname());
+				Response<List<SysPower>> sysPowerRes = this.findPower(sysRole);
+				if (ResponseUtils.isNotEmpty(sysPowerRes)) {
+					sysPowerRes.getData().forEach(sysPower -> {
+						String afterLast = StringUtils.substringAfterLast(sysPower.getPermission(), ":");
+						if (PermissionUtils.MATCH_PERMISSION.equals(afterLast)) {
+							String beforeLast = StringUtils.substringBeforeLast(sysPower.getPermission(), ":");
+							for (String value : PermissionUtils.RESOLVE_PERMISSION) {
+								powerSet.add(beforeLast + ":" + value);
+							}
+						} else {
+							powerSet.add(sysPower.getPermission());
+						}
+					});
+				}
+			});
+		}
+		return new Response<Set<String>>(powerSet);
+	}
+	
+	public Response<Set<String>> findPower(String userId) {
+		Response<List<SysRole>> sysRoleRes = this.findRole(new SysUser(userId));
 		Set<String> roleSet = new HashSet<>();
 		Set<String> powerSet = new HashSet<String>();
 		if (ResponseUtils.isNotEmpty(sysRoleRes)) {
