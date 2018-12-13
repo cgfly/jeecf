@@ -12,7 +12,6 @@ import org.jeecf.manager.engine.model.SelectTable;
 import org.jeecf.manager.engine.service.BusinessTableService;
 import org.jeecf.manager.engine.service.SchemaTableService;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
-import org.jeecf.manager.module.template.model.domain.GenTableColumn;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +43,10 @@ public class TargetTableFacade {
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	@TargetDataSource
-	public Response<List<GenTableColumnResult>> findTableColumn(GenTableColumn genTableColumn) {
+	public Response<List<GenTableColumnResult>> findTableColumn(String tableName) {
 		List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
-		SchemaTableColumn physicalTableColumn = new SchemaTableColumn();
-		BeanUtils.copyProperties(genTableColumn, physicalTableColumn);
-		physicalTableColumn.setTableName(genTableColumn.getGenTable().getName());
 		List<SchemaTableColumn> physicalTableColumnList = schemaTableService
-				.findTableColumn(physicalTableColumn.getTableName()).getData();
+				.findTableColumn(tableName).getData();
 		physicalTableColumnList.forEach(column -> {
 			GenTableColumnResult result = new GenTableColumnResult();
 			BeanUtils.copyProperties(column, result);

@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.NamespaceAuthEntity;
 import org.jeecf.manager.validate.groups.Add;
 
@@ -21,6 +20,11 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
+@ScriptAssert.List({
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)",message="名称输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.descrition)",message="描述输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genFieldColumn)",message="属性列表输入不能为空",groups= {Add.class})
+})
 @ApiModel(value = "genField", description = "模版参数实体")
 public class GenField extends NamespaceAuthEntity implements Serializable {
 
@@ -49,7 +53,6 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
 		super(id);
 	}
 	
-	@NotBlank(message="名称输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间",groups={Add.class})
 	public String getName() {
 		return name;
@@ -59,7 +62,6 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
 		this.name = name;
 	}
 	
-	@NotBlank(message="描述输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 50, message = "描述长度必须介于 0 和 50 之间",groups={Add.class})
 	public String getDescrition() {
 		return descrition;
@@ -70,7 +72,6 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
 	}
     
 	@Valid
-	@NotNull(message="属性列表输入不能为空",groups= {Add.class})
 	@Size(min=1,max=30,message="超过范围，最大可添加30个参数",groups= {Add.class})
 	public List<GenFieldColumn> getGenFieldColumn() {
 		return genFieldColumn;

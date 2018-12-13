@@ -95,8 +95,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 		};
 		
 		$scope.queryBaseTableColumnList = function() { 
-			var data = {"genTable" : $scope.table}
-			$httpRequest.post("/template/genTable/queryBaseTableColumnList",data).then(
+			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.table.name).then(
 					function(res) { // 调用承诺API获取数据 .resolve
 						$scope.isInsertCheck = undefined;
 						$scope.isNullCheck = undefined;

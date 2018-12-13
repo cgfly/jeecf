@@ -62,9 +62,9 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
 		this.genFieldId = genFieldId;
 	}
 
-	@NotBlank(message="名称输入不能为空",groups= {Add.class})
-	@Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间",groups= {Add.class})
-	@Pattern(regexp="^[a-zA-Z]+$",message="名称只能由a-zA-Z组成",groups= {Add.class})
+	@NotBlank(message="参数字段名称输入不能为空",groups= {Add.class})
+	@Length(min = 1, max = 20, message = "参数字段名称长度必须介于 1 和 20 之间",groups= {Add.class})
+	@Pattern(regexp="^[a-zA-Z]+$",message="参数字段名称只能由a-zA-Z组成",groups= {Add.class})
 	public String getName() {
 		return name;
 	}
@@ -73,8 +73,8 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
 		this.name = name;
 	}
 	
-	@NotBlank(message="描述输入不能为空",groups= {Add.class})
-	@Length(min = 0, max = 50, message = "描述长度必须介于 0 和 50 之间",groups= {Add.class})
+	@NotBlank(message="参数字段描述输入不能为空",groups= {Add.class})
+	@Length(min = 0, max = 50, message = "参数字段描述长度必须介于 0 和 50 之间",groups= {Add.class})
 	public String getDescrition() {
 		return descrition;
 	}
@@ -82,9 +82,9 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
 	public void setDescrition(String descrition) {
 		this.descrition = descrition;
 	}
-	@NotNull(message="输入不能为空",groups= {Add.class})
-	@Min(value=0,message="输入错误",groups= {Add.class})
-	@Max(value=1,message="输入错误",groups= {Add.class})
+	@NotNull(message="参数字段是否为空为必填项",groups= {Add.class})
+	@Min(value=0,message="参数字段是否为空输入错误",groups= {Add.class})
+	@Max(value=1,message="参数字段是否为空输入错误",groups= {Add.class})
 	public Integer getIsNull() {
 		return isNull;
 	}

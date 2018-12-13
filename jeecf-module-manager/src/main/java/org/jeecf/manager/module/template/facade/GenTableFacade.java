@@ -47,10 +47,16 @@ public class GenTableFacade {
 		Response<GenTableResult> genTableRes = genTableService.saveByAuth(genTable);
 		List<GenTableColumnResult> columnList = genTable.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(columnList)) {
-			for (GenTableColumn column : columnList) {
+			if(StringUtils.isNotEmpty(genTable.getId())) {
+				GenTableColumn delTableColumn = new GenTableColumn();
+				delTableColumn.setGenTable(genTable);
+				genTableColumnService.delete(delTableColumn);
+			}
+			columnList.forEach(column->{
+				column.setNewRecord(true);
 				column.setGenTable(genTable);
 				genTableColumnService.save(column);
-			}
+			});
 		}
 		return genTableRes;
 	}

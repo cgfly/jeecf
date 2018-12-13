@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -19,6 +18,10 @@ import io.swagger.annotations.ApiModelProperty;
  *
  * @param <T>
  */
+@ScriptAssert.List({
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)",message="名称输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)",message="排序输入不能为空",groups= {Add.class})
+})
 public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity implements Serializable{
 
 	/**
@@ -77,7 +80,6 @@ public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity i
 		super(id);
 	}
 	
-	@NotBlank(message="名称输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间",groups={Add.class})
 	public String getName() {
 		return name;
@@ -111,7 +113,6 @@ public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity i
 		this.level = level;
 	}
 
-	@NotNull(message="排序输入不能为空",groups= {Add.class})
 	@Min(value=1,message="输入错误",groups= {Add.class})
 	public Integer getSort() {
 		return sort;

@@ -33,14 +33,14 @@ public class GenFieldFacade {
 	
 	@Transactional(readOnly=false,rollbackFor=RuntimeException.class)
 	public Response<GenFieldResult> save(GenField genField) {
-		if(StringUtils.isNotEmpty(genField.getId())) {
-			GenFieldColumn genFieldColumn = new GenFieldColumn();
-			genFieldColumn.setGenFieldId(Integer.valueOf(genField.getId()));
-			genFieldColumnService.delete(genFieldColumn);
-		}
 		Response<GenFieldResult> genFieldRes = genFieldService.saveByAuth(genField);
 		List<GenFieldColumn> fieldColumnList = genField.getGenFieldColumn();
 		if(CollectionUtils.isNotEmpty(fieldColumnList)) {
+			if(StringUtils.isNotEmpty(genField.getId())) {
+				GenFieldColumn genFieldColumn = new GenFieldColumn();
+				genFieldColumn.setGenFieldId(Integer.valueOf(genField.getId()));
+				genFieldColumnService.delete(genFieldColumn);
+			}
 			fieldColumnList.forEach(fieldColumn->{
 				fieldColumn.setNewRecord(true);
 				fieldColumn.setGenFieldId(Integer.valueOf(genField.getId()));

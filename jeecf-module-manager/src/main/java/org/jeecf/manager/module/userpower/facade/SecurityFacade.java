@@ -111,14 +111,14 @@ public class SecurityFacade {
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<SysRoleResult> saveRole(SysRole sysRole) {
-		if (StringUtils.isNotEmpty(sysRole.getId())) {
-			SysRolePower deleteRolePower = new SysRolePower();
-			deleteRolePower.setSysRole(sysRole);
-			sysRolePowerService.delete(deleteRolePower);
-		}
 		Response<SysRoleResult> sysRoleRes = sysRoleService.save(sysRole);
 		List<String> sysPowerIds = sysRole.getSysPowerIds();
 		if (CollectionUtils.isNotEmpty(sysPowerIds)) {
+			if (StringUtils.isNotEmpty(sysRole.getId())) {
+				SysRolePower deleteRolePower = new SysRolePower();
+				deleteRolePower.setSysRole(sysRole);
+				sysRolePowerService.delete(deleteRolePower);
+			}
 			SysPower sysPower = new SysPower();
 			sysPowerIds.forEach(powerId -> {
 				SysRolePower sysRolePower = new SysRolePower();
@@ -179,12 +179,6 @@ public class SecurityFacade {
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<SysUserResult> saveUser(SysUser sysUser) {
-		if (StringUtils.isNotEmpty(sysUser.getId())) {
-			SysUserRole deleteUserRole = new SysUserRole();
-			deleteUserRole.setSysUser(sysUser);
-			sysUserRoleService.delete(deleteUserRole);
-		}
-
 		if (StringUtils.isEmpty(sysUser.getId())) {
 			sysUser.setNewRecord(true);
 			sysUser.setId(IdGenUtils.uuid());
@@ -194,6 +188,11 @@ public class SecurityFacade {
 		List<String> sysRoleids = sysUser.getSysRoleIds();
 		SysRole sysRole = new SysRole();
 		if (CollectionUtils.isNotEmpty(sysRoleids)) {
+			if (StringUtils.isNotEmpty(sysUser.getId())) {
+				SysUserRole deleteUserRole = new SysUserRole();
+				deleteUserRole.setSysUser(sysUser);
+				sysUserRoleService.delete(deleteUserRole);
+			}
 			sysRoleids.forEach(roleId -> {
 				SysUserRole sysUserRole = new SysUserRole();
 				sysRole.setId(roleId);

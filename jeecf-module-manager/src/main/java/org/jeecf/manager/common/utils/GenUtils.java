@@ -42,8 +42,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class GenUtils {
 
-//	public static final String[] TYPES = { "enum" };
-
 	private static TemplateProperties properties = SpringContextUtils.getBean(TemplateProperties.class);
 
 	/**
@@ -130,13 +128,6 @@ public class GenUtils {
 		return null;
 	}
 
-//	public static <V extends GenEntity> String create(String type, GenEntity entity) {
-//		if (type.equals(GenUtils.TYPES[0])) {
-//			return new GenEnumsSchemeTemplate().create((SysDictGenEntity) entity);
-//		}
-//		return null;
-//	}
-
 	public static boolean generateToFile(GenSchemaTemplate tpl, Map<String, Object> model, String basePath) {
 		// 获取生成文件
 		String fileName = basePath + File.separator
@@ -189,8 +180,7 @@ public class GenUtils {
 			try {
 				FileUtils.createDirectory(suffixPath);
 				Files.write(Paths.get(filePath), file.getBytes());
-				RedisCacheUtils.setSysCache(uuid, file.getOriginalFilename());
-				return uuid;
+				return uuid+File.separator+file.getOriginalFilename();
 			} catch (IOException e) {
 				throw new BusinessException(SysErrorEnum.IO_ERROR);
 			}

@@ -104,17 +104,18 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	}
 	
 	
-	@PostMapping(value= {"queryBaseTableColumnList"})
+	@PostMapping(value= {"queryBaseTableColumnList/{tableName}"})
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成基本字段表数据")
-	public Response<List<GenTableColumnResult>> getBaseTableColumnList(@RequestBody GenTableColumnQuery genTableColumn ) {
+	public Response<List<GenTableColumnResult>> getBaseTableColumnList(@PathVariable String tableName ) {
 		GenTableQuery queryTable = new GenTableQuery();
-		queryTable.setName(genTableColumn.getGenTable().getName());
+		queryTable.setName(tableName);
 		Response<List<GenTableResult>>  genTableRes = genTableService.findListByAuth(new GenTablePO(queryTable));
 		if(CollectionUtils.isNotEmpty(genTableRes.getData())) {
-			genTableColumn.setGenTable(genTableRes.getData().get(0));
-			Response<List<GenTableColumnResult>>  gebTableColumnRes =  genTableColumnService.findList(new GenTableColumnPO(genTableColumn));
+			GenTableColumnQuery queryTableColumn = new GenTableColumnQuery();
+			queryTableColumn.setGenTable(genTableRes.getData().get(0));
+			Response<List<GenTableColumnResult>>  gebTableColumnRes =  genTableColumnService.findList(new GenTableColumnPO(queryTableColumn));
 			if(CollectionUtils.isNotEmpty(gebTableColumnRes.getData())) {
 				gebTableColumnRes.getData().forEach(tableColumn -> {
 					tableColumn.coverField(tableColumn);
@@ -128,7 +129,7 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 		if(genPyTableRes.getData()!= null) {
 			BeanUtils.copyProperties(genPyTableRes.getData(), gentable);
 		}
-		Response<List<GenTableColumnResult>> res = targetTableFacade.findTableColumn(genTableColumn);
+		Response<List<GenTableColumnResult>> res = targetTableFacade.findTableColumn(tableName);
 		if(CollectionUtils.isNotEmpty(res.getData())) {
 			res.getData().forEach(genColumn->{
 				genColumn.setGenTable(gentable);

@@ -48,7 +48,7 @@
 		<include refid="columnList" />
 		from gen_table_column genTableColumn
 		<include refid="columnJoins" />
-		where id = #{id}
+		where genTableColumn.id = #{id}
 	</select>
 
 

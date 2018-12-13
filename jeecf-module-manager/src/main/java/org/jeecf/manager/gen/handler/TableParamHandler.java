@@ -33,7 +33,7 @@ public class TableParamHandler extends AbstractHandler {
 		Integer tableId = (Integer) this.chainContext.get("tableId");
 		Integer language = (Integer) this.chainContext.get("language");
 		Object baseTable = new JavaTable();
-		String data = "";
+		String data = "{}";
 		if (tableId != null && tableId > 0) {
 			if (language == EnumUtils.Language.JAVA.getCode()) {
 				baseTable = javaBuilder.build(tableId);
