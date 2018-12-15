@@ -62,9 +62,4 @@ public class IdGenUtils {
 		return EncodeUtils.encodeHex(randomBytes);
 	}
 	
-	public static void main(String[] args) {
-		long result = Long.MIN_VALUE;
-		System.out.println(-result);
-	}
-	
 }

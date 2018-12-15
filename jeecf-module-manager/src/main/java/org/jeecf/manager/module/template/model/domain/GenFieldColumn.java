@@ -41,6 +41,10 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "为空", name = "isNull")
 	private Integer isNull;
 	/**
+	 * 默认值
+	 */
+	private String defaultValue;
+	/**
 	 * 描述
 	 */
 	@ApiModelProperty(value = "描述", name = "descrition")
@@ -74,7 +78,7 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
 	}
 	
 	@NotBlank(message="参数字段描述输入不能为空",groups= {Add.class})
-	@Length(min = 0, max = 50, message = "参数字段描述长度必须介于 0 和 50 之间",groups= {Add.class})
+	@Length(min = 1, max = 50, message = "参数字段描述长度必须介于 1 和 50 之间",groups= {Add.class})
 	public String getDescrition() {
 		return descrition;
 	}
@@ -92,5 +96,16 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
 	public void setIsNull(Integer isNull) {
 		this.isNull = isNull;
 	}
+	
+	@Length(min = 0, max = 30, message = "默认值长度必须介于 0 和 30 之间",groups= {Add.class})
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+	
+	
 	
 }

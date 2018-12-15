@@ -20,23 +20,23 @@ import org.springframework.beans.BeanUtils;
  * @author jianyiming
  *
  */
-public class JavaBuilder extends LanguageBuilder {
+public class JavaBuilder extends AbstractLanguageBuilder {
 	
 	private JavaTable javaTable = null;
 
 	@Override
-	public JavaTable build(Integer tableId) {
-		GenTable genTable = (GenTable) super.build(tableId);
+	public JavaTable build(String tableName) {
+		GenTable genTable = (GenTable) super.build(tableName);
 		JavaTable genTableJ = new JavaTable();
 		BeanUtils.copyProperties(genTable, genTableJ);
 		genTableJ.setGenTableColumns(HelperUtils.toColumn(genTable.getGenTableColumns()));
-		GenTable parentTable = LanguageBuilder.genTableFacade.findParentTable(genTable.getParentTableId()).getData();
+		GenTable parentTable = AbstractLanguageBuilder.genTableFacade.findParentTable(genTable.getParentTableId()).getData();
 		JavaCommonTable parentCommonTable = new JavaCommonTable();
 		if(parentTable != null) {
 			BeanUtils.copyProperties(parentTable, parentCommonTable);
 			parentCommonTable.setGenTableColumns(HelperUtils.toColumn(parentTable.getGenTableColumns()));
 		}
-		List<GenTableResult> tableResultList = LanguageBuilder.genTableFacade.findChildTables(genTable.getId()).getData();
+		List<GenTableResult> tableResultList = AbstractLanguageBuilder.genTableFacade.findChildTables(genTable.getId()).getData();
 		List<JavaCommonTable> childTables = new ArrayList<JavaCommonTable>();
 		if(CollectionUtils.isNotEmpty(tableResultList)) {
 			tableResultList.forEach(tableResult -> {
@@ -52,7 +52,8 @@ public class JavaBuilder extends LanguageBuilder {
 		return genTableJ;
 	}
 	
-	public String getData() {
+	@Override
+	public String getData(String sql) {
 		if(this.javaTable != null) {
 			SelectTable selectTable = new SelectTable();
 			List<SelectTableColumn> columnList = new ArrayList<>();
@@ -65,6 +66,7 @@ public class JavaBuilder extends LanguageBuilder {
 				column.setColumnName(tableColumn.getName());
 				columnList.add(column);
 			});
+			selectTable.setSql(sql);
 			selectTable.setColumnList(columnList);
 			return targetTableFacade.selectTable(selectTable).getData();
 		}

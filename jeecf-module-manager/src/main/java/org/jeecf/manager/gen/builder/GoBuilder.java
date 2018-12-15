@@ -18,23 +18,23 @@ import org.springframework.beans.BeanUtils;
  * @author jianyiming
  *
  */
-public class GoBuilder  extends LanguageBuilder {
+public class GoBuilder  extends AbstractLanguageBuilder {
 	
 	private GoTable goTable = null;
 	
 	@Override
-	public GoTable build(Integer tableId) {
-		GenTable genTable = (GenTable) super.build(tableId);
+	public GoTable build(String tableName) {
+		GenTable genTable = (GenTable) super.build(tableName);
 		GoTable genTableG = new GoTable();
 		BeanUtils.copyProperties(genTable, genTableG);
 		genTableG.setGenTableColumns(HelperUtils.toColumn(genTable.getGenTableColumns()));
-		GenTable parentTable = LanguageBuilder.genTableFacade.findParentTable(genTable.getParentTableId()).getData();
+		GenTable parentTable = AbstractLanguageBuilder.genTableFacade.findParentTable(genTable.getParentTableId()).getData();
 		GoCommonTable parentCommonTable = new GoCommonTable();
 		if(parentTable != null) {
 			BeanUtils.copyProperties(parentTable, parentCommonTable);
 			parentCommonTable.setGenTableColumns(HelperUtils.toColumn(parentTable.getGenTableColumns()));
 		}
-		List<GenTableResult> tableResultList = LanguageBuilder.genTableFacade.findChildTables(genTable.getId()).getData();
+		List<GenTableResult> tableResultList = AbstractLanguageBuilder.genTableFacade.findChildTables(genTable.getId()).getData();
 		List<GoCommonTable> childTables = new ArrayList<GoCommonTable>();
 		if(CollectionUtils.isNotEmpty(tableResultList)) {
 			tableResultList.forEach(tableResult -> {
@@ -51,7 +51,7 @@ public class GoBuilder  extends LanguageBuilder {
 	}
 
 	@Override
-	public String getData() {
+	public String getData(String sql) {
 		if(this.goTable != null) {
 			SelectTable selectTable = new SelectTable();
 			List<SelectTableColumn> columnList = new ArrayList<>();

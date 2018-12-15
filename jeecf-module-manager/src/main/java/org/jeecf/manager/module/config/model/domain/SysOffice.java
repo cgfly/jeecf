@@ -56,7 +56,7 @@ public class SysOffice extends AbstractTreeEntity<SysOfficeResult>{
 	public void sortList(List<SysOfficeResult> newList, List<SysOfficeResult> sourceList, String rootId) {
 		for (int i = 0; i < sourceList.size(); i++) {
 			SysOfficeResult sysOffice = sourceList.get(i);
-			if ((rootId.equals("0") && StringUtils.isEmpty(sysOffice.getParentId())) 
+			if (("0".equals(rootId) && StringUtils.isEmpty(sysOffice.getParentId())) 
 					|| (StringUtils.isNotEmpty(sysOffice.getParentId()) && sysOffice.getParentId().equals(rootId))) {
 				newList.add(sysOffice);
 				for (int j=0; j<sourceList.size(); j++){

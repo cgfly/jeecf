@@ -53,7 +53,7 @@ public class SysDbsourceControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class SysDbsourceControllerTest extends BaseMokMvc {
 				.perform(MockMvcRequestBuilders.post("/config/sysDbsource/effect/"+keyName).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 	
 	@Test
@@ -75,17 +75,17 @@ public class SysDbsourceControllerTest extends BaseMokMvc {
 		sysDbsource.setPassword("123456");
 		sysDbsource.setUrl("jdbc:mysql://127.0.0.1:3306/jeecf?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull");
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysDbsource));
-		if(saveNode.get("success").asBoolean()) {
+		if(saveNode.get(SUCCESS).asBoolean()) {
 			sysDbsource.setKeyName("saveUpdate");
 			sysDbsource.setId(saveNode.get("data").get("id").asText());
 			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysDbsource));
-			if(updateNode.get("success").asBoolean()) {
+			if(updateNode.get(SUCCESS).asBoolean()) {
 				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysDbsource.getId()));
-				assert deleteNode.get("success").asBoolean();
+				assert deleteNode.get(SUCCESS).asBoolean();
 			}
-			assert updateNode.get("success").asBoolean();
+			assert updateNode.get(SUCCESS).asBoolean();
 		}
-		assert saveNode.get("success").asBoolean();
+		assert saveNode.get(SUCCESS).asBoolean();
 	}
 	
 	private String save(SysDbsource sysDbsource) throws Exception {

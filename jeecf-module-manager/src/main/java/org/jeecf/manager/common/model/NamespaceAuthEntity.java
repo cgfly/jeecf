@@ -29,7 +29,4 @@ public class NamespaceAuthEntity extends BaseEntity{
 		this.sysNamespaceId = sysNamespaceId;
 	}
 	
-	
-	
-	
 }

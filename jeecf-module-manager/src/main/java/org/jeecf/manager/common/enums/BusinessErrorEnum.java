@@ -24,8 +24,17 @@ public enum BusinessErrorEnum implements ErrorEnum {
     NAMESPACE_NOT(401,"命名空间不存在"),
     NAMESPACE_IS_CURRENT(402,"当前的命名空间不能删除"),
     ZIP_NOT(501,"不是zip文件"),
-    CONFIG_MODULE_NAME_EMPTY(601,"module name 不能为空"),
-    CONFIG_MODULE_PATH_EMPTY(602,"module path 不能为空"),
+    CONFIG_MODULE_MPTY(601,"config module 不能为空"),
+    CONFIG_MODULE_NAME_EMPTY(602,"config module name 不能为空"),
+    CONFIG_MODULE_PATH_EMPTY(603,"config module path 不能为空"),
+    RULE_FILTER_TYPE_ERROR(604,"rule filter type 错误"),
+    RULE_FILTER_VALUE_EMPTY(605,"rule filter type 不能为空"),
+    RULE_TABLE_COLUMN_TYPE_ERROR(606,"rule table column type 错误"),
+    CONFIG_MODULE_NOT_MATCH_RULE(607,"cofig module has not match rule 错误"),
+    RULE_TABLE_PARAM_MANY_NOT_QUERY(608,"未查到相关表信息"),
+    RULE_DATA_GROUP_ERROR(609,"数据分组失败"),
+    RULE_STRATEGY_NAME_NOT_MATCH(610,"规则策略名称不匹配"),
+    RULE_STRATEGY_FIELD_NOT_EMPTY(611,"rule strategy field 不能为空"),
     ;
 
 	public final int code;

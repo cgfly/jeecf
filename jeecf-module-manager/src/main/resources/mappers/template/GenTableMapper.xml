@@ -76,6 +76,9 @@
 		from gen_table genTable
 		<include refid="leftJoinColumn" />
 		where genTable.id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
 	</select>
 
 	<select id="query"

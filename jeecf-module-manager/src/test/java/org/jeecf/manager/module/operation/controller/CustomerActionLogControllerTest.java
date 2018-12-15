@@ -46,7 +46,7 @@ public class CustomerActionLogControllerTest extends BaseMokMvc{
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 }

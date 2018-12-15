@@ -49,7 +49,7 @@ public class SysDictControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 	
 	@Test
@@ -61,17 +61,17 @@ public class SysDictControllerTest extends BaseMokMvc {
 		sysDict.setType("test");
 		sysDict.setValue(1);
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysDict));
-		if(saveNode.get("success").asBoolean()) {
+		if(saveNode.get(SUCCESS).asBoolean()) {
 			sysDict.setName("saveUpdate");
 			sysDict.setId(saveNode.get("data").get("id").asText());
 			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysDict));
-			if(updateNode.get("success").asBoolean()) {
+			if(updateNode.get(SUCCESS).asBoolean()) {
 				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysDict.getId()));
-				assert deleteNode.get("success").asBoolean();
+				assert deleteNode.get(SUCCESS).asBoolean();
 			}
-			assert updateNode.get("success").asBoolean() && updateNode.get("data").get("name").asText().equals("saveUpdate");
+			assert updateNode.get(SUCCESS).asBoolean() && updateNode.get("data").get("name").asText().equals("saveUpdate");
 		}
-		assert saveNode.get("success").asBoolean();
+		assert saveNode.get(SUCCESS).asBoolean();
 	}
 
 	private String save(SysDict sysDict) throws Exception {

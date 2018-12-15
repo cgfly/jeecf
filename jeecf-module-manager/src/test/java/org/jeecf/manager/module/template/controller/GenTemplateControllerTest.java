@@ -49,7 +49,7 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 						.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -101,17 +101,17 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 		genTemplate.setDescrition("test");
 		genTemplate.setLanguage(1);
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(genTemplate));
-		if (saveNode.get("success").asBoolean()) {
+		if (saveNode.get(SUCCESS).asBoolean()) {
 			genTemplate.setName("saveUpdate");
 			genTemplate.setId(saveNode.get("data").get("id").asText());
 			JsonNode updateNode = JsonMapper.getJsonNode(this.save(genTemplate));
-			if (updateNode.get("success").asBoolean()) {
+			if (updateNode.get(SUCCESS).asBoolean()) {
 				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(genTemplate.getId()));
-				assert deleteNode.get("success").asBoolean();
+				assert deleteNode.get(SUCCESS).asBoolean();
 			}
-			assert updateNode.get("success").asBoolean();
+			assert updateNode.get(SUCCESS).asBoolean();
 		}
-		assert saveNode.get("success").asBoolean();
+		assert saveNode.get(SUCCESS).asBoolean();
 	}
 
 	private String save(GenTemplate genTemplate) throws Exception {

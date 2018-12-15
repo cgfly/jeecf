@@ -102,6 +102,9 @@
 		gen_field genField
 		<include refid="leftJoinColumn" />
 		where genField.id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">

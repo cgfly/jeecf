@@ -33,6 +33,8 @@ public class BaseMokMvc {
 	protected MockHttpServletRequest mockHttpServletRequest;
 	protected MockHttpServletResponse mockHttpServletResponse;
 	
+	protected static final String SUCCESS = "success";
+	
 	protected void init() {
 		this.init(null,null);
 	}

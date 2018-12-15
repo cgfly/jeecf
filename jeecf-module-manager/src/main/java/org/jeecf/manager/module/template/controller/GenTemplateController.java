@@ -114,7 +114,7 @@ public class GenTemplateController extends AbstractController {
 				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
 			}
 		}
-		String[] paths = genTemplate.getFileBasePath().split(File.separator);
+		String[] paths = genTemplate.getFileBasePath().split(SplitCharEnum.SLASH.getName());
 		TemplateUtils.unzip(paths[0], paths[1], sysNamespace.getName());
 		String fileName = StringUtils.substringBeforeLast(paths[1], ".");
 		genTemplate.setFileBasePath(paths[0]+ File.separator + fileName);
@@ -202,7 +202,7 @@ public class GenTemplateController extends AbstractController {
 			SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
 			if (sysNamespace != null) {
 				String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getName());
-				String outPath = GenUtils.build(entity.getParams(), entity.getTableId(), sourcePath,
+				String outPath = GenUtils.build(entity.getParams(), entity.getTableName(), sourcePath,
 						genTemplate.getLanguage(), sysNamespace);
 				DownloadUtils.downloadFile(response, outPath);
 			}

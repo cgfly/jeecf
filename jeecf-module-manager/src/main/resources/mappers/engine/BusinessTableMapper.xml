@@ -9,6 +9,11 @@
 			${name}.${item.columnName} as ${item.name}
 		</foreach>
         from ${tableName} ${name}
+        <where>
+           <if test="sql != null and sql != '' ">
+          		${sql}
+           </if>
+        </where>
 	</select>
 
 

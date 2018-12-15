@@ -32,7 +32,7 @@ public class SysPower extends AbstractTreePermissionEntity<SysPowerResult> imple
 	public void sortList(List<SysPowerResult> newList, List<SysPowerResult> sourceList, String rootId) {
 		for (int i = 0; i < sourceList.size(); i++) {
 			SysPowerResult sysPower = sourceList.get(i);
-			if ((rootId.equals("0") && StringUtils.isEmpty(sysPower.getParentId())) 
+			if (("0".equals(rootId) && StringUtils.isEmpty(sysPower.getParentId())) 
 					|| (StringUtils.isNotEmpty(sysPower.getParentId()) && sysPower.getParentId().equals(rootId))) {
 				newList.add(sysPower);
 				for (int j=0; j<sourceList.size(); j++){

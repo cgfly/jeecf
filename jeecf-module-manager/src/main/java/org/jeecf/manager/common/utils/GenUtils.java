@@ -146,17 +146,18 @@ public class GenUtils {
 		return true;
 	}
 
-	public static String build(List<GenParams> genParamsList, Integer tableId, String sourcePath, Integer language,
+	public static String build(List<GenParams> genParamsList, String tableName, String sourcePath, Integer language,
 			SysNamespace sysNamespace) {
 		ChainContext genChainContext = ChainUtils.genChainContext();
 		String outZip = sourcePath + File.separator + "code.zip";
-		genChainContext.put("params", new HashMap<String, Object>());
+		genChainContext.put("params", new HashMap<String, Object>(15));
 		genChainContext.put("genParamsList", genParamsList);
-		genChainContext.put("tableId", tableId);
+		genChainContext.put("tableName", tableName);
 		genChainContext.put("language", language);
 		genChainContext.put("sysNamespace", sysNamespace);
 		genChainContext.put("sourcePath", sourcePath);
 		genChainContext.put("configPath", sourcePath + File.separator + "config.json");
+		genChainContext.put("rulePath", sourcePath + File.separator + "rule.json");
 		genChainContext.put("codePath", sourcePath + File.separator + "code");
 		genChainContext.put("outZip", outZip);
 		genChainContext.next();
@@ -173,7 +174,8 @@ public class GenUtils {
 			throw new BusinessException(BusinessErrorEnum.ZIP_NOT);
 		}
 		if (sysNamespace != null) {
-			String uuid = IdGenUtils.uuid();
+			int randomNumber = 5;
+			String uuid = IdGenUtils.randomUUID(randomNumber);
 			String suffixPath = properties.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator
 					+ uuid;
 			String filePath = suffixPath + File.separator + file.getOriginalFilename();

@@ -1,7 +1,11 @@
 package org.jeecf.manager.gen.model;
 
 import org.jeecf.common.lang.StringUtils;
-
+/**
+ * 代码表字段信息
+ * @author jianyiming
+ *
+ */
 public class BaseTableColumn {
 	
 	/**

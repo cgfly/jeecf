@@ -48,7 +48,7 @@ public class SysOfficeControllerTest extends BaseMokMvc{
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 	
 	@Test
@@ -62,7 +62,7 @@ public class SysOfficeControllerTest extends BaseMokMvc{
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 	
 	@Test
@@ -72,17 +72,17 @@ public class SysOfficeControllerTest extends BaseMokMvc{
 		sysOffice.setEnname("test");
 		sysOffice.setSort(10);
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysOffice));
-		if(saveNode.get("success").asBoolean()) {
+		if(saveNode.get(SUCCESS).asBoolean()) {
 			sysOffice.setName("saveUpdate");
 			sysOffice.setId(saveNode.get("data").get("id").asText());
 			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysOffice));
-			if(updateNode.get("success").asBoolean()) {
+			if(updateNode.get(SUCCESS).asBoolean()) {
 				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysOffice.getId()));
-				assert deleteNode.get("success").asBoolean();
+				assert deleteNode.get(SUCCESS).asBoolean();
 			}
-			assert updateNode.get("success").asBoolean();
+			assert updateNode.get(SUCCESS).asBoolean();
 		}
-		assert saveNode.get("success").asBoolean();
+		assert saveNode.get(SUCCESS).asBoolean();
 	}
 	
 	

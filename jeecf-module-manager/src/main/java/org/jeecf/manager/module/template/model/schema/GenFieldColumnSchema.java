@@ -24,6 +24,11 @@ public class GenFieldColumnSchema {
 	@ApiModelProperty(value = "为空", name = "isNull")
 	private boolean isNull = true;
 	/**
+	 * 默认值
+	 */
+	@ApiModelProperty(value = "为空", name = "isNull")
+	private boolean defaultValue = true;
+	/**
 	 * 描述
 	 */
 	@ApiModelProperty(value = "描述", name = "descrition")
@@ -63,6 +68,12 @@ public class GenFieldColumnSchema {
 	}
 	public void setUpdateDate(boolean updateDate) {
 		this.updateDate = updateDate;
+	}
+	public boolean isDefaultValue() {
+		return defaultValue;
+	}
+	public void setDefaultValue(boolean defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 	
 }

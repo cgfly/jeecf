@@ -6,7 +6,13 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.manager.common.enums.EnumUtils;
-
+/**
+ * 代码表基础表
+ * @author jianyiming
+ *
+ * @param <T>
+ * @param <Q>
+ */
 public class BaseTable<T extends BaseTableColumn,Q extends CommonTable<T>> {
 
 	/**

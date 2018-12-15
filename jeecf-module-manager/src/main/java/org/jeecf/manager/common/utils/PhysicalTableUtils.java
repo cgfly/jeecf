@@ -40,17 +40,17 @@ public class PhysicalTableUtils {
 		return resultList;
 	}
 	
-	public static List<SchemaTable> filter(List<SchemaTable> SchemaTableList,SysNamespace sysNamespace) {
+	public static List<SchemaTable> filter(List<SchemaTable> schemaTableList,SysNamespace sysNamespace) {
 		List<SchemaTable> resultList = new ArrayList<>();
-		if (CollectionUtils.isNotEmpty(SchemaTableList)) {
-			SchemaTableList.forEach(SchemaTable -> {
-				String[] splitName = SchemaTable.getName().split(SPLIT_MATCH);
+		if (CollectionUtils.isNotEmpty(schemaTableList)) {
+			schemaTableList.forEach(schemaTable -> {
+				String[] splitName = schemaTable.getName().split(SPLIT_MATCH);
                 if(splitName.length > 1) {
                 	if(splitName[1].equals(sysNamespace.getName())) {
-                		resultList.add(SchemaTable);
+                		resultList.add(schemaTable);
                 	}
                 } else {
-                	resultList.add(SchemaTable);
+                	resultList.add(schemaTable);
                 }
 			});
 		}

@@ -1,4 +1,4 @@
-package org.jeecf.manager.gen.model;
+package org.jeecf.manager.gen.model.config;
 
 import java.util.List;
 /**
@@ -43,5 +43,6 @@ public class ConfigContext {
 	public void setModuleEntitys(List<ModuleEntity> moduleEntitys) {
 		this.moduleEntitys = moduleEntitys;
 	}
-	
+
+
 }

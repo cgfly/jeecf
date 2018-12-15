@@ -12,8 +12,10 @@ import org.jeecf.manager.engine.model.SelectTable;
  */
 @Mapper
 public interface BusinessTableDao {
+
 	/**
 	 * 查询所有字段的信息
+	 * @param selectTable
 	 * @return
 	 */
 	public List<Map<String,Object >> queryAll(SelectTable selectTable);

@@ -45,7 +45,7 @@ public class SysPowerControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class SysPowerControllerTest extends BaseMokMvc {
 						.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get("success").asBoolean();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
 	@Test
@@ -69,18 +69,18 @@ public class SysPowerControllerTest extends BaseMokMvc {
 		sysPower.setPermission("test:base");
 		sysPower.setSort(10);
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysPower));
-		if (saveNode.get("success").asBoolean()) {
+		if (saveNode.get(SUCCESS).asBoolean()) {
 			sysPower.setName("saveUpdate");
 			sysPower.setId(saveNode.get("data").get("id").asText());
 			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysPower));
-			if (updateNode.get("success").asBoolean()) {
+			if (updateNode.get(SUCCESS).asBoolean()) {
 				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysPower.getId()));
-				assert deleteNode.get("success").asBoolean();
+				assert deleteNode.get(SUCCESS).asBoolean();
 			}
-			assert updateNode.get("success").asBoolean()
+			assert updateNode.get(SUCCESS).asBoolean()
 					&& updateNode.get("data").get("name").asText().equals("saveUpdate");
 		}
-		assert saveNode.get("success").asBoolean();
+		assert saveNode.get(SUCCESS).asBoolean();
 	}
 
 	public String save(SysPower sysPower) throws Exception {

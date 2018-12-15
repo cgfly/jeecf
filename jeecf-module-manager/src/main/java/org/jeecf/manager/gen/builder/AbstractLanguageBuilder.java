@@ -7,11 +7,12 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
 import org.jeecf.manager.module.template.facade.TargetTableFacade;
-import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
+import org.jeecf.manager.module.template.model.po.GenTablePO;
 import org.jeecf.manager.module.template.model.query.GenTableColumnQuery;
 import org.jeecf.manager.module.template.model.query.GenTableQuery;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
+import org.jeecf.manager.module.template.model.result.GenTableResult;
 import org.jeecf.manager.module.template.service.GenTableColumnService;
 import org.jeecf.manager.module.template.service.GenTableService;
 /**
@@ -19,7 +20,7 @@ import org.jeecf.manager.module.template.service.GenTableService;
  * @author jianyiming
  *
  */
-public abstract class LanguageBuilder {
+public abstract class AbstractLanguageBuilder {
 	
 	protected static GenTableService genTableService = SpringContextUtils.getBean("genTableService",
 			GenTableService.class);
@@ -33,11 +34,13 @@ public abstract class LanguageBuilder {
 	protected static TargetTableFacade targetTableFacade = SpringContextUtils.getBean("targetTableFacade",
 			TargetTableFacade.class);
 
-	public Object build(Integer tableId) {
+	public Object build(String tableName) {
 		GenTableQuery queryGenTable = new GenTableQuery();
-		queryGenTable.setId(String.valueOf(tableId));
-		GenTable genTable = genTableService.get(queryGenTable).getData();
-		if (genTable != null) {
+		queryGenTable.setName(tableName);
+		List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryGenTable)).getData();
+		GenTableResult genTable = null;
+		if (CollectionUtils.isNotEmpty(genTableList)) {
+		    genTable = genTableList.get(0);
 			GenTableColumnQuery queryTableColumn = new GenTableColumnQuery();
 			queryTableColumn.setGenTable(genTable);
 			Response<List<GenTableColumnResult>> tableColumnRes = genTableColumnService
@@ -49,7 +52,11 @@ public abstract class LanguageBuilder {
 		}
 		return genTable;
 	}
-	
-	public abstract String getData();
+	/**
+	 * 获取表数据 
+	 * @param sql 查询条件
+	 * @return
+	 */
+	public abstract String getData(String sql);
 
 }

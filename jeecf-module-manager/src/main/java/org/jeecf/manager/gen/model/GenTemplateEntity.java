@@ -13,9 +13,9 @@ public class GenTemplateEntity {
 	 */
 	private Integer templateId;
 	/**
-	 * 表id
+	 * 表名
 	 */
-	private Integer tableId;
+	private String tableName;
 	/**
 	 * 参数
 	 */
@@ -29,12 +29,12 @@ public class GenTemplateEntity {
 		this.params = params;
 	}
 	
-	public Integer getTableId() {
-		return tableId;
+	public String getTableName() {
+		return tableName;
 	}
 
-	public void setTableId(Integer tableId) {
-		this.tableId = tableId;
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 
 	public Integer getTemplateId() {
