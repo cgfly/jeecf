@@ -28,8 +28,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath() + "template/genTemplate/list",
-					$scope.request).then(function(res) { // 调用承诺API获取数据
-															// .resolve
+					$scope.request).then(function(res) { 
 				if (res.success) {
 					data = res.data;
 					if(data != undefined) {

@@ -25,7 +25,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysRole/list",
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.sysRoleList = res.data;
 					$page.setPage($scope,res.page.total);

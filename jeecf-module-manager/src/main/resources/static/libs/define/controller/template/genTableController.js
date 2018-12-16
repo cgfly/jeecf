@@ -11,7 +11,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 			}
 			$scope.table.genTableColumns = tableColumns;
 			$httpRequest.post($ctx.getWebPath()+"template/genTable/save", $scope.table).then(
-					function(res) { // 调用承诺API获取数据 .resolve
+					function(res) { 
 						if(res.success){
 			                $jBoxcm.success("保存数据成功");
 			                $state.reload($scope.currentRouteName);

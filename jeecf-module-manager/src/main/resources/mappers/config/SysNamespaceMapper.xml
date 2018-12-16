@@ -10,6 +10,7 @@
 		sysNamespace.permission AS
 		"permission",
 		sysNamespace.remark AS "remark",
+		sysNamespace.del_flag AS "delFlag",
 		sysNamespace.create_date AS "createDate",
 		sysNamespace.create_by AS
 		"createBy",
@@ -28,6 +29,9 @@
 				</if>
 				<if test="data.permission != null and data.permission != '' ">
 					And sysNamespace.permission = #{data.permission}
+				</if>
+				<if test="data.delFlag != null ">
+					And sysNamespace.del_flag = #{data.delFlag}
 				</if>
 				<include refid="reginWhere" />
 			</if>
@@ -176,6 +180,9 @@
 			</if>
 			<if test="permission != null">
 				permission = #{permission},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag},
 			</if>
 			<if test="updateDate != null">
 				update_date = #{updateDate},

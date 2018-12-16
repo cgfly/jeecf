@@ -25,7 +25,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.query.page = pageId;
 			$scope.request.page.current = pageId;
 			$httpRequest.post(url,
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) {
 				if (res.success) {
 					$scope.sysDictList = res.data;
 					$page.setPage($scope,res.page.total);

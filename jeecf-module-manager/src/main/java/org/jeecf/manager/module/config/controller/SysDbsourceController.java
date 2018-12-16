@@ -115,7 +115,6 @@ public class SysDbsourceController
 	@ResponseBody
 	@RequiresPermissions("config:sysDbsource:edit")
 	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
-	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		SysDbsource sysDbsource = sysDbsourceService.get(new SysDbsource(id)).getData();
 		if (sysDbsource != null) {
@@ -124,13 +123,24 @@ public class SysDbsourceController
 			if (!defaultKeyName.equals(keyName)) {
 				String currentKeyName = DynamicDataSourceContextHolder.getCurrentDataSourceValue();
 				if (!currentKeyName.equals(keyName)) {
-					return sysDbsourceService.deleteByAuth(sysDbsource);
+					return sysDbsourceService.deleteByFlag(new SysDbsource(id));
 				}
 				throw new BusinessException(BusinessErrorEnum.DARASOURCE_KEY_IS_CURRENT);
 			}
 			throw new BusinessException(BusinessErrorEnum.DARASOURCE_KEY_IS_DEFAULT);
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+	}
+	
+	@PostMapping(value = { "active/{id}" })
+	@ResponseBody
+	@RequiresPermissions("config:sysDbsource:edit")
+	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	public Response<Integer> active(@PathVariable("id") String id) {
+		SysDbsource sysDbSource = new SysDbsource(id);
+		sysDbSource.setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		sysDbsourceService.saveByAuth(sysDbSource);
+		return new Response<>(1);
 	}
 
 	@PostMapping(value = { "effect/{keyName}" })

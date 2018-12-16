@@ -14,6 +14,7 @@
 		sysDbsource.create_by AS "createBy",
 		sysDbsource.usable AS "usable",
 		sysDbsource.permission AS "permission",
+		sysDbsource.del_flag As "delFlag",
 		sysDbsource.update_date AS "updateDate",
 		sysDbsource.update_by AS "updateBy"
 	</sql>
@@ -35,6 +36,9 @@
 				</if>
 				<if test="data.password != null and data.password != '' ">
 					And sysDbsource.password = #{data.password}
+				</if>
+				<if test="data.delFlag != null ">
+					And sysDbsource.del_flag = #{data.delFlag}
 				</if>
 				<include refid="reginWhere" />
 			</if>
@@ -212,6 +216,9 @@
 			</if>
 			<if test="remark != null">
 				remark = #{remark},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag},
 			</if>
 			<if test="updateDate != null">
 				update_date = #{updateDate},

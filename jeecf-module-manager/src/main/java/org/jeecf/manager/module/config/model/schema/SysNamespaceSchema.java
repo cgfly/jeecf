@@ -22,6 +22,13 @@ public class SysNamespaceSchema {
 	 */
 	@ApiModelProperty(value = "名称", name = "name")
 	private boolean name = true;
+	
+	/**
+	 * 逻辑删除
+	 */
+	@ApiModelProperty(value = "逻辑删除", name = "delFlag")
+	private boolean delFlag = true;
+	
 	/**
 	 * 描述
 	 */
@@ -72,6 +79,14 @@ public class SysNamespaceSchema {
 
 	public void setUpdateDate(boolean updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public boolean isDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(boolean delFlag) {
+		this.delFlag = delFlag;
 	}
 	
 }

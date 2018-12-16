@@ -29,7 +29,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$genHelper','$jBoxcm' ], function
 				$scope.request.data.tableName  = undefined;
 			}
 			$httpRequest.post(url,
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.sysTableDictList = res.data;
 					$page.setPage($scope,res.page.total);

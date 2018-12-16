@@ -44,6 +44,12 @@ public class SysDbsourceSchema {
 	private boolean usable = true;
 	
 	/**
+	 * 逻辑删除
+	 */
+	@ApiModelProperty(value = "逻辑删除", name = "delFlag")
+	private boolean delFlag = true;
+	
+	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value = "更新时间", name = "updateDate")
@@ -112,5 +118,12 @@ public class SysDbsourceSchema {
 	public void setPermission(boolean permission) {
 		this.permission = permission;
 	}
-	
+
+	public boolean isDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(boolean delFlag) {
+		this.delFlag = delFlag;
+	}
 }

@@ -13,7 +13,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath()+"operation/customerActionLog/list",
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.customerActionLogList = res.data;
 					$page.setPage($scope,res.page.total);

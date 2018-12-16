@@ -9,6 +9,7 @@ import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -99,7 +100,18 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		if(currentId.equals(Integer.valueOf(id))) {
 			throw new BusinessException(BusinessErrorEnum.NAMESPACE_IS_CURRENT);
 		}
-		return sysNamespaceService.deleteByAuth(new SysNamespace(id));
+		return sysNamespaceService.deleteByFlag(new SysNamespace(id));
+	}
+	
+	@PostMapping(value = { "active/{id}" })
+	@ResponseBody
+	@RequiresPermissions("config:sysNamespace:edit")
+	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	public Response<Integer> active(@PathVariable("id") String id) {
+		SysNamespace sysNamespace = new SysNamespace(id);
+		sysNamespace.setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		sysNamespaceService.saveByAuth(sysNamespace);
+		return new Response<>(1);
 	}
 
 	@PostMapping(value = { "effect/{id}" })

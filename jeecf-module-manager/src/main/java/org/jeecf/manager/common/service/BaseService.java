@@ -74,7 +74,9 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 	public Response<List<R>> findList(P p) {
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		if (p.getData().getDelFlag() == null) {
+			p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		}
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
 		JqlUtils.build(p.getSchema(), res.getData());
 		return res;
@@ -83,7 +85,9 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 	@Override
 	public Response<Integer> count(P p) {
 		p.buildContains();
-		p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		if (p.getData().getDelFlag() == null) {
+			p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		}
 		return new Response<Integer>(true, dao.count(p));
 	}
 
@@ -92,7 +96,9 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 		Page page = p.getPage();
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		if (p.getData().getDelFlag() == null)  {
+			p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		}
 		if (page != null) {
 			page.setTotal(dao.count(p));
 			page.setStartNo();

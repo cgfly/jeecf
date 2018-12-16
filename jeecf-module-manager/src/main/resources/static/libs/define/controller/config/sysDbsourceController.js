@@ -25,26 +25,43 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath()+"config/sysDbsource/list",
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.sysDbsourceList = res.data;
 					$page.setPage($scope,res.page.total);
-					setTimeout(function(){
-						$jBoxcm.delConfrim($scope);
-					},800);
+					if(res.data != undefined && res.data.length> 0){
+						$scope.delFlag =$scope.delFlags[res.data[0].delFlag];
+					}
 				} else {
 					$jBoxcm.error("查询数据失败,"+res.errorMessage);
 				}
 			});
 		};
-		
+		$scope.actionForm = function(index) {
+			if($scope.delFlag.value == 0){
+				$scope.deleteForm(index);
+			} else if($scope.delFlag.value == 1){
+				$scope.activeForm(index);
+			}
+		}
 		$scope.deleteForm = function(index) {
 			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/delete/"+$scope.sysDbsourceList[index].id).then(function(res) {
 				  		if(res.success){
-				  			$jBoxcm.success("删除数据成功");
+				  			$jBoxcm.success("数据已失效");
 				  			$state.reload($scope.currentRouteName);
 				  		} else {
-				  			$jBoxcm.error("删除数据失败,"+res.errorMessage);
+				  			$jBoxcm.error("操作失败,"+res.errorMessage);
+				  		}
+			});
+		};
+		
+		$scope.activeForm = function(index) {
+			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/active/"+$scope.sysDbsourceList[index].id).then(function(res) {
+				  		if(res.success){
+				  			$jBoxcm.success("激活数据成功");
+				  			$state.reload($scope.currentRouteName);
+				  		} else {
+				  			$jBoxcm.error("激活数据失败,"+res.errorMessage);
 				  		}
 			});
 		};
@@ -65,12 +82,12 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		$scope.effectForm = function(index){
 			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/effect/"+$scope.sysDbsourceList[index].keyName).then(function(res) {
-				  		if(res.success){
-				  			$jBoxcm.success("操作成功");
-				  			$state.reload($scope.currentRouteName);
-				  		} else {
-				  			$jBoxcm.error("操作失败,"+res.errorMessage);
-				  		}
+				if(res.success){
+				  	$jBoxcm.success("操作成功");
+				  	$state.reload($scope.currentRouteName);
+				 } else {
+				  	$jBoxcm.error("操作失败,"+res.errorMessage);
+				 }
 			});
 		}
 		
@@ -90,6 +107,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 		
 		this.init = function(){
+			$scope.delFlags = [{"name":"激活","value":0,"action":"失效"},{"name":"失效","value":1,"action":"激活"}];
 		    $scope.currentRouteName = $state.current.name;
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page:{current:"",size:""},data:{}};
@@ -97,5 +115,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.sysDbsource = {};
 			$page.init($scope, $page.getPageSize());
 		}
+		
+		
 	};
 });
