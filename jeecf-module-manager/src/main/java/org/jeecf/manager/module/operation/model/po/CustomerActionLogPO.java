@@ -1,7 +1,7 @@
 package org.jeecf.manager.module.operation.model.po;
 
-import org.jeecf.common.model.AbstractEntityPO;
 import org.jeecf.common.model.Request;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.module.operation.model.query.CustomerActionLogQuery;
 import org.jeecf.manager.module.operation.model.schema.CustomerActionLogSchema;
 /**

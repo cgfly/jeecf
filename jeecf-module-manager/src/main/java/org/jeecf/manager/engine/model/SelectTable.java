@@ -11,7 +11,7 @@ public class SelectTable extends BaseTable {
 	
 	private List<SelectTableColumn>  columnList;
 	
-	private String sql;
+	private List<WhereEntity> whereEntitys;
 
 	public List<SelectTableColumn> getColumnList() {
 		return columnList;
@@ -21,12 +21,12 @@ public class SelectTable extends BaseTable {
 		this.columnList = columnList;
 	}
 
-	public String getSql() {
-		return sql;
-	}
-
-	public void setSql(String sql) {
-		this.sql = sql;
+	public List<WhereEntity> getWhereEntitys() {
+		return whereEntitys;
 	}
 	
+	public void setWhereEntitys( List<WhereEntity> whereEntitys) {
+		this.whereEntitys = whereEntitys;
+	}
+
 }

@@ -1,11 +1,16 @@
-package org.jeecf.common.model;
+package org.jeecf.manager.common.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.jeecf.common.lang.StringUtils;
+import org.jeecf.common.model.Contain;
+import org.jeecf.common.model.Page;
+import org.jeecf.common.model.Request;
+import org.jeecf.common.model.Sort;
 import org.jeecf.common.utils.HumpUtils;
+import org.jeecf.manager.engine.utils.JniValidate;
 /**
  * 实体PO抽象类
  * @author jianyiming
@@ -182,7 +187,7 @@ public abstract class AbstractEntityPO<Q> {
 			for (Contain tempContain : containList) {
 				String columnName = tempContain.getColumnName();
 				if (StringUtils.isNotEmpty(columnName)) {
-					tempContain.setColumnName(tableName + "." + HumpUtils.humpToLine2(columnName).toLowerCase());
+					tempContain.setColumnName(JniValidate.columnValidate(tableName + "." + HumpUtils.humpToLine2(columnName).toLowerCase()));
 				}
 			}
 		}

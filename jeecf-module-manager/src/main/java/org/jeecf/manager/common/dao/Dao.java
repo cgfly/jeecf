@@ -1,6 +1,9 @@
-package org.jeecf.common.model;
+package org.jeecf.manager.common.dao;
 
 import java.util.List;
+
+import org.jeecf.common.model.AbstractEntity;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 /**
  * dao 接口
  * @author jianyiming

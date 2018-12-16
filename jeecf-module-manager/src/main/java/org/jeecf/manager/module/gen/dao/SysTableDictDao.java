@@ -1,7 +1,7 @@
 package org.jeecf.manager.module.gen.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.common.model.Dao;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.gen.model.domian.SysTableDict;
 import org.jeecf.manager.module.gen.model.po.SysTableDictPO;
 import org.jeecf.manager.module.gen.model.query.SysTableDictQuery;

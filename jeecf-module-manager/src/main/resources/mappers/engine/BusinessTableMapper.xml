@@ -4,16 +4,18 @@
 
 	<select id="queryAll" resultType="java.util.HashMap">
 		select
-		<foreach collection="columnList" index="index"
-			item="item" separator=",">
+		<foreach collection="columnList" index="index" item="item"
+			separator=",">
 			${name}.${item.columnName} as ${item.name}
 		</foreach>
-        from ${tableName} ${name}
-        <where>
-           <if test="sql != null and sql != '' ">
-          		${sql}
-           </if>
-        </where>
+		from ${tableName} ${name}
+		<if test="whereEntitys != null and whereEntitys.size > 0 ">
+			<where>
+				<foreach collection="whereEntitys" item="item">
+					${item.connector} ${item.column} ${item.express} #{item.value}
+				</foreach>
+			</where>
+		</if>
 	</select>
 
 

@@ -3,9 +3,9 @@ package org.jeecf.manager.common.service;
 import java.util.List;
 
 import org.jeecf.common.model.AbstractEntity;
-import org.jeecf.common.model.AbstractEntityPO;
-import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 抽象 数据校验service

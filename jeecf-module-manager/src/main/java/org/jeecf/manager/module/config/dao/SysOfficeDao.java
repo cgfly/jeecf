@@ -1,7 +1,7 @@
 package org.jeecf.manager.module.config.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.common.model.Dao;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.config.model.domain.SysOffice;
 import org.jeecf.manager.module.config.model.po.SysOfficePO;
 import org.jeecf.manager.module.config.model.query.SysOfficeQuery;

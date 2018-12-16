@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.manager.engine.model.SelectTable;
 import org.jeecf.manager.engine.model.SelectTableColumn;
+import org.jeecf.manager.engine.model.WhereEntity;
 import org.jeecf.manager.gen.language.java.model.JavaCommonTable;
 import org.jeecf.manager.gen.language.java.model.JavaTable;
 import org.jeecf.manager.gen.language.java.model.JavaTableColumn;
@@ -53,7 +54,7 @@ public class JavaBuilder extends AbstractLanguageBuilder {
 	}
 	
 	@Override
-	public String getData(String sql) {
+	public String getData(List<WhereEntity> whereEntitys) {
 		if(this.javaTable != null) {
 			SelectTable selectTable = new SelectTable();
 			List<SelectTableColumn> columnList = new ArrayList<>();
@@ -66,7 +67,7 @@ public class JavaBuilder extends AbstractLanguageBuilder {
 				column.setColumnName(tableColumn.getName());
 				columnList.add(column);
 			});
-			selectTable.setSql(sql);
+			selectTable.setWhereEntitys(whereEntitys);
 			selectTable.setColumnList(columnList);
 			return targetTableFacade.selectTable(selectTable).getData();
 		}

@@ -1,6 +1,10 @@
-package org.jeecf.common.model;
+package org.jeecf.manager.common.service;
 
 import java.util.List;
+
+import org.jeecf.common.model.AbstractEntity;
+import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 /**
  * 抽象service 
  * @author jianyiming

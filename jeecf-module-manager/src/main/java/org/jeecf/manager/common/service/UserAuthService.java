@@ -2,10 +2,10 @@ package org.jeecf.manager.common.service;
 
 import java.util.List;
 
-import org.jeecf.common.model.AbstractEntityPO;
-import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.BaseEntity;
 import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.UserUtils;

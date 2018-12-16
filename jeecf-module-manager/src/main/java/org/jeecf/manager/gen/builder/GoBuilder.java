@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.manager.engine.model.SelectTable;
 import org.jeecf.manager.engine.model.SelectTableColumn;
+import org.jeecf.manager.engine.model.WhereEntity;
 import org.jeecf.manager.gen.language.go.model.GoCommonTable;
 import org.jeecf.manager.gen.language.go.model.GoTable;
 import org.jeecf.manager.gen.language.go.model.GoTableColumn;
@@ -51,7 +52,7 @@ public class GoBuilder  extends AbstractLanguageBuilder {
 	}
 
 	@Override
-	public String getData(String sql) {
+	public String getData(List<WhereEntity> whereEntitys) {
 		if(this.goTable != null) {
 			SelectTable selectTable = new SelectTable();
 			List<SelectTableColumn> columnList = new ArrayList<>();
@@ -64,6 +65,7 @@ public class GoBuilder  extends AbstractLanguageBuilder {
 				column.setColumnName(tableColumn.getName());
 				columnList.add(column);
 			});
+			selectTable.setWhereEntitys(whereEntitys);
 			selectTable.setColumnList(columnList);
 			return targetTableFacade.selectTable(selectTable).getData();
 		}

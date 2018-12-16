@@ -1,8 +1,8 @@
 package org.jeecf.manager.module.template.model.po;
 
 
-import org.jeecf.common.model.AbstractEntityPO;
 import org.jeecf.common.model.Request;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.module.template.model.query.GenFieldColumnQuery;
 import org.jeecf.manager.module.template.model.schema.GenFieldColumnSchema;
 

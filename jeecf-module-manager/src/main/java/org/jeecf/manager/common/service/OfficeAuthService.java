@@ -3,12 +3,12 @@ package org.jeecf.manager.common.service;
 import java.util.List;
 import java.util.Set;
 
-import org.jeecf.common.model.AbstractEntityPO;
 import org.jeecf.common.model.Contain;
-import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.OfficeAuthEntity;
 import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.OfficeUtils;

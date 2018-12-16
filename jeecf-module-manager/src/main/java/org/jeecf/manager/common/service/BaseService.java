@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.AbstractEntity;
-import org.jeecf.common.model.AbstractEntityPO;
-import org.jeecf.common.model.AbstractService;
-import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.utils.JqlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

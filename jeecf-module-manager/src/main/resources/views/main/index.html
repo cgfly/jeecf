@@ -143,7 +143,7 @@ body {
 	<div class="container-fluid" style="height: 100%">
 		<div class="row height-full" style="height: 100%; width: 100%">
 			<div id="sidebar" style="height: 100%">
-				<div class="header">JEECF 云工厂 <span style="font-size:15px">v1.0Beta</span></div>
+				<div class="header">JEECF 云工厂 <span style="font-size:15px">v1.5Beta</span></div>
 				<div class="nav-side">
 					<nav id="sidebar" class="sidebar-wrapper" style="color: white">
 						<div class="sidebar-content">
@@ -193,7 +193,8 @@ body {
 				<div class="header">
 					<ul class="nav navbar-nav" style="height: 60px ! important; line-height: 60px; margin: 0 padding:0; margin-left: 20px; color:rgb(0,100,255);">
 						<li>用户:&nbsp;<span th:text="${#users.getName()}"></span>&nbsp;，</li>
-						<li>命名空间:&nbsp;<span th:text="${#namespaces.getName()}"></span></li>
+						<li>命名空间:&nbsp;<span th:text="${#namespaces.getName()}"></span>&nbsp;，</li>
+						<li>数据连接源:&nbsp;<span th:text="${#dbsources.getName()}"></span></li>
 					</ul>
 					<ul class="navbar-right"
 						style="height: 60px ! important; line-height: 60px; margin: 0 padding:0; margin-right: 10px;">

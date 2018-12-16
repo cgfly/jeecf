@@ -2,7 +2,7 @@ package org.jeecf.manager.module.template.dao;
 
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.common.model.Dao;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.po.GenTemplatePO;
 import org.jeecf.manager.module.template.model.query.GenTemplateQuery;
