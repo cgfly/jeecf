@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.common.utils.HumpUtils;
-import org.jeecf.manager.common.model.NamespaceAuthEntity;
+import org.jeecf.manager.common.model.NamespaceAndDbAuthEntity;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.jeecf.manager.validate.groups.Add;
 
@@ -25,14 +25,12 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({
-		@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "表名输入不能为空", groups = {
-				Add.class }),
-		@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.className)", message = "类名输入不能为空", groups = {
-				Add.class }),
-		@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genTableColumns)", message = "表字段输入不能为空", groups = {
-				Add.class }) })
+		@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "表名输入不能为空", groups = {Add.class }),
+		@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.className)", message = "类名输入不能为空", groups = {Add.class }),
+		@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genTableColumns)", message = "表字段输入不能为空", groups = {Add.class }) 
+})
 @ApiModel(value = "genTable", description = "代码生成业务表实体")
-public class GenTable extends NamespaceAuthEntity implements Serializable {
+public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
 
 	/**
 	 * 

@@ -1,0 +1,261 @@
+<div ng-init="sysTableDictAs.init()"></div>
+<ul id="top-tab" class="nav nav-tabs">
+	<li class="active"><a href="#sysTableDictListTab"
+		data-toggle="tab">表组字典配置列表</a></li>
+	<li shiro:hasPermission="gen:sysTableDict:edit"><a
+		href="#sysTableDictFormTab" data-toggle="tab">表组字典配置添加</a></li>
+</ul>
+<br />
+<div class="tab-content">
+	<div class="tab-pane fade in active" id="sysTableDictListTab">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">表组字典配置</li>
+			<li class="active">列表</li>
+		</ol>
+		<form class="form-inline" ng-submit="searchForm()">
+			<div class="form-group">
+				<label>名称:</label> <input type="text" class="form-control" 
+					ng-model="request.data.name" />
+			</div>&nbsp;
+			<div class="form-group">
+				<label>表名:</label> <select class="form-control" 
+					ng-model="request.data.tableName" 
+					style="height: 35px;"
+					ng-options="table.tableName as table.tableName for table in searchTableList"
+					></select>
+			</div>&nbsp;
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">提交</button>
+			</div>
+		</form>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>表名</th>
+					<th>属性</th>
+					<th>注释</th>
+					<th>描述</th>
+					<th>创建时间</th>
+					<th shiro:hasPermission="gen:sysTableDict:edit">操作</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr ng-repeat="sysTableDict in sysTableDictList">
+					<td>{{ $index+1 }}</td>
+					<td>{{ sysTableDict.name }}</td>
+					<td>{{ sysTableDict.tableName }}</td>
+					<td>{{ sysTableDict.field }}</td>
+					<td>{{ sysTableDict.comment }}</td>
+					<td>{{ sysTableDict.description }}</td>
+					<td>{{ sysTableDict.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+					<td shiro:hasPermission="gen:sysTableDict:edit"><span><a
+							href="javascript:void(0)" ng-click="addModal($index)">添加</a></span> <span><a
+							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span><a
+							href="javascript:void(0)" data-content="{{ $index }}"
+							class="target-click" data-confirm="data-confirm">删除</a></span></td>
+				</tr>
+			</tbody>
+		</table>
+		<page-pagination page-id="pageId" page-size="pageSize"
+			page-count="pageCount" page-list="pageList"
+			search-form="searchForm(message)" page-record="pageRecord"
+			page-url-template="urlTemplate"></page-pagination>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">表组字典修改</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" ng-submit="updateForm()"
+							id="updateSysTableDictForm" name="updateSysTableDictForm">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">名称：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="name" name="name"
+											ng-model="updateSysTableDict.name" placeholder="请输入名称"
+											required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysTableDictForm.name.$dirty &amp;&amp; updateSysTableDictForm.name.$invalid">
+											<span ng-show="updateSysTableDictForm.name.$error.required">名称是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">表名：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<select class="form-control"
+											ng-model="updateSysTableDict.tableName" id="tableName"
+											style="height: 25px;" name="tableName"
+											ng-options="table.name as table.name for table in tableList"
+											watch-change="updateTableNameChange"></select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">属性：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="field"
+											name="field" ng-model="updateSysTableDict.field"
+											placeholder="请输入属性" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysTableDictForm.field.$dirty &amp;&amp; updateSysTableDictForm.field.$invalid">
+											<span ng-show="updateSysTableDictForm.field.$error.required">值是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">注释：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="comment"
+											name="comment" ng-model="updateSysTableDict.comment"
+											placeholder="请输入注释" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysTableDictForm.comment.$dirty &amp;&amp; updateSysTableDictForm.comment.$invalid">
+											<span
+											ng-show="updateSysTableDictForm.comment.$error.required">注释是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">描述：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="description"
+											name="description" ng-model="updateSysTableDict.description"
+											placeholder="请输入描述" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysTableDictForm.description.$dirty &amp;&amp; updateSysTableDictForm.description.$invalid">
+											<span
+											ng-show="updateSysTableDictForm.description.$error.required">描述是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="submit" class="btn btn-primary"
+							form="updateSysTableDictForm">提交更改</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	</div>
+	<div class="tab-pane fade" id="sysTableDictFormTab">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">表组字典配置</li>
+			<li class="active">添加</li>
+		</ol>
+		<div class="form-model">
+			<form class="form-horizontal" ng-submit="submitForm()"
+				name="sysTableDictForm">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">名称：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="name" name="name"
+								ng-model="sysTableDict.name" placeholder="请输入名称"
+								required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysTableDictForm.name.$dirty &amp;&amp; sysTableDictForm.name.$invalid">
+								<span ng-show="sysTableDictForm.name.$error.required">名称是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">表名：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<select class="form-control" ng-model="sysTableDict.tableName"
+								id="tableName" style="height: 25px;" name="tableName"
+								ng-options="table.name as table.name for table in tableList"
+								watch-change="insertTableNameChange"></select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">属性：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="field" name="field"
+								ng-model="sysTableDict.field" placeholder="请输入属性"
+								required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysTableDictForm.field.$dirty &amp;&amp; sysTableDictForm.field.$invalid">
+								<span ng-show="sysTableDictForm.field.$error.required">属性是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">注释：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="comment"
+								name="comment" ng-model="sysTableDict.comment"
+								placeholder="请输入注释" required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysTableDictForm.comment.$dirty &amp;&amp; sysTableDictForm.comment.$invalid">
+								<span ng-show="sysTableDictForm.comment.$error.required">注释是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">描述：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="description"
+								name="description" ng-model="sysTableDict.description"
+								placeholder="请输入描述" required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysTableDictForm.description.$dirty &amp;&amp; sysTableDictForm.description.$invalid">
+								<span ng-show="sysTableDictForm.description.$error.required">描述是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

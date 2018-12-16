@@ -1,6 +1,6 @@
 package org.jeecf.manager.module.template.service;
 
-import org.jeecf.manager.common.service.NamespaceAuthService;
+import org.jeecf.manager.common.service.NamespaceAndDbAuthService;
 import org.jeecf.manager.module.template.dao.GenTableDao;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.po.GenTablePO;
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class GenTableService  extends NamespaceAuthService<GenTableDao,GenTablePO,GenTableResult,GenTableQuery,GenTable>{
+public class GenTableService  extends NamespaceAndDbAuthService<GenTableDao,GenTablePO,GenTableResult,GenTableQuery,GenTable>{
 	
 }
