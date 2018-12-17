@@ -7,5 +7,5 @@ Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企�
 2.将 src/main/resources/document/jeecf.sql导入数据库，修改配置文件信息，数据库与redis连接信息  
 3.启动Application，默认端口8801，用户名：admin,密码：123456 
 
-## 基础架构  
-![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture.png)
+## MVC架构  
+![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_mvc_architecture.png)
