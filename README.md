@@ -10,10 +10,8 @@ Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企�
 
 ## 快速开始
 
-1.下载项目
-
-2.将 src/main/resources/document/jeecf.sql导入数据库，修改配置文件信息，数据库与redis连接信息
-
-3.启动Application，默认端口8801，用户名：admin,密码：123456
+1.下载项目  
+2.将 src/main/resources/document/jeecf.sql导入数据库，修改配置文件信息，数据库与redis连接信息  
+3.启动Application，默认端口8801，用户名：admin,密码：123456  
 
 
