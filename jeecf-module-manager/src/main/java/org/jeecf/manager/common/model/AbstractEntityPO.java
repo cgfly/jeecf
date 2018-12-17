@@ -171,7 +171,7 @@ public abstract class AbstractEntityPO<Q> {
 				if (StringUtils.isNotEmpty(columnName)) {
 					String[] columnNames = columnName.split(",");
 					for (String name : columnNames) {
-						tempSort.setColumnName(tableName + "." + HumpUtils.humpToLine2(name).toLowerCase());
+						tempSort.setColumnName(JniValidate.columnValidate(tableName + "." + HumpUtils.humpToLine2(name).toLowerCase()));
 					}
 				}
 			}

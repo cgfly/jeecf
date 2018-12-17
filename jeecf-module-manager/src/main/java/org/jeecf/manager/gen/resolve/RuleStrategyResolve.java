@@ -5,6 +5,7 @@ import java.util.Map;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.manager.gen.enums.RuleStrategyTypeEnum;
 import org.jeecf.manager.gen.model.rule.StrategyEntity;
 
@@ -34,7 +35,11 @@ public class RuleStrategyResolve {
 	 */
 	private String resolveName(JsonNode strategyNode) {
 		if (strategyNode != null) {
-			return StringUtils.lowerCase(strategyNode.asText());
+			String name = StringUtils.lowerCase(strategyNode.asText());
+			if(RuleStrategyNameEnum.contains(name)) {
+				return name;
+			}
+			throw new BusinessException(BusinessErrorEnum.RULE_STRATEGT_NAME_ERROR);
 		}
 		return null;
 	}
@@ -46,7 +51,11 @@ public class RuleStrategyResolve {
 	 */
 	private String resolveType(JsonNode typeNode) {
 		if (typeNode != null) {
-			return StringUtils.lowerCase(typeNode.asText());
+			String type = StringUtils.lowerCase(typeNode.asText());
+			if(RuleStrategyTypeEnum.contains(type)) {
+				return type;
+			}
+			throw new BusinessException(BusinessErrorEnum.RULE_STRATEGT_TYPE_ERROR);
 		}
 		return "param";
 	}
@@ -65,7 +74,6 @@ public class RuleStrategyResolve {
 			} else if (type.equals(RuleStrategyTypeEnum.PARAM.getName())) {
 				return (String) paramsMap.get(fieldNode.asText());
 			}
-			throw new BusinessException(BusinessErrorEnum.RULE_TABLE_COLUMN_TYPE_ERROR);
 		}
 		return (String) paramsMap.get("strategyField");
 	}

@@ -1,22 +1,22 @@
 package org.jeecf.manager.gen.enums;
+
 /**
  * 过滤类型枚举
+ * 
  * @author jianyiming
  *
  */
 public enum RuleFilterTypeEnum {
-	
+
 	/**
 	 * 固化
 	 */
-	CURE(1,"cure"),
+	CURE(1, "cure"),
 	/**
 	 * 参数
 	 */
-	PARAM(2,"param"),
-	;
-	
-	
+	PARAM(2, "param"),;
+
 	public final int code;
 	public final String name;
 
@@ -31,6 +31,16 @@ public enum RuleFilterTypeEnum {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public static boolean contains(String name) {
+		RuleFilterTypeEnum[] ruleFilterTypeEnums = RuleFilterTypeEnum.values();
+		for(RuleFilterTypeEnum ruleFilterTypeEnum : ruleFilterTypeEnums) {
+			if(ruleFilterTypeEnum.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

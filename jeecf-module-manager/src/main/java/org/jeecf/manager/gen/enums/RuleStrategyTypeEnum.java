@@ -32,5 +32,15 @@ public enum RuleStrategyTypeEnum {
 	public String getName() {
 		return this.name;
 	}
+	
+	public static boolean contains(String name) {
+		RuleStrategyTypeEnum[] ruleStrategyTypeEnums = RuleStrategyTypeEnum.values();
+		for(RuleStrategyTypeEnum ruleStrategyTypeEnum : ruleStrategyTypeEnums) {
+			if(ruleStrategyTypeEnum.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
