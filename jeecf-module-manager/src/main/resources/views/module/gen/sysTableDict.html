@@ -80,7 +80,7 @@
 								<label class="col-sm-3 control-label">名称：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="name" name="name"
+										<input type="text" class="form-control" id="updateName" name="name"
 											ng-model="updateSysTableDict.name" placeholder="请输入名称"
 											required="required" />
 									</div>
@@ -97,7 +97,7 @@
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
 										<select class="form-control"
-											ng-model="updateSysTableDict.tableName" id="tableName"
+											ng-model="updateSysTableDict.tableName" id="updateTableName"
 											style="height: 25px;" name="tableName"
 											ng-options="table.name as table.name for table in tableList"
 											watch-change="updateTableNameChange"></select>
@@ -108,7 +108,7 @@
 								<label class="col-sm-3 control-label">属性：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="field"
+										<input type="text" class="form-control" id="updateField"
 											name="field" ng-model="updateSysTableDict.field"
 											placeholder="请输入属性" required="required" />
 									</div>
@@ -124,7 +124,7 @@
 								<label class="col-sm-3 control-label">注释：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="comment"
+										<input type="text" class="form-control" id="updateComment"
 											name="comment" ng-model="updateSysTableDict.comment"
 											placeholder="请输入注释" required="required" />
 									</div>
@@ -141,7 +141,7 @@
 								<label class="col-sm-3 control-label">描述：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="description"
+										<input type="text" class="form-control" id="updateDescription"
 											name="description" ng-model="updateSysTableDict.description"
 											placeholder="请输入描述" required="required" />
 									</div>

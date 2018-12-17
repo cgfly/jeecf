@@ -11,9 +11,7 @@ public class JniValidate {
 	private static String[] SPECIAL_CHAR = {"--", ";","(",")"};
 	
 	public static String columnValidate(String field) {
-		  if(field.contains(" ")) {
-			  throw new SqlJniException("sql jni column validate not pass");
-		  }
+		  field = field.replace(" ", "");
 		  for(int i = 0; i < SPECIAL_CHAR.length;i++) {
 			  if(field.equals(SPECIAL_CHAR[i])) {
 				  throw new SqlJniException("sql jni column validate not pass");
