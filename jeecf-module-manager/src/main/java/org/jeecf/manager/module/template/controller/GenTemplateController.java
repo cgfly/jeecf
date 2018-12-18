@@ -19,7 +19,6 @@ import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.GenUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
-import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.gen.model.GenTemplateEntity;
@@ -43,7 +42,6 @@ import org.jeecf.manager.module.template.service.GenFieldService;
 import org.jeecf.manager.module.template.service.GenTableService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
-import org.jeecf.manager.module.userpower.model.query.SysUserQuery;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,24 +102,22 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:edit")
 	@ApiOperation(value = "更新", notes = "更新模版配置数据")
-	public Response<Integer> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate, MultipartFile file) {
+	public Response<GenTemplateResult> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate) {
 		SysUser sysUser = UserUtils.getCurrentUser();
 		SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
-        if(genTemplate.isNewRecord()) {
-        	GenTemplateQuery query = new GenTemplateQuery();
-        	query.setName(genTemplate.getName());
-        	query.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-        	List<GenTemplateResult> genTemplateList = genTemplateService.findList(new GenTemplatePO(query)).getData();
-        	if(CollectionUtils.isNotEmpty(genTemplateList)) {
-        		throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-        	}
-        }
-		String fileName = (String) RedisCacheUtils.getSysCache(genTemplate.getFileBasePath());
-		if (StringUtils.isNotEmpty(fileName)) {
-			TemplateUtils.unzip(genTemplate.getFileBasePath(), fileName, sysNamespace.getName());
-			fileName = StringUtils.substringBeforeLast(fileName, ".");
-			genTemplate.setFileBasePath(genTemplate.getFileBasePath() + File.separator + fileName);
+		if (genTemplate.isNewRecord()) {
+			GenTemplateQuery query = new GenTemplateQuery();
+			query.setName(genTemplate.getName());
+			query.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
+			List<GenTemplateResult> genTemplateList = genTemplateService.findList(new GenTemplatePO(query)).getData();
+			if (CollectionUtils.isNotEmpty(genTemplateList)) {
+				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+			}
 		}
+		String[] paths = genTemplate.getFileBasePath().split(SplitCharEnum.SLASH.getName());
+		TemplateUtils.unzip(paths[0], paths[1], sysNamespace.getName());
+		String fileName = StringUtils.substringBeforeLast(paths[1], ".");
+		genTemplate.setFileBasePath(paths[0]+ File.separator + fileName);
 		return genTemplateService.saveByAuth(genTemplate);
 	}
 
@@ -130,6 +126,7 @@ public class GenTemplateController extends AbstractController {
 	@RequiresPermissions("template:genTemplate:edit")
 	@ApiOperation(value = "删除", notes = "删除模版配置数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
+
 		GenTemplate genTemplate = genTemplateService.getByAuth(new GenTemplate(id)).getData();
 		if (genTemplate != null) {
 			String userId = UserUtils.getCurrentUserId();
@@ -137,8 +134,6 @@ public class GenTemplateController extends AbstractController {
 			if (sysNamespace != null) {
 				Response<Integer> res = genTemplateService.deleteByAuth(new GenTemplate(id));
 				if (res.getData() != 0) {
-					SysUserQuery querySysUser = new SysUserQuery();
-					querySysUser.setId(userId);
 					String filePath = StringUtils.substringBeforeLast(genTemplate.getFileBasePath(),
 							SplitCharEnum.SLASH.getName());
 					TemplateUtils.delDownload(filePath, sysNamespace.getName());
@@ -172,7 +167,8 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:view")
 	@ApiOperation(value = "参数", notes = "查询模版参数")
-	public Response<List<GenFieldColumnResult>> params(@PathVariable("genFieldId") Integer genFieldId) throws IOException {
+	public Response<List<GenFieldColumnResult>> params(@PathVariable("genFieldId") Integer genFieldId)
+			throws IOException {
 		GenFieldColumnQuery columns = new GenFieldColumnQuery();
 		columns.setGenFieldId(genFieldId);
 		return genFieldColumnService.findList(new GenFieldColumnPO(columns));
@@ -206,8 +202,8 @@ public class GenTemplateController extends AbstractController {
 			SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
 			if (sysNamespace != null) {
 				String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getName());
-				String outPath = GenUtils.build(entity.getParams(), entity.getTableId(), sourcePath,
-						genTemplate.getLanguage());
+				String outPath = GenUtils.build(entity.getParams(), entity.getTableName(), sourcePath,
+						genTemplate.getLanguage(), sysNamespace);
 				DownloadUtils.downloadFile(response, outPath);
 			}
 		}

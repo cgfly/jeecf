@@ -15,7 +15,7 @@ import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.jeecf.manager.cache.RedisCacheManagerZ;
+import org.jeecf.manager.cache.RedisShiroCacheManager;
 import org.jeecf.manager.cache.RedisSessionDAO;
 import org.jeecf.manager.security.realm.SysShiroRealm;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +33,7 @@ public class ShiroConfiguration {
     @Resource
     private RedisSessionDAO sessionDAO;
     @Resource
-    private RedisCacheManagerZ redisCacheManagerZ;
+    private RedisShiroCacheManager redisShiroCacheManager;
 	   /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在
@@ -86,7 +86,7 @@ public class ShiroConfiguration {
         // 设置realm.
         securityManager.setRealm(sysShiroRealm);
         // 自定义缓存实现 使用redis
-        securityManager.setCacheManager(redisCacheManagerZ);
+        securityManager.setCacheManager(redisShiroCacheManager);
         // 自定义session管理 使用redis
         securityManager.setSessionManager(sessionManager());
         
@@ -99,7 +99,7 @@ public class ShiroConfiguration {
     @Bean
     public SysShiroRealm sysShiroRealm(){
     	SysShiroRealm shiroRealm = new SysShiroRealm();
-    	shiroRealm.setCacheManager(redisCacheManagerZ);
+    	shiroRealm.setCacheManager(redisShiroCacheManager);
         shiroRealm.setCachingEnabled(true);
         return shiroRealm;
     }
@@ -141,7 +141,7 @@ public class ShiroConfiguration {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(sessionDAO);
         sessionManager.setGlobalSessionTimeout(1800000);
-        sessionManager.setCacheManager(redisCacheManagerZ);
+        sessionManager.setCacheManager(redisShiroCacheManager);
         return sessionManager;
     }
     

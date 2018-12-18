@@ -2,10 +2,10 @@ package org.jeecf.manager.common.service;
 
 import java.util.List;
 
-import org.jeecf.common.model.AbstractEntityPO;
-import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.BaseEntity;
 import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -26,19 +26,19 @@ public class UserAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntity
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> insertByAuth(T t) {
+	public Response<R> insertByAuth(T t) {
 		return super.insert(t);
 	}
 	
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> updateByAuth(T t) {
+	public Response<R> updateByAuth(T t) {
 		return super.update(t);
 	}
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> saveByAuth(T t) {
+	public Response<R> saveByAuth(T t) {
 		return super.saveByAuth(t);
 	}
 

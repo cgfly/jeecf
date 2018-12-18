@@ -11,7 +11,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 			}
 			$scope.table.genTableColumns = tableColumns;
 			$httpRequest.post($ctx.getWebPath()+"template/genTable/save", $scope.table).then(
-					function(res) { // 调用承诺API获取数据 .resolve
+					function(res) { 
 						if(res.success){
 			                $jBoxcm.success("保存数据成功");
 			                $state.reload($scope.currentRouteName);
@@ -95,8 +95,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 		};
 		
 		$scope.queryBaseTableColumnList = function() { 
-			var data = {"genTable" : $scope.table}
-			$httpRequest.post("/template/genTable/queryBaseTableColumnList",data).then(
+			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.table.name).then(
 					function(res) { // 调用承诺API获取数据 .resolve
 						$scope.isInsertCheck = undefined;
 						$scope.isNullCheck = undefined;
@@ -225,8 +224,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 		
 		$scope.detailModal = function(index){
 			$scope.detailTable = $scope.genTableList[index];
-			var data = {"genTable" : $scope.detailTable}
-			$httpRequest.post("/template/genTable/queryBaseTableColumnList",data).then(
+			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.detailTable.name).then(
 					function(res) { 
 						$scope.detailTable.columns = res.data;
 						$('#detailModal').modal('show');

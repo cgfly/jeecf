@@ -15,7 +15,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		
 		$scope.searchForm = function() {
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysPower/list",
-			$scope.request.data).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request.data).then(function(res) { 
 				if (res.success) {
 					$scope.sysPowerList = res.data;
 					$page.setPage($scope,0);

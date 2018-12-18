@@ -3,6 +3,7 @@ package org.jeecf.manager.module.userpower.model.result;
 import java.io.Serializable;
 import java.util.List;
 
+import org.jeecf.manager.module.config.model.domain.SysOffice;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -23,6 +24,11 @@ public class SysUserResult extends SysUser implements Serializable {
 	private String roleNames;
 	
 	/*********************追加字段***************************/
+	
+	/**
+	 * 组织结构
+	 */
+	private SysOffice sysOffice;
 	/**
 	 * 角色列表
 	 */
@@ -42,6 +48,14 @@ public class SysUserResult extends SysUser implements Serializable {
 
 	public void setSysRoleList(List<SysRoleResult> sysRoleList) {
 		this.sysRoleList = sysRoleList;
+	}
+	
+	public SysOffice getSysOffice() {
+		return sysOffice;
+	}
+
+	public void setSysOffice(SysOffice sysOffice) {
+		this.sysOffice = sysOffice;
 	}
 	
 }

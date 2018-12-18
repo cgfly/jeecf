@@ -73,7 +73,7 @@ public class SysPowerController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "更新", notes = "更新系统权限数据")
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysPower sysPower) {
+	public Response<SysPowerResult> save(@RequestBody @Validated({Add.class}) SysPower sysPower) {
 		if(sysPower.isNewRecord()) {
 			SysPowerQuery query = new SysPowerQuery();
 			query.setPermission(sysPower.getPermission());
@@ -90,7 +90,7 @@ public class SysPowerController extends AbstractController {
 	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "删除", notes = "删除系统权限数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deletePower(new SysPower(id));
+		return securityFacade.deletePower(id);
 	}
 
 }

@@ -2,7 +2,7 @@ package org.jeecf.manager.module.operation.dao;
 
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.common.model.Dao;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.operation.model.domain.CustomerActionLog;
 import org.jeecf.manager.module.operation.model.po.CustomerActionLogPO;
 import org.jeecf.manager.module.operation.model.query.CustomerActionLogQuery;

@@ -72,9 +72,11 @@ public class SysDbsourceController
 		Response<List<SysDbsourceResult>> sysDbsourceRes = sysDbsourceService
 				.findPageByAuth(new SysDbsourcePO(request));
 		List<SysDbsourceResult> sysDbsourceList = sysDbsourceRes.getData();
-		sysDbsourceList.forEach(sysDbsourceEnum -> {
-			sysDbsourceEnum.setUsableName(EnumUtils.Usable.getName(sysDbsourceEnum.getUsable()));
-		});
+		if (CollectionUtils.isNotEmpty(sysDbsourceList)) {
+			sysDbsourceList.forEach(sysDbsourceEnum -> {
+				sysDbsourceEnum.setUsableName(EnumUtils.Usable.getName(sysDbsourceEnum.getUsable()));
+			});
+		}
 		return sysDbsourceRes;
 	}
 
@@ -83,7 +85,7 @@ public class SysDbsourceController
 	@RequiresPermissions("config:sysDbsource:edit")
 	@ApiOperation(value = "更新", notes = "更新系统数据源数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({ Add.class }) SysDbsource sysDbsource) {
+	public Response<SysDbsourceResult> save(@RequestBody @Validated({ Add.class }) SysDbsource sysDbsource) {
 		if (sysDbsource.isNewRecord()) {
 			SysDbsourceQuery query = new SysDbsourceQuery();
 			query.setKeyName(sysDbsource.getKeyName());
@@ -91,13 +93,12 @@ public class SysDbsourceController
 			if (CollectionUtils.isNotEmpty(sysDbsourcceList)) {
 				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
 			}
-		}
-		Response<Integer> res = sysDbsourceService.saveByAuth(sysDbsource);
-		if (res.isSuccess() && res.getData() > 0) {
-			SysDbsource sysDb = sysDbsourceService.get(sysDbsource).getData();
+		} 
+		Response<SysDbsourceResult> res = sysDbsourceService.saveByAuth(sysDbsource);
+		if (res.isSuccess()) {
+			SysDbsourceResult sysDb = res.getData();
 			if (sysDb != null) {
-				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(),
-						sysDb.getPassword());
+				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(), sysDb.getPassword());
 				if (flag) {
 					sysDb.setUsable(EnumUtils.Usable.YES.getCode());
 					sysDbsourceService.initDbSource();
@@ -114,7 +115,6 @@ public class SysDbsourceController
 	@ResponseBody
 	@RequiresPermissions("config:sysDbsource:edit")
 	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
-	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		SysDbsource sysDbsource = sysDbsourceService.get(new SysDbsource(id)).getData();
 		if (sysDbsource != null) {
@@ -123,13 +123,24 @@ public class SysDbsourceController
 			if (!defaultKeyName.equals(keyName)) {
 				String currentKeyName = DynamicDataSourceContextHolder.getCurrentDataSourceValue();
 				if (!currentKeyName.equals(keyName)) {
-					return sysDbsourceService.deleteByAuth(sysDbsource);
+					return sysDbsourceService.deleteByFlag(new SysDbsource(id));
 				}
 				throw new BusinessException(BusinessErrorEnum.DARASOURCE_KEY_IS_CURRENT);
 			}
 			throw new BusinessException(BusinessErrorEnum.DARASOURCE_KEY_IS_DEFAULT);
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+	}
+	
+	@PostMapping(value = { "active/{id}" })
+	@ResponseBody
+	@RequiresPermissions("config:sysDbsource:edit")
+	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	public Response<Integer> active(@PathVariable("id") String id) {
+		SysDbsource sysDbSource = new SysDbsource(id);
+		sysDbSource.setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		sysDbsourceService.saveByAuth(sysDbSource);
+		return new Response<>(1);
 	}
 
 	@PostMapping(value = { "effect/{keyName}" })

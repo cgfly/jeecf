@@ -1,5 +1,9 @@
 package org.jeecf.manager.module.userpower.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
 import org.jeecf.manager.module.userpower.model.domain.SysRole;
@@ -16,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -47,52 +52,70 @@ public class SysRoleControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 
-	@Test
-	public void save() throws Exception {
-		SysRole sysRole = new SysRole();
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(sysRole);
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/save").contentType(MediaType.APPLICATION_JSON)
-						.content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-
-	@Test
-	public void delete() throws Exception {
-		String id = "1";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRoler/delete/" + id)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-	
 	@Test
 	public void getTree() throws Exception{
-		String roleId = "1";
+		String roleId = "4";
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userpower/sysRoler/getTree/" + roleId)
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/getTree/" + roleId)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
 	}
 	
 	@Test
 	public void getAllTree() throws Exception{
 		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/userPower/sysRoler/getAllTree")
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/getAllTree")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+	}
+	
+	@Test
+	public void dataOperation() throws Exception {
+		SysRole sysRole = new SysRole();
+		sysRole.setName("test");
+		sysRole.setEnname("test");
+		List<String> powerIds = new ArrayList<>();
+		powerIds.add("30");
+		powerIds.add("31");
+		sysRole.setSysPowerIds(powerIds);
+		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysRole));
+		if(saveNode.get(SUCCESS).asBoolean()) {
+			sysRole.setName("saveUpdate");
+			sysRole.setId(saveNode.get("data").get("id").asText());
+			sysRole.setSysPowerIds(null);
+			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysRole));
+			if(updateNode.get(SUCCESS).asBoolean()) {
+				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysRole.getId()));
+				assert deleteNode.get(SUCCESS).asBoolean();
+			}
+			assert updateNode.get(SUCCESS).asBoolean();
+		}
+		assert saveNode.get(SUCCESS).asBoolean();
+	}
+	
+	private String save(SysRole sysRole) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(sysRole);
+		return mockMvc
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/save").contentType(MediaType.APPLICATION_JSON)
+						.content(requestJson))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
+	}
+
+	private String delete(String id) throws Exception {
+		return mockMvc
+				.perform(MockMvcRequestBuilders.post("/userpower/sysRole/delete/" + id)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
 	}
 }

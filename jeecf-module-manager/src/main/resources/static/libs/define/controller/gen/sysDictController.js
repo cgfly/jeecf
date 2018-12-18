@@ -25,7 +25,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.query.page = pageId;
 			$scope.request.page.current = pageId;
 			$httpRequest.post(url,
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) {
 				if (res.success) {
 					$scope.sysDictList = res.data;
 					$page.setPage($scope,res.page.total);
@@ -89,19 +89,6 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.request.page.size = request.page.size;
 			return $scope.searchForm();
 		};
-		
-		$scope.genCreate = function(){
-			$httpRequest.post($ctx.getWebPath() + "gen/sysDict/genCreate",null
-					).then(function(res) {
-				          if(res.success){
-		                	  $jBoxcm.success("创建枚举工具类成功");
-				        	  var form = $httpRequest.form($ctx.getWebPath() + "gen/sysDict/downloads/"+res.data,"POST");
-				        	  form.submit();
-		                  } else {
-		                	  $jBoxcm.error("创建枚举工具类失败,"+res.errorMessage);
-		                  }		
-					}); 
-		}
 		
 		this.init = function(){
 		    $scope.currentRouteName = $state.current.name;

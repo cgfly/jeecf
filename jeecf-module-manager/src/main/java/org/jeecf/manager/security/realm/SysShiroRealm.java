@@ -49,13 +49,13 @@ public class SysShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		String principal = (String) principalCollection.getPrimaryPrincipal();
-		Response<List<SysRole>> sysRoleRes = securityFacade.findRole(new SysUser(principal));
+		Response<List<SysRole>> sysRoleRes = securityFacade.findRole(principal);
 		Set<String> roleSet = new HashSet<>();
 		Set<String> powerSet = new HashSet<String>();
 		if (ResponseUtils.isNotEmpty(sysRoleRes)) {
 			sysRoleRes.getData().forEach(sysRole -> {
 				roleSet.add(sysRole.getEnname());
-				Response<List<SysPower>> sysPowerRes = securityFacade.findPower(sysRole);
+				Response<List<SysPower>> sysPowerRes = securityFacade.findPower(sysRole.getId());
 				if (ResponseUtils.isNotEmpty(sysPowerRes)) {
 					sysPowerRes.getData().forEach(sysPower -> {
 						String afterLast = StringUtils.substringAfterLast(sysPower.getPermission(), ":");

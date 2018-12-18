@@ -11,7 +11,6 @@ import org.jeecf.manager.common.model.PermissionEntity;
 import org.jeecf.manager.common.properties.PowerProperties;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
-import org.jeecf.manager.module.userpower.model.domain.SysUser;
 import org.jeecf.manager.module.userpower.model.po.SysPowerPO;
 import org.jeecf.manager.module.userpower.model.query.SysPowerQuery;
 import org.jeecf.manager.module.userpower.model.result.SysPowerResult;
@@ -75,12 +74,12 @@ public class PermissionUtils {
 	 */
 	public static <T extends PermissionEntity> List<T> filter(List<T> permissions) {
 		String userId = UserUtils.getCurrentUserId();
-		Set<String> sysPowerSet = securityFacade.findPower(new SysUser(userId)).getData();
-		if (CollectionUtils.isNotEmpty(permissions) && CollectionUtils.isNotEmpty(sysPowerSet)) {
+		Set<String> sysPermissionSet = securityFacade.findPermission(userId).getData();
+		if (CollectionUtils.isNotEmpty(permissions) && CollectionUtils.isNotEmpty(sysPermissionSet)) {
 			return permissions.stream().filter(t -> {
 				String[] tPermissions = PermissionUtils.getResolvePermissions(t.getPermission());
 				for (String tPermission : tPermissions) {
-					for (String permission : sysPowerSet) {
+					for (String permission : sysPermissionSet) {
 						if (permission.equals(tPermission)) {
 							return true;
 						}
@@ -100,9 +99,9 @@ public class PermissionUtils {
 	 */
 	public static boolean isExist(String permission) {
 		String userId = UserUtils.getCurrentUserId();
-		Set<String> sysPowerSet = securityFacade.findPower(new SysUser(userId)).getData();
-		if (CollectionUtils.isNotEmpty(sysPowerSet)) {
-			for (String permiss : sysPowerSet) {
+		Set<String> sysPermissionSet = securityFacade.findPermission(userId).getData();
+		if (CollectionUtils.isNotEmpty(sysPermissionSet)) {
+			for (String permiss : sysPermissionSet) {
 				if (permiss.equals(permission)) {
 					return true;
 				}
@@ -179,7 +178,7 @@ public class PermissionUtils {
 		List<SysPowerResult> sysPowerResultList = sysPowerService.findList(new SysPowerPO(sysPowerQuery)).getData();
 		if (CollectionUtils.isNotEmpty(sysPowerResultList)) {
 			SecurityFacade securityFacade = SpringContextUtils.getBean("securityFacade", SecurityFacade.class);
-			securityFacade.deletePower(sysPowerResultList.get(0));
+			securityFacade.deletePower(sysPowerResultList.get(0).getId());
 		}
 	}
 

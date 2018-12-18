@@ -23,6 +23,9 @@
 				<if test="data.sysNamespaceId != null ">
 					AND genTable.sys_namespace_id = #{data.sysNamespaceId}
 				</if>
+				<if test="data.sysDbsourceId != null ">
+					AND genTable.sys_dbsource_id = #{data.sysDbsourceId}
+				</if>
 				<if
 					test="data.parentTableId != null and data.parentTableId != '' ">
 					AND genTable.parent_table_id = #{data.parentTableId}
@@ -76,6 +79,12 @@
 		from gen_table genTable
 		<include refid="leftJoinColumn" />
 		where genTable.id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
+		<if test="sysDbsourceId != null">
+			AND sys_dbsource_id = #{sysDbsourceId}
+		</if>
 	</select>
 
 	<select id="query"
@@ -113,6 +122,9 @@
 			<if test="sysNamespaceId != null">
 				sys_namespace_id,
 			</if>
+			<if test="sysDbsourceId != null">
+				sys_dbsource_id,
+			</if>
 			<if test="createBy != null">
 				create_by,
 			</if>
@@ -148,6 +160,9 @@
 			</if>
 			<if test="sysNamespaceId != null">
 				#{sysNamespaceId},
+			</if>
+			<if test="sysDbsourceId != null">
+				#{sysDbsourceId},
 			</if>
 			<if test="createBy != null">
 				#{createBy},
@@ -196,6 +211,9 @@
 		<if test="sysNamespaceId != null">
 			AND sys_namespace_id = #{sysNamespaceId}
 		</if>
+		<if test="sysDbsourceId != null">
+			AND sys_dbsource_id = #{sysDbsourceId}
+		</if>
 	</update>
 
 	<delete id="delete">
@@ -204,16 +222,15 @@
 		<if test="sysNamespaceId != null">
 			AND sys_namespace_id = #{sysNamespaceId}
 		</if>
+		<if test="sysDbsourceId != null">
+			AND sys_dbsource_id = #{sysDbsourceId}
+		</if>
 	</delete>
 
 	<select id="count" resultType="int">
 		select count(1) from gen_table genTable
 		<include refid="leftJoinColumn" />
-		<if test="data != null">
-			<include refid="commonWhere" />
-		</if>
-		<include refid="containWhere" />
-		<include refid="reginWhere" />
+	    <include refid="commonWhere" />
 	</select>
 
 </mapper>

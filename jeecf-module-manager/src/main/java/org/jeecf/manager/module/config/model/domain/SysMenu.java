@@ -6,12 +6,11 @@ import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.AbstractTreePermissionEntity;
 import org.jeecf.manager.module.config.model.result.SysMenuResult;
 import org.jeecf.manager.validate.groups.Add;
@@ -24,6 +23,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
+@ScriptAssert.List({
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.label)",message="标签输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.route)",message="路由输入不能为空",groups= {Add.class}),
+})
 @ApiModel(value="sysMenu",description="系统菜单实体")
 public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> implements Serializable{
 	
@@ -67,7 +70,6 @@ public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> impleme
 		super(id);
 	}
 	
-	@NotBlank(message="标签输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 20, message = "标签长度必须介于 1 和 20 之间",groups={Add.class})
 	@Pattern(regexp="^[a-zA-Z]+$",message="标签只能由a-zA-Z组成",groups= {Add.class})
 	public String getLabel() {
@@ -89,7 +91,6 @@ public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> impleme
 	}
 	
 	
-	@NotNull(message="路由输入不能为空",groups= {Add.class})
 	@Min(value=0,message="路由输入错误",groups= {Add.class})
 	@Max(value=1,message="路由输入错误",groups= {Add.class})
 	public Integer getRoute() {

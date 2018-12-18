@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.PermissionEntity;
 import org.jeecf.manager.validate.constraints.Jdbc;
 import org.jeecf.manager.validate.groups.Add;
@@ -19,6 +19,12 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
+@ScriptAssert.List({
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.keyName)",message="关键字输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.url)",message="连接串输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.userName)",message="账号名输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)",message="密码输入不能为空",groups= {Add.class})
+})
 @ApiModel(value = "sysDbsource", description = "系统数据源实体")
 public class SysDbsource extends PermissionEntity implements Serializable {
 
@@ -57,7 +63,6 @@ public class SysDbsource extends PermissionEntity implements Serializable {
 		super(id);
 	}
 	
-	@NotBlank(message="关键字输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 20, message = "关键字长度必须介于 1 和 20 之间",groups={Add.class})
 	@Pattern(regexp="^[a-zA-Z]+$",message="关键字只能由a-zA-Z组成",groups= {Add.class})
 	public String getKeyName() {
@@ -68,7 +73,6 @@ public class SysDbsource extends PermissionEntity implements Serializable {
 		this.keyName = keyName;
 	}
 	
-	@NotBlank(message="连接串输入不能为空",groups= {Add.class})
 	@Length(min = 1, max = 150, message = "连接串长度必须介于 1 和 150 之间",groups={Add.class})
 	@Jdbc(message = "连接串格式错误",groups={Add.class})
 	public String getUrl() {

@@ -10,6 +10,10 @@ import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.module.config.model.po.SysOfficePO;
+import org.jeecf.manager.module.config.model.query.SysOfficeQuery;
+import org.jeecf.manager.module.config.model.result.SysOfficeResult;
+import org.jeecf.manager.module.config.service.SysOfficeService;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
 import org.jeecf.manager.module.userpower.model.po.SysRolePO;
@@ -59,6 +63,9 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 	
 	@Autowired
 	private SysUserService sysUserService;
+	
+	@Autowired
+	private SysOfficeService sysOfficeService;
 
 	@Autowired
 	private SecurityFacade securityFacade;
@@ -113,7 +120,7 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 	@RequiresPermissions("userpower:sysUser:edit")
 	@ApiOperation(value = "更新", notes = "更新系统用户数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysUser sysUser) {
+	public Response<SysUserResult> save(@RequestBody @Validated({Add.class}) SysUser sysUser) {
 		if(sysUser.isNewRecord()) {
 			if(StringUtils.isBlank(sysUser.getPassword())) {
 				throw new BusinessException(BusinessErrorEnum.USER_PASSWORD_ERROR);
@@ -134,7 +141,15 @@ public class SysUserController extends BaseController<SysUserQuery,SysUserResult
 	@ApiOperation(value = "删除", notes = "删除系统用户数据")
 	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deleteUser(new SysUser(id));
+		return securityFacade.deleteUser(id);
+	}
+	
+	@PostMapping(value = { "getTreeData" })
+	@ResponseBody
+	@RequiresPermissions("userpower:sysUser:view")
+	@ApiOperation(value = "列表", notes = "查询组织结构表格列表")
+	public Response<List<SysOfficeResult>> getTreeData() {
+		return sysOfficeService.getTreeData(new SysOfficePO(new SysOfficeQuery()));
 	}
 
 }

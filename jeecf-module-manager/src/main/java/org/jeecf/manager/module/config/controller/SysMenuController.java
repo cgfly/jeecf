@@ -70,7 +70,7 @@ public class SysMenuController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysMenu:edit")
 	@ApiOperation(value = "更新", notes = "更新系统菜单数据")
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysMenu sysMenu) {
+	public Response<SysMenuResult> save(@RequestBody @Validated({Add.class}) SysMenu sysMenu) {
 		if(sysMenu.isNewRecord()) {
 			SysMenuQuery query = new SysMenuQuery();
 			query.setLabel(sysMenu.getLabel());

@@ -1,98 +1,10 @@
 <div style="padding-left:20px;padding-bottom:50px;">
 <h3>介绍</h3><br/>
 <p>Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企业业务开发效率与代码规范的平衡问题，通过使用通用的抽象模版即保证了业务开发效率，又保证了代码的规范,解决了多人开发风格不同一，可读性差等痛点问题。</p>
-<h3>基础架构</h3><br/>
-<P><img alt="基础架构" src="/images/jeecf_architecture.png"/></P>
 <h3>快速开始</h3><br/>
 <P>1.下载项目:<a href="https://github.com/jianym/jeecf" target="_blank">https://github.com/jianym/jeecf</a></P>
 <P>2.将 src/main/resources/document/jeecf.sql导入数据库，修改配置文件信息，数据库与redis连接信息</P>
 <P>3.启动Application，默认端口8801，用户名：admin,密码：123456</P>
-<h3>功能说明</h3><br/>
-<h4>一.基础配置</h4>
-<p>1.菜单，通过配置菜单添加需要新要的新的页面,基于权限判断用户是否拥有该菜单</p>
-<p>2.命名空间，命名空间决定数据的隔离，通过命名空间可以对数据进行分组，基于权限判断用户是否拥有该命名空间</p>
-<p>2.数据库连接，通过配置数据库连接方法，读取数据库表信息，基于权限判断用户是否拥有该数据库连接</p>
-<h4>二.权限控制</h4>
-<p>1.一个用户有多个角色，一个角色有多个权限</p>
-<p>2.规定以base结尾的权限，拥有edit，view结尾的两种权限</p>
-<p>3.规定edit,view结尾为原子权限</p>
-<p>4.如果选中原子权限，则相对应的base权限不起作用</p>
-<h4>三.代码生成</h4>
-<p>1.数据字典，通过配置数据字典来生成枚举类，不同命名空间的数据字典数据不互通</p>
-<h4>四.模版生成</h4>
-<p>1.数表配置，通过数据库连接扫描物理表信息，转化成业务表信息，供模版生成内置参数使用，不同命名空间数据不互通</p>
-<p>2.模版参数，通过配置模版参数，在模版生成时手动输入参数，不同命名空间数据不互通</p>
-<p>3.模版生成，上传模版文件，选择模版参数和业务表,生成相应代码文件</p>
-<h4>五.基础参数</h4>
-<p>1.nowDate,当前时间</p>
-<h4>六.业务表内置参数</h4>
-<p>1.table,业务表实体</p>
-<p>2.table.name,业务表名称</p>
-<p>3.table.comment,业务表注释</p>
-<p>4.table.parentTableFk,父表外键名称</p>
-<p>5.table.parent,父表实体</p>
-<p>6.table.capitalizeClassName,首字母大写类名</p>
-<p>7.table.uncapitalizeClassName,首字母小写类名</p>
-<p>8.table.queryColumns,获取查询字段</p>
-<p>9.table.insertColumns,获取插入字段</p>
-<p>10.table.updateColumns,获取编辑字段</p>
-<p>11.table.listColumns,获取列表字段</p>
-<p>12.table.intervalColumns,获取区间字段</p>
-<p>13.table.closeIntervalColumns,获取闭区间字段</p>
-<p>14.table.openIntervalColumns,获取开区间字段</p>
-<p>15.table.childList,获取字表</p>
-<p>16.table.genTableColumns,获取表字段实体列表，下面以tableColumn表示字段实体</p>
-<p>17.tableColumn.name,字段名称</p>
-<p>18.tableColumn.isNull,是否为空，0为空，1非空</p>
-<p>19.tableColumn.sort,字段循序</p>
-<p>20.tableColumn.isKey,是否是主键</p>
-<p>21.tableColumn.comment,字段注释</p>
-<p>22.tableColumn.jdbcType,获取jdbc类型</p>
-<p>23.tableColumn.type,获取类型</p>
-<p>24.tableColumn.formType,获取form表单类型</p>
-<p>25.tableColumn.field,获取属性</p>
-<p>26.tableColumn.queryType,获取搜索类型</p>
-<p>27.tableColumn.isInsert,是否插入字段</p>
-<p>28.tableColumn.isEdit,是否编辑字段</p>
-<p>29.tableColumn.isList,是否列表字段</p>
-<p>30.tableColumn.isQuery,是否查询字段</p>
-<p>31.tableColumn.simpleType,获取简写类型</p>
-<p>32.tableColumn.simpleJdbcType,获取简写jdbc类型</p>
-<p>33.tableColumn.simpleField,获取简写属性</p>
-<p>34.tableColumn.dataLength,获取jdbc属性最大长度</p>
-<h5>java语言 simpleType与jdbcType 对应关系</h5>
-<p>String --> varchar,text</p>
-<p>Integer --> integer,int,tinyint</p>
-<p>Long --> bigint</p>
-<p>Date --> date,datetime,timestamp</p>
-<p>BigDecimal --> decimal</p>
-<h5>go语言 simpleType与jdbcType 对应关系</h5>
-<p>string --> varchar,text</p>
-<p>int64 --> bigint</p>
-<p>int32 --> integer,int</p>
-<p>int8 --> tinyint</p>
-<p>float64 --> double,decimal</p>
-<p>Time --> date,datetime,timestamp</p>
-<h5>queryType语义对应关系</h5>
-<p>0 --> "="</p>
-<p>1 --> "!="</p>
-<p>2 --> "> or &lt;"</p>
-<p>3 --> ">= or &lt;="</p>
-<p>4 --> "like"</p>
-<p>5 --> "like%"</p>
-<h5>formType语义对应关系</h5>
-<p>0 --> 文本框</p>
-<p>1 --> 文本域</p>
-<p>2 --> 数字框</p>
-<p>3 --> 时间框</p>
-<p>4 --> 下拉框</p>
-<p>5 --> 表格下拉框</p>
-<h4>七.模版参数</h4>
-<p>1.在模版参数中配置相应参数</p>
-<p>2.模版配置中引入模版参数</p>
-<h4>八.模版文件</h4>
-<p>1.上传文件以.zip压缩</p>
-<p>2.文件夹下有config.json文件，其中path参数描述模版文件相对路径，可配置多个文件路径，模版文件为xml格式。outBaseDir参数，生成文件输出的基础包</p>
-<P>3.模版文件（xml）中，name参数是描述模版文件名字，filePath参数是文件输出包与outBaseDir参数连用，即整个输出包路径，fileName参数是输出文件的名字，content具体的代码生成内容模版</P>
-<p>4.内容模版基于freemarket规则编写</p>
+<h3>功能介绍</h3><br/>
+<p><a href="https://github.com/jianym/jeecf/wiki" target="_blank">https://github.com/jianym/jeecf/wiki</a></p>
 </div>

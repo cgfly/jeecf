@@ -2,7 +2,7 @@ package org.jeecf.manager.module.userpower.dao;
 
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.common.model.Dao;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.userpower.model.domain.SysRolePower;
 import org.jeecf.manager.module.userpower.model.po.SysRolePowerPO;
 import org.jeecf.manager.module.userpower.model.query.SysRolePowerQuery;

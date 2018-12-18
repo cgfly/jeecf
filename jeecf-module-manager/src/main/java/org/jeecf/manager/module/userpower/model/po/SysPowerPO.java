@@ -1,8 +1,8 @@
 package org.jeecf.manager.module.userpower.model.po;
 
 
-import org.jeecf.common.model.AbstractEntityPO;
 import org.jeecf.common.model.Request;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.module.userpower.model.query.SysPowerQuery;
 import org.jeecf.manager.module.userpower.model.schema.SysPowerSchema;
 

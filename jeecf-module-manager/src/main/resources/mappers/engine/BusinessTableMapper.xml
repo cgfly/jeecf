@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecf.manager.engine.dao.BusinessTableDao">
+
+	<select id="queryAll" resultType="java.util.HashMap">
+		select
+		<foreach collection="columnList" index="index" item="item"
+			separator=",">
+			${name}.${item.columnName} as ${item.name}
+		</foreach>
+		from ${tableName} ${name}
+		<if test="whereEntitys != null and whereEntitys.size > 0 ">
+			<where>
+				<foreach collection="whereEntitys" item="item">
+					${item.connector} ${item.column} ${item.express} #{item.value}
+				</foreach>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>

@@ -2,7 +2,7 @@ package org.jeecf.manager.module.config.dao;
 
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.common.model.Dao;
+import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.config.model.domain.SysUserNamespace;
 import org.jeecf.manager.module.config.model.po.SysUserNamespacePO;
 import org.jeecf.manager.module.config.model.query.SysUserNamespaceQuery;

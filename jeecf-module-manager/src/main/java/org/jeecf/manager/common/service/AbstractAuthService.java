@@ -3,9 +3,9 @@ package org.jeecf.manager.common.service;
 import java.util.List;
 
 import org.jeecf.common.model.AbstractEntity;
-import org.jeecf.common.model.AbstractEntityPO;
-import org.jeecf.common.model.Dao;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 抽象 数据校验service
@@ -26,17 +26,17 @@ public abstract class AbstractAuthService<D extends Dao<P,R,Q,T>, P extends Abst
 	 * @return
 	 */
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public abstract Response<Integer> insertByAuth(T t);
+	public abstract Response<R> insertByAuth(T t);
 	/**
 	 * 更新数据权限验证
 	 * @param t
 	 * @return
 	 */
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public abstract Response<Integer> updateByAuth(T t);
+	public abstract Response<R> updateByAuth(T t);
 	
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> saveByAuth(T t) {
+	public Response<R> saveByAuth(T t) {
 		if (t.isNewRecord()) {
 			return this.insertByAuth(t);
 		} else {

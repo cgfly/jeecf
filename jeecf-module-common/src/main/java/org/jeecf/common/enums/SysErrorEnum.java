@@ -46,7 +46,7 @@ public enum SysErrorEnum implements ErrorEnum {
 	 */
 	FILE_NO(109,"文件不存在"),
 	/**
-	 * 文件不存在
+	 * 文件解析错误
 	 */
 	FILE_RESOLVE_ERROR(110,"文件解析错误"),
 	/**

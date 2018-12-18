@@ -8,6 +8,7 @@
 		genFieldColumn.gen_field_id AS "genFieldId",
 		genFieldColumn.name AS "name",
 		genFieldColumn.is_null AS "isNull",
+		genFieldColumn.default_value AS "defaultValue",
 		genFieldColumn.descrition
 		AS "descrition",
 		genFieldColumn.remark
@@ -123,6 +124,9 @@
 			<if test="isNull != null">
 				is_null,
 			</if>
+			<if test="defaultValue != null">
+				default_value,
+			</if>
 			<if test="descrition != null">
 				descrition,
 			</if>
@@ -152,6 +156,9 @@
 			</if>
 			<if test="isNull != null">
 				#{isNull},
+			</if>
+			<if test="defaultValue != null">
+				#{defaultValue},
 			</if>
 			<if test="descrition != null">
 				#{descrition},
@@ -185,6 +192,9 @@
 			</if>
 			<if test="name != null">
 				name = #{name},
+			</if>
+			<if test="defaultValue != null">
+				default_value = #{defaultValue},
 			</if>
 			<if test="descrition != null">
 				descrition = #{descrition},

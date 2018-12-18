@@ -28,8 +28,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath() + "template/genTemplate/list",
-					$scope.request).then(function(res) { // 调用承诺API获取数据
-															// .resolve
+					$scope.request).then(function(res) { 
 				if (res.success) {
 					data = res.data;
 					if(data != undefined) {
@@ -141,13 +140,14 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 					if (res.success) {
 						$scope.createGenTemplate.params = res.data;
 						for(var i in $scope.createGenTemplate.params){
+							$scope.createGenTemplate.params[i].value = res.data[i].defaultValue;
 							if($scope.createGenTemplate.params[i].isNull == 0){
 								$scope.createGenTemplate.params[i].isNullName = "否";
 							} else {
 								$scope.createGenTemplate.params[i].isNullName = "是";
 							}
 						}
-s					} else {
+					} else {
 						$jBoxcm.error("查询数据失败," + res.errorMessage);
 					}
 				});

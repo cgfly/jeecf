@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.gen.controller;
 
+import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
 import org.jeecf.manager.module.gen.model.domian.SysDict;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -47,51 +49,47 @@ public class SysDictControllerTest extends BaseMokMvc {
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+	}
+	
+	@Test
+	public void dataOperation() throws Exception {
+		SysDict sysDict = new SysDict();
+		sysDict.setName("test");
+		sysDict.setLabel("test");
+		sysDict.setDescription("test");
+		sysDict.setType("test");
+		sysDict.setValue(1);
+		JsonNode saveNode = JsonMapper.getJsonNode(this.save(sysDict));
+		if(saveNode.get(SUCCESS).asBoolean()) {
+			sysDict.setName("saveUpdate");
+			sysDict.setId(saveNode.get("data").get("id").asText());
+			JsonNode updateNode = JsonMapper.getJsonNode(this.save(sysDict));
+			if(updateNode.get(SUCCESS).asBoolean()) {
+				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(sysDict.getId()));
+				assert deleteNode.get(SUCCESS).asBoolean();
+			}
+			assert updateNode.get(SUCCESS).asBoolean() && updateNode.get("data").get("name").asText().equals("saveUpdate");
+		}
+		assert saveNode.get(SUCCESS).asBoolean();
 	}
 
-	@Test
-	public void save() throws Exception {
-		SysDict sysDict = new SysDict();
+	private String save(SysDict sysDict) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(sysDict);
-		String responseString = mockMvc
+		return mockMvc
 				.perform(MockMvcRequestBuilders.post("/gen/sysDict/save").contentType(MediaType.APPLICATION_JSON)
 						.content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
 	}
 
-	@Test
-	public void delete() throws Exception {
-		String id = "1";
-		String responseString = mockMvc
+	private String delete(String id) throws Exception {
+		return mockMvc
 				.perform(MockMvcRequestBuilders.post("/gen/sysDict/delete/"+id).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-
-	public void genCreate() throws Exception {
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/gen/sysDict/genCreate")
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
-	}
-
-	
-	public void downloads() throws Exception {
-		String basePath = "";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/gen/sysDict/"+basePath)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		System.out.println(responseString);
 	}
 
 }

@@ -207,7 +207,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 				}
 			}
 		}
-
 		if (!flag) {
 			log.debug("复制目录 " + srcDirName + " 到 " + descDirName + " 失败!");
 			return false;
@@ -519,8 +518,8 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 	public static void zipDirectoryToZipFile(String dirPath, File fileDir, ZipOutputStream zouts) {
 		if (fileDir.isDirectory()) {
 			File[] files = fileDir.listFiles();
+			// 空的文件夹
 			if (files != null) {
-				// 空的文件夹
 				if (files.length == 0) {
 					// 目录信息
 					ZipEntry entry = new ZipEntry(getEntryName(dirPath, fileDir));

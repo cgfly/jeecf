@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 异常处理
+ * 
  * @author GloryJian
  *
  */
@@ -36,7 +37,7 @@ public class WebExceptionHandle {
 		LogUtils.print(new BusinessException(SysErrorEnum.SYSTEM_ERROR));
 		return response;
 	}
-	
+
 	@ExceptionHandler(value = ConstraintViolationException.class)
 	@ResponseBody
 	public Response<String> constraintViolationException(ConstraintViolationException e) {
@@ -44,10 +45,10 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.FIELD_ERROR.getCode());
 		Set<ConstraintViolation<?>> set = e.getConstraintViolations();
-		set.forEach(violation->{
+		set.forEach(violation -> {
 			response.setErrorMessage(violation.getMessage());
 		});
-		LogUtils.print(new BusinessException(SysErrorEnum.FIELD_ERROR.getCode(),response.getErrorMessage()));
+		LogUtils.print(new BusinessException(SysErrorEnum.FIELD_ERROR.getCode(), response.getErrorMessage()));
 		return response;
 	}
 
@@ -57,12 +58,17 @@ public class WebExceptionHandle {
 		Response<String> response = new Response<String>();
 		BindingResult bindingResult = e.getBindingResult();
 		if (bindingResult.hasErrors()) {
-			List<FieldError> errorList = bindingResult.getFieldErrors();
-			String errorMsg =  "错误原因:" + errorList.get(0).getDefaultMessage();
+			String errorMsg = "";
+			if (bindingResult.getGlobalError() != null) {
+				errorMsg = "错误原因:" + bindingResult.getGlobalError().getDefaultMessage();
+			} else {
+				List<FieldError> errorList = bindingResult.getFieldErrors();
+				errorMsg = "错误原因:" + errorList.get(0).getDefaultMessage();
+			}
 			response.setSuccess(false);
 			response.setErrorCode(SysErrorEnum.FIELD_ERROR.getCode());
 			response.setErrorMessage(errorMsg);
-			LogUtils.print(new BusinessException(SysErrorEnum.FIELD_ERROR.getCode(),errorMsg));
+			LogUtils.print(new BusinessException(SysErrorEnum.FIELD_ERROR.getCode(), errorMsg));
 		} else {
 			response.setSuccess(false);
 			response.setErrorCode(SysErrorEnum.SYSTEM_ERROR.getCode());
@@ -71,15 +77,15 @@ public class WebExceptionHandle {
 		}
 		return response;
 	}
-	
+
 	@ExceptionHandler(value = BusinessException.class)
 	@ResponseBody
 	public Response<String> businessExceptionHandler(BusinessException e) {
-	    Response<String> response = new Response<String>();
-        response.setSuccess(false);
-        response.setErrorCode(e.getErrorCode());
-        response.setErrorMessage(e.getErrorMsg());
-        LogUtils.print(e);
+		Response<String> response = new Response<String>();
+		response.setSuccess(false);
+		response.setErrorCode(e.getErrorCode());
+		response.setErrorMessage(e.getErrorMsg());
+		LogUtils.print(e);
 		return response;
 	}
 

@@ -10,6 +10,7 @@ import org.jeecf.manager.module.template.model.domain.GenFieldColumn;
 import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
 import org.jeecf.manager.module.template.model.query.GenFieldColumnQuery;
 import org.jeecf.manager.module.template.model.result.GenFieldColumnResult;
+import org.jeecf.manager.module.template.model.result.GenFieldResult;
 import org.jeecf.manager.module.template.service.GenFieldColumnService;
 import org.jeecf.manager.module.template.service.GenFieldService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,15 @@ public class GenFieldFacade {
 	private GenFieldService genFieldService;
 	
 	@Transactional(readOnly=false,rollbackFor=RuntimeException.class)
-	public Response<Integer> save(GenField genField) {
-		if(StringUtils.isNotEmpty(genField.getId())) {
-			GenFieldColumn genFieldColumn = new GenFieldColumn();
-			genFieldColumn.setGenFieldId(Integer.valueOf(genField.getId()));
-			genFieldColumnService.delete(genFieldColumn);
-		}
-		Response<Integer> genFieldRes = genFieldService.saveByAuth(genField);
+	public Response<GenFieldResult> save(GenField genField) {
+		Response<GenFieldResult> genFieldRes = genFieldService.saveByAuth(genField);
 		List<GenFieldColumn> fieldColumnList = genField.getGenFieldColumn();
 		if(CollectionUtils.isNotEmpty(fieldColumnList)) {
+			if(StringUtils.isNotEmpty(genField.getId())) {
+				GenFieldColumn genFieldColumn = new GenFieldColumn();
+				genFieldColumn.setGenFieldId(Integer.valueOf(genField.getId()));
+				genFieldColumnService.delete(genFieldColumn);
+			}
 			fieldColumnList.forEach(fieldColumn->{
 				fieldColumn.setNewRecord(true);
 				fieldColumn.setGenFieldId(Integer.valueOf(genField.getId()));

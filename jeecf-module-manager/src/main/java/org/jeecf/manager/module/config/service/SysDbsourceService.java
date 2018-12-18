@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SysDbsourceService
 		extends PermissionAuthService<SysDbsourceDao, SysDbsourcePO, SysDbsourceResult, SysDbsourceQuery, SysDbsource> {
+	
 	@Value("${spring.datasource.primary.url}")
 	private String url;
 
@@ -41,7 +42,7 @@ public class SysDbsourceService
 	private String password;
 
 	@Override
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteByAuth(SysDbsource sysDbsource) {
 		Response<Integer> response = super.deleteByAuth(sysDbsource);
 		if (response.getData() != null && response.getData() != 0) {
@@ -50,7 +51,7 @@ public class SysDbsourceService
 		return response;
 	}
 
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public void initDbSource() {
 		List<SysDbsourceResult> dbsourceList = super.findList(new SysDbsourcePO(new SysDbsourceQuery())).getData();
 		Map<Object, Object> targetDataSources = new HashMap<Object, Object>(10);
@@ -64,7 +65,7 @@ public class SysDbsourceService
 		boolean isDefualtExit = false;
 		if (CollectionUtils.isNotEmpty(dbsourceList)) {
 			for (SysDbsource sysDbSource : dbsourceList) {
-			
+
 				if (sysDbSource.getKeyName().equals(sysDb.getKeyName())) {
 					isDefualtExit = true;
 					sysDbSource.setUrl(sysDbSource.getUrl());

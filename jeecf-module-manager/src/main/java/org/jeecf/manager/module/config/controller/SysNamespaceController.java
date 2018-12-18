@@ -9,9 +9,9 @@ import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
-import org.jeecf.manager.module.config.facade.SysNamespaceFacade;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.model.domain.SysUserNamespace;
 import org.jeecf.manager.module.config.model.po.SysNamespacePO;
@@ -53,9 +53,6 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	private SysNamespaceService sysNamespaceService;
 	
 	@Autowired
-	private SysNamespaceFacade sysNamespaceFacade;
-
-	@Autowired
 	private SysUserNamespaceService sysUserNamespaceService;
 
 	@GetMapping(value = { "", "index" })
@@ -80,7 +77,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	@RequiresPermissions("config:sysNamespace:edit")
 	@ApiOperation(value = "更新", notes = "更新系统命名空间数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysNamespace sysNamespace) {
+	public Response<SysNamespaceResult> save(@RequestBody @Validated({Add.class}) SysNamespace sysNamespace) {
 		if(sysNamespace.isNewRecord()) {
 			SysNamespaceQuery query = new SysNamespaceQuery();
 			query.setName(sysNamespace.getName());
@@ -90,7 +87,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 			}
 			
 		}
-		return sysNamespaceFacade.save(sysNamespace);
+		return sysNamespaceService.saveByAuth(sysNamespace);
 	}
 
 	@PostMapping(value = { "delete/{id}" })
@@ -103,14 +100,25 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		if(currentId.equals(Integer.valueOf(id))) {
 			throw new BusinessException(BusinessErrorEnum.NAMESPACE_IS_CURRENT);
 		}
-		return sysNamespaceFacade.delete(new SysNamespace(id));
+		return sysNamespaceService.deleteByFlag(new SysNamespace(id));
+	}
+	
+	@PostMapping(value = { "active/{id}" })
+	@ResponseBody
+	@RequiresPermissions("config:sysNamespace:edit")
+	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	public Response<Integer> active(@PathVariable("id") String id) {
+		SysNamespace sysNamespace = new SysNamespace(id);
+		sysNamespace.setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		sysNamespaceService.saveByAuth(sysNamespace);
+		return new Response<>(1);
 	}
 
 	@PostMapping(value = { "effect/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysNamespace:view")
 	@ApiOperation(value = "生效", notes = "生效选中命名空间")
-	public Response<Integer> effect(@PathVariable("id") String id) {
+	public Response<SysUserNamespaceResult> effect(@PathVariable String id) {
 		String userId = UserUtils.getCurrentUserId();
 		SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
 		sysUserNamespace.setUserId(userId);
@@ -126,5 +134,5 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		namespace.setNamespaceId(Integer.valueOf(id));
 		return sysUserNamespaceService.save(namespace);
 	}
-
+	
 }

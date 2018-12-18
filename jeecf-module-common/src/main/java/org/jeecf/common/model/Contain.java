@@ -1,6 +1,6 @@
 package org.jeecf.common.model;
 
-import java.util.List;
+import java.util.Set;
 /**
  * 包含实体
  * @author jianyiming
@@ -15,7 +15,7 @@ public class Contain {
 	/**
 	 * 值 集合
 	 */
-	private List<String> columnValue;
+	private Set<String> columnValue;
 
 	public String getColumnName() {
 		return columnName;
@@ -25,11 +25,11 @@ public class Contain {
 		this.columnName = columnName;
 	}
 
-	public List<String> getColumnValue() {
+	public Set<String> getColumnValue() {
 		return columnValue;
 	}
 
-	public void setColumnValue(List<String> columnValue) {
+	public void setColumnValue(Set<String> columnValue) {
 		this.columnValue = columnValue;
 	}
 	

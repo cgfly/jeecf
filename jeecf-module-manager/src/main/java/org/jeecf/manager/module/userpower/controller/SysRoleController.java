@@ -88,7 +88,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	public Response<SysRoleResult> getTree(@PathVariable("roleId") String roleId) {
 		SysRole queryRole = new SysRole(roleId);
 		Response<SysRoleResult> sysRoleRes = sysRoleService.get(queryRole);
-		if(sysRoleRes.isSuccess()) {
+		if(sysRoleRes.isSuccess() && sysRoleRes.getData() != null) {
 			SysRoleResult sysRole = sysRoleRes.getData();
 			SysRolePowerQuery rolePower = new SysRolePowerQuery();
 			queryRole.setId(sysRole.getId());;
@@ -124,7 +124,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	@RequiresPermissions("userpower:sysRole:edit")
 	@ApiOperation(value = "更新", notes = "更新系统角色数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) SysRole sysRole) {
+	public Response<SysRoleResult> save(@RequestBody @Validated({Add.class}) SysRole sysRole) {
 		if(sysRole.isNewRecord()) {
 			SysRoleQuery query = new SysRoleQuery();
 			query.setEnname(sysRole.getEnname());
@@ -142,7 +142,7 @@ public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult
 	@ApiOperation(value = "删除", notes = "删除系统角色数据")
 	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deleteRole(new SysRole(id));
+		return securityFacade.deleteRole(id);
 	}
 
 }

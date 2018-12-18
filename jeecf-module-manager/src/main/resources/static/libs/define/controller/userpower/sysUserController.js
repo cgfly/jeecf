@@ -2,6 +2,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm) {
 		
 		$scope.submitForm = function() {
+			console.log($scope.sysUser);
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/save", $scope.sysUser).then(
 					function(res) { 
 				          if(res.success){
@@ -25,7 +26,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.request.page.current = pageId;
 			
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/list",
-			$scope.request).then(function(res) { // 调用承诺API获取数据 .resolve
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.sysUserList = res.data;
 					$page.setPage($scope,res.page.total);
@@ -65,7 +66,11 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.updateModal = function(index) {
+			$('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val(null);
 			angular.copy($scope.sysUserList[index], $scope.updateSysUser);
+			if($scope.updateSysUser.sysOffice != null ){
+				   $('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val($scope.updateSysUser.sysOffice.name);
+		    }
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { 
 				if (res.success) {
 					var data = res.data;
@@ -103,8 +108,9 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page:{current:"",size:""},data:{}};
 			$scope.updateSysUser = {};
-			
+			$scope.sysUser = {}
 			$page.init($scope, $page.getPageSize());
+			$scope.initSection();
 			$('#top-tab a[href="#sysUserFormTab"]').on('shown.bs.tab', function(e){
 				if($scope.sysRoleData == undefined){
 					$scope.queryRoles();
@@ -113,12 +119,28 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.queryRoles = function() {
-			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/-1").then(function(res) { 
+			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/-1").then(function(res) {
 				if (res.success) {
 					$scope.sysRoleData = res.data;
 				}	
 			});
-			
+		}
+		
+		$scope.initSection = function(){
+			if($("#insertOfficeTreeIdTable").html() != undefined){
+				$("#insertOfficeTreeIdTable").remove();
+			}
+			if($("#updateOfficeTreeIdTable").html() != undefined){
+				$("#updateOfficeTreeIdTable").remove();
+		    }
+			$(".treeTable ").each(function() {
+			   var id = $(this).attr("id");
+			   if(id == "insertOfficeTreeId"){
+				   $jBoxcm.treeTable($scope, this, $scope.sysUser);
+			   }  else if(id == "updateOfficeTreeId"){
+				   $jBoxcm.treeTable($scope, this, $scope.updateSysUser);
+			   }
+			});  
 		}
 	};
 });

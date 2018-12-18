@@ -9,8 +9,9 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
-import org.jeecf.manager.engine.model.PhysicalTable;
+import org.jeecf.manager.engine.model.SchemaTable;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
+import org.jeecf.manager.module.template.facade.TargetTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
 import org.jeecf.manager.module.template.model.po.GenTablePO;
@@ -55,6 +56,9 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@Autowired
 	private GenTableFacade genTableFacade;
 	
+	@Autowired
+	private TargetTableFacade targetTableFacade;
+	
 	@GetMapping(value= {"","index"})
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "视图", notes = "查看代码生成业务表视图")
@@ -77,7 +81,7 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@RequiresPermissions("template:genTable:edit")
 	@ApiOperation(value = "更新", notes = "更新代码生成业务表数据")
 	@Override
-	public Response<Integer> save(@RequestBody @Validated({Add.class}) GenTable genTable) {
+	public Response<GenTableResult> save(@RequestBody @Validated({Add.class}) GenTable genTable) {
 		return genTableFacade.saveTable(genTable);
 	}
 	
@@ -85,8 +89,8 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成基本表数据")
-	public Response<List<PhysicalTable>> getBaseTableList() {
-		return genTableFacade.findTableList(new GenTable(),NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
+	public Response<List<SchemaTable>> getBaseTableList() {
+		return targetTableFacade.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
 	}
 	
 	
@@ -100,17 +104,18 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	}
 	
 	
-	@PostMapping(value= {"queryBaseTableColumnList"})
+	@PostMapping(value= {"queryBaseTableColumnList/{tableName}"})
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成基本字段表数据")
-	public Response<List<GenTableColumnResult>> getBaseTableColumnList(@RequestBody GenTableColumnQuery genTableColumn ) {
+	public Response<List<GenTableColumnResult>> getBaseTableColumnList(@PathVariable String tableName ) {
 		GenTableQuery queryTable = new GenTableQuery();
-		queryTable.setName(genTableColumn.getGenTable().getName());
+		queryTable.setName(tableName);
 		Response<List<GenTableResult>>  genTableRes = genTableService.findListByAuth(new GenTablePO(queryTable));
 		if(CollectionUtils.isNotEmpty(genTableRes.getData())) {
-			genTableColumn.setGenTable(genTableRes.getData().get(0));
-			Response<List<GenTableColumnResult>>  gebTableColumnRes =  genTableColumnService.findList(new GenTableColumnPO(genTableColumn));
+			GenTableColumnQuery queryTableColumn = new GenTableColumnQuery();
+			queryTableColumn.setGenTable(genTableRes.getData().get(0));
+			Response<List<GenTableColumnResult>>  gebTableColumnRes =  genTableColumnService.findList(new GenTableColumnPO(queryTableColumn));
 			if(CollectionUtils.isNotEmpty(gebTableColumnRes.getData())) {
 				gebTableColumnRes.getData().forEach(tableColumn -> {
 					tableColumn.coverField(tableColumn);
@@ -119,12 +124,12 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 			}
 		}
 		
-		Response<List<PhysicalTable>>  genPyTableRes =	genTableFacade.findTableList(queryTable,NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
+		Response<SchemaTable>  genPyTableRes =	targetTableFacade.getTable(queryTable.getName(),NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
 		GenTable  gentable = new GenTable();
-		if(CollectionUtils.isNotEmpty(genPyTableRes.getData())) {
-			BeanUtils.copyProperties(genPyTableRes.getData().get(0), gentable);
+		if(genPyTableRes.getData()!= null) {
+			BeanUtils.copyProperties(genPyTableRes.getData(), gentable);
 		}
-		Response<List<GenTableColumnResult>> res = genTableFacade.findTableColumnList(genTableColumn);
+		Response<List<GenTableColumnResult>> res = targetTableFacade.findTableColumn(tableName);
 		if(CollectionUtils.isNotEmpty(res.getData())) {
 			res.getData().forEach(genColumn->{
 				genColumn.setGenTable(gentable);

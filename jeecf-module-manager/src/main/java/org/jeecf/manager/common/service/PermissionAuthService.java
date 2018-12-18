@@ -5,16 +5,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.common.model.AbstractEntityPO;
-import org.jeecf.common.model.Dao;
+import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.dao.Dao;
+import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.PermissionEntity;
 import org.jeecf.manager.common.utils.PermissionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 权限 数据校验service
+ * 
  * @author jianyiming
  *
  * @param <D>
@@ -27,18 +31,21 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 		extends AbstractAuthService<D, P, R, Q, T> {
 
 	@Override
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> insertByAuth(T t) {
-		return super.insert(t);
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+	public Response<R> insertByAuth(T t) {
+		if (PermissionUtils.isExist(t.getPermission())) {
+			return super.insert(t);
+		}
+		throw new BusinessException(BusinessErrorEnum.POWER_DATA_FAIL);
 	}
 
 	@Override
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<Integer> updateByAuth(T t) {
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+	public Response<R> updateByAuth(T t) {
 		if (this.getByAuth(t).getData() != null) {
 			return super.update(t);
 		}
-		return new Response<>(null);
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
 
 	@Override
@@ -48,6 +55,7 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 			if (PermissionUtils.isExist(res.getData().getPermission())) {
 				return res;
 			}
+			throw new BusinessException(BusinessErrorEnum.POWER_DATA_FAIL);
 		}
 		return new Response<>(null);
 	}
@@ -95,16 +103,23 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 			return res;
 
 		}
-		return null;
+		return new Response<>();
 	}
 
 	@Override
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteByAuth(T t) {
 		if (this.getByAuth(t).getData() != null) {
 			return super.delete(t);
 		}
-		return new Response<>(null);
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+	}
+
+	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+	public Response<Integer> deleteByFlag(T t) {
+			t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
+			this.updateByAuth(t);
+			return new Response<>(1);
 	}
 
 }

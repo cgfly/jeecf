@@ -39,7 +39,7 @@ public class IdGenUtils {
 	public static long randomLong() {
 		long result = random.nextLong();
 		if(result == Long.MIN_VALUE) {
-			return Long.MAX_VALUE;
+		   return Long.MAX_VALUE;
 		}
 		return Math.abs(result);
 	}
@@ -61,5 +61,5 @@ public class IdGenUtils {
 		random.nextBytes(randomBytes);
 		return EncodeUtils.encodeHex(randomBytes);
 	}
-
+	
 }
