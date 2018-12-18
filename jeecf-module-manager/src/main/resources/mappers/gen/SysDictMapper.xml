@@ -122,7 +122,7 @@
 		<include refid="leftJoinColumn" />
 		where sysDict.id = #{id}
 	    <if test="sysNamespaceId != null">
-			AND sys_namespace_id = #{sysNamespaceId}
+			AND sysDict.sys_namespace_id = #{sysNamespaceId}
 		</if>
 	</select>
 

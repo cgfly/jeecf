@@ -157,14 +157,14 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		
 		$scope.queryBaseTableList = function() {
 			$httpRequest.post($ctx.getWebPath()+"template/genTemplate/queryTableList").then(
-					function(res) { // 调用承诺API获取数据 .resolve 
+					function(res) { 
 						$scope.tableList = res.data;
 					});
 		};
 		
 		$scope.queryLanguages = function() {
 			$httpRequest.post($ctx.getWebPath()+"template/genTemplate/getLanguages").then(
-					function(res) { // 调用承诺API获取数据 .resolve 
+					function(res) { 
 						$scope.languages  = eval('(' + res.data + ')');
 						$scope.genTemplate.language = $scope.languages[0].code;
 					});

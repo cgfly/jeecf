@@ -43,6 +43,13 @@ public class GenTemplateSchema {
 	 */
 	@ApiModelProperty(value = "更新时间", name = "updateDate")
 	private boolean updateDate = true;
+	
+	/**
+	 * 代码属性名称
+	 */
+	@ApiModelProperty(value = "代码属性名称", name = "genFieldName")
+	private boolean genFieldName = true;
+	
 	public boolean isId() {
 		return id;
 	}
@@ -78,6 +85,12 @@ public class GenTemplateSchema {
 	}
 	public void setDescrition(boolean descrition) {
 		this.descrition = descrition;
+	}
+	public boolean isGenFieldName() {
+		return genFieldName;
+	}
+	public void setGenFieldName(boolean genFieldName) {
+		this.genFieldName = genFieldName;
 	}
 	public boolean isUpdateDate() {
 		return updateDate;

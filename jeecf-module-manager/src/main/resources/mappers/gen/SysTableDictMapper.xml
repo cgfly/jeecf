@@ -110,10 +110,10 @@
 		<include refid="leftJoinColumn" />
 		where sysTableDict.id = #{id}
 		<if test="sysNamespaceId != null">
-			AND sys_namespace_id = #{sysNamespaceId}
+			AND sysTableDict.sys_namespace_id = #{sysNamespaceId}
 		</if>
 		<if test="sysDbsourceId != null">
-			AND sys_dbsource_id = #{sysDbsourceId}
+			AND sysTableDict.sys_dbsource_id = #{sysDbsourceId}
 		</if>
 	</select>
 

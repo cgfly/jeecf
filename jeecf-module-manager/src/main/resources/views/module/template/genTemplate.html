@@ -27,6 +27,7 @@
 					<th>序号</th>
 					<th>名称</th>
 					<th>语言</th>
+					<th>模版参数</th>
 					<th>描述</th>
 					<th>更新时间</th>
 					<th>操作</th>
@@ -38,6 +39,7 @@
 					<td>{{ $index+1 }}</td>
 					<td>{{ genTemplate.name }}</td>
 					<td>{{ genTemplate.languageName}}</td>
+					<td>{{ genTemplate.genFieldName}}</td>
 					<td>{{ genTemplate.descrition }}</td>
 					<td>{{ genTemplate.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genTemplate:edit"><a

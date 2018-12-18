@@ -9,6 +9,7 @@
 		genTemplate.sys_namespace_id AS "sysNamespaceId",
 		genTemplate.language AS "language",
 		genTemplate.gen_field_id AS "genFieldId",
+		genField.name AS "genFieldName",
 		genTemplate.file_base_path AS "fileBasePath",
 		genTemplate.descrition AS "descrition",
 		genTemplate.remark AS "remark",
@@ -88,6 +89,7 @@
 
 	<!-- 关联查询 -->
 	<sql id="leftJoinColumn">
+		left join gen_field genField on genTemplate.gen_field_id = genField.id
 	</sql>
 
 
@@ -115,7 +117,7 @@
 		<include refid="leftJoinColumn" />
 		where genTemplate.id = #{id}
 		<if test="sysNamespaceId != null">
-			AND sys_namespace_id = #{sysNamespaceId}
+			AND genTemplate.sys_namespace_id = #{sysNamespaceId}
 		</if>
 	</select>
 

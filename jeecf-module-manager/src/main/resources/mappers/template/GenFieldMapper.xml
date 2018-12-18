@@ -103,7 +103,7 @@
 		<include refid="leftJoinColumn" />
 		where genField.id = #{id}
 		<if test="sysNamespaceId != null">
-			AND sys_namespace_id = #{sysNamespaceId}
+			AND genField.sys_namespace_id = #{sysNamespaceId}
 		</if>
 	</select>
 

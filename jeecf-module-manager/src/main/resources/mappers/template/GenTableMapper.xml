@@ -80,10 +80,10 @@
 		<include refid="leftJoinColumn" />
 		where genTable.id = #{id}
 		<if test="sysNamespaceId != null">
-			AND sys_namespace_id = #{sysNamespaceId}
+			AND genTable.sys_namespace_id = #{sysNamespaceId}
 		</if>
 		<if test="sysDbsourceId != null">
-			AND sys_dbsource_id = #{sysDbsourceId}
+			AND genTable.sys_dbsource_id = #{sysDbsourceId}
 		</if>
 	</select>
 
