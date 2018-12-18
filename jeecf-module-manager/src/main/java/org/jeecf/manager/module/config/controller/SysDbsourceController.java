@@ -115,6 +115,7 @@ public class SysDbsourceController
 	@ResponseBody
 	@RequiresPermissions("config:sysDbsource:edit")
 	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		SysDbsource sysDbsource = sysDbsourceService.get(new SysDbsource(id)).getData();
 		if (sysDbsource != null) {

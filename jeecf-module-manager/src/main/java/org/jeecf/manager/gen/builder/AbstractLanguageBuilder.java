@@ -53,9 +53,10 @@ public abstract class AbstractLanguageBuilder {
 		}
 		return genTable;
 	}
+
 	/**
 	 * 获取表数据 
-	 * @param sql 查询条件
+	 * @param whereEntitys
 	 * @return
 	 */
 	public abstract String getData(List<WhereEntity> whereEntitys);

@@ -10,7 +10,11 @@ import org.jeecf.manager.module.config.model.po.SysDbsourcePO;
 import org.jeecf.manager.module.config.model.query.SysDbsourceQuery;
 import org.jeecf.manager.module.config.model.result.SysDbsourceResult;
 import org.jeecf.manager.module.config.service.SysDbsourceService;
-
+/**
+ * 数据源工具类
+ * @author jianyiming
+ *
+ */
 public class DbsourceUtils {
 
 	private static ThreadLocalProperties threadLocalProperties = SpringContextUtils.getBean("threadLocalProperties",

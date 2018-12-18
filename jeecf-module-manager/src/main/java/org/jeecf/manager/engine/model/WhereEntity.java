@@ -3,7 +3,11 @@ package org.jeecf.manager.engine.model;
 import org.jeecf.manager.engine.enums.WhereConnectorEnum;
 import org.jeecf.manager.engine.enums.WhereExpressEnum;
 import org.jeecf.manager.engine.utils.JniValidate;
-
+/**
+ * 查询条件实体
+ * @author jianyiming
+ *
+ */
 public class WhereEntity {
 
 	private String column;
@@ -48,7 +52,7 @@ public class WhereEntity {
 
 
 
-	public static class builder {
+	public static class Builder {
 		
 		public static WhereEntity buildOr(String column,WhereExpressEnum expressEnum, String value) {
 			return build(column, WhereConnectorEnum.OR.getName(),expressEnum.getName(),value);

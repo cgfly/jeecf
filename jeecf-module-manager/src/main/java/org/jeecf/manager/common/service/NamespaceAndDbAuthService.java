@@ -13,7 +13,16 @@ import org.jeecf.manager.common.utils.DbsourceUtils;
 import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.springframework.transaction.annotation.Transactional;
-
+/**
+ * 命名空间及数据源验证 service
+ * @author jianyiming
+ *
+ * @param <D>
+ * @param <P>
+ * @param <R>
+ * @param <Q>
+ * @param <T>
+ */
 public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends NamespaceAndDbAuthEntity>
 extends AbstractAuthService<D, P, R, Q, T> {
 	

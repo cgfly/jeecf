@@ -1,5 +1,9 @@
 package org.jeecf.manager.module.gen.model.schema;
-
+/**
+ * 系统表组字典schema
+ * @author jianyiming
+ *
+ */
 public class SysTableDictSchema {
 	
 	/**

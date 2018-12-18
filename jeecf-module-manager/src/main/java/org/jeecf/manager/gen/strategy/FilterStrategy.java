@@ -21,7 +21,7 @@ public class FilterStrategy {
 		List<WhereEntity> whereEntitys = new ArrayList<>();
 		if (filterEntitys != null) {
 			filterEntitys.forEach(filterEntity -> {
-				WhereEntity whereEntity = WhereEntity.builder.buildAnd(HumpUtils.humpToLine2(filterEntity.getField()), WhereExpressEnum.EQUALS,
+				WhereEntity whereEntity = WhereEntity.Builder.buildAnd(HumpUtils.humpToLine2(filterEntity.getField()), WhereExpressEnum.EQUALS,
 						filterEntity.getValue());
 				whereEntitys.add(whereEntity);
 			});

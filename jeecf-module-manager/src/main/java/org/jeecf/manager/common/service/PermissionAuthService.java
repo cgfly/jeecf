@@ -115,6 +115,7 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
 
+	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteByFlag(T t) {
 			t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
