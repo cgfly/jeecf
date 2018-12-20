@@ -8,12 +8,16 @@ import java.io.InputStreamReader;
 import org.jeecf.common.mapper.JaxbMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
+/**
+ * xml 文件解析
+ * @author jianyiming
+ *
+ */
 public class XmlResolve {
 	
 	/**
 	 * XML文件转换为对象
-	 * å
+	 * 
 	 * @param fileName
 	 * @param clazz
 	 * @return

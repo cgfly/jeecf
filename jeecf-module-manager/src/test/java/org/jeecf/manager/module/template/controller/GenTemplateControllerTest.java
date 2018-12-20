@@ -1,8 +1,13 @@
 package org.jeecf.manager.module.template.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Request;
 import org.jeecf.manager.Application;
+import org.jeecf.manager.gen.model.GenParams;
+import org.jeecf.manager.gen.model.GenTemplateEntity;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.query.GenTemplateQuery;
 import org.jeecf.manager.module.template.model.schema.GenTemplateSchema;
@@ -88,6 +93,36 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 		String responseString = mockMvc
 				.perform(MockMvcRequestBuilders.post("/template/genTemplate/getLanguages")
 						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
+				.getResponse().getContentAsString();
+		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+	}
+	
+	@Test
+	public void gen() throws Exception {
+		GenTemplateEntity entity = new GenTemplateEntity();
+		entity.setTemplateId(15);
+		entity.setTableName("sys_dict");
+		List<GenParams> genParamsList = new ArrayList<>();
+		GenParams packageParam = new GenParams();
+		packageParam.setName("packageName");
+		packageParam.setValue("ee");
+		genParamsList.add(packageParam);
+		GenParams filterParam = new GenParams();
+		filterParam.setName("filterField");
+		filterParam.setValue("sysNamespaceId");
+		genParamsList.add(filterParam);
+		GenParams groupParam = new GenParams();
+		groupParam.setName("groupField");
+		groupParam.setValue("type");
+		genParamsList.add(groupParam);
+		entity.setParams(genParamsList);
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(entity);
+		String responseString = mockMvc
+				.perform(MockMvcRequestBuilders.post("/template/genTemplate/gen")
+						.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
 				.getResponse().getContentAsString();
 		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();

@@ -1,5 +1,6 @@
 package org.jeecf.manager.common.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jeecf.common.exception.BusinessException;
@@ -30,8 +31,16 @@ extends AbstractAuthService<D, P, R, Q, T> {
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<R> insertByAuth(T t) {
 		t.preInsert();
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		t.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null) {
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+		}
+		if (sysDbsourceId == null) {
+			throw new BusinessException(BusinessErrorEnum.DARASOURCE_NOT);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
+		t.setSysDbsourceId(sysDbsourceId);
 		Integer result = dao.insert(t);
 		if (result != null && result > 0) {
 			return new Response<>(true, dao.get(t));
@@ -43,8 +52,16 @@ extends AbstractAuthService<D, P, R, Q, T> {
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<R> updateByAuth(T t) {
 		t.preUpdate();
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		t.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null) {
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+		}
+		if (sysDbsourceId == null) {
+			throw new BusinessException(BusinessErrorEnum.DARASOURCE_NOT);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
+		t.setSysDbsourceId(sysDbsourceId);
 		Integer result = dao.update(t);
 		if (result != null && result > 0) {
 			return new Response<>(true, dao.get(t));
@@ -60,8 +77,13 @@ extends AbstractAuthService<D, P, R, Q, T> {
 
 	@Override
 	public Response<R> getByAuth(T t) {
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		t.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null || sysDbsourceId == null) {
+			return new Response<>(true,null);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
+		t.setSysDbsourceId(sysDbsourceId);
 		return new Response<R>(true, dao.get(t));
 	}
 
@@ -69,8 +91,13 @@ extends AbstractAuthService<D, P, R, Q, T> {
 	public Response<List<R>> findListByAuth(P p) {
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		p.getData().setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null || sysDbsourceId == null) {
+			return new Response<>(true,new ArrayList<R>());
+		}
+		p.getData().setSysNamespaceId(sysNamespaceId);
+		p.getData().setSysDbsourceId(sysDbsourceId);
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
 		JqlUtils.build(p.getSchema(), res.getData());
 		return res;
@@ -79,8 +106,13 @@ extends AbstractAuthService<D, P, R, Q, T> {
 	@Override
 	public Response<Integer> countByAuth(P p) {
 		p.buildContains();
-		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		p.getData().setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null || sysDbsourceId == null) {
+			return new Response<Integer>(true,0);
+		}
+		p.getData().setSysNamespaceId(sysNamespaceId);
+		p.getData().setSysDbsourceId(sysDbsourceId);
 		return new Response<Integer>(true, dao.count(p));
 	}
 
@@ -89,8 +121,17 @@ extends AbstractAuthService<D, P, R, Q, T> {
 		Page page = p.getPage();
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		p.getData().setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null || sysDbsourceId == null) {
+			if (page != null) {
+				page.setTotal(0);
+				page.setStartNo();
+			}
+			return new Response<>(true, new ArrayList<R>(), page);
+		}
+		p.getData().setSysNamespaceId(sysNamespaceId);
+		p.getData().setSysDbsourceId(sysDbsourceId);
 		if (page != null) {
 			page.setTotal(dao.count(p));
 			page.setStartNo();
@@ -103,8 +144,16 @@ extends AbstractAuthService<D, P, R, Q, T> {
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteByAuth(T t) {
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-		t.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
+		if (sysNamespaceId == null ) {
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+		}
+		if (sysDbsourceId == null) {
+			throw new BusinessException(BusinessErrorEnum.DARASOURCE_NOT);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
+		t.setSysDbsourceId(sysDbsourceId);
 		return new Response<Integer>(true, dao.delete(t));
 	}
 

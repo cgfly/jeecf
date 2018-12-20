@@ -5,12 +5,12 @@
 
 	<sql id="columnList">
 		sysUserNamespace.id AS "id",
-		sysUserNamespace.user_id AS
-		"userId",
+		sysUserNamespace.user_id AS "userId",
+		sysNamespace.name AS "namespaceName",
+		sysNamespace.del_flag AS "namespaceDelFlag",
 		sysUserNamespace.namespace_id AS "namespaceId",
 		sysUserNamespace.remark AS "remark",
-		sysUserNamespace.create_date AS
-		"createDate",
+		sysUserNamespace.create_date AS "createDate",
 		sysUserNamespace.create_by AS "createBy",
 		sysUserNamespace.update_date AS "updateDate",
 		sysUserNamespace.update_by AS "updateBy"
@@ -24,6 +24,9 @@
 				</if>
 				<if test="data.namespaceId != null and data.namespaceId != '' ">
 					And sysUserNamespace.namespace_id = #{data.namespaceId}
+				</if>
+				<if test="data.namespaceDelFlag != null ">
+					And sysNamespace.del_Flag = #{data.namespaceDelFlag}
 				</if>
 				<include refid="reginWhere" />
 			</if>
@@ -79,6 +82,7 @@
 
 	<!-- 关联查询 -->
 	<sql id="leftJoinColumn">
+		left join sys_namespace sysNamespace on sysNamespace.id = sysUserNamespace.namespace_id
 	</sql>
 
 
@@ -105,6 +109,9 @@
 		sys_user_namespace sysUserNamespace
 		<include refid="leftJoinColumn" />
 		where sysUserNamespace.id = #{id}
+		<if test="namespaceDelFlag != null ">
+			And sysNamespace.del_Flag = #{namespaceDelFlag}
+		</if>
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">

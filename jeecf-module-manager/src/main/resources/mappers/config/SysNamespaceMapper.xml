@@ -109,6 +109,9 @@
 		sys_namespace sysNamespace
 		<include refid="leftJoinColumn" />
 		where sysNamespace.id = #{id}
+		<if test="delFlag != null">
+			And sysNamespace.del_flag = #{delFlag}
+		</if>
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">

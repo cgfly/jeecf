@@ -1,5 +1,6 @@
 package org.jeecf.manager.common.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jeecf.common.exception.BusinessException;
@@ -31,7 +32,11 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<R> insertByAuth(T t) {
 		t.preInsert();
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
 		Integer result = dao.insert(t);
 		if (result != null && result > 0) {
 			return new Response<>(true, dao.get(t));
@@ -43,11 +48,15 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<R> updateByAuth(T t) {
 		t.preUpdate();
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
 		Integer result = dao.update(t);
 		if (result != null && result > 0) {
 			return new Response<>(true, dao.get(t));
-		} 
+		}
 		throw new BusinessException(BusinessErrorEnum.UPDATE_DATA_FAIL);
 	}
 
@@ -59,7 +68,11 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 
 	@Override
 	public Response<R> getByAuth(T t) {
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			return new Response<>(true, null);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
 		return new Response<R>(true, dao.get(t));
 	}
 
@@ -67,7 +80,11 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 	public Response<List<R>> findListByAuth(P p) {
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			return new Response<>(true, new ArrayList<>());
+		}
+		p.getData().setSysNamespaceId(sysNamespaceId);
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
 		JqlUtils.build(p.getSchema(), res.getData());
 		return res;
@@ -76,7 +93,11 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 	@Override
 	public Response<Integer> countByAuth(P p) {
 		p.buildContains();
-		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			return new Response<>(true, 0);
+		}
+		p.getData().setSysNamespaceId(sysNamespaceId);
 		return new Response<Integer>(true, dao.count(p));
 	}
 
@@ -85,7 +106,15 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 		Page page = p.getPage();
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			if (page != null) {
+				page.setTotal(0);
+				page.setStartNo();
+			}
+			return new Response<>(true, new ArrayList<R>(), page);
+		}
+		p.getData().setSysNamespaceId(sysNamespaceId);
 		if (page != null) {
 			page.setTotal(dao.count(p));
 			page.setStartNo();
@@ -98,7 +127,11 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteByAuth(T t) {
-		t.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+		Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
+		if (sysNamespaceId == null) {
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+		}
+		t.setSysNamespaceId(sysNamespaceId);
 		return new Response<Integer>(true, dao.delete(t));
 	}
 

@@ -52,7 +52,7 @@ public abstract class AbstractEntity {
 	 * 逻辑删除
 	 */
 	@ApiModelProperty(value="逻辑删除",name="delFlag")
-	private Integer delFlag;
+	private Integer delFlag = 0;
 	
 	/**
 	 * 是否为新记录

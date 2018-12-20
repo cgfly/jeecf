@@ -14,5 +14,29 @@ public class SysUserNamespaceResult extends SysUserNamespace implements Serializ
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 命名空间名称
+	 */
+	private String namespaceName;
+	/**
+	 * 命名空间逻辑删除
+	 */
+	private Integer namespaceDelFlag;
 
+	public String getNamespaceName() {
+		return namespaceName;
+	}
+
+	public void setNamespaceName(String namespaceName) {
+		this.namespaceName = namespaceName;
+	}
+
+	public Integer getNamespaceDelFlag() {
+		return namespaceDelFlag;
+	}
+
+	public void setNamespaceDelFlag(Integer namespaceDelFlag) {
+		this.namespaceDelFlag = namespaceDelFlag;
+	}
+	
 }

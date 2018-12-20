@@ -15,6 +15,10 @@ public class SysUserNamespaceQuery extends SysUserNamespace implements Serializa
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 命名空间逻辑删除
+	 */
+	private Integer namespaceDelFlag = 0;
     /**
      * 创建时间开始时间
      */
@@ -64,4 +68,12 @@ public class SysUserNamespaceQuery extends SysUserNamespace implements Serializa
 		this.endUpdateDate = endUpdateDate;
 	}
 
+	public Integer getNamespaceDelFlag() {
+		return namespaceDelFlag;
+	}
+
+	public void setNamespaceDelFlag(Integer namespaceDelFlag) {
+		this.namespaceDelFlag = namespaceDelFlag;
+	}
+	
 }
