@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.enums.SplitCharEnum;
+import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
@@ -17,11 +18,11 @@ import org.jeecf.manager.common.controller.AbstractController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.DownloadUtils;
-import org.jeecf.manager.common.utils.GenUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.gen.model.GenTemplateEntity;
+import org.jeecf.manager.gen.utils.GenUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
@@ -193,7 +194,7 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:view")
 	@ApiOperation(value = "代码生成", notes = "代码生成")
-	public void gen(GenTemplateEntity entity, HttpServletResponse response) throws IOException {
+	public Response<String> gen(@RequestBody GenTemplateEntity entity, HttpServletResponse response) throws IOException {
 		GenTemplate queryTemplate = new GenTemplate();
 		queryTemplate.setId(String.valueOf(entity.getTemplateId()));
 		GenTemplate genTemplate = genTemplateService.getByAuth(queryTemplate).getData();
@@ -204,17 +205,33 @@ public class GenTemplateController extends AbstractController {
 				String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getName());
 				String outPath = GenUtils.build(entity.getParams(), entity.getTableName(), sourcePath,
 						genTemplate.getLanguage(), sysNamespace);
-				DownloadUtils.downloadFile(response, outPath);
+				if(StringUtils.isNotEmpty(outPath)) {
+					return new Response<>(genTemplate.getFileBasePath());
+				}
+				throw new BusinessException(SysErrorEnum.SYSTEM_ERROR);
 			}
+			throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
 		}
-		return;
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
-
-	@PostMapping(value = { "download/{id}" })
+	
+	@PostMapping(value = { "download/gen/{path}/{tableName}" })
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:view")
 	@ApiOperation(value = "模版文件下载", notes = "下载")
-	public void download(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+	public void genDownload(@PathVariable("path") String path,@PathVariable("tableName") String tableName, HttpServletResponse response) throws IOException {
+		SysUser sysUser = UserUtils.getCurrentUser();
+		SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
+		String sourcePath = TemplateUtils.getUnzipPath(path+SplitCharEnum.SLASH.getName()+tableName, sysNamespace.getName());
+		DownloadUtils.downloadFile(response, GenUtils.getGenDownloadPath(sourcePath));
+		return;
+	}
+
+	@PostMapping(value = { "download/template/{id}" })
+	@ResponseBody
+	@RequiresPermissions("template:genTemplate:view")
+	@ApiOperation(value = "模版文件下载", notes = "下载")
+	public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
 		GenTemplate genTemplate = genTemplateService.get(new GenTemplate(id)).getData();
 		if (genTemplate != null) {
 			SysUser sysUser = UserUtils.getCurrentUser();
@@ -226,7 +243,6 @@ public class GenTemplateController extends AbstractController {
 			}
 		}
 		return;
-
 	}
 
 	@PostMapping(value = { "queryTableList" })

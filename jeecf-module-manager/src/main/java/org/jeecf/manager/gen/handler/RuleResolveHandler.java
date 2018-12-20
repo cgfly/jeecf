@@ -12,10 +12,10 @@ import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
-import org.jeecf.manager.common.utils.GenUtils;
 import org.jeecf.manager.gen.model.rule.RuleContext;
 import org.jeecf.manager.gen.resolve.RuleFilterResolve;
 import org.jeecf.manager.gen.resolve.RuleStrategyResolve;
+import org.jeecf.manager.gen.utils.GenUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 /**

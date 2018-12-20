@@ -190,6 +190,7 @@ define([  'jquery', 'app' ], function($, app) {
 				});
 			},
 			noticeConfig:function(ops){
+				alert(window.innerWidth/2+parseInt(ops.content.length));
 				return  new jBox('Notice', {
 				      attributes: {
 				    	x: 'right',
@@ -197,7 +198,7 @@ define([  'jquery', 'app' ], function($, app) {
 				      },
 				      offset : {
 				    	  y : window.innerHeight/4,
-				    	  x : window.innerWidth/2
+				    	  x : window.innerWidth/2-ops.content.length*5
 				      },
 				      stack: false,
 				      animation: {

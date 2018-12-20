@@ -17,13 +17,14 @@ import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.utils.FileUtils;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
-import org.jeecf.manager.common.utils.GenUtils;
+import org.jeecf.manager.common.resolve.XmlResolve;
 import org.jeecf.manager.common.utils.ZipUtils;
 import org.jeecf.manager.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.manager.gen.model.GenSchemaTemplate;
 import org.jeecf.manager.gen.model.config.ConfigContext;
 import org.jeecf.manager.gen.model.config.ModuleEntity;
 import org.jeecf.manager.gen.model.rule.StrategyEntity;
+import org.jeecf.manager.gen.utils.GenUtils;
 import org.springframework.core.io.Resource;
 
 /**
@@ -116,7 +117,7 @@ public class GenHandler extends AbstractHandler {
 	private void gen(Set<Resource> resources, Map<String, Object> params, String ourDir) throws IOException {
 		for (Resource resource : resources) {
 			InputStream desIs = resource.getInputStream();
-			GenSchemaTemplate genSchemaTemplate = GenUtils.xmlToObject(desIs, GenSchemaTemplate.class);
+			GenSchemaTemplate genSchemaTemplate = XmlResolve.toObject(desIs, GenSchemaTemplate.class);
 			GenUtils.generateToFile(genSchemaTemplate, params, ourDir);
 		}
 	}

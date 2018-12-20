@@ -1,4 +1,4 @@
-package org.jeecf.manager.common.utils;
+package org.jeecf.manager.gen.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,7 +17,6 @@ import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
-import org.jeecf.common.mapper.JaxbMapper;
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.utils.FileTypeUtils;
 import org.jeecf.common.utils.FileUtils;
@@ -26,6 +25,8 @@ import org.jeecf.common.utils.IdGenUtils;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.properties.TemplateProperties;
+import org.jeecf.manager.common.utils.ChainUtils;
+import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.gen.model.GenParams;
 import org.jeecf.manager.gen.model.GenSchemaTemplate;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -43,51 +44,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class GenUtils {
 
 	private static TemplateProperties properties = SpringContextUtils.getBean(TemplateProperties.class);
-
-	/**
-	 * XML文件转换为对象
-	 * 
-	 * @param fileName
-	 * @param clazz
-	 * @return
-	 */
-	public static <T> T xmlToObject(String pathName, Class<T> clazz) {
-		Resource resource = new ClassPathResource(pathName);
-		InputStream is;
-		try {
-			is = resource.getInputStream();
-			return GenUtils.xmlToObject(is, clazz);
-		} catch (IOException e) {
-		}
-		return null;
-	}
-
-	public static <T> T xmlToObject(InputStream is, Class<T> clazz) {
-		try {
-
-			BufferedReader br = null;
-			if (is != null) {
-				br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-				StringBuilder sb = new StringBuilder();
-				while (true) {
-					String line = br.readLine();
-					if (line == null) {
-						break;
-					}
-					sb.append(line).append("\r\n");
-				}
-				if (is != null) {
-					is.close();
-				}
-				if (br != null) {
-					br.close();
-				}
-				return JaxbMapper.fromXml(sb.toString(), clazz);
-			}
-		} catch (IOException e) {
-		}
-		return null;
-	}
 
 	public static Iterator<Entry<String, JsonNode>> getConfig(String pathName, String category) {
 		try {
@@ -188,6 +144,10 @@ public class GenUtils {
 			}
 		}
 		throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+	}
+	
+	public static String getGenDownloadPath(String sourcePath) {
+		return sourcePath + File.separator + "code.zip";
 	}
 
 }

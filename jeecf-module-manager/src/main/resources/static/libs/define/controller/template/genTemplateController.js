@@ -171,8 +171,15 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		};
 		
 		$scope.createGenForm = function(){
-       	 	var form = $httpRequest.form($ctx.getWebPath() + "template/genTemplate/gen","POST",$scope.createGenTemplate);
-       	 	form.submit();
+			$httpRequest.post($ctx.getWebPath() + "template/genTemplate/gen",$scope.createGenTemplate).then(
+					function(res) { 
+						if(res.success){
+							var form = $httpRequest.form($ctx.getWebPath() + "template/genTemplate/download/gen/"+res.data,"POST");
+							form.submit();
+						} else {
+							$jBoxcm.error("生成数据失败," + res.errorMessage);
+						}
+					});
 		}
 		
 		$scope.updateFileModal = function(index){
@@ -213,7 +220,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		}
 		
 		$scope.downloadModal = function (index){
-			var form = $httpRequest.form($ctx.getWebPath() + "template/genTemplate/download/"+$scope.genTemplateList[index].id,"POST");
+			var form = $httpRequest.form($ctx.getWebPath() + "template/genTemplate/download/template/"+$scope.genTemplateList[index].id,"POST");
        	 	form.submit();
 		}
 		

@@ -11,13 +11,13 @@ import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.utils.LogUtils;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 /**
  * 异常处理
  * 
@@ -34,7 +34,18 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.UNAUTHORIZED_ERROR.getCode());
 		response.setErrorMessage(SysErrorEnum.UNAUTHORIZED_ERROR.getMsg());
-		LogUtils.print(new BusinessException(SysErrorEnum.SYSTEM_ERROR));
+		LogUtils.print(new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR));
+		return response;
+	}
+	
+	@ExceptionHandler(value = BadSqlGrammarException.class)
+	@ResponseBody
+	public Response<String> mySQLSyntaxErrorException(BadSqlGrammarException e) {
+		Response<String> response = new Response<String>();
+		response.setSuccess(false);
+		response.setErrorCode(SysErrorEnum.DB_ERROR.getCode());
+		response.setErrorMessage(e.getSQLException().getMessage());
+		LogUtils.print(new BusinessException(SysErrorEnum.DB_ERROR));
 		return response;
 	}
 

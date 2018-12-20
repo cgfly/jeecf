@@ -10,9 +10,9 @@ import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
-import org.jeecf.manager.common.utils.GenUtils;
 import org.jeecf.manager.gen.model.config.ConfigContext;
 import org.jeecf.manager.gen.resolve.ConfigModuleResolve;
+import org.jeecf.manager.gen.utils.GenUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
