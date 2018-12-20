@@ -136,7 +136,7 @@ public class SysDbsourceController
 	@PostMapping(value = { "active/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysDbsource:edit")
-	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	@ApiOperation(value = "激活", notes = "激活系统数据源数据")
 	public Response<Integer> active(@PathVariable("id") String id) {
 		SysDbsource sysDbSource = new SysDbsource(id);
 		sysDbSource.setDelFlag(EnumUtils.DelFlag.NO.getCode());

@@ -106,7 +106,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	@PostMapping(value = { "active/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysNamespace:edit")
-	@ApiOperation(value = "删除", notes = "删除系统数据源数据")
+	@ApiOperation(value = "激活", notes = "激活系统命名空间数据")
 	public Response<Integer> active(@PathVariable("id") String id) {
 		SysNamespace sysNamespace = new SysNamespace(id);
 		sysNamespace.setDelFlag(EnumUtils.DelFlag.NO.getCode());

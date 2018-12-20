@@ -10,7 +10,6 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.utils.LogUtils;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,6 +17,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 异常处理
  * 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @ControllerAdvice
+@Slf4j
 public class WebExceptionHandle {
 
 	@ExceptionHandler(value = UnauthorizedException.class)
@@ -34,7 +37,7 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.UNAUTHORIZED_ERROR.getCode());
 		response.setErrorMessage(SysErrorEnum.UNAUTHORIZED_ERROR.getMsg());
-		LogUtils.print(new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR));
+		log.error(SysErrorEnum.UNAUTHORIZED_ERROR.getMsg());
 		return response;
 	}
 	
@@ -45,7 +48,7 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.DB_ERROR.getCode());
 		response.setErrorMessage(e.getSQLException().getMessage());
-		LogUtils.print(new BusinessException(SysErrorEnum.DB_ERROR));
+		log.error(e.getSQLException().getMessage());
 		return response;
 	}
 
@@ -59,7 +62,7 @@ public class WebExceptionHandle {
 		set.forEach(violation -> {
 			response.setErrorMessage(violation.getMessage());
 		});
-		LogUtils.print(new BusinessException(SysErrorEnum.FIELD_ERROR.getCode(), response.getErrorMessage()));
+		log.error(SysErrorEnum.FIELD_ERROR.getMsg());
 		return response;
 	}
 
@@ -79,12 +82,12 @@ public class WebExceptionHandle {
 			response.setSuccess(false);
 			response.setErrorCode(SysErrorEnum.FIELD_ERROR.getCode());
 			response.setErrorMessage(errorMsg);
-			LogUtils.print(new BusinessException(SysErrorEnum.FIELD_ERROR.getCode(), errorMsg));
+			log.error(SysErrorEnum.FIELD_ERROR.getMsg());
 		} else {
 			response.setSuccess(false);
 			response.setErrorCode(SysErrorEnum.SYSTEM_ERROR.getCode());
 			response.setErrorMessage(SysErrorEnum.SYSTEM_ERROR.getMsg());
-			LogUtils.print(new BusinessException(SysErrorEnum.SYSTEM_ERROR));
+			log.error(SysErrorEnum.SYSTEM_ERROR.getMsg());
 		}
 		return response;
 	}
@@ -96,7 +99,7 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(e.getErrorCode());
 		response.setErrorMessage(e.getErrorMsg());
-		LogUtils.print(e);
+		log.error(e.getMessage());
 		return response;
 	}
 
@@ -108,7 +111,7 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.SYSTEM_ERROR.getCode());
 		response.setErrorMessage(SysErrorEnum.SYSTEM_ERROR.getMsg());
-		LogUtils.print(new BusinessException(SysErrorEnum.SYSTEM_ERROR));
+		log.error(SysErrorEnum.SYSTEM_ERROR.getMsg());
 		return response;
 	}
 
