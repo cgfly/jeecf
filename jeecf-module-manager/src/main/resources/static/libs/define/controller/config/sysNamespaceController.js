@@ -29,11 +29,16 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$httpRequest.post($ctx.getWebPath() + "config/sysNamespace/list",
 					$scope.request).then(function(res) {
 				if (res.success) {
-					$scope.sysNamespaceList = res.data;
-					$page.setPage($scope, res.page.total);
 					if(res.data != undefined && res.data.length> 0){
 						$scope.delFlag =$scope.delFlags[res.data[0].delFlag];
+						if(res.data[0].delFlag == 1){
+							$scope.delFlagVisible = false;
+						} else {
+							$scope.delFlagVisible = true;
+						}
 					}
+					$scope.sysNamespaceList = res.data;
+					$page.setPage($scope, res.page.total);
 				} else {
 					$jBoxcm.error("查询数据失败," + res.errorMessage);
 				}

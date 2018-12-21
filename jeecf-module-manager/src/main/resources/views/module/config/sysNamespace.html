@@ -48,9 +48,9 @@
 				    <td>{{ sysNamespace.remark }}</td> 
 				    <td>{{ sysNamespace.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td> 
 				    <td>
-				       <span shiro:hasPermission="config:sysNamespace:edit"><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
+				       <span shiro:hasPermission="config:sysNamespace:edit" ng-show="delFlagVisible" ><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
 				       <span shiro:hasPermission="config:sysNamespace:edit"><a href="javascript:void(0)" ng-click="actionForm($index)" >{{ delFlag.action }}</a></span>
-				       <span><a href="javascript:void(0)" ng-click="effectForm($index)">生效</a></span>
+				       <span><a href="javascript:void(0)" ng-show="delFlagVisible" ng-click="effectForm($index)">生效</a></span>
 				    </td>
 				</tr>
 			</tbody>

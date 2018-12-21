@@ -190,7 +190,6 @@ define([  'jquery', 'app' ], function($, app) {
 				});
 			},
 			noticeConfig:function(ops){
-				alert(window.innerWidth/2+parseInt(ops.content.length));
 				return  new jBox('Notice', {
 				      attributes: {
 				    	x: 'right',
