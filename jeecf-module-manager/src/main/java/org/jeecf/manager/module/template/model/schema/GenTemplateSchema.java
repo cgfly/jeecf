@@ -34,6 +34,11 @@ public class GenTemplateSchema {
 	@ApiModelProperty(value = "模版文件基础路径", name = "fileBasePath")
 	private boolean fileBasePath = true;
 	/**
+	 * wiki地址
+	 */
+	@ApiModelProperty(value = "wiki地址", name = "wikiUri")
+	private boolean wikiUri = true;
+	/**
 	 * 描述
 	 */
 	@ApiModelProperty(value = "描述", name = "descrition")
@@ -79,6 +84,12 @@ public class GenTemplateSchema {
 	}
 	public void setFileBasePath(boolean fileBasePath) {
 		this.fileBasePath = fileBasePath;
+	}
+	public boolean isWikiUri() {
+		return wikiUri;
+	}
+	public void setWikiUri(boolean wikiUri) {
+		this.wikiUri = wikiUri;
 	}
 	public boolean isDescrition() {
 		return descrition;

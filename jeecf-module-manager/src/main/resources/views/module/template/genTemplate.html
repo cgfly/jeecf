@@ -52,6 +52,7 @@
 						<span><a href="javascript:void(0)"
 							ng-click="genModal($index)">代码生成</a></span> <span><a
 							href="javascript:void(0)" ng-click="downloadModal($index)">模版下载</a></span>
+						<span><a href="javascript:void(0)" ng-click="wikiModal($index)">wiki</a></span>
 					</td>
 				</tr>
 			</tbody>
@@ -121,11 +122,22 @@
 									</div>
 								</div>
 							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-3 control-label">wiki地址后缀：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-10" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateWikiUri"
+											name="wikiUri" ng-model="updateGenTemplate.wikiUri"
+											placeholder="请输入wiki地址后缀" />
+									</div>
+								</div>
+							</div>
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">描述：</label>
 								<div class="col-sm-8">
-									<div class="col-sm-6" style="padding-left: 0">
+									<div class="col-sm-10" style="padding-left: 0">
 										<input type="text" class="form-control" id="updateDescrition"
 											name="descrition" ng-model="updateGenTemplate.descrition"
 											placeholder="请输入描述" />
@@ -288,11 +300,22 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">wiki地址后缀：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-10" style="padding-left: 0">
+							<input type="text" class="form-control" id="wikiUri"
+								name="wikiUri" ng-model="genTemplate.wikiUri"
+								placeholder="请输入wiki地址后缀" />
+						</div>
+					</div>
+				</div>
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">描述：</label>
 					<div class="col-sm-4">
-						<div class="col-sm-6" style="padding-left: 0">
+						<div class="col-sm-10" style="padding-left: 0">
 							<input type="text" class="form-control" id="descrition"
 								name="descrition" ng-model="genTemplate.descrition"
 								placeholder="请输入描述" />

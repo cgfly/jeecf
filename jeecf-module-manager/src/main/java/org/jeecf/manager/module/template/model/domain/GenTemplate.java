@@ -49,6 +49,11 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 	@ApiModelProperty(value = "模版文件基础路径", name = "fileBasePath")
 	private String fileBasePath;
 	/**
+	 * wiki地址
+	 */
+	@ApiModelProperty(value = "wiki地址", name = "wikiUri")
+	private String wikiUri;
+	/**
 	 * 描述
 	 */
 	@ApiModelProperty(value = "描述", name = "descrition")
@@ -98,6 +103,15 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 		this.fileBasePath = fileBasePath;
 	}
 	
+	@Length(min = 1, max = 100, message = "wiki地址长度必须介于 1 和 100 之间",groups= {Add.class})
+	public String getWikiUri() {
+		return wikiUri;
+	}
+
+	public void setWikiUri(String wikiUri) {
+		this.wikiUri = wikiUri;
+	}
+
 	@Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间",groups= {Add.class})
 	public String getDescrition() {
 		return descrition;
