@@ -27,9 +27,7 @@ public class BusinessTableServiceTest {
 	@Test
 	public void queryAll(){
 		List<SelectTableColumn> columnList = new ArrayList<>();
-		SelectTable selectTable = new SelectTable();
-		selectTable.setName("genField");
-		selectTable.setTableName("gen_field");
+		SelectTable selectTable = SelectTable.Builder.build("genField", "gen_field");
 		columnList.add(SelectTableColumn.Builder.build("id", "id"));
 		columnList.add(SelectTableColumn.Builder.build("sysNamespaceId", "sys_namespace_id"));
 		selectTable.setColumnList(columnList);

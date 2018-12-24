@@ -6,6 +6,8 @@ package org.jeecf.manager.engine.model;
  */
 public class BaseTable {
 	
+	protected BaseTable() {}
+	
 	/**
 	 * 实体名称
 	 */
@@ -15,16 +17,16 @@ public class BaseTable {
 	 */
     private String tableName;
     
-	public String getName() {
+    public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	protected void setName(String name) {
 		this.name = name;
 	}
 	public String getTableName() {
 		return tableName;
 	}
-	public void setTableName(String tableName) {
+	protected void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
     

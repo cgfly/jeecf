@@ -54,11 +54,9 @@ public class GoBuilder  extends AbstractLanguageBuilder {
 	@Override
 	public String getData(List<WhereEntity> whereEntitys) {
 		if(this.goTable != null) {
-			SelectTable selectTable = new SelectTable();
+			SelectTable selectTable = SelectTable.Builder.build(this.goTable.getClassName(), this.goTable.getName());
 			List<SelectTableColumn> columnList = new ArrayList<>();
 			List<GoTableColumn> tableColumnList = this.goTable.getGenTableColumns();
-			selectTable.setName(this.goTable.getClassName());
-			selectTable.setTableName(this.goTable.getName());
 			tableColumnList.forEach(tableColumn->{
 				columnList.add(SelectTableColumn.Builder.build(tableColumn.getField(), tableColumn.getName()));
 			});

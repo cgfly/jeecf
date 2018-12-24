@@ -20,13 +20,13 @@ public class BaseTableColumn {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	protected void setName(String name) {
 		this.name = name;
 	}
 	public String getColumnName() {
 		return columnName;
 	}
-	public void setColumnName(String columnName) {
+	protected void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}
 	

@@ -7,6 +7,7 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.engine.dao.SchemaTableDao;
 import org.jeecf.manager.engine.model.SchemaTable;
 import org.jeecf.manager.engine.model.SchemaTableColumn;
+import org.jeecf.manager.engine.utils.JniValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class SchemaTableService {
 
 	public Response<SchemaTable> getTable(String name){
 		SchemaTable schemaTable = new SchemaTable();
-		schemaTable.setName(name);
+		schemaTable.setName(JniValidate.columnValidate(name));
 		List<SchemaTable> schemaTableList = schemaTableDao.findTableList(schemaTable);
 		if(CollectionUtils.isNotEmpty(schemaTableList)) {
 			return new Response<>(schemaTableList.get(0));
@@ -37,7 +38,7 @@ public class SchemaTableService {
 
 	public Response<List<SchemaTableColumn>> findTableColumn(String tableName){
 		SchemaTableColumn schemaTableColumn = new SchemaTableColumn();
-		schemaTableColumn.setTableName(tableName);
+		schemaTableColumn.setTableName(JniValidate.columnValidate(tableName));
 		return new Response<>(schemaTableDao.findTableColumnList(schemaTableColumn));
 	}
 	
