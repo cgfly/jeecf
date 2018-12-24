@@ -16,7 +16,7 @@ public class LimitEntity {
 		return startNo;
 	}
 
-	public void setStartNo(int startNo) {
+	protected void setStartNo(int startNo) {
 		this.startNo = startNo;
 	}
 
@@ -24,7 +24,7 @@ public class LimitEntity {
 		return size;
 	}
 
-	public void setSize(int size) {
+	protected void setSize(int size) {
 		this.size = size;
 	}
 	

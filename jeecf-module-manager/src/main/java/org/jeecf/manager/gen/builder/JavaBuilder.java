@@ -56,16 +56,14 @@ public class JavaBuilder extends AbstractLanguageBuilder {
 	@Override
 	public String getData(List<WhereEntity> whereEntitys) {
 		if(this.javaTable != null) {
-			SelectTable selectTable = new SelectTable();
+			SelectTable selectTable = SelectTable.Builder.build(this.javaTable.getClassName(), this.javaTable.getName());
 			List<SelectTableColumn> columnList = new ArrayList<>();
 			List<JavaTableColumn> tableColumnList = this.javaTable.getGenTableColumns();
-			selectTable.setName(this.javaTable.getClassName());
-			selectTable.setTableName(this.javaTable.getName());
 			tableColumnList.forEach(tableColumn->{
 				columnList.add(SelectTableColumn.Builder.build(tableColumn.getField(), tableColumn.getName()));
 			});
 			selectTable.setWhereEntitys(whereEntitys);
-			selectTable.setColumnList(columnList);
+			selectTable.setSelectTableColumns(columnList);
 			return targetTableFacade.selectTable(selectTable).getData();
 		}
 		return null;

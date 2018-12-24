@@ -8,9 +8,9 @@ package org.jeecf.manager.engine.model;
  */
 public class BaseTableColumn {
 
-	protected BaseTableColumn() {
-	}
-
+	
+	protected BaseTableColumn() {}
+	
 	/**
 	 * 名称
 	 */
@@ -24,7 +24,7 @@ public class BaseTableColumn {
 		return name;
 	}
 
-	public void setName(String name) {
+	protected void setName(String name) {
 		this.name = name;
 	}
 
@@ -32,7 +32,7 @@ public class BaseTableColumn {
 		return columnName;
 	}
 
-	public void setColumnName(String columnName) {
+	protected void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}
 

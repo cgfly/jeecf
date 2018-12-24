@@ -3,7 +3,7 @@
 <mapper namespace="org.jeecf.manager.engine.dao.BusinessTableDao">
 
 	<sql id="columnList">
-		<foreach collection="columnList" index="index" item="item"
+		<foreach collection="selectTableColumns" index="index" item="item"
 			separator=",">
 			${name}.${item.columnName} as #{item.name}
 		</foreach>

@@ -1,5 +1,6 @@
 package org.jeecf.manager.engine.model;
 
+import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.manager.engine.enums.SortModeEnum;
 import org.jeecf.manager.engine.utils.JniValidate;
 /**
@@ -19,7 +20,7 @@ public class OrderByEntity {
 		return columnName;
 	}
 
-	public void setColumnName(String columnName) {
+	protected void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}
 
@@ -27,25 +28,26 @@ public class OrderByEntity {
 		return sortMode;
 	}
 
-	public void setSortMode(String sortMode) {
+	protected void setSortMode(String sortMode) {
 		this.sortMode = sortMode;
 	}
 
 	public static class Builder {
 
-		public static OrderByEntity buildAsc(String columnName) {
-			return OrderByEntity.Builder.build(columnName, SortModeEnum.ASC.getName());
+		public static OrderByEntity buildAsc(String name,String columnName) {
+			return OrderByEntity.Builder.build(name,columnName, SortModeEnum.ASC.getName());
 		}
-		public static OrderByEntity buildDesc(String columnName) {
-			return OrderByEntity.Builder.build(columnName, SortModeEnum.DESC.getName());
+		public static OrderByEntity buildDesc(String name,String columnName) {
+			return OrderByEntity.Builder.build(name,columnName, SortModeEnum.DESC.getName());
 		}
 
-		private static OrderByEntity build(String columnName,String sortModel) {
+		private static OrderByEntity build(String name,String columnName,String sortModel) {
 			OrderByEntity orderByEntity = new OrderByEntity();
-			orderByEntity.setColumnName(JniValidate.columnValidate(columnName));
+			orderByEntity.setColumnName(JniValidate.columnValidate(name + SplitCharEnum.DOT.getName() +columnName));
 			orderByEntity.setSortMode(sortModel);
 			return orderByEntity;
 		}
+		
 	}
 
 }
