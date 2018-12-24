@@ -30,16 +30,10 @@ public class BusinessTableServiceTest {
 		SelectTable selectTable = new SelectTable();
 		selectTable.setName("genField");
 		selectTable.setTableName("gen_field");
-		SelectTableColumn columnId = new SelectTableColumn();
-		columnId.setColumnName("id");
-		columnId.setName("id");
-		SelectTableColumn columnNamespaceId = new SelectTableColumn();
-		columnNamespaceId.setColumnName("sys_namespace_id");
-		columnNamespaceId.setName("sysNamespaceId");
-		columnList.add(columnId);
-		columnList.add(columnNamespaceId);
+		columnList.add(SelectTableColumn.Builder.build("id", "id"));
+		columnList.add(SelectTableColumn.Builder.build("sysNamespaceId", "sys_namespace_id"));
 		selectTable.setColumnList(columnList);
-		String result = businessTableService.queryAll(selectTable);
+		String result = businessTableService.query(selectTable);
 		System.out.println(result);
 	}
 
