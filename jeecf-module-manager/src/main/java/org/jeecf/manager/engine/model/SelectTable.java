@@ -12,6 +12,10 @@ public class SelectTable extends BaseTable {
 	private List<SelectTableColumn>  columnList;
 	
 	private List<WhereEntity> whereEntitys;
+	
+	private List<OrderByEntity> orderByEntitys;
+	
+	private LimitEntity limitEntity;
 
 	public List<SelectTableColumn> getColumnList() {
 		return columnList;
@@ -29,4 +33,20 @@ public class SelectTable extends BaseTable {
 		this.whereEntitys = whereEntitys;
 	}
 
+	public List<OrderByEntity> getOrderByEntitys() {
+		return orderByEntitys;
+	}
+
+	public void setOrderByEntitys(List<OrderByEntity> orderByEntitys) {
+		this.orderByEntitys = orderByEntitys;
+	}
+
+	public LimitEntity getLimitEntity() {
+		return limitEntity;
+	}
+
+	public void setLimitEntity(LimitEntity limitEntity) {
+		this.limitEntity = limitEntity;
+	}
+	
 }

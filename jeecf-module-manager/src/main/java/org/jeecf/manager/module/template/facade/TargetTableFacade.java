@@ -62,7 +62,7 @@ public class TargetTableFacade {
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	@TargetDataSource
 	public Response<String> selectTable(SelectTable selectTable) {
-		return new Response<>(businessTableService.queryAll(selectTable));
+		return new Response<>(businessTableService.query(selectTable));
 	}
 
 }

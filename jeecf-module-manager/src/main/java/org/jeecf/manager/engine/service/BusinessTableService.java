@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.manager.engine.dao.BusinessTableDao;
 import org.jeecf.manager.engine.model.SelectTable;
+import org.jeecf.manager.engine.utils.SqlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,9 @@ public class BusinessTableService {
 	@Autowired
 	private BusinessTableDao businessTableDao;
     
-	public String queryAll(SelectTable selectTable){
-		List<Map<String,Object >>  result =	businessTableDao.queryAll(selectTable);
+	public String query(SelectTable selectTable){
+		SqlHelper.buildSorts(selectTable.getName(), selectTable.getOrderByEntitys());
+		List<Map<String,Object >>  result =	businessTableDao.query(selectTable);
 		if(CollectionUtils.isNotEmpty(result)) {
 			return JsonMapper.toJson(result);
 		}
