@@ -62,22 +62,6 @@ public class WhereEntity {
 			return build(column, WhereConnectorEnum.AND.getName(),expressEnum.getName(), value);
 		}
 
-//		public static WhereEntity buildLt(String column, String value) {
-//			return build(column, WhereExpressEnum.LT.getName(), value);
-//		}
-//
-//		public static WhereEntity buildGt(String column, String value) {
-//			return build(column, WhereExpressEnum.GT.getName(), value);
-//		}
-//
-//		public static WhereEntity buildLtEquals(String column, String value) {
-//			return build(column, WhereExpressEnum.LT_EQUALS.getName(), value);
-//		}
-//
-//		public static WhereEntity buildGtEquals(String column, String value) {
-//			return build(column, WhereExpressEnum.GT_EQUALS.getName(), value);
-//		}
-
 		private static WhereEntity build(String column, String connector,String express, String value) {
 			WhereEntity whereEntity = new WhereEntity();
 			column = JniValidate.columnValidate(column);

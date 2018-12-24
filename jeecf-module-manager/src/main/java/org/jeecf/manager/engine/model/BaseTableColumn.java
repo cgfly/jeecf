@@ -6,6 +6,8 @@ package org.jeecf.manager.engine.model;
  */
 public class BaseTableColumn {
 	
+	protected BaseTableColumn() {}
+	
 	/**
 	 * 名称
 	 */

@@ -18,6 +18,6 @@ public interface BusinessTableDao {
 	 * @param selectTable
 	 * @return
 	 */
-	public List<Map<String,Object >> queryAll(SelectTable selectTable);
+	public List<Map<String,Object >> query(SelectTable selectTable);
 
 }

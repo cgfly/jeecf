@@ -22,8 +22,8 @@ public class BusinessTableService {
 	@Autowired
 	private BusinessTableDao businessTableDao;
     
-	public String queryAll(SelectTable selectTable){
-		List<Map<String,Object >>  result =	businessTableDao.queryAll(selectTable);
+	public String query(SelectTable selectTable){
+		List<Map<String,Object >>  result =	businessTableDao.query(selectTable);
 		if(CollectionUtils.isNotEmpty(result)) {
 			return JsonMapper.toJson(result);
 		}

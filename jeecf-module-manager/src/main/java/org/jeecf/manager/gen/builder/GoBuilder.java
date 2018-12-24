@@ -60,10 +60,7 @@ public class GoBuilder  extends AbstractLanguageBuilder {
 			selectTable.setName(this.goTable.getClassName());
 			selectTable.setTableName(this.goTable.getName());
 			tableColumnList.forEach(tableColumn->{
-				SelectTableColumn column = new SelectTableColumn();
-				column.setName(tableColumn.getField());
-				column.setColumnName(tableColumn.getName());
-				columnList.add(column);
+				columnList.add(SelectTableColumn.Builder.build(tableColumn.getField(), tableColumn.getName()));
 			});
 			selectTable.setWhereEntitys(whereEntitys);
 			selectTable.setColumnList(columnList);

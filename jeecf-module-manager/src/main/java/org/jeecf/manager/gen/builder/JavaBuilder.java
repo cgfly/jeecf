@@ -62,10 +62,7 @@ public class JavaBuilder extends AbstractLanguageBuilder {
 			selectTable.setName(this.javaTable.getClassName());
 			selectTable.setTableName(this.javaTable.getName());
 			tableColumnList.forEach(tableColumn->{
-				SelectTableColumn column = new SelectTableColumn();
-				column.setName(tableColumn.getField());
-				column.setColumnName(tableColumn.getName());
-				columnList.add(column);
+				columnList.add(SelectTableColumn.Builder.build(tableColumn.getField(), tableColumn.getName()));
 			});
 			selectTable.setWhereEntitys(whereEntitys);
 			selectTable.setColumnList(columnList);
