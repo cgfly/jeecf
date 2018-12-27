@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.jeecf.common.utils.HumpUtils;
 import org.jeecf.manager.engine.enums.WhereExpressEnum;
-import org.jeecf.manager.engine.model.WhereEntity;
+import org.jeecf.manager.engine.model.query.WhereEntity;
 import org.jeecf.manager.gen.builder.AbstractLanguageBuilder;
 import org.jeecf.manager.gen.model.rule.FilterEntity;
 

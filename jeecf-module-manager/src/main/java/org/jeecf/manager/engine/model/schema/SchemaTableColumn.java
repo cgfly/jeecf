@@ -1,4 +1,4 @@
-package org.jeecf.manager.engine.model;
+package org.jeecf.manager.engine.model.schema;
 
 import lombok.Data;
 /**

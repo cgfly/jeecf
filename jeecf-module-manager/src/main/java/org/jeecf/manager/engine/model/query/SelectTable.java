@@ -1,7 +1,8 @@
-package org.jeecf.manager.engine.model;
+package org.jeecf.manager.engine.model.query;
 
 import java.util.List;
 
+import org.jeecf.manager.engine.model.BaseTable;
 import org.jeecf.manager.engine.utils.JniValidate;
 
 /**
@@ -14,13 +15,21 @@ public class SelectTable extends BaseTable {
 
 	protected SelectTable() {
 	}
-
+    /**
+     * 字段集合
+     */
 	private List<SelectTableColumn> selectTableColumns;
-
+    /**
+     * 条件实体集合
+     */
 	private List<WhereEntity> whereEntitys;
-
+    /**
+     * 排序实体集合
+     */
 	private List<OrderByEntity> orderByEntitys;
-
+    /**
+     * 分页实体
+     */
 	private LimitEntity limitEntity;
 
 	public List<SelectTableColumn> getSelectTableColumns() {

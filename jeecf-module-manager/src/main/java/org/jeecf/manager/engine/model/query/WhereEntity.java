@@ -1,4 +1,4 @@
-package org.jeecf.manager.engine.model;
+package org.jeecf.manager.engine.model.query;
 
 import org.jeecf.manager.engine.enums.WhereConnectorEnum;
 import org.jeecf.manager.engine.enums.WhereExpressEnum;
@@ -9,13 +9,21 @@ import org.jeecf.manager.engine.utils.JniValidate;
  *
  */
 public class WhereEntity {
-
+    /**
+     * 字段
+     */
 	private String column;
-
+    /**
+     * 表达式
+     */
 	private String express;
-	
+	/**
+	 * 连接方式
+	 */
 	private String  connector;
-
+    /**
+     * 值
+     */
 	private String value;
 	
 	protected WhereEntity() {}

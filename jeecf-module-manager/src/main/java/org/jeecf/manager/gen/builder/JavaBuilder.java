@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.manager.engine.model.SelectTable;
-import org.jeecf.manager.engine.model.SelectTableColumn;
-import org.jeecf.manager.engine.model.WhereEntity;
+import org.jeecf.manager.engine.model.query.SelectTable;
+import org.jeecf.manager.engine.model.query.SelectTableColumn;
+import org.jeecf.manager.engine.model.query.WhereEntity;
 import org.jeecf.manager.gen.language.java.model.JavaCommonTable;
 import org.jeecf.manager.gen.language.java.model.JavaTable;
 import org.jeecf.manager.gen.language.java.model.JavaTableColumn;

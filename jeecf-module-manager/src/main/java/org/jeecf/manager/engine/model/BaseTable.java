@@ -4,30 +4,22 @@ package org.jeecf.manager.engine.model;
  * @author jianyiming
  *
  */
-public class BaseTable {
+public class BaseTable extends AbstractTable{
 	
 	protected BaseTable() {}
+	
 	
 	/**
 	 * 实体名称
 	 */
 	private String name;
-	/**
-	 * 表名称
-	 */
-    private String tableName;
-    
-    public String getName() {
+	
+	public String getName() {
 		return name;
 	}
+
 	protected void setName(String name) {
 		this.name = name;
-	}
-	public String getTableName() {
-		return tableName;
-	}
-	protected void setTableName(String tableName) {
-		this.tableName = tableName;
 	}
     
 

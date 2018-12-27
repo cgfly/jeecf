@@ -1,5 +1,6 @@
-package org.jeecf.manager.engine.model;
+package org.jeecf.manager.engine.model.query;
 
+import org.jeecf.manager.engine.model.BaseTableColumn;
 import org.jeecf.manager.engine.utils.JniValidate;
 
 /**

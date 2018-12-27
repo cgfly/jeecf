@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jeecf.manager.Application;
-import org.jeecf.manager.engine.model.SelectTable;
-import org.jeecf.manager.engine.model.SelectTableColumn;
+import org.jeecf.manager.engine.model.create.CreateTable;
+import org.jeecf.manager.engine.model.create.CreateTableColumn;
+import org.jeecf.manager.engine.model.query.SelectTable;
+import org.jeecf.manager.engine.model.query.SelectTableColumn;
 import org.jeecf.manager.engine.service.BusinessTableService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +27,7 @@ public class BusinessTableServiceTest {
 	private BusinessTableService businessTableService;
 	
 	@Test
-	public void queryAll(){
+	public void query(){
 		List<SelectTableColumn> columnList = new ArrayList<>();
 		SelectTable selectTable = SelectTable.Builder.build("genField", "gen_field");
 		columnList.add(SelectTableColumn.Builder.build("id", "id"));
@@ -33,6 +35,15 @@ public class BusinessTableServiceTest {
 		selectTable.setSelectTableColumns(columnList);
 		String result = businessTableService.query(selectTable);
 		System.out.println(result);
+	}
+	
+	@Test
+	public void create(){
+		List<CreateTableColumn> createTableColumns = new ArrayList<>();
+		CreateTableColumn createTableColumn = CreateTableColumn.builder().setColumnName("test").setType("int(11)").isPrimaryKey(true).setComment("0").build();
+		createTableColumns.add(createTableColumn);
+		CreateTable createTable = CreateTable.builder().setTableName("test").setComment("测试").addCreateTableColumns(createTableColumns).build();
+		businessTableService.create(createTable);
 	}
 
 }

@@ -9,7 +9,7 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
-import org.jeecf.manager.engine.model.SchemaTable;
+import org.jeecf.manager.engine.model.schema.SchemaTable;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
 import org.jeecf.manager.module.template.facade.TargetTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;

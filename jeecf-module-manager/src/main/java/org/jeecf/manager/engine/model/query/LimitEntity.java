@@ -1,4 +1,4 @@
-package org.jeecf.manager.engine.model;
+package org.jeecf.manager.engine.model.query;
 /**
  * 分页实体
  * @author jianyiming
@@ -7,9 +7,13 @@ package org.jeecf.manager.engine.model;
 public class LimitEntity {
 	
 	protected LimitEntity(){}
-	
+	/**
+	 * 开始页大小
+	 */
 	private int startNo;
-	
+	/**
+	 * 查询条数
+	 */
 	private int size;
 
 	public int getStartNo() {

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.utils.SpringContextUtils;
-import org.jeecf.manager.engine.model.WhereEntity;
+import org.jeecf.manager.engine.model.query.WhereEntity;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
 import org.jeecf.manager.module.template.facade.TargetTableFacade;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
