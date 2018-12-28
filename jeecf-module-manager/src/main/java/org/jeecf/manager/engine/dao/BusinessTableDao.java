@@ -49,5 +49,11 @@ public interface BusinessTableDao {
 	 * @return
 	 */
 	public int addIndex(IndexTable indexTable);
+	/**
+	 * 删除表
+	 * @param tableName
+	 * @return
+	 */
+	public int drop(String tableName);
 
 }

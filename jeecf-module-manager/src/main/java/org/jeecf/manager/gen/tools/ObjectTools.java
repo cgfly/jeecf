@@ -20,11 +20,20 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  */
 public class ObjectTools {
-
+    /**
+     * 实体转成json字符串
+     * @param data
+     * @return
+     */
 	public String toJsonString(Object data) {
 		return JsonMapper.toJson(data);
 	}
-
+    /**
+     * 分组
+     * @param data
+     * @param groups
+     * @return
+     */
 	public String  groups(String data, String... groups) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		if (groups.length > 0) {
