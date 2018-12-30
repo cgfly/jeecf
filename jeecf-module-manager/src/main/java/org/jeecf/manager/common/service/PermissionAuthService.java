@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <T>
  */
 public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends PermissionEntity>
-		extends AbstractAuthService<D, P, R, Q, T> {
+		extends BaseService<D, P, R, Q, T> implements AuthService<D, P, R, Q, T> {
 
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
@@ -118,9 +118,9 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteByFlag(T t) {
-			t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
-			this.updateByAuth(t);
-			return new Response<>(1);
+		t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
+		this.updateByAuth(t);
+		return new Response<>(1);
 	}
 
 }

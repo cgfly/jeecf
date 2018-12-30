@@ -3,15 +3,13 @@ package org.jeecf.manager.module.gen.model.query;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.jeecf.manager.module.gen.model.domian.SysTableDict;
-
+import org.jeecf.manager.module.gen.model.domian.SysTreeDict;
 /**
- * 表组查询字典
- * 
+ * 树组字典 查询实体
  * @author jianyiming
  *
  */
-public class SysTableDictQuery extends SysTableDict implements Serializable {
+public class SysTreeDictQuery extends SysTreeDict implements Serializable{
 
 	/**
 	 * 

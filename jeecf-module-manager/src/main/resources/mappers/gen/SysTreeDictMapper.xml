@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.jeecf.manager.module.gen.dao.SysTreeDictDao">
+
+	<sql id="columnList">
+		sysTreeDict.id AS "id",
+		sysTreeDict.name AS "name",
+		sysTreeDict.parent_id AS "parentId",
+		sysTreeDict.parent_ids AS "parentIds",
+		sysTreeDict.level AS "level",
+		sysTreeDict.sort AS "sort",
+		sysTreeDict.description AS "description",
+		sysTreeDict.sys_namespace_id AS "sysNamespaceId",
+		sysTreeDict.event AS "event",
+		sysTreeDict.result AS "result",
+		sysTreeDict.group_name AS "groupName",
+		
+		parent.id As "parent.id",
+		parent.name As "parent.name",
+
+		sysTreeDict.create_by AS "createBy",
+		sysTreeDict.create_date AS "createDate",
+		sysTreeDict.update_by AS "updateBy",
+		sysTreeDict.update_date AS
+		"updateDate",
+		sysTreeDict.remark AS "remark"
+	</sql>
+
+	<sql id="commonWhere">
+		<where>
+			<if test="data != null">
+				<if test="data.groupName != null and data.groupName != '' ">
+					And sysTreeDict.group_name = #{data.groupName}
+				</if>
+				<if test="data.sysNamespaceId != null and data.sysNamespaceId != '' ">
+					And sysTreeDict.sys_namespace_id = #{data.sysNamespaceId}
+				</if>
+				<include refid="reginWhere" />
+			</if>
+			<include refid="containWhere" />
+		</where>
+	</sql>
+
+	<sql id="reginWhere">
+		<if test="data.beginCreateDate != null">
+			And sysTreeDict.create_date &gt;= #{data.beginCreateDate}
+		</if>
+		<if test="data.endCreateDate != null">
+			And sysTreeDict.create_date &lt;= #{data.endCreateDate}
+		</if>
+		<if test="data.beginUpdateDate != null">
+			And sysTreeDict.update_date &gt;= #{data.beginUpdateDate}
+		</if>
+		<if test="data.endUpdateDate != null">
+			And sysTreeDict.update_date &lt;= #{data.endUpdateDate}
+		</if>
+	</sql>
+	
+	<sql id="containWhere">
+		<if test="contains != null and contains.size > 0">
+			<foreach item="item" index="i" collection="contains">
+				And ${item.columnName} in
+				<foreach item="value" index="i"
+					collection="item.columnValue" separator="," open="(" close=")">
+					#{value}
+				</foreach>
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="commonSorts">
+		<if test="sorts != null and sorts.size > 0">
+			ORDER BY
+			<foreach collection="sorts" item="item" separator=",">
+				${item.columnName} ${item.sortMode}
+			</foreach>
+		</if>
+		<if test="sorts == null">
+			ORDER BY sysTreeDict.update_date desc
+		</if>
+	</sql>
+
+	<sql id="leftJoinColumn">
+		LEFT JOIN sys_tree_dict parent on parent.id =
+		sysTreeDict.parent_id
+	</sql>
+
+	<select id="query"
+		resultType="org.jeecf.manager.module.gen.model.result.SysTreeDictResult">
+		select
+		<include refid="columnList" />
+		from
+		sys_tree_dict sysTreeDict
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+		<include refid="commonSorts" />
+		<if test="page != null">
+			limit ${page.startNo},${page.size}
+		</if>
+	</select>
+
+	<select id="get"
+		resultType="org.jeecf.manager.module.gen.model.result.SysTreeDictResult">
+		select
+		<include refid="columnList" />
+		from
+		sys_tree_dict sysTreeDict
+		<include refid="leftJoinColumn" />
+		where sysTreeDict.id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sysTreeDict.sys_namespace_id = #{sysNamespaceId}
+		</if>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_tree_dict
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="parentIds != null">
+				parent_ids,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="event != null">
+				event,
+			</if>
+			<if test="result != null">
+				result,
+			</if>
+			<if test="groupName != null">
+				group_name,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="sysNamespaceId != null">
+				sys_namespace_id,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remark != null">
+				remark
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="parentId != null">
+				#{parentId},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds},
+			</if>
+			<if test="level != null">
+				#{level},
+			</if>
+			<if test="sort != null">
+				#{sort},
+			</if>
+			<if test="event != null">
+				#{event},
+			</if>
+			<if test="result != null">
+				#{result},
+			</if>
+			<if test="groupName != null">
+				#{groupName},
+			</if>
+			<if test="description != null">
+				#{description},
+			</if>
+			<if test="sysNamespaceId != null">
+				#{sysNamespaceId},
+			</if>
+			<if test="createBy != null">
+				#{createBy},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate},
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		update sys_tree_dict
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+			</if>
+			<if test="parentIds != null">
+				parent_ids = #{parentIds},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="event != null">
+				event = #{event},
+			</if>
+			<if test="result != null">
+				result = #{result},
+			</if>
+			<if test="groupName != null">
+				group_name = #{groupName},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+		</set>
+		where id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
+
+	</update>
+
+
+	<select id="count" resultType="int">
+		select count(1) from sys_tree_dict sysTreeDict
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+	</select>
+
+	<delete id="delete">
+		delete from sys_tree_dict
+		WHERE id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
+	</delete>
+
+</mapper>

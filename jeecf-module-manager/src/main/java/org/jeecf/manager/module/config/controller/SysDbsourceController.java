@@ -42,7 +42,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Controller
 @RequestMapping(value = { "config/sysDbsource" })
-@Api(value = "{className} api", tags = { "系统数据源接口" })
+@Api(value = "系统数据源  api", tags = { "系统数据源接口" })
 public class SysDbsourceController
 		extends BaseController<SysDbsourceQuery, SysDbsourceResult, SysDbsourceSchema, SysDbsource> {
 
