@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.leftEqual)",message="左等式输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.rightEqual)",message="右等式输入不能为空",groups= {Add.class}),
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.event)",message="事件输入不能为空",groups= {Add.class}),
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.group)",message="组别输入不能为空",groups= {Add.class}),
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.result)",message="产出输入不能为空",groups= {Add.class}),
@@ -35,12 +37,21 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult>{
 	public SysTreeDict(String id) {
 		super(id);
 	}
-	
+	/**
+	 * 左等式
+	 */
+	@ApiModelProperty(value="左等式",name="leftEqual")
+	private String leftEqual;
 	/**
 	 * 事件
 	 */
 	@ApiModelProperty(value="事件",name="event")
-	private String event;
+	private Integer event;
+	/**
+	 * 右等式
+	 */
+	@ApiModelProperty(value="右等式",name="rightEqual")
+	private String rightEqual;
 	/**
 	 * 产出
 	 */
@@ -57,11 +68,11 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult>{
 	@ApiModelProperty(value="描述",name="description")
 	private String description;
 	
-	public String getEvent() {
+	public Integer getEvent() {
 		return event;
 	}
 	
-	public void setEvent(String event) {
+	public void setEvent(Integer event) {
 		this.event = event;
 	}
 
@@ -92,6 +103,25 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult>{
 		this.description = description;
 	}
 	
+	
+	@Length(min = 1, max = 20, message = "左等式长度必须介于 1 和 20 之间",groups= {Add.class})
+	public String getLeftEqual() {
+		return leftEqual;
+	}
+
+	public void setLeftEqual(String leftEqual) {
+		this.leftEqual = leftEqual;
+	}
+	
+	@Length(min = 1, max = 20, message = "右等式长度必须介于 1 和 20 之间",groups= {Add.class})
+	public String getRightEqual() {
+		return rightEqual;
+	}
+
+	public void setRightEqual(String rightEqual) {
+		this.rightEqual = rightEqual;
+	}
+
 	@Override
 	public void sortList(List<SysTreeDictResult> newList, List<SysTreeDictResult> sourceList, String rootId) {
 		for (int i = 0; i < sourceList.size(); i++) {

@@ -14,6 +14,10 @@ public enum RuleStrategyNameEnum {
 	 * 组数据
 	 */
 	GROUP(2,"group_data"),
+	/**
+	 * 树策略
+	 */
+	TREE(3,"tree_data"),
 	;
 	
 	public final int code;

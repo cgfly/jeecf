@@ -21,6 +21,7 @@ import org.jeecf.manager.gen.model.rule.StrategyEntity;
 import org.jeecf.manager.gen.strategy.FilterStrategy;
 import org.jeecf.manager.gen.strategy.GroupDataStrategy;
 import org.jeecf.manager.gen.strategy.ManyTableStrategy;
+import org.jeecf.manager.gen.strategy.TreeDataStrategy;
 
 /**
  * 表参数责任链
@@ -35,6 +36,8 @@ public class TableParamHandler extends AbstractHandler {
 	private static GroupDataStrategy groupDataStrategy = new GroupDataStrategy();
 
 	private static FilterStrategy filterStrategy = new FilterStrategy();
+	
+	private static TreeDataStrategy treeDataStrategy = new TreeDataStrategy();
 
 	@Override
 	public void init(ChainContext context) {
@@ -133,6 +136,13 @@ public class TableParamHandler extends AbstractHandler {
 				return;
 			}
 			throw new BusinessException(BusinessErrorEnum.RULE_DATA_GROUP_ERROR);
+		} else if (strategyEntity.getName().equals(RuleStrategyNameEnum.TREE.name)) {
+		    data = treeDataStrategy.handler(data);
+			if (StringUtils.isNotEmpty(data)) {
+				buildData(moduleEntitys, data, table, null, null);
+				return;
+			}
+			throw new BusinessException(BusinessErrorEnum.RULE_DATA_TREE_ERROR);
 		}
 		throw new BusinessException(BusinessErrorEnum.RULE_STRATEGY_NAME_NOT_MATCH);
 	}

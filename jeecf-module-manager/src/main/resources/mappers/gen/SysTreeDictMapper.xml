@@ -11,7 +11,9 @@
 		sysTreeDict.sort AS "sort",
 		sysTreeDict.description AS "description",
 		sysTreeDict.sys_namespace_id AS "sysNamespaceId",
+		sysTreeDict.left_equal AS "leftEqual",
 		sysTreeDict.event AS "event",
+		sysTreeDict.right_equal AS "rightEqual",
 		sysTreeDict.result AS "result",
 		sysTreeDict.group_name AS "groupName",
 		
@@ -130,8 +132,14 @@
 			<if test="sort != null">
 				sort,
 			</if>
+			<if test="leftEqual != null">
+				left_equal,
+			</if>
 			<if test="event != null">
 				event,
+			</if>
+			<if test="rightEqual != null">
+				right_equal,
 			</if>
 			<if test="result != null">
 				result,
@@ -178,8 +186,14 @@
 			<if test="sort != null">
 				#{sort},
 			</if>
+	    	<if test="leftEqual != null">
+				#{leftEqual},
+			</if>
 			<if test="event != null">
 				#{event},
+			</if>
+		    <if test="rightEqual != null">
+				#{rightEqual},
 			</if>
 			<if test="result != null">
 				#{result},
@@ -229,8 +243,14 @@
 			<if test="sort != null">
 				sort = #{sort},
 			</if>
+			<if test="leftEqual != null">
+				left_equal = #{leftEqual},
+			</if>
 			<if test="event != null">
 				event = #{event},
+			</if>
+			<if test="rightEqual != null">
+				right_equal = #{rightEqual},
 			</if>
 			<if test="result != null">
 				result = #{result},

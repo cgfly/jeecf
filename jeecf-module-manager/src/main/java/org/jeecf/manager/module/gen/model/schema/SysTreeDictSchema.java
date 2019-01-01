@@ -19,13 +19,21 @@ public class SysTreeDictSchema {
 	 */
 	@ApiModelProperty(value="名称",name="name")
 	private boolean name = true;
-	
+	/**
+	 * 左等式
+	 */
+	@ApiModelProperty(value="左等式",name="leftEqual")
+	private boolean leftEqual = true;
 	/**
 	 * 事件
 	 */
 	@ApiModelProperty(value="事件",name="event")
 	private boolean event = true;
-	
+	/**
+	 * 右等式
+	 */
+	@ApiModelProperty(value="右等式",name="rightEqual")
+	private boolean rightEqual = true;
 	/**
 	 * 产出
 	 */

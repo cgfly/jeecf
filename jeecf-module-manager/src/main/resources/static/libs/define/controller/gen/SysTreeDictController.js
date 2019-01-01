@@ -1,4 +1,4 @@
-define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRequest,$state,$page,$ctx,$jBoxcm) {
+define([ 'app','$httpRequest','$page','$ctx','$jBoxcm'], function(app, $httpRequest,$state,$page,$ctx,$jBoxcm) {
 	return function($scope, $rootScope,$httpRequest,$state,$page,$ctx,$jBoxcm) {
 		
 		$scope.submitForm = function() { 
@@ -55,11 +55,10 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		$scope.addModal = function(index){
 			$scope.sysTreeDict.name = undefined;
-			$scope.sysTreeDict.permission = undefined;
 			$scope.sysTreeDict.parentId = $scope.sysTreeDictList[index].id;
 			$scope.sysTreeDict.sort = parseInt($scope.sysTreeDictList[index].sort)+10;
+			$scope.sysTreeDict.groupName =  $scope.sysTreeDictList[index].groupName;
 		    $('#sysTreeDictFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysTreeDictList[index].name);
-			$scope.sysTreeDict.remark = undefined;
 			$('#top-tab a[href="#sysTreeDictFormTab"]').tab('show');
 		}
 		
@@ -87,9 +86,15 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page:{current:"",size:""},data:{}};
 			$scope.updateSysTreeDict = {};
+			$scope.sysTreeDict = {};
 			$scope.sysPower = {};
 			$page.init($scope, $page.getPageSize());
 			$scope.initSection();
+			$ctx.getEnum($rootScope,"treeEventEnum",function(result){
+				$scope.$apply(function () {
+					$scope.treeEventEnums = result;
+				});
+			});
 		}
 		
 		

@@ -1,7 +1,8 @@
 <div ng-init="sysTreeDictAs.init()"></div>
 <ul id="top-tab" class="nav nav-tabs">
 	<li class="active"><a href="#sysTreeDictListTab" data-toggle="tab">树组字典配置列表</a></li>
-	<li shiro:hasPermission="gen:sysTreeDict:edit"><a href="#sysTreeDictFormTab" data-toggle="tab">树组字典配置添加</a></li>
+	<li shiro:hasPermission="gen:sysTreeDict:edit"><a
+		href="#sysTreeDictFormTab" data-toggle="tab">树组字典配置添加</a></li>
 </ul>
 <br />
 <div class="tab-content">
@@ -30,7 +31,9 @@
 					<th>序号</th>
 					<th>名称</th>
 					<th>组别</th>
+					<th>左等式</th>
 					<th>事件</th>
+					<th>右等式</th>
 					<th>产出</th>
 					<th>等级</th>
 					<th>排序</th>
@@ -47,15 +50,17 @@
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysTreeDict.name }}</td>
 					<td>{{ sysTreeDict.groupName }}</td>
-					<td>{{ sysTreeDict.event }}</td>
+					<td>{{ sysTreeDict.leftEqual }}</td>
+					<td>{{ sysTreeDict.eventName }}</td>
+					<td>{{ sysTreeDict.rightEqual }}</td>
 					<td>{{ sysTreeDict.result }}</td>
 					<td>{{ sysTreeDict.level }}</td>
 					<td>{{ sysTreeDict.sort }}</td>
 					<td>{{ sysTreeDict.description }}</td>
 					<td shiro:hasPermission="gen:sysTreeDict:edit">
-					 <!--   <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级权限</a></span>  -->
-					   <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> 
-					   <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
+					     <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级节点</a></span> 
+						 <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> 
+						 <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
 					</td>
 				</tr>
 			</tbody>
@@ -90,9 +95,9 @@
 								<label class="col-sm-2 control-label">名称：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName" name="name"
-											ng-model="updateSysTreeDict.name" placeholder="请输入名称"
-											required="required" />
+										<input type="text" class="form-control" id="updateName"
+											name="name" ng-model="updateSysTreeDict.name"
+											placeholder="请输入名称" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
@@ -102,49 +107,80 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">组别：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateGroupName" name="groupName"
-											ng-model="updateSysTreeDict.groupName" placeholder="请输入组别"
-											required="required" />
+										<input type="text" class="form-control" id="updateGroupName"
+											name="groupName" ng-model="updateSysTreeDict.groupName"
+											placeholder="请输入组别" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
 											ng-show="updateSysTreeDictForm.groupName.$dirty &amp;&amp; updateSysTreeDictForm.groupName.$invalid">
-											<span ng-show="updateSysTreeDictForm.groupName.$error.required">组别是必须的。</span>
+											<span
+											ng-show="updateSysTreeDictForm.groupName.$error.required">组别是必须的。</span>
 										</span>
 									</div>
 								</div>
 							</div>
-							
-							
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">左等式：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateLeftEqual"
+											name="leftEqual" ng-model="updateSysTreeDict.leftEqual"
+											placeholder="请输入左等式" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysTreeDictForm.leftEqual.$dirty &amp;&amp; updateSysTreeDictForm.leftEqual.$invalid">
+											<span
+											ng-show="updateSysTreeDictForm.leftEqual.$error.required">左等式是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">事件：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateEvent" name="event"
-											ng-model="updateSysTreeDict.event" placeholder="请输入名称"
-											required="required" />
+										<select class="form-control"
+											ng-model="updateSysTreeDict.event" id="updateEvent"
+											style="height: 25px;" name="event"
+											ng-options="treeEventEnum.code as treeEventEnum.name for treeEventEnum in treeEventEnums"></select>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">右等式：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateRightEqual"
+											name="rightEqual" ng-model="updateSysTreeDict.rightEqual"
+											placeholder="请输入右等式" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
-											ng-show="updateSysTreeDictForm.event.$dirty &amp;&amp; updateSysTreeDictForm.event.$invalid">
-											<span ng-show="updateSysTreeDictForm.event.$error.required">权限名称是必须的。</span>
+											ng-show="updateSysTreeDictForm.rightEqual.$dirty &amp;&amp; updateSysTreeDictForm.rightEqual.$invalid">
+											<span
+											ng-show="updateSysTreeDictForm.rightEqual.$error.required">右等式是必须的。</span>
 										</span>
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">产出：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateResult" name="result"
-											ng-model="updateSysTreeDict.result" placeholder="请输入名称"
-											required="required" />
+										<input type="text" class="form-control" id="updateResult"
+											name="result" ng-model="updateSysTreeDict.result"
+											placeholder="请输入名称" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
@@ -154,7 +190,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">排序：</label>
 								<div class="col-sm-8">
@@ -171,19 +207,20 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">描述：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateDescription" name="description"
-											ng-model="updateSysTreeDict.description" placeholder="请输入描述"
-											required="required" />
+										<input type="text" class="form-control" id="updateDescription"
+											name="description" ng-model="updateSysTreeDict.description"
+											placeholder="请输入描述" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
 											ng-show="updateSysTreeDictForm.description.$dirty &amp;&amp; updateSysTreeDictForm.description.$invalid">
-											<span ng-show="updateSysTreeDictForm.description.$error.required">描述是必须的。</span>
+											<span
+											ng-show="updateSysTreeDictForm.description.$error.required">描述是必须的。</span>
 										</span>
 									</div>
 								</div>
@@ -236,14 +273,14 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">组别：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="groupName" name="groupName"
-								ng-model="sysTreeDict.groupName" placeholder="请输入组别"
-								required="required" />
+							<input type="text" class="form-control" id="groupName"
+								name="groupName" ng-model="sysTreeDict.groupName"
+								placeholder="请输入组别" required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"
@@ -253,24 +290,52 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label">事件：</label>
+					<label class="col-sm-2 control-label">左等式：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="event" name="event"
-								ng-model="sysTreeDict.event" placeholder="请输入事件"
-								required="required" />
+							<input type="text" class="form-control" id="leftEqual"
+								name="leftEqual" ng-model="sysTreeDict.leftEqual"
+								placeholder="请输入左等式" required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"
-								ng-show="sysTreeDictForm.event.$dirty &amp;&amp; sysTreeDictForm.event.$invalid">
-								<span ng-show="sysTreeDictForm.event.$error.required">事件是必须的。</span>
+								ng-show="sysTreeDictForm.leftEqual.$dirty &amp;&amp; sysTreeDictForm.leftEqual.$invalid">
+								<span ng-show="sysTreeDictForm.leftEqual.$error.required">左等式是必须的。</span>
 							</span>
 						</div>
 					</div>
 				</div>
-				
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">事件：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<select class="form-control" ng-model="sysTreeDict.event"
+								id="event" style="height: 25px;" name="event"
+								ng-options="treeEventEnum.code as treeEventEnum.name for treeEventEnum in treeEventEnums"></select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">右等式：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="rightEqual"
+								name="rightEqual" ng-model="sysTreeDict.rightEqual"
+								placeholder="请输入右等式" required="required" />
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysTreeDictForm.rightEqual.$dirty &amp;&amp; sysTreeDictForm.rightEqual.$invalid">
+								<span ng-show="sysTreeDictForm.rightEqual.$error.required">右等式是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">产出：</label>
 					<div class="col-sm-4">
@@ -287,13 +352,14 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">排序：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
 							<input type="number" class="form-control" id="sort" name="sort"
-								ng-model="sysTreeDict.sort" placeholder="请输入排序" required="required"/>
+								ng-model="sysTreeDict.sort" placeholder="请输入排序"
+								required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"
@@ -303,14 +369,14 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">描述：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="description" name="description"
-								ng-model="sysTreeDict.description" placeholder="请输入描述"
-								required="required" />
+							<input type="text" class="form-control" id="description"
+								name="description" ng-model="sysTreeDict.description"
+								placeholder="请输入描述" required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"

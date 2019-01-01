@@ -1,11 +1,14 @@
-package org.jeecf.manager.module.common;
+package org.jeecf.manager.module.common.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jeecf.common.model.Response;
+import org.jeecf.manager.common.enums.TreeEventEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,9 +21,10 @@ public class EnumsController {
 	@PostMapping(value = { "list" })
 	@ResponseBody
 	@ApiOperation(value = "列表", notes = "查询枚举列表")
-	public JsonNode list() {
-		
-		return null;
+	public Response<Map<String,String>> list() {
+		Map<String,String> result = new HashMap<>();
+		result.put("treeEventEnum", TreeEventEnum.toJsonString());
+		return new Response<>(result);
 		
 	}
 

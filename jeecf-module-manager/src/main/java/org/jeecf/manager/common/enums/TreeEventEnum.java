@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.jeecf.common.mapper.JsonMapper;
-import org.jeecf.manager.common.enums.EnumUtils.DelFlag;
 /**
  * 树字典 事件枚举
  * @author jianyiming
  *
  */
-public enum TreeEvetEnum {
+public enum TreeEventEnum {
     /**
      * 等于
      */
@@ -62,13 +61,13 @@ public enum TreeEvetEnum {
 		return name;
 	}
 
-	private TreeEvetEnum(int code, String name) {
+	private TreeEventEnum(int code, String name) {
 			this.code = code;
 			this.name = name;
 		}
 
 	public static Integer getCode(String name) {
-		for (DelFlag e : DelFlag.values()) {
+		for (TreeEventEnum e : TreeEventEnum.values()) {
 			if (e.getName().equals(name)) {
 				return e.getCode();
 			}
@@ -77,7 +76,7 @@ public enum TreeEvetEnum {
 	}
 
 	public static String getName(int code) {
-		for (DelFlag e : DelFlag.values()) {
+		for (TreeEventEnum e : TreeEventEnum.values()) {
 			if (e.getCode() == code) {
 				return e.getName();
 			}
@@ -87,7 +86,7 @@ public enum TreeEvetEnum {
 
 	public static String toJsonString() {
 		List<Map<String, Object>> dataMap = new ArrayList<>();
-		for (DelFlag e : DelFlag.values()) {
+		for (TreeEventEnum e : TreeEventEnum.values()) {
 			Map<String, Object> map = new HashMap<String, Object>(10);
 			map.put("code", e.getCode());
 			map.put("name", e.getName());

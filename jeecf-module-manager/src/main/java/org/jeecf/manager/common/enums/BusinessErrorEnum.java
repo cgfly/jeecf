@@ -114,13 +114,18 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 */
 	RULE_DATA_GROUP_ERROR(611, "数据分组失败"),
 	/**
+	 * 树数据构建失败
+	 */
+	RULE_DATA_TREE_ERROR(612, "树数据构建失败"),
+	/**
 	 * 规则策略名称不匹配
 	 */
-	RULE_STRATEGY_NAME_NOT_MATCH(612, "规则策略名称不匹配"),
+	RULE_STRATEGY_NAME_NOT_MATCH(619, "规则策略名称不匹配"),
+
 	/**
 	 * rule strategy field 不能为空
 	 */
-	RULE_STRATEGY_FIELD_NOT_EMPTY(613, "rule strategy field 不能为空"),;
+	RULE_STRATEGY_FIELD_NOT_EMPTY(620, "rule strategy field 不能为空"),;
 
 	public final int code;
 	public final String msg;
