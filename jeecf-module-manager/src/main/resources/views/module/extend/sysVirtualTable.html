@@ -1,0 +1,253 @@
+<div ng-init="sysVirtualTableAs.init()"></div>
+<ul id="top-tab" class="nav nav-tabs">
+	<li class="active"><a href="#sysVirtualTableList"
+		data-toggle="tab">虚表配置列表</a></li>
+	<li shiro:hasPermission="extend:sysVirtualTable:edit"><a
+		href="#sysVirtualTableForm" data-toggle="tab">虚表配置添加</a></li>
+</ul>
+<br />
+<div class="tab-content">
+	<div class="tab-pane fade in active" id="sysVirtualTableList">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">虚表配置</li>
+			<li class="active">列表</li>
+		</ol>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>表名</th>
+					<th>注释</th>
+					<th>更新时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="sysVirtualTable in sysVirtualTableList">
+					<td>{{ $index+1 }}</td>
+					<td>{{ sysVirtualTable.name }}</td>
+					<td>{{ sysVirtualTable.comment }}</td>
+					<td>{{ sysVirtualTable.updateDate | date:'yyyy-MM-dd hh:mm:ss'
+						}}</td>
+					<td><span shiro:hasPermission="extend:sysVirtualTable:edit"><a
+							href="javascript:void(0)" data-content="{{ $index }}"
+							class="target-click" data-confirm="data-confirm">删除</a></span> <span><a
+							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span></td>
+				</tr>
+			</tbody>
+		</table>
+		<page-pagination page-id="pageId" page-size="pageSize"
+			page-count="pageCount" page-list="pageList"
+			search-form="searchForm(message)" page-record="pageRecord"
+			page-url-template="urlTemplate"></page-pagination>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade bs-example-modal-lg" id="updateModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">虚表修改</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" ng-submit="updateForm()"
+							id="updateGenFieldForm" name="updateSysVirtualTableForm">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">表名：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateName"
+											name="name" ng-model="updateSysVirtualTable.name"
+											placeholder="请输入表名" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysVirtualTableForm.name.$dirty &amp;&amp; updateSysVirtualTableForm.name.$invalid">
+											<span
+											ng-show="updateSysVirtualTableForm.name.$error.required">表名是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">注释：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateComment"
+											name="comment" ng-model="updateSysVirtualTable.comment"
+											placeholder="注释" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysVirtualTableForm.comment.$dirty &amp;&amp; updateSysVirtualTableForm.comment.$invalid">
+											<span
+											ng-show="updateSysVirtualTableForm.comment.$error.required">注释是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<table
+									class="table table-striped table-bordered table-condensed"
+									style="width: 90%; margin-left: 40px;">
+									<thead>
+										<th style="width:15%">列名</th>
+										<th style="width:15%">注释</th>
+										<th style="width:15%">类型</th>
+										<th style="width:10%">长度</th>
+										<th style="width:10%">小数</th>
+										<th style="width:15%">默认值</th>
+										<th style="width:5%">不为空</th>
+										<th style="width:5%">主键</th>
+										<th style="width:5%">自增</th>
+										<th style="width:5%">操作</th>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="sysVirtualTableColumn in updateSysVirtualTable.sysVirtualTableColumns">
+											<td><input style="width: 100%"
+												ng-model="sysVirtualTableColumn.name" /></td>
+											<td><input style="width: 100%"
+												ng-model="sysVirtualTableColumn.comment" /></td>
+											<td><select class="form-control"
+												ng-model="sysVirtualTableColumn.type" id="type"
+												style="height: 25px;" name="type"
+												ng-options="tableTypeEnum.code as tableTypeEnum.name for tableTypeEnum in tableTypeEnums"></select>
+											</td>
+											<td><input style="width: 100%"
+												ng-model="sysVirtualTableColumn.length" type="number"
+												min="0" /></td>
+											<td><input style="width: 100%"
+												ng-model="sysVirtualTableColumn.decimalLength" type="number"
+												min="0" /></td>
+											<td><input style="width: 100%"
+												ng-model="sysVirtualTableColumn.defaultValue" /></td>
+											<td><input type="checkbox" style="width: 100%"
+												ng-model="sysVirtualTableColumn.isNotNull" ng-true-value="1"
+												ng-false-value="0" /></td>
+											<td><input type="checkbox" style="width: 100%"
+												ng-model="sysVirtualTableColumn.isKey" ng-true-value="1"
+												ng-false-value="0" /></td>
+											<td><input type="checkbox" style="width: 100%"
+												ng-model="sysVirtualTableColumn.isAuto" ng-true-value="1"
+												ng-false-value="0" /></td>
+											<td ng-if="$index == 0"><span
+												class="glyphicon glyphicon-plus" aria-hidden="true"
+												ng-click="addUpdateSysVirtualTableColumn()"></span></td>
+											<td ng-if="$index != 0"><span
+												class="glyphicon glyphicon-minus" aria-hidden="true"
+												ng-click="deleteUpdateSysVirtualTableColumn($index)"></span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="submit" class="btn btn-primary"
+							form="updateGenFieldForm">提交更改</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	</div>
+	<div class="tab-pane fade" id="sysVirtualTableForm">
+		<ol class="breadcrumb" style="background-color: #efefef">
+			<li class="active">虚表表配置</li>
+			<li class="active">添加</li>
+		</ol>
+		<div class="form-model">
+			<form class="form-horizontal form-content-box"
+				ng-submit="submitForm()" name="tableForm">
+				<div class="form-group">
+					<label class="control-label">表名:</label>
+					<div style="display: inline-block;">
+						<input type="text" ng-model="sysVirtualTable.name" name="name"
+							class="form-control" required="required" />
+					</div>
+					<span style="color: red"
+						ng-show="tableForm.name.$dirty &amp;&amp; tableForm.name.$invalid">
+						<span ng-show="tableForm.name.$error.required">表名是必须的。</span>
+					</span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">注释:</label>
+					<div style="display: inline-block;">
+						<input type="text" ng-model="sysVirtualTable.comment"
+							id="tableComment" name="tableComment" class="form-control"
+							required="required" />
+					</div>
+					<span style="color: red"
+						ng-show="tableForm.tableComment.$dirty &amp;&amp; tableForm.tableComment.$invalid">
+						<span ng-show="tableForm.tableComment.$error.required">注释是必须的。</span>
+					</span>
+				</div>
+				<div class="form-group">
+					<table class="table table-striped table-bordered table-condensed">
+						<thead>
+							<th>列名</th>
+							<th>注释</th>
+							<th>类型</th>
+							<th>长度</th>
+							<th>小数</th>
+							<th>默认值</th>
+							<th>不为空</th>
+							<th>主键</th>
+							<th>自增</th>
+							<th>操作</th>
+						</thead>
+						<tbody>
+							<tr
+								ng-repeat="sysVirtualTableColumn in sysVirtualTable.sysVirtualTableColumns">
+								<td><input style="width: 100%"
+									ng-model="sysVirtualTableColumn.name" /></td>
+								<td><input style="width: 100%"
+									ng-model="sysVirtualTableColumn.comment" /></td>
+								<td><select class="form-control"
+									ng-model="sysVirtualTableColumn.type"
+									ng-init="sysVirtualTableColumn.type=1" id="type"
+									style="height: 25px;" name="type"
+									ng-options="tableTypeEnum.code as tableTypeEnum.name for tableTypeEnum in tableTypeEnums"></select>
+								</td>
+								<td><input style="width: 100%"
+									ng-model="sysVirtualTableColumn.length"
+									ng-init="sysVirtualTableColumn.length=0" type="number" min="0" /></td>
+								<td><input style="width: 100%"
+									ng-model="sysVirtualTableColumn.decimalLength"
+									ng-init="sysVirtualTableColumn.decimalLength=0" type="number"
+									min="0" /></td>
+								<td><input style="width: 100%"
+									ng-model="sysVirtualTableColumn.defaultValue" /></td>
+								<td><input type="checkbox" style="width: 100%"
+									ng-model="sysVirtualTableColumn.isNotNull" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><input type="checkbox" style="width: 100%"
+									ng-model="sysVirtualTableColumn.isKey" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td><input type="checkbox" style="width: 100%"
+									ng-model="sysVirtualTableColumn.isAuto" ng-true-value="1"
+									ng-false-value="0" /></td>
+								<td ng-if="$index == 0"><span
+									class="glyphicon glyphicon-plus" aria-hidden="true"
+									ng-click="addSysVirtualTableColumn()"></span></td>
+								<td ng-if="$index != 0"><span
+									class="glyphicon glyphicon-minus" aria-hidden="true"
+									ng-click="deleteSysVirtualTableColumn($index)"></span></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="form-group">
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-default">提交</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.enums.TreeEventEnum;
+import org.jeecf.manager.engine.enums.TableTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class EnumsController {
 	public Response<Map<String,String>> list() {
 		Map<String,String> result = new HashMap<>();
 		result.put("treeEventEnum", TreeEventEnum.toJsonString());
+		result.put("tableTypeEnum", TableTypeEnum.toJsonString());
 		return new Response<>(result);
 		
 	}
