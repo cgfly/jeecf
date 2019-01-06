@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
-import org.jeecf.manager.common.utils.NamespaceUtils;
-import org.jeecf.manager.common.utils.UserUtils;
-import org.jeecf.manager.engine.model.schema.SchemaTable;
+import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
-import org.jeecf.manager.module.template.facade.TargetTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
 import org.jeecf.manager.module.template.model.po.GenTablePO;
@@ -23,7 +21,6 @@ import org.jeecf.manager.module.template.model.schema.GenTableSchema;
 import org.jeecf.manager.module.template.service.GenTableColumnService;
 import org.jeecf.manager.module.template.service.GenTableService;
 import org.jeecf.manager.validate.groups.Add;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -56,8 +53,8 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@Autowired
 	private GenTableFacade genTableFacade;
 	
-	@Autowired
-	private TargetTableFacade targetTableFacade;
+//	@Autowired
+//	private TargetTableFacade targetTableFacade;
 	
 	@GetMapping(value= {"","index"})
 	@RequiresPermissions("template:genTable:view")
@@ -89,8 +86,9 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成基本表数据")
-	public Response<List<SchemaTable>> getBaseTableList() {
-		return targetTableFacade.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
+	public Response<List<GenTableResult>> getBaseTableList() {
+		return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));
+		//return targetTableFacade.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
 	}
 	
 	
@@ -120,23 +118,23 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 				gebTableColumnRes.getData().forEach(tableColumn -> {
 					tableColumn.coverField(tableColumn);
 				});
-				return gebTableColumnRes;
 			}
+			return gebTableColumnRes;
 		}
-		
-		Response<SchemaTable>  genPyTableRes =	targetTableFacade.getTable(queryTable.getName(),NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
-		GenTable  gentable = new GenTable();
-		if(genPyTableRes.getData()!= null) {
-			BeanUtils.copyProperties(genPyTableRes.getData(), gentable);
-		}
-		Response<List<GenTableColumnResult>> res = targetTableFacade.findTableColumn(tableName);
-		if(CollectionUtils.isNotEmpty(res.getData())) {
-			res.getData().forEach(genColumn->{
-				genColumn.setGenTable(gentable);
-				genColumn.coverField(genColumn);
-			});
-		}
-		return res;
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+//		Response<SchemaTable>  genPyTableRes =	targetTableFacade.getTable(queryTable.getName(),NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
+//		GenTable  gentable = new GenTable();
+//		if(genPyTableRes.getData()!= null) {
+//			BeanUtils.copyProperties(genPyTableRes.getData(), gentable);
+//		}
+//		Response<List<GenTableColumnResult>> res = targetTableFacade.findTableColumn(tableName);
+//		if(CollectionUtils.isNotEmpty(res.getData())) {
+//			res.getData().forEach(genColumn->{
+//				genColumn.setGenTable(gentable);
+//				genColumn.coverField(genColumn);
+//			});
+//		}
+		//return res;
 	}
 	
 

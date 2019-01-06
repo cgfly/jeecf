@@ -30,6 +30,11 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 					$page.setPage($scope,res.page.total);
 					setTimeout(function(){
 						$jBoxcm.delConfrim($scope);
+						$jBoxcm.confirmConfig({content:"确定执行此操作"},'[data-delTableConfirm]',{
+							confirm : function(data){
+								$scope.dropTableForm(data);
+							}
+						});
 					},800);
 				} else {
 					$jBoxcm.error("查询数据失败,"+res.errorMessage);
@@ -63,12 +68,11 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			});
 		}
 		
+		
 		$scope.updateModal = function(index) {
-			console.log($scope.sysVirtualTableList[index].id);
 			$httpRequest.post($ctx.getWebPath()+"extend/sysVirtualTable/column/"+$scope.sysVirtualTableList[index].id).then(
 					function(res) { 
 				          if(res.success){
-				        	  console.log(res.data);
 				        	  $scope.sysVirtualTableList[index].sysVirtualTableColumns = res.data;
 				      		  angular.copy($scope.sysVirtualTableList[index], $scope.updateSysVirtualTable);
 				  			  $('#updateModal').modal('show');
@@ -76,6 +80,49 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 					});
 		}
 		
+		$scope.detailModal = function(index){
+			$scope.detailSysVirtualTable = $scope.sysVirtualTableList[index];
+			$httpRequest.post($ctx.getWebPath()+"extend/sysVirtualTable/column/"+$scope.sysVirtualTableList[index].id).then(
+					function(res) { 
+				          if(res.success){
+				        	  $scope.detailSysVirtualTable.sysVirtualTableColumns = res.data;
+				  			  $('#detailModal').modal('show');
+		                  }                 
+					});
+		}
+		
+		$scope.syncGenForm = function(index){
+			$httpRequest.post($ctx.getWebPath()+"extend/sysVirtualTable/syncGen/"+$scope.sysVirtualTableList[index].id).then(
+					function(res) { 
+				          if(res.success){
+				        	  $jBoxcm.success("同步数据成功");
+		                  }  else {
+		                	  $jBoxcm.error("同步数据失败,"+res.errorMessage);
+		                  }                
+					});
+		}
+		
+		$scope.createTableForm = function(index){
+			$httpRequest.post($ctx.getWebPath()+"extend/sysVirtualTable/createTable/"+$scope.sysVirtualTableList[index].id).then(
+					function(res) { 
+				          if(res.success){
+				        	  $jBoxcm.success("创建数据库表成功");
+		                  }  else {
+		                	  $jBoxcm.error("创建数据库表失败,"+res.errorMessage);
+		                  }                
+					});
+		}
+		
+		$scope.dropTableForm = function(index){
+			$httpRequest.post($ctx.getWebPath()+"extend/sysVirtualTable/dropTable/"+$scope.sysVirtualTableList[index].id).then(
+					function(res) { 
+				          if(res.success){
+				        	  $jBoxcm.success("删表成功");
+		                  }  else {
+		                	  $jBoxcm.error("删表失败,"+res.errorMessage);
+		                  }                
+					});
+		}
 		
 		$scope.initPageBack = function(request) {
 			if($scope.query == undefined || $scope.query.page == undefined){

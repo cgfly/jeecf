@@ -1,6 +1,9 @@
 package org.jeecf.manager.module.config.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -8,18 +11,28 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
+import org.jeecf.common.utils.HumpUtils;
 import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.JdbcUtils;
+import org.jeecf.manager.common.utils.NamespaceUtils;
+import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.config.DynamicDataSourceContextHolder;
+import org.jeecf.manager.engine.model.schema.SchemaTable;
+import org.jeecf.manager.engine.model.schema.SchemaTableColumn;
 import org.jeecf.manager.module.config.model.domain.SysDbsource;
 import org.jeecf.manager.module.config.model.po.SysDbsourcePO;
 import org.jeecf.manager.module.config.model.query.SysDbsourceQuery;
 import org.jeecf.manager.module.config.model.result.SysDbsourceResult;
 import org.jeecf.manager.module.config.model.schema.SysDbsourceSchema;
 import org.jeecf.manager.module.config.service.SysDbsourceService;
+import org.jeecf.manager.module.template.facade.GenTableFacade;
+import org.jeecf.manager.module.template.model.domain.GenTable;
+import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
+import org.jeecf.manager.proxy.TargetTableProxy;
 import org.jeecf.manager.validate.groups.Add;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,6 +61,12 @@ public class SysDbsourceController
 
 	@Autowired
 	private SysDbsourceService sysDbsourceService;
+
+	@Autowired
+	private GenTableFacade genTableFacade;
+
+	@Autowired
+	private TargetTableProxy targetTableProxy;
 
 	@GetMapping(value = { "", "index" })
 	@RequiresPermissions("config:sysDbsource:view")
@@ -93,7 +112,7 @@ public class SysDbsourceController
 			if (CollectionUtils.isNotEmpty(sysDbsourcceList)) {
 				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
 			}
-		} 
+		}
 		Response<SysDbsourceResult> res = sysDbsourceService.saveByAuth(sysDbsource);
 		if (res.isSuccess()) {
 			SysDbsourceResult sysDb = res.getData();
@@ -132,7 +151,7 @@ public class SysDbsourceController
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
-	
+
 	@PostMapping(value = { "active/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysDbsource:edit")
@@ -156,15 +175,49 @@ public class SysDbsourceController
 		if (CollectionUtils.isNotEmpty(sysDbSourceList)) {
 			for (SysDbsource sysDbSource : sysDbSourceList) {
 				if (keyName.equals(sysDbSource.getKeyName())) {
-					if (sysDbSource.getUsable() == EnumUtils.Usable.NO.getCode()) {
-						throw new BusinessException(BusinessErrorEnum.DB_CONNECT_EXCEPTION);
-					}
-					DynamicDataSourceContextHolder.setCurrentDataSourceValue(keyName);
+					DynamicDataSourceContextHolder.setCurrentDataSourceValue(keyName, sysDbSource.getUsable());
 					return new Response<Integer>(1);
 				}
 			}
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+	}
+
+	@PostMapping(value = { "syncGen/{id}" })
+	@ResponseBody
+	@RequiresPermissions("config:sysDbsource:edit")
+	@ApiOperation(value = "同步", notes = "同步虚表数据")
+	public Response<Integer> syncGen(@NotNull @PathVariable("id") Integer id) {
+		String currentKeyName = DynamicDataSourceContextHolder.getCurrentDataSourceValue();
+		Response<SysDbsourceResult> dbSourceRes = sysDbsourceService.get(new SysDbsource(String.valueOf(id)));
+		if (dbSourceRes.isSuccess() && dbSourceRes.getData() != null) {
+			SysDbsourceResult sysDbSource = dbSourceRes.getData();
+			if (currentKeyName.equals(sysDbSource.getKeyName())) {
+				Response<List<SchemaTable>> schemaTableRes = targetTableProxy
+						.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
+				if (CollectionUtils.isNotEmpty(schemaTableRes.getData())) {
+					schemaTableRes.getData().forEach(schemaTable -> {
+						GenTable genTable = new GenTable();
+						BeanUtils.copyProperties(schemaTable, genTable);
+						genTable.setClassName(HumpUtils.lineToHump(genTable.getName()));
+						Response<List<SchemaTableColumn>> genTableColumnRes = targetTableProxy
+								.findTableColumn(schemaTable.getName());
+                        List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
+						genTableColumnRes.getData().forEach(column -> {
+							GenTableColumnResult result = new GenTableColumnResult();
+							BeanUtils.copyProperties(column, result);
+							genTableColumnList.add(result);
+						});
+						genTable.setGenTableColumns(genTableColumnList);
+						genTableFacade.saveTable(genTable);
+					});
+				}
+				return new Response<Integer>(1);
+			}
+			throw new BusinessException(BusinessErrorEnum.DB_CONNECT_NOT_EFFECT);
+		}
+		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+
 	}
 
 }

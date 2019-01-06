@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.jeecf.manager.engine.model.create.CreateTable;
 import org.jeecf.manager.engine.model.index.IndexTable;
 import org.jeecf.manager.engine.model.insert.InsertTable;
@@ -54,6 +55,6 @@ public interface BusinessTableDao {
 	 * @param tableName
 	 * @return
 	 */
-	public int drop(String tableName);
+	public int drop(@Param("tableName") String tableName);
 
 }

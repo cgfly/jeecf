@@ -7,7 +7,6 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.engine.model.query.WhereEntity;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
-import org.jeecf.manager.module.template.facade.TargetTableFacade;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
 import org.jeecf.manager.module.template.model.po.GenTablePO;
 import org.jeecf.manager.module.template.model.query.GenTableColumnQuery;
@@ -16,6 +15,7 @@ import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 import org.jeecf.manager.module.template.service.GenTableColumnService;
 import org.jeecf.manager.module.template.service.GenTableService;
+import org.jeecf.manager.proxy.TargetTableProxy;
 /**
  * 语言构建类
  * @author jianyiming
@@ -32,8 +32,7 @@ public abstract class AbstractLanguageBuilder {
 	protected static GenTableColumnService genTableColumnService = SpringContextUtils.getBean("genTableColumnService",
 			GenTableColumnService.class);
 	
-	protected static TargetTableFacade targetTableFacade = SpringContextUtils.getBean("targetTableFacade",
-			TargetTableFacade.class);
+	protected static TargetTableProxy targetTableProxy = SpringContextUtils.getBean("targetTableProxy",TargetTableProxy.class);
 
 	public Object build(String tableName) {
 		GenTableQuery queryGenTable = new GenTableQuery();

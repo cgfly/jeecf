@@ -58,6 +58,14 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 */
 	DB_CONNECT_EXCEPTION(304, "数据库连接异常"),
 	/**
+	 * 数据源无效
+	 */
+	DB_CONNECT_NOT_EFFECT(305, "数据源无效"),
+	/**
+	 * 数据源不可用
+	 */
+	DB_CONNECT_NOT_USABLE(306, "数据源不可用"),
+	/**
 	 * 命名空间不存在
 	 */
 	NAMESPACE_NOT(401, "命名空间不存在"),
@@ -125,7 +133,17 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	/**
 	 * rule strategy field 不能为空
 	 */
-	RULE_STRATEGY_FIELD_NOT_EMPTY(620, "rule strategy field 不能为空"),;
+	RULE_STRATEGY_FIELD_NOT_EMPTY(620, "rule strategy field 不能为空"),
+	/**
+	 * 目标表已经存在
+	 */
+	TARGET_TABLE_EXIST(701, "目标表已经存在"),
+	/**
+	 * 目标表不存在
+	 */
+	TARGET_TABLE_NOT_EXIST(702, "目标表不存在"),
+	
+	;
 
 	public final int code;
 	public final String msg;

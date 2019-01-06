@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jeecf.common.enums.SplitCharEnum;
+import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.JdbcUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -164,12 +166,22 @@ public class DynamicDataSourceContextHolder {
 
 	public static String getCurrentDataSourceValue() {
 		String datasourceKey = getCurrentDataSourceKey();
-		return (String) RedisCacheUtils.getSysCache(datasourceKey);
-
+		String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
+		return values.split(SplitCharEnum.COLON.getName())[0];
 	}
-
-	public static void setCurrentDataSourceValue(String value) {
+	
+	public static boolean getCurrentDataSourceUsable() {
 		String datasourceKey = getCurrentDataSourceKey();
-		RedisCacheUtils.setSysCache(datasourceKey, value);
+		String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
+		int usable = Integer.valueOf(values.split(SplitCharEnum.COLON.getName())[1]);
+		if(usable == EnumUtils.Usable.YES.getCode()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void setCurrentDataSourceValue(String value,int usable) {
+		String datasourceKey = getCurrentDataSourceKey();
+		RedisCacheUtils.setSysCache(datasourceKey, value+SplitCharEnum.COLON.getName()+usable);
 	}
 }

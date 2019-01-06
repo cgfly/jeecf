@@ -70,6 +70,16 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 				  		}
 			});
 		};
+		
+		$scope.syncGenForm  = function(index) {
+			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/syncGen/"+$scope.sysDbsourceList[index].id).then(function(res) {
+		  		if(res.success){
+		  			$jBoxcm.success("同步数据成功");
+		  		} else {
+		  			$jBoxcm.error("同步数据失败,"+res.errorMessage);
+		  		}
+			});
+		}
 
 		$scope.updateForm = function(){
 			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/save",

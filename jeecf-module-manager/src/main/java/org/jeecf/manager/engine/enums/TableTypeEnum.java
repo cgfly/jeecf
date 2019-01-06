@@ -120,6 +120,24 @@ public enum TableTypeEnum {
 		return false;
 	}
 	
+	public static Integer getCode(String name) {
+		for (TableTypeEnum e : TableTypeEnum.values()) {
+			if (e.getName().equals(name)) {
+				return e.getCode();
+			}
+		}
+		return null;
+	}
+
+	public static String getName(int code) {
+		for (TableTypeEnum e : TableTypeEnum.values()) {
+			if (e.getCode() == code) {
+				return e.getName();
+			}
+		}
+		return null;
+	}
+	
 	public static String toJsonString() {
 		List<Map<String, Object>> dataMap = new ArrayList<>();
 		for (TableTypeEnum e : TableTypeEnum.values()) {

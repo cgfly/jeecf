@@ -62,7 +62,7 @@ public class GoBuilder  extends AbstractLanguageBuilder {
 			});
 			selectTable.setWhereEntitys(whereEntitys);
 			selectTable.setSelectTableColumns(columnList);
-			return targetTableFacade.selectTable(selectTable).getData();
+			return targetTableProxy.selectTable(selectTable).getData();
 		}
 		return null;
 	}
