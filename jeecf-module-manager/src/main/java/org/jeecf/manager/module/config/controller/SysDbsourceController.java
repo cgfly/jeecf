@@ -206,6 +206,7 @@ public class SysDbsourceController
 						genTableColumnRes.getData().forEach(column -> {
 							GenTableColumnResult result = new GenTableColumnResult();
 							BeanUtils.copyProperties(column, result);
+							result.setField(HumpUtils.lineToHump(result.getName()));
 							genTableColumnList.add(result);
 						});
 						genTable.setGenTableColumns(genTableColumnList);

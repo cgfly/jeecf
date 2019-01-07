@@ -10,13 +10,16 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.bind.RelaxedDataBinder;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
+
 /**
  * 初始数据源配置
+ * 
  * @author jianyiming
  *
  */
@@ -27,6 +30,9 @@ public class DataSourceConfiguration implements ImportBeanDefinitionRegistrar, E
 	@Override
 	public void setEnvironment(Environment env) {
 		this.initPrimaryDataSources(env);
+		Map<String, Object> commonPool = new RelaxedPropertyResolver(env, "spring.datasource.common.pool")
+				.getSubProperties(".");
+		DynamicDataSourceContextHolder.setDataSourcePropertyValues(commonPool);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -40,21 +46,23 @@ public class DataSourceConfiguration implements ImportBeanDefinitionRegistrar, E
 				String password = propertyResolver.getProperty("password");
 				Class<? extends DataSource> dataSourceType = (Class<? extends DataSource>) Class
 						.forName(JdbcUtils.DBSOURCE_NAME);
-				DataSourceBuilder factory = DataSourceBuilder.create().driverClassName(JdbcUtils.DRIVER_CLASS_NAME).url(url)
-						.username(username).password(password).type(dataSourceType);
+				DataSourceBuilder factory = DataSourceBuilder.create().driverClassName(JdbcUtils.DRIVER_CLASS_NAME)
+						.url(url).username(username).password(password).type(dataSourceType);
 				defaultDataSource = factory.build();
-				Map<String, Object> rpr = new RelaxedPropertyResolver(env, "spring.datasource.primary")
+				Map<String, Object> primaryPool = new RelaxedPropertyResolver(env, "spring.datasource.primary.pool")
 						.getSubProperties(".");
-				DynamicDataSourceContextHolder.setDataSourcePropertyValues(rpr);
-				DynamicDataSourceContextHolder.dataBinder(defaultDataSource);
+				RelaxedDataBinder dataBinder = new RelaxedDataBinder(defaultDataSource);
+				dataBinder.setConversionService(DynamicDataSourceContextHolder.getConversionService());
+				dataBinder.setIgnoreNestedProperties(false);
+				dataBinder.setIgnoreInvalidFields(false);
+				dataBinder.setIgnoreUnknownFields(true);
+				dataBinder.bind(new MutablePropertyValues(primaryPool));
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
 
 	}
-
-
 
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {

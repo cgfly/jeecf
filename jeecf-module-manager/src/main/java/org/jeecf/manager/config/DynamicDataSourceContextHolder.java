@@ -39,8 +39,6 @@ public class DynamicDataSourceContextHolder {
 
 	private static PropertyValues dataSourcePropertyValues;
 	
-	public static final String SPLIT_LINE = "_";
-	
 	public static final String DATA_SOURCE_SUFFIX = "dataSourceKey";
 
 	/**
@@ -71,54 +69,20 @@ public class DynamicDataSourceContextHolder {
 	public static String getDafualtKey() {
 		return DynamicDataSourceContextHolder.DEFAULT_DATASOURCE_KEY;
 	}
+	
+	public static ConversionService getConversionService() {
+		return conversionService;
+	}
 
-	/**
-	 * 
-	 * 为DataSource绑定更多数据
-	 * 
-	 * @param dataSource
-	 * 
-	 * @param env
-	 * 
-	 */
-
+	
 	public static void setDataSourcePropertyValues(Map<String, Object> rpr) {
 		if (dataSourcePropertyValues == null) {
-
 			Map<String, Object> values = new HashMap<>(rpr);
-
-			// 排除已经设置的属性
-
-			values.remove("type");
-
-			values.remove("driverClassName");
-
-			values.remove("url");
-
-			values.remove("username");
-
-			values.remove("password");
-
 			dataSourcePropertyValues = new MutablePropertyValues(values);
-
 		}
 	}
 
-	public static void dataBinder(DataSource dataSource) {
-		if (dataSourcePropertyValues != null) {
-			RelaxedDataBinder dataBinder = new RelaxedDataBinder(dataSource);
 
-			dataBinder.setConversionService(conversionService);
-
-			dataBinder.setIgnoreNestedProperties(false);
-
-			dataBinder.setIgnoreInvalidFields(false);
-
-			dataBinder.setIgnoreUnknownFields(true);
-
-			dataBinder.bind(dataSourcePropertyValues);
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	public static DataSource dataBinder(SysDbsource sysDbSource) {
@@ -134,15 +98,10 @@ public class DynamicDataSourceContextHolder {
 			dataSource = defaultDataSource = factory.build();
 			if (dataSourcePropertyValues != null) {
 				RelaxedDataBinder dataBinder = new RelaxedDataBinder(dataSource);
-
 				dataBinder.setConversionService(conversionService);
-
 				dataBinder.setIgnoreNestedProperties(false);
-
 				dataBinder.setIgnoreInvalidFields(false);
-
 				dataBinder.setIgnoreUnknownFields(true);
-
 				dataBinder.bind(dataSourcePropertyValues);
 			}
 		} catch (ClassNotFoundException e) {
@@ -153,7 +112,7 @@ public class DynamicDataSourceContextHolder {
 	
 	private static String getCurrentDataSourceKey() {
 		String id = UserUtils.getCurrentUserId();
-		return id + DynamicDataSourceContextHolder.SPLIT_LINE + DynamicDataSourceContextHolder.DATA_SOURCE_SUFFIX;
+		return id + SplitCharEnum.UNDERLINE.getName() + DynamicDataSourceContextHolder.DATA_SOURCE_SUFFIX;
 	}
 
 	public static void initCurrentDataSourceValue() {

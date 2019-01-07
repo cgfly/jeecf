@@ -8,7 +8,7 @@ import org.jeecf.common.security.Sha1Digests;
  * @author GloryJ
  *
  */
-public class EncryptUtils {
+public class DigestsEncryptUtils {
 	/**
 	 * MD5 密钥
 	 */

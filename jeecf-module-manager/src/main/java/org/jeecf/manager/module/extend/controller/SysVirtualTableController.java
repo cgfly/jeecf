@@ -16,7 +16,7 @@ import org.jeecf.manager.engine.model.create.CreateTable;
 import org.jeecf.manager.engine.model.create.CreateTableColumn;
 import org.jeecf.manager.engine.model.create.CreateTableColumn.Builder;
 import org.jeecf.manager.engine.model.schema.SchemaTable;
-import org.jeecf.manager.engine.utils.JqlHelper;
+import org.jeecf.manager.engine.utils.SqlHelper;
 import org.jeecf.manager.module.extend.facade.SysVirtualTableFacade;
 import org.jeecf.manager.module.extend.model.domain.SysVirtualTable;
 import org.jeecf.manager.module.extend.model.po.SysVirtualTableColumnPO;
@@ -149,8 +149,9 @@ public class SysVirtualTableController
 				sysVirtualTableColumnRes.getData().forEach(tableColumn -> {
 					GenTableColumnResult genTableColumn = new GenTableColumnResult();
 					BeanUtils.copyProperties(tableColumn, genTableColumn);
-					genTableColumn.setJdbcType(JqlHelper.toJdbcType(tableColumn.getType(), tableColumn.getLength(),
+					genTableColumn.setJdbcType(SqlHelper.toJdbcType(tableColumn.getType(), tableColumn.getLength(),
 							tableColumn.getDecimalLength()));
+					genTableColumn.setField(genTableColumn.getName());
 					genTableColumn.setIsNull(tableColumn.getIsNotNull());
 					genTableColumns.add(genTableColumn);
 				});
@@ -181,7 +182,7 @@ public class SysVirtualTableController
 			List<CreateTableColumn> createTableColumns = new ArrayList<>();
 			sysVirtualTableColumnRes.getData().forEach(tableColumn -> {
 				Builder builder = CreateTableColumn.builder();
-				builder.setColumnName(tableColumn.getName()).setType(JqlHelper.toJdbcType(tableColumn.getType(),
+				builder.setColumnName(tableColumn.getName()).setType(SqlHelper.toJdbcType(tableColumn.getType(),
 						tableColumn.getLength(), tableColumn.getDecimalLength())).setComment(tableColumn.getComment());
 				if (tableColumn.getIsKey() == EnumUtils.IfType.YES.getCode()) {
 					boolean isAuto = (tableColumn.getIsAuto() == EnumUtils.IfType.YES.getCode());
