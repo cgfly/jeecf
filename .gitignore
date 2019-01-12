@@ -39,4 +39,10 @@ hs_err_pid*
 /jeecf-module-common/.project
 /jeecf-module-common/.classpath
 
+/jeecf-module-osgi/target/
+/jeecf-module-osgi/.settings/
+/jeecf-module-osgi/.DS_Store
+/jeecf-module-osgi/.project
+/jeecf-module-osgi/.classpath
+
 

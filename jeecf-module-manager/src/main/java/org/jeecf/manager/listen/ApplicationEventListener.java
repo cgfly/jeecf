@@ -1,6 +1,7 @@
 package org.jeecf.manager.listen;
 
 import org.jeecf.manager.module.config.service.SysDbsourceService;
+import org.jeecf.manager.module.extend.service.SysOsgiPluginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -15,10 +16,14 @@ public class ApplicationEventListener implements ApplicationListener<Application
 
 	@Autowired
 	private SysDbsourceService sysDbsourceService;
-
+	
+	@Autowired
+	private SysOsgiPluginService sysOsgiPluginService;
+	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		sysDbsourceService.initDbSource();
+		sysOsgiPluginService.initPlugin();
 	}
 
 }

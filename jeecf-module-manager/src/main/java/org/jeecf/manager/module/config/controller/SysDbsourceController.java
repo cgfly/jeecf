@@ -29,7 +29,11 @@ import org.jeecf.manager.module.config.model.schema.SysDbsourceSchema;
 import org.jeecf.manager.module.config.service.SysDbsourceService;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;
+import org.jeecf.manager.module.template.model.po.GenTablePO;
+import org.jeecf.manager.module.template.model.query.GenTableQuery;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
+import org.jeecf.manager.module.template.model.result.GenTableResult;
+import org.jeecf.manager.module.template.service.GenTableService;
 import org.jeecf.manager.proxy.TargetTableProxy;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.BeanUtils;
@@ -64,6 +68,9 @@ public class SysDbsourceController
 
 	@Autowired
 	private GenTableFacade genTableFacade;
+	
+	@Autowired
+	private GenTableService genTableService;
 
 	@Autowired
 	private TargetTableProxy targetTableProxy;
@@ -197,20 +204,25 @@ public class SysDbsourceController
 						.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
 				if (CollectionUtils.isNotEmpty(schemaTableRes.getData())) {
 					schemaTableRes.getData().forEach(schemaTable -> {
-						GenTable genTable = new GenTable();
-						BeanUtils.copyProperties(schemaTable, genTable);
-						genTable.setClassName(HumpUtils.lineToHump(genTable.getName()));
-						Response<List<SchemaTableColumn>> genTableColumnRes = targetTableProxy
-								.findTableColumn(schemaTable.getName());
-                        List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
-						genTableColumnRes.getData().forEach(column -> {
-							GenTableColumnResult result = new GenTableColumnResult();
-							BeanUtils.copyProperties(column, result);
-							result.setField(HumpUtils.lineToHump(result.getName()));
-							genTableColumnList.add(result);
-						});
-						genTable.setGenTableColumns(genTableColumnList);
-						genTableFacade.saveTable(genTable);
+						GenTableQuery queryTable = new GenTableQuery();
+						queryTable.setName(schemaTable.getName());
+						List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
+						if (CollectionUtils.isEmpty(genTableList)) {
+							GenTable genTable = new GenTable();
+							BeanUtils.copyProperties(schemaTable, genTable);
+							genTable.setClassName(HumpUtils.lineToHump(genTable.getName()));
+							Response<List<SchemaTableColumn>> genTableColumnRes = targetTableProxy
+									.findTableColumn(schemaTable.getName());
+	                        List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
+							genTableColumnRes.getData().forEach(column -> {
+								GenTableColumnResult result = new GenTableColumnResult();
+								BeanUtils.copyProperties(column, result);
+								result.setField(HumpUtils.lineToHump(result.getName()));
+								genTableColumnList.add(result);
+							});
+							genTable.setGenTableColumns(genTableColumnList);
+							genTableFacade.saveTable(genTable);
+						}
 					});
 				}
 				return new Response<Integer>(1);

@@ -34,65 +34,70 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 /**
  * 业务表 controller
+ * 
  * @author jianyiming
  *
  */
 @Controller
-@RequestMapping(value= {"template/genTable"})
-@Api(value="GenTable api",tags={"代码生成业务表接口"})
-public class GenTableController extends BaseController<GenTableQuery,GenTableResult,GenTableSchema,GenTable>{
-	
+@RequestMapping(value = { "template/genTable" })
+@Api(value = "GenTable api", tags = { "代码生成业务表接口" })
+public class GenTableController extends BaseController<GenTableQuery, GenTableResult, GenTableSchema, GenTable> {
+
 	@Autowired
 	private GenTableService genTableService;
-	
+
 	@Autowired
 	private GenTableColumnService genTableColumnService;
-	
+
 	@Autowired
 	private GenTableFacade genTableFacade;
-	
-//	@Autowired
-//	private TargetTableFacade targetTableFacade;
-	
-	@GetMapping(value= {"","index"})
+
+	@GetMapping(value = { "", "index" })
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "视图", notes = "查看代码生成业务表视图")
 	@Override
 	public String index(ModelMap map) {
 		return "module/template/genTable";
 	}
-	
-	@PostMapping(value= {"list"})
+
+	@PostMapping(value = { "list" })
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成业务表数据")
 	@Override
-	public Response<List<GenTableResult>> list(@RequestBody Request<GenTableQuery,GenTableSchema> request) {
+	public Response<List<GenTableResult>> list(@RequestBody Request<GenTableQuery, GenTableSchema> request) {
 		return genTableService.findPageByAuth(new GenTablePO(request));
 	}
-	
-	@PostMapping(value= {"save"})
+
+	@PostMapping(value = { "save" })
 	@ResponseBody
 	@RequiresPermissions("template:genTable:edit")
 	@ApiOperation(value = "更新", notes = "更新代码生成业务表数据")
 	@Override
-	public Response<GenTableResult> save(@RequestBody @Validated({Add.class}) GenTable genTable) {
+	public Response<GenTableResult> save(@RequestBody @Validated({ Add.class }) GenTable genTable) {
+		if (genTable.isNewRecord()) {
+			GenTableQuery queryTable = new GenTableQuery();
+			queryTable.setName(genTable.getName());
+			List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
+			if (CollectionUtils.isNotEmpty(genTableList)) {
+				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+			}
+		}
 		return genTableFacade.saveTable(genTable);
 	}
-	
-	@PostMapping(value= {"queryBaseTableList"})
+
+	@PostMapping(value = { "queryBaseTableList" })
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成基本表数据")
 	public Response<List<GenTableResult>> getBaseTableList() {
 		return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));
-		//return targetTableFacade.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
 	}
-	
-	
-	@PostMapping(value= {"delete/{id}"})
+
+	@PostMapping(value = { "delete/{id}" })
 	@ResponseBody
 	@RequiresPermissions("template:genTable:edit")
 	@ApiOperation(value = "删除", notes = "删除代码生成业务表数据")
@@ -100,21 +105,21 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		return genTableFacade.deleteTable(new GenTable(id));
 	}
-	
-	
-	@PostMapping(value= {"queryBaseTableColumnList/{tableName}"})
+
+	@PostMapping(value = { "queryBaseTableColumnList/{tableName}" })
 	@ResponseBody
 	@RequiresPermissions("template:genTable:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成基本字段表数据")
-	public Response<List<GenTableColumnResult>> getBaseTableColumnList(@PathVariable String tableName ) {
+	public Response<List<GenTableColumnResult>> getBaseTableColumnList(@PathVariable String tableName) {
 		GenTableQuery queryTable = new GenTableQuery();
 		queryTable.setName(tableName);
-		Response<List<GenTableResult>>  genTableRes = genTableService.findListByAuth(new GenTablePO(queryTable));
-		if(CollectionUtils.isNotEmpty(genTableRes.getData())) {
+		Response<List<GenTableResult>> genTableRes = genTableService.findListByAuth(new GenTablePO(queryTable));
+		if (CollectionUtils.isNotEmpty(genTableRes.getData())) {
 			GenTableColumnQuery queryTableColumn = new GenTableColumnQuery();
 			queryTableColumn.setGenTable(genTableRes.getData().get(0));
-			Response<List<GenTableColumnResult>>  gebTableColumnRes =  genTableColumnService.findList(new GenTableColumnPO(queryTableColumn));
-			if(CollectionUtils.isNotEmpty(gebTableColumnRes.getData())) {
+			Response<List<GenTableColumnResult>> gebTableColumnRes = genTableColumnService
+					.findList(new GenTableColumnPO(queryTableColumn));
+			if (CollectionUtils.isNotEmpty(gebTableColumnRes.getData())) {
 				gebTableColumnRes.getData().forEach(tableColumn -> {
 					tableColumn.coverField(tableColumn);
 				});
@@ -122,20 +127,6 @@ public class GenTableController extends BaseController<GenTableQuery,GenTableRes
 			return gebTableColumnRes;
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-//		Response<SchemaTable>  genPyTableRes =	targetTableFacade.getTable(queryTable.getName(),NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
-//		GenTable  gentable = new GenTable();
-//		if(genPyTableRes.getData()!= null) {
-//			BeanUtils.copyProperties(genPyTableRes.getData(), gentable);
-//		}
-//		Response<List<GenTableColumnResult>> res = targetTableFacade.findTableColumn(tableName);
-//		if(CollectionUtils.isNotEmpty(res.getData())) {
-//			res.getData().forEach(genColumn->{
-//				genColumn.setGenTable(gentable);
-//				genColumn.coverField(genColumn);
-//			});
-//		}
-		//return res;
 	}
-	
 
 }

@@ -78,6 +78,10 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 */
 	ZIP_NOT(501, "不是zip文件"),
 	/**
+	 * 不是jar文件
+	 */
+	JAR_NOT(502, "不是jar文件"),
+	/**
 	 * config module 不能为空
 	 */
 	CONFIG_MODULE_MPTY(601, "config module 不能为空"),

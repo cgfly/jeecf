@@ -19,6 +19,12 @@
 			<artifactId>jeecf-module-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.jeecf</groupId>
+			<artifactId>jeecf-module-osgi</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

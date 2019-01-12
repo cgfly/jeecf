@@ -208,5 +208,6 @@
 	<modules>
 		<module>jeecf-module-common</module>
 		<module>jeecf-module-manager</module>
+		<module>jeecf-module-osgi</module>
 	</modules>
 </project>

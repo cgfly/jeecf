@@ -235,6 +235,7 @@
 				remark = #{remark}
 			</if>
 		</set>
+		where id = #{id}
 	</update>
 
 	<delete id="delete">

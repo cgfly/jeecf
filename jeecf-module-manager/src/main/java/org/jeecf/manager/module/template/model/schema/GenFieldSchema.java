@@ -26,8 +26,8 @@ public class GenFieldSchema {
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty(value = "描述", name = "descrition")
-	private boolean descrition = true;
+	@ApiModelProperty(value = "描述", name = "description")
+	private boolean description = true;
 	/**
 	 * 更新时间
 	 */
@@ -52,11 +52,11 @@ public class GenFieldSchema {
 	public void setName(boolean name) {
 		this.name = name;
 	}
-	public boolean isDescrition() {
-		return descrition;
+	public boolean isDescription() {
+		return description;
 	}
-	public void setDescrition(boolean descrition) {
-		this.descrition = descrition;
+	public void setDescription(boolean description) {
+		this.description = description;
 	}
 	public boolean isUpdateDate() {
 		return updateDate;

@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ScriptAssert.List({
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)",message="名称输入不能为空",groups= {Add.class}),
-	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.descrition)",message="描述输入不能为空",groups= {Add.class}),
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)",message="描述输入不能为空",groups= {Add.class}),
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genFieldColumn)",message="属性列表输入不能为空",groups= {Add.class})
 })
 @ApiModel(value = "genField", description = "模版参数实体")
@@ -37,8 +37,8 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty(value = "描述", name = "descrition")
-	private String descrition;
+	@ApiModelProperty(value = "描述", name = "description")
+	private String description;
 	/**
 	 * 模版参数列表
 	 */
@@ -63,12 +63,12 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
 	}
 	
 	@Length(min = 1, max = 50, message = "描述长度必须介于 0 和 50 之间",groups={Add.class})
-	public String getDescrition() {
-		return descrition;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescrition(String descrition) {
-		this.descrition = descrition;
+	public void setDescription(String description) {
+		this.description = description;
 	}
     
 	@Valid

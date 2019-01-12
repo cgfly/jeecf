@@ -56,8 +56,8 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty(value = "描述", name = "descrition")
-	private String descrition;
+	@ApiModelProperty(value = "描述", name = "description")
+	private String description;
    
 	public GenTemplate() {
 		super();
@@ -113,11 +113,11 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 	}
 
 	@Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间",groups= {Add.class})
-	public String getDescrition() {
-		return descrition;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescrition(String descrition) {
-		this.descrition = descrition;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

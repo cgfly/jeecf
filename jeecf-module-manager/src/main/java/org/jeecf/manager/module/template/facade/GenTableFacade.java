@@ -38,12 +38,6 @@ public class GenTableFacade {
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<GenTableResult> saveTable(GenTable genTable) {
-		GenTableQuery queryTable = new GenTableQuery();
-		queryTable.setName(genTable.getName());
-		List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
-		if (CollectionUtils.isNotEmpty(genTableList)) {
-			genTable.setId(genTableList.get(0).getId());
-		}
 		Response<GenTableResult> genTableRes = genTableService.saveByAuth(genTable);
 		List<GenTableColumnResult> columnList = genTable.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(columnList)) {

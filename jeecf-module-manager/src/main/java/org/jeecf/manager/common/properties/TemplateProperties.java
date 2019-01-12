@@ -15,22 +15,22 @@ public class TemplateProperties {
 	/**
 	 * 下载文件路径前缀
 	 */
-	@Value("${template.download.prefix.path}")
+	@Value("${file.tmpl.download.prefix.path}")
 	private String downloadPerfixPath;
 	/**
-	 * 下载文件路径后缀
+	 * 文件后缀
 	 */
-	@Value("${template.download.suffix.name}")
-	private String downloadSuffixName;
+	@Value("${file.tmpl.suffix}")
+	private String suffixName;
 	/**
 	 * 上传文件路径       
 	 */
-	@Value("${template.upload.path}")
+	@Value("${file.tmpl.upload.path}")
 	private String uploadPath;
 	/**
 	 * 上传文件原路径
 	 */
-	@Value("${template.upload.tmp.path}")
+	@Value("${file.tmpl.upload.tmp.path}")
 	private String uploadTmpPath;
 
 }

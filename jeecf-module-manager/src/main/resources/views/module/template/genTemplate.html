@@ -40,7 +40,7 @@
 					<td>{{ genTemplate.name }}</td>
 					<td>{{ genTemplate.languageName}}</td>
 					<td>{{ genTemplate.genFieldName}}</td>
-					<td>{{ genTemplate.descrition }}</td>
+					<td>{{ genTemplate.description }}</td>
 					<td>{{ genTemplate.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genTemplate:edit"><a
 							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span
@@ -138,8 +138,8 @@
 								<label class="col-sm-3 control-label">描述：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-10" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateDescrition"
-											name="descrition" ng-model="updateGenTemplate.descrition"
+										<input type="text" class="form-control" id="updateDescription"
+											name="description" ng-model="updateGenTemplate.description"
 											placeholder="请输入描述" />
 									</div>
 								</div>
@@ -316,8 +316,8 @@
 					<label class="col-sm-2 control-label">描述：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-10" style="padding-left: 0">
-							<input type="text" class="form-control" id="descrition"
-								name="descrition" ng-model="genTemplate.descrition"
+							<input type="text" class="form-control" id="description"
+								name="description" ng-model="genTemplate.description"
 								placeholder="请输入描述" />
 						</div>
 					</div>

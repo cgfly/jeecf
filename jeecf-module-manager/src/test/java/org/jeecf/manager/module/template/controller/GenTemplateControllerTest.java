@@ -133,7 +133,7 @@ public class GenTemplateControllerTest extends BaseMokMvc {
 		GenTemplate genTemplate = new GenTemplate();
 		genTemplate.setFileBasePath("1243fe3ef/k.zip");
 		genTemplate.setName("test");
-		genTemplate.setDescrition("test");
+		genTemplate.setDescription("test");
 		genTemplate.setLanguage(1);
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(genTemplate));
 		if (saveNode.get(SUCCESS).asBoolean()) {

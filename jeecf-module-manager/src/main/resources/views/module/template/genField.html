@@ -36,7 +36,7 @@
 				<tr ng-repeat="genField in genFieldList">
 					<td>{{ $index+1 }}</td>
 					<td>{{ genField.name }}</td>
-					<td>{{ genField.descrition }}</td>
+					<td>{{ genField.description }}</td>
 					<td>{{ genField.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genField:edit"><a
 							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span
@@ -83,8 +83,8 @@
 								<label class="col-sm-2 control-label">描述：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateDescrition"
-											name="descrition" ng-model="updateGenField.descrition"
+										<input type="text" class="form-control" id="updateDescription"
+											name="description" ng-model="updateGenField.description"
 											placeholder="请输入描述" />
 									</div>
 								</div>
@@ -220,8 +220,8 @@
 					<label class="col-sm-1 control-label">描述：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="descrition"
-								name="descrition" ng-model="genField.descrition"
+							<input type="text" class="form-control" id="description"
+								name="description" ng-model="genField.description"
 								placeholder="请输入描述" />
 						</div>
 					</div>

@@ -119,7 +119,7 @@ public class DynamicDataSourceContextHolder {
 		String datasourceKey = getCurrentDataSourceKey();
 		String value = (String) RedisCacheUtils.getSysCache(datasourceKey);
 		if (StringUtils.isEmpty(value)) {
-			RedisCacheUtils.setSysCache(datasourceKey, DEFAULT_DATASOURCE_KEY);
+			RedisCacheUtils.setSysCache(datasourceKey, DEFAULT_DATASOURCE_KEY+SplitCharEnum.COLON.getName()+EnumUtils.Usable.YES.getCode());
 		}
 	}
 

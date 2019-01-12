@@ -193,9 +193,6 @@
 		<if test="sysNamespaceId != null">
 			AND sys_namespace_id = #{sysNamespaceId}
 		</if>
-		<if test="sysDbsourceId != null">
-			AND sys_dbsource_id = #{sysDbsourceId}
-		</if>
 	</delete>
 
 	<select id="count" resultType="int">

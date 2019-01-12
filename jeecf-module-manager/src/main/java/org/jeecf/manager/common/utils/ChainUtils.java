@@ -8,6 +8,7 @@ import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.gen.handler.BaseParamHandler;
 import org.jeecf.manager.gen.handler.ConfigResolveHandler;
 import org.jeecf.manager.gen.handler.GenHandler;
+import org.jeecf.manager.gen.handler.PluginHandler;
 import org.jeecf.manager.gen.handler.RuleResolveHandler;
 import org.jeecf.manager.gen.handler.TableParamHandler;
 import org.jeecf.manager.gen.handler.ToolParamHandler;
@@ -25,6 +26,7 @@ public class ChainUtils {
 		List<AbstractHandler>  chainHandlers = new ArrayList<>();
 		chainHandlers.add(new BaseParamHandler());
 		chainHandlers.add(new ToolParamHandler());
+		chainHandlers.add(new PluginHandler());
 		chainHandlers.add(new ConfigResolveHandler());
 		chainHandlers.add(new RuleResolveHandler());
 		chainHandlers.add(new TableParamHandler());

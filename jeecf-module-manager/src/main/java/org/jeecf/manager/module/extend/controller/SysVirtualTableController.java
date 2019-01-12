@@ -30,7 +30,11 @@ import org.jeecf.manager.module.extend.service.SysVirtualTableColumnService;
 import org.jeecf.manager.module.extend.service.SysVirtualTableService;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;
+import org.jeecf.manager.module.template.model.po.GenTablePO;
+import org.jeecf.manager.module.template.model.query.GenTableQuery;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
+import org.jeecf.manager.module.template.model.result.GenTableResult;
+import org.jeecf.manager.module.template.service.GenTableService;
 import org.jeecf.manager.proxy.TargetTableProxy;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.BeanUtils;
@@ -62,18 +66,21 @@ public class SysVirtualTableController
 
 	@Autowired
 	private SysVirtualTableService sysVirtualTableService;
-
+	
 	@Autowired
 	private SysVirtualTableColumnService sysVirtualTableColumnService;
 
 	@Autowired
 	private SysVirtualTableFacade sysVirtualTableFacade;
-	
+
 	@Autowired
 	private TargetTableProxy targetTableProxy;
 
 	@Autowired
 	private GenTableFacade genTableFacade;
+	
+	@Autowired
+	private GenTableService genTableService;
 
 	@GetMapping(value = { "", "index" })
 	@RequiresPermissions("extend:sysVirtualTable:view")
@@ -120,7 +127,8 @@ public class SysVirtualTableController
 			@PathVariable("sysVirtualTableId") Integer sysVirtualTableId) {
 		SysVirtualTableColumnQuery query = new SysVirtualTableColumnQuery();
 		query.setSysVirtualTableId(sysVirtualTableId);
-		Response<List<SysVirtualTableColumnResult>> sysVirtualTableColumnRes = sysVirtualTableColumnService.findList(new SysVirtualTableColumnPO(query));
+		Response<List<SysVirtualTableColumnResult>> sysVirtualTableColumnRes = sysVirtualTableColumnService
+				.findList(new SysVirtualTableColumnPO(query));
 		if (CollectionUtils.isNotEmpty(sysVirtualTableColumnRes.getData())) {
 			sysVirtualTableColumnRes.getData().forEach(sysVirtualTableColumnResult -> {
 				sysVirtualTableColumnResult.toCovert();
@@ -140,6 +148,14 @@ public class SysVirtualTableController
 			query.setSysVirtualTableId(Integer.valueOf(tableRes.getData().getId()));
 			Response<List<SysVirtualTableColumnResult>> sysVirtualTableColumnRes = sysVirtualTableColumnService
 					.findList(new SysVirtualTableColumnPO(query));
+			
+			GenTableQuery queryTable = new GenTableQuery();
+			queryTable.setName(tableRes.getData().getName());
+			List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
+			if (CollectionUtils.isNotEmpty(genTableList)) {
+				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+			}
+			
 			GenTable genTable = new GenTable();
 			BeanUtils.copyProperties(tableRes.getData(), genTable);
 			genTable.setId(null);
@@ -171,8 +187,8 @@ public class SysVirtualTableController
 		Response<SysVirtualTableResult> tableRes = sysVirtualTableService.getByAuth(new SysVirtualTable(id));
 		if (tableRes.getData() != null) {
 			SysVirtualTableResult table = tableRes.getData();
-			Response<SchemaTable>  schemaTableRes = targetTableProxy.getTable(table.getName());
-			if(schemaTableRes.getData() != null) {
+			Response<SchemaTable> schemaTableRes = targetTableProxy.getTable(table.getName());
+			if (schemaTableRes.getData() != null) {
 				throw new BusinessException(BusinessErrorEnum.TARGET_TABLE_EXIST);
 			}
 			SysVirtualTableColumnQuery query = new SysVirtualTableColumnQuery();
@@ -196,8 +212,7 @@ public class SysVirtualTableController
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
 	}
-	
-	
+
 	@PostMapping(value = { "dropTable/{id}" })
 	@ResponseBody
 	@RequiresPermissions("extend:sysVirtualTable:edit")
@@ -206,8 +221,8 @@ public class SysVirtualTableController
 		Response<SysVirtualTableResult> tableRes = sysVirtualTableService.getByAuth(new SysVirtualTable(id));
 		if (tableRes.getData() != null) {
 			SysVirtualTableResult table = tableRes.getData();
-			Response<SchemaTable>  schemaTableRes = targetTableProxy.getTable(table.getName());
-			if(schemaTableRes.getData() == null) {
+			Response<SchemaTable> schemaTableRes = targetTableProxy.getTable(table.getName());
+			if (schemaTableRes.getData() == null) {
 				throw new BusinessException(BusinessErrorEnum.TARGET_TABLE_NOT_EXIST);
 			}
 			return targetTableProxy.drop(table.getName());
