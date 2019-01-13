@@ -24,4 +24,5 @@ file:
          tmp:
             path: /Users/jianyiming/tmp/template/tmp
       suffix: zip
-      
+encrypt:
+   key: 12345678     

@@ -25,10 +25,18 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 * 更新数据失败
 	 */
 	UPDATE_DATA_FAIL(104, "更新数据失败"),
-	/**
+	/** 
 	 * 用户没有此权限
-	 */
+	 */  
 	POWER_DATA_FAIL(105, "用户没有此权限"),
+	/**
+	 * 加密失败
+	 */
+	ENCRYPT_FAIL(106, "加密失败"),
+	/**
+	 * 解密失败
+	 */
+	DECRYPT_FAIL(107, "解密失败"),
 	/**
 	 * 用户不存在
 	 */

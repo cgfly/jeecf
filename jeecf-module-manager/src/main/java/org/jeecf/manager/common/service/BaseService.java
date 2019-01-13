@@ -113,11 +113,4 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 		return new Response<Integer>(true, dao.delete(t));
 	}
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deleteByFlag(T t) {
-		t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
-		t.preUpdate();
-		return new Response<Integer>(true, dao.update(t));
-	}
-
 }

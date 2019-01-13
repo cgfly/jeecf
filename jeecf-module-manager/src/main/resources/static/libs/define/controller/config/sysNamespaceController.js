@@ -47,14 +47,14 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		
 		$scope.actionForm = function(index) {
 			if($scope.delFlag.value == 0){
-				$scope.deleteForm(index);
+				$scope.invalidForm(index);
 			} else if($scope.delFlag.value == 1){
 				$scope.activeForm(index);
 			}
 		}
 
-		$scope.deleteForm = function(index) {
-			$httpRequest.post($ctx.getWebPath() + "config/sysNamespace/delete/"+$scope.sysNamespaceList[index].id).then(function(res) {
+		$scope.invalidForm = function(index) {
+			$httpRequest.post($ctx.getWebPath() + "config/sysNamespace/invalid/"+$scope.sysNamespaceList[index].id).then(function(res) {
 		  		if(res.success){
 		  			$jBoxcm.success("数据已失效");
 		  			$state.reload($scope.currentRouteName);

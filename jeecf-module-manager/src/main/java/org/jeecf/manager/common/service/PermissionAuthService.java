@@ -10,7 +10,6 @@ import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.PermissionEntity;
 import org.jeecf.manager.common.utils.PermissionUtils;
@@ -113,14 +112,6 @@ public class PermissionAuthService<D extends Dao<P, R, Q, T>, P extends Abstract
 			return super.delete(t);
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-	}
-
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deleteByFlag(T t) {
-		t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
-		this.updateByAuth(t);
-		return new Response<>(1);
 	}
 
 }
