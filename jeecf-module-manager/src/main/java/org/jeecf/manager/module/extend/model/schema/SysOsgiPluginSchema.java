@@ -1,29 +1,57 @@
 package org.jeecf.manager.module.extend.model.schema;
+
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * OSGI 插件 schema
  * @author jianyiming
  *
  */
 public class SysOsgiPluginSchema {
-	
+	/**
+	 * 主键
+	 */
+	@ApiModelProperty(value="主键",name="id")
 	private boolean id = true;
-	
+	/**
+	 * 名称
+	 */
+	@ApiModelProperty(value="名称",name="name")
 	private boolean name = true;
-	
+	/**
+	 * 文件名称
+	 */
+	@ApiModelProperty(value="文件名称",name="fileName")
 	private boolean fileName = true;
-	
+	/**
+	 * 插件绑定类型
+	 */
+	@ApiModelProperty(value="插件绑定类型",name="boundleType")
 	private boolean boundleType = true;
-	
-	private boolean boundleTypeName = true;
-	
+	/**
+	 * 命名空间
+	 */
+	@ApiModelProperty(value="命名空间",name="sysNamespaceId")
 	private boolean sysNamespaceId = true;
-	
+	/**
+	 * 描述
+	 */
+	@ApiModelProperty(value="描述",name="description")
 	private boolean description = true;
-	
+	/**
+	 * 逻辑删除
+	 */
+	@ApiModelProperty(value="逻辑删除",name="delFlag")
 	private boolean delFlag = true;
-	
+	/**
+	 * 创建时间
+	 */
+	@ApiModelProperty(value="创建时间",name="createDate")
 	private boolean createDate = true;
-	
+	/**
+	 * 更新时间
+	 */
+	@ApiModelProperty(value="更新时间",name="updateDate")
 	private boolean updateDate = true;
 	
 	public boolean isId() {
@@ -58,14 +86,6 @@ public class SysOsgiPluginSchema {
 		this.boundleType = boundleType;
 	}
 	
-	public boolean isBoundleTypeName() {
-		return boundleTypeName;
-	}
-
-	public void setBoundleTypeName(boolean boundleTypeName) {
-		this.boundleTypeName = boundleTypeName;
-	}
-
 	public boolean isSysNamespaceId() {
 		return sysNamespaceId;
 	}
