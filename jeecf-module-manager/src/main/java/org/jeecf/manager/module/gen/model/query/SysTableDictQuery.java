@@ -7,19 +7,20 @@ import org.jeecf.manager.module.gen.model.domian.SysTableDict;
 
 /**
  * 表组查询字典
+ * 
  * @author jianyiming
  *
  */
-public class SysTableDictQuery extends SysTableDict implements Serializable{
+public class SysTableDictQuery extends SysTableDict implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	 /**
-     * 创建时间开始时间
-     */
+
+	/**
+	 * 创建时间开始时间
+	 */
 	private Date beginCreateDate;
 	/**
 	 * 创建时间结束时间
@@ -33,7 +34,7 @@ public class SysTableDictQuery extends SysTableDict implements Serializable{
 	 * 更新时间结束时间
 	 */
 	private Date endUpdateDate;
-	
+
 	public Date getBeginCreateDate() {
 		return beginCreateDate;
 	}

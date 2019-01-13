@@ -36,7 +36,7 @@
 				<tr ng-repeat="genField in genFieldList">
 					<td>{{ $index+1 }}</td>
 					<td>{{ genField.name }}</td>
-					<td>{{ genField.descrition }}</td>
+					<td>{{ genField.description }}</td>
 					<td>{{ genField.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genField:edit"><a
 							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span
@@ -83,8 +83,8 @@
 								<label class="col-sm-2 control-label">描述：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateDescrition"
-											name="descrition" ng-model="updateGenField.descrition"
+										<input type="text" class="form-control" id="updateDescription"
+											name="description" ng-model="updateGenField.description"
 											placeholder="请输入描述" />
 									</div>
 								</div>
@@ -113,7 +113,7 @@
 												ng-model="genFieldColumn.isNull" ng-true-value="1"
 												ng-false-value="0" /></td>
 											<td><input style="width: 100%"
-												ng-model="genFieldColumn.descrition" /></td>
+												ng-model="genFieldColumn.description" /></td>
 											<td ng-if="$index == 0"><span
 												class="glyphicon glyphicon-plus" aria-hidden="true"
 												ng-click="updateAddGenFieldColumn()"></span></td>
@@ -157,7 +157,7 @@
 							<div class="form-group">
 								<div class="col-sm-10" style="padding-left:0">
 									<div class="col-sm-8" style="margin-left: 40px; padding-left:0">
-										<span><label>描述：</label>{{ detailField.descrition }}</span>
+										<span><label>描述：</label>{{ detailField.description }}</span>
 									</div>
 								</div>
 							</div>
@@ -178,7 +178,7 @@
 											<td>{{ genFieldColumn.name }}</td>
 											<td>{{ genFieldColumn.defaultValue }}</td>
 											<td>{{ genFieldColumn.isNullName }}</td>
-											<td>{{ genFieldColumn.descrition }}</td>
+											<td>{{ genFieldColumn.description }}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -220,8 +220,8 @@
 					<label class="col-sm-1 control-label">描述：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="descrition"
-								name="descrition" ng-model="genField.descrition"
+							<input type="text" class="form-control" id="description"
+								name="description" ng-model="genField.description"
 								placeholder="请输入描述" />
 						</div>
 					</div>
@@ -249,7 +249,7 @@
 									ng-model="genFieldColumn.isNull" ng-true-value="1"
 									ng-false-value="0" /></td>
 								<td><input style="width: 100%"
-									ng-model="genFieldColumn.descrition" /></td>
+									ng-model="genFieldColumn.description" /></td>
 								<td ng-if="$index == 0"><span
 									class="glyphicon glyphicon-plus" aria-hidden="true"
 									ng-click="addGenFieldColumn()"></span></td>

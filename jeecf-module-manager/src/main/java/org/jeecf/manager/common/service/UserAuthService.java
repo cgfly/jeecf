@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <T>
  */
 public class UserAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends BaseEntity>
-		extends AbstractAuthService<D, P, R, Q, T> {
+extends BaseService<D, P, R, Q, T> implements AuthService<D, P, R, Q, T>  {
 	
 
 	@Override
@@ -34,12 +34,6 @@ public class UserAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntity
 	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
 	public Response<R> updateByAuth(T t) {
 		return super.update(t);
-	}
-
-	@Override
-	@Transactional(readOnly = false,rollbackFor=RuntimeException.class)
-	public Response<R> saveByAuth(T t) {
-		return super.saveByAuth(t);
 	}
 
 	@Override

@@ -25,10 +25,18 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 * 更新数据失败
 	 */
 	UPDATE_DATA_FAIL(104, "更新数据失败"),
-	/**
+	/** 
 	 * 用户没有此权限
-	 */
+	 */  
 	POWER_DATA_FAIL(105, "用户没有此权限"),
+	/**
+	 * 加密失败
+	 */
+	ENCRYPT_FAIL(106, "加密失败"),
+	/**
+	 * 解密失败
+	 */
+	DECRYPT_FAIL(107, "解密失败"),
 	/**
 	 * 用户不存在
 	 */
@@ -58,6 +66,14 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 */
 	DB_CONNECT_EXCEPTION(304, "数据库连接异常"),
 	/**
+	 * 数据源无效
+	 */
+	DB_CONNECT_NOT_EFFECT(305, "数据源无效"),
+	/**
+	 * 数据源不可用
+	 */
+	DB_CONNECT_NOT_USABLE(306, "数据源不可用"),
+	/**
 	 * 命名空间不存在
 	 */
 	NAMESPACE_NOT(401, "命名空间不存在"),
@@ -69,6 +85,10 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 * 不是zip文件
 	 */
 	ZIP_NOT(501, "不是zip文件"),
+	/**
+	 * 不是jar文件
+	 */
+	JAR_NOT(502, "不是jar文件"),
 	/**
 	 * config module 不能为空
 	 */
@@ -114,13 +134,28 @@ public enum BusinessErrorEnum implements ErrorEnum {
 	 */
 	RULE_DATA_GROUP_ERROR(611, "数据分组失败"),
 	/**
+	 * 树数据构建失败
+	 */
+	RULE_DATA_TREE_ERROR(612, "树数据构建失败"),
+	/**
 	 * 规则策略名称不匹配
 	 */
-	RULE_STRATEGY_NAME_NOT_MATCH(612, "规则策略名称不匹配"),
+	RULE_STRATEGY_NAME_NOT_MATCH(619, "规则策略名称不匹配"),
+
 	/**
 	 * rule strategy field 不能为空
 	 */
-	RULE_STRATEGY_FIELD_NOT_EMPTY(613, "rule strategy field 不能为空"),;
+	RULE_STRATEGY_FIELD_NOT_EMPTY(620, "rule strategy field 不能为空"),
+	/**
+	 * 目标表已经存在
+	 */
+	TARGET_TABLE_EXIST(701, "目标表已经存在"),
+	/**
+	 * 目标表不存在
+	 */
+	TARGET_TABLE_NOT_EXIST(702, "目标表不存在"),
+	
+	;
 
 	public final int code;
 	public final String msg;

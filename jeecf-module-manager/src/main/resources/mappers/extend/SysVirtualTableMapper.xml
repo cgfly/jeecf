@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.jeecf.manager.module.extend.dao.SysVirtualTableDao">
+
+	<sql id="columnList">
+		sysVirtualTable.id AS "id",
+		sysVirtualTable.name AS "name",
+		sysVirtualTable.comment AS "comment",
+        sysVirtualTable.sys_namespace_id AS "sysNamespaceId",
+        sysVirtualTable.sys_dbsource_id AS "SysDbsourceId",
+		sysVirtualTable.create_date AS "createDate",
+		sysVirtualTable.update_date AS "updateDate"
+	</sql>
+
+	<sql id="commonWhere">
+		<where>
+			<if test="data != null">
+				<if test="data.name != null and data.name != '' ">
+					AND sysVirtualTable.name = #{data.name}
+				</if>
+				<if test="data.sysNamespaceId != null ">
+					AND sysVirtualTable.sys_namespace_id = #{data.sysNamespaceId}
+				</if>
+				<if test="data.sysDbsourceId != null ">
+					AND sysVirtualTable.sys_dbsource_id = #{data.sysDbsourceId}
+				</if>
+				<include refid="reginWhere" />
+			</if>
+			<include refid="containWhere" />
+		</where>
+	</sql>
+
+	<!-- 通用范围区间查询 -->
+	<sql id="reginWhere">
+
+	</sql>
+
+	<!-- in 和 not in的通用查询where -->
+	<sql id="containWhere">
+		<if test="contains != null">
+			<foreach item="item" index="i" collection="contains">
+				And item.columnName in
+				<foreach item="value" index="i"
+					collection="item.columnValue" separator="," open="(" close=")">
+					#{value}
+				</foreach>
+			</foreach>
+		</if>
+	</sql>
+
+	<!-- 通用排序处理 -->
+	<sql id="commonSorts">
+		<if test="sorts != null">
+			ORDER BY
+			<foreach collection="sorts" item="item" separator=",">
+				${item.columnName} ${item.sortMode}
+			</foreach>
+		</if>
+		<if test="sorts == null">
+			ORDER BY sysVirtualTable.update_date desc
+		</if>
+	</sql>
+
+	<!-- 关联查询 -->
+	<sql id="leftJoinColumn">
+
+	</sql>
+
+	<select id="get"
+		resultType="org.jeecf.manager.module.extend.model.result.SysVirtualTableResult">
+		select
+		<include refid="columnList" />
+		from sys_virtual_table sysVirtualTable
+		<include refid="leftJoinColumn" />
+		where sysVirtualTable.id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sysVirtualTable.sys_namespace_id = #{sysNamespaceId}
+		</if>
+		<if test="sysDbsourceId != null">
+			AND sysVirtualTable.sys_dbsource_id = #{sysDbsourceId}
+		</if>
+	</select>
+
+	<select id="query"
+		resultType="org.jeecf.manager.module.extend.model.result.SysVirtualTableResult">
+		select
+		<include refid="columnList" />
+		from sys_virtual_table sysVirtualTable
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+		<include refid="commonSorts" />
+		<if test="page != null">
+			limit ${page.startNo},${page.size}
+		</if>
+	</select>
+
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_virtual_table
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+			<if test="sysNamespaceId != null">
+				sys_namespace_id,
+			</if>
+			<if test="sysDbsourceId != null">
+				sys_dbsource_id,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="comment != null">
+				#{comment},
+			</if>
+			<if test="sysNamespaceId != null">
+				#{sysNamespaceId},
+			</if>
+			<if test="sysDbsourceId != null">
+				#{sysDbsourceId},
+			</if>
+			<if test="createBy != null">
+				#{createBy},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate},
+			</if>
+			<if test="remark != null">
+				#{remark}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE sys_virtual_table
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="comment != null">
+				comment = #{comment},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remark != null">
+				remark = #{remark}
+			</if>
+		</set>
+		WHERE id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
+		<if test="sysDbsourceId != null">
+			AND sys_dbsource_id = #{sysDbsourceId}
+		</if>
+	</update>
+
+	<delete id="delete">
+		delete from sys_virtual_table
+		WHERE id = #{id}
+		<if test="sysNamespaceId != null">
+			AND sys_namespace_id = #{sysNamespaceId}
+		</if>
+	</delete>
+
+	<select id="count" resultType="int">
+		select count(1) from sys_virtual_table sysVirtualTable
+		<include refid="leftJoinColumn" />
+	    <include refid="commonWhere" />
+	</select>
+
+</mapper>

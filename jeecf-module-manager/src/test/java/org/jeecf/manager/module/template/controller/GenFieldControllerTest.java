@@ -71,12 +71,12 @@ public class GenFieldControllerTest extends BaseMokMvc {
 	public void dataOperation() throws Exception {
 		GenField genField = new GenField();
 		genField.setName("test");
-		genField.setDescrition("test");
+		genField.setDescription("test");
 		List<GenFieldColumn> fieldColumnList = new ArrayList<>();
 		GenFieldColumn genFieldColumn = new GenFieldColumn();
 		genFieldColumn.setName("test");
 		genFieldColumn.setIsNull(1);
-		genFieldColumn.setDescrition("test");
+		genFieldColumn.setDescription("test");
 		fieldColumnList.add(genFieldColumn);
 		genField.setGenFieldColumn(fieldColumnList);
 		JsonNode saveNode = JsonMapper.getJsonNode(this.save(genField));

@@ -3,8 +3,8 @@ package org.jeecf.manager.engine.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.jeecf.manager.engine.model.SchemaTable;
-import org.jeecf.manager.engine.model.SchemaTableColumn;
+import org.jeecf.manager.engine.model.schema.SchemaTable;
+import org.jeecf.manager.engine.model.schema.SchemaTableColumn;
 
 /**
  * 物理表dao

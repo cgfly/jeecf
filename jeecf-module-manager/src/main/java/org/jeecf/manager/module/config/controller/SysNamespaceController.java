@@ -90,17 +90,18 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		return sysNamespaceService.saveByAuth(sysNamespace);
 	}
 
-	@PostMapping(value = { "delete/{id}" })
+	@PostMapping(value = { "invalid/{id}" })
 	@ResponseBody
 	@RequiresPermissions("config:sysNamespace:edit")
 	@ApiOperation(value = "删除", notes = "删除系统命名空间数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
+	public Response<SysNamespaceResult> invalid(@PathVariable("id") String id) {
 		Integer currentId = NamespaceUtils.getNamespaceId();
 		if(currentId.equals(Integer.valueOf(id))) {
 			throw new BusinessException(BusinessErrorEnum.NAMESPACE_IS_CURRENT);
 		}
-		return sysNamespaceService.deleteByFlag(new SysNamespace(id));
+		SysNamespace sysNamespace = new SysNamespace(id);
+		sysNamespace.setDelFlag(EnumUtils.DelFlag.YES.getCode());
+		return sysNamespaceService.saveByAuth(sysNamespace);
 	}
 	
 	@PostMapping(value = { "active/{id}" })
@@ -133,6 +134,15 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 		}
 		namespace.setNamespaceId(Integer.valueOf(id));
 		return sysUserNamespaceService.save(namespace);
+	}
+
+	@PostMapping(value = { "delete/{id}" })
+	@ResponseBody
+	@RequiresPermissions("config:sysNamespace:edit")
+	@ApiOperation(value = "删除", notes = "删除命名空间数据")
+	@Override
+	public Response<Integer> delete(@PathVariable("id") String id) {
+		return sysNamespaceService.deleteByAuth(new SysNamespace(id));
 	}
 	
 }

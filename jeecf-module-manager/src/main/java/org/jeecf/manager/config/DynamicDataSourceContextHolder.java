@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jeecf.common.enums.SplitCharEnum;
+import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.JdbcUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -37,8 +39,6 @@ public class DynamicDataSourceContextHolder {
 
 	private static PropertyValues dataSourcePropertyValues;
 	
-	public static final String SPLIT_LINE = "_";
-	
 	public static final String DATA_SOURCE_SUFFIX = "dataSourceKey";
 
 	/**
@@ -69,54 +69,20 @@ public class DynamicDataSourceContextHolder {
 	public static String getDafualtKey() {
 		return DynamicDataSourceContextHolder.DEFAULT_DATASOURCE_KEY;
 	}
+	
+	public static ConversionService getConversionService() {
+		return conversionService;
+	}
 
-	/**
-	 * 
-	 * 为DataSource绑定更多数据
-	 * 
-	 * @param dataSource
-	 * 
-	 * @param env
-	 * 
-	 */
-
+	
 	public static void setDataSourcePropertyValues(Map<String, Object> rpr) {
 		if (dataSourcePropertyValues == null) {
-
 			Map<String, Object> values = new HashMap<>(rpr);
-
-			// 排除已经设置的属性
-
-			values.remove("type");
-
-			values.remove("driverClassName");
-
-			values.remove("url");
-
-			values.remove("username");
-
-			values.remove("password");
-
 			dataSourcePropertyValues = new MutablePropertyValues(values);
-
 		}
 	}
 
-	public static void dataBinder(DataSource dataSource) {
-		if (dataSourcePropertyValues != null) {
-			RelaxedDataBinder dataBinder = new RelaxedDataBinder(dataSource);
 
-			dataBinder.setConversionService(conversionService);
-
-			dataBinder.setIgnoreNestedProperties(false);
-
-			dataBinder.setIgnoreInvalidFields(false);
-
-			dataBinder.setIgnoreUnknownFields(true);
-
-			dataBinder.bind(dataSourcePropertyValues);
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	public static DataSource dataBinder(SysDbsource sysDbSource) {
@@ -132,15 +98,10 @@ public class DynamicDataSourceContextHolder {
 			dataSource = defaultDataSource = factory.build();
 			if (dataSourcePropertyValues != null) {
 				RelaxedDataBinder dataBinder = new RelaxedDataBinder(dataSource);
-
 				dataBinder.setConversionService(conversionService);
-
 				dataBinder.setIgnoreNestedProperties(false);
-
 				dataBinder.setIgnoreInvalidFields(false);
-
 				dataBinder.setIgnoreUnknownFields(true);
-
 				dataBinder.bind(dataSourcePropertyValues);
 			}
 		} catch (ClassNotFoundException e) {
@@ -151,25 +112,35 @@ public class DynamicDataSourceContextHolder {
 	
 	private static String getCurrentDataSourceKey() {
 		String id = UserUtils.getCurrentUserId();
-		return id + DynamicDataSourceContextHolder.SPLIT_LINE + DynamicDataSourceContextHolder.DATA_SOURCE_SUFFIX;
+		return id + SplitCharEnum.UNDERLINE.getName() + DynamicDataSourceContextHolder.DATA_SOURCE_SUFFIX;
 	}
 
 	public static void initCurrentDataSourceValue() {
 		String datasourceKey = getCurrentDataSourceKey();
 		String value = (String) RedisCacheUtils.getSysCache(datasourceKey);
 		if (StringUtils.isEmpty(value)) {
-			RedisCacheUtils.setSysCache(datasourceKey, DEFAULT_DATASOURCE_KEY);
+			RedisCacheUtils.setSysCache(datasourceKey, DEFAULT_DATASOURCE_KEY+SplitCharEnum.COLON.getName()+EnumUtils.Usable.YES.getCode());
 		}
 	}
 
 	public static String getCurrentDataSourceValue() {
 		String datasourceKey = getCurrentDataSourceKey();
-		return (String) RedisCacheUtils.getSysCache(datasourceKey);
-
+		String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
+		return values.split(SplitCharEnum.COLON.getName())[0];
 	}
-
-	public static void setCurrentDataSourceValue(String value) {
+	
+	public static boolean getCurrentDataSourceUsable() {
 		String datasourceKey = getCurrentDataSourceKey();
-		RedisCacheUtils.setSysCache(datasourceKey, value);
+		String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
+		int usable = Integer.valueOf(values.split(SplitCharEnum.COLON.getName())[1]);
+		if(usable == EnumUtils.Usable.YES.getCode()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void setCurrentDataSourceValue(String value,int usable) {
+		String datasourceKey = getCurrentDataSourceKey();
+		RedisCacheUtils.setSysCache(datasourceKey, value+SplitCharEnum.COLON.getName()+usable);
 	}
 }

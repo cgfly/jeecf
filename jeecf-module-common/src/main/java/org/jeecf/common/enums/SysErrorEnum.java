@@ -50,6 +50,10 @@ public enum SysErrorEnum implements ErrorEnum {
 	 */
 	FILE_RESOLVE_ERROR(110,"文件解析错误"),
 	/**
+	 * 加密错误
+	 */
+	ENCRYPT_ERROR(110,"加密错误"),
+	/**
 	 * 权限不足
 	 */
 	UNAUTHORIZED_ERROR(403,"权限不足"),

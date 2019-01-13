@@ -9,8 +9,8 @@
 		genFieldColumn.name AS "name",
 		genFieldColumn.is_null AS "isNull",
 		genFieldColumn.default_value AS "defaultValue",
-		genFieldColumn.descrition
-		AS "descrition",
+		genFieldColumn.description
+		AS "description",
 		genFieldColumn.remark
 		AS "remark",
 		genFieldColumn.create_date AS "createDate",
@@ -29,8 +29,8 @@
 				<if test="data.name != null and data.name != '' ">
 					And genFieldColumn.name = #{data.name}
 				</if>
-				<if test="data.descrition != null and data.descrition != '' ">
-					And genFieldColumn.descrition = #{data.descrition}
+				<if test="data.description != null and data.description != '' ">
+					And genFieldColumn.description = #{data.description}
 				</if>
 				<include refid="reginWhere" />
 			</if>
@@ -127,8 +127,8 @@
 			<if test="defaultValue != null">
 				default_value,
 			</if>
-			<if test="descrition != null">
-				descrition,
+			<if test="description != null">
+				description,
 			</if>
 			<if test="remark != null">
 				remark,
@@ -160,8 +160,8 @@
 			<if test="defaultValue != null">
 				#{defaultValue},
 			</if>
-			<if test="descrition != null">
-				#{descrition},
+			<if test="description != null">
+				#{description},
 			</if>
 			<if test="remark != null">
 				#{remark},
@@ -196,8 +196,8 @@
 			<if test="defaultValue != null">
 				default_value = #{defaultValue},
 			</if>
-			<if test="descrition != null">
-				descrition = #{descrition},
+			<if test="description != null">
+				description = #{description},
 			</if>
 			<if test="updateDate != null">
 				update_date = #{updateDate},

@@ -44,13 +44,13 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		};
 		$scope.actionForm = function(index) {
 			if($scope.delFlag.value == 0){
-				$scope.deleteForm(index);
+				$scope.invalidForm(index);
 			} else if($scope.delFlag.value == 1){
 				$scope.activeForm(index);
 			}
 		}
-		$scope.deleteForm = function(index) {
-			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/delete/"+$scope.sysDbsourceList[index].id).then(function(res) {
+		$scope.invalidForm = function(index) {
+			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/invalid/"+$scope.sysDbsourceList[index].id).then(function(res) {
 				  		if(res.success){
 				  			$jBoxcm.success("数据已失效");
 				  			$state.reload($scope.currentRouteName);
@@ -70,6 +70,16 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 				  		}
 			});
 		};
+		
+		$scope.syncGenForm  = function(index) {
+			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/syncGen/"+$scope.sysDbsourceList[index].id).then(function(res) {
+		  		if(res.success){
+		  			$jBoxcm.success("同步数据成功");
+		  		} else {
+		  			$jBoxcm.error("同步数据失败,"+res.errorMessage);
+		  		}
+			});
+		}
 
 		$scope.updateForm = function(){
 			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/save",
@@ -86,7 +96,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			});
 		}
 		$scope.effectForm = function(index){
-			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/effect/"+$scope.sysDbsourceList[index].keyName).then(function(res) {
+			$httpRequest.post($ctx.getWebPath() + "config/sysDbsource/effect/"+$scope.sysDbsourceList[index].id).then(function(res) {
 				if(res.success){
 				  	$jBoxcm.success("操作成功");
 				  	$state.reload($scope.currentRouteName);

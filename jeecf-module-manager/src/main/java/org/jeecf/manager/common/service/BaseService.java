@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends AbstractEntity>
-		extends AbstractService<P, R, Q, T> {
+		implements Service<P, R, Q, T> {
 
 	@Autowired
 	protected D dao;
@@ -111,13 +111,6 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> delete(T t) {
 		return new Response<Integer>(true, dao.delete(t));
-	}
-
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deleteByFlag(T t) {
-		t.setDelFlag(EnumUtils.DelFlag.YES.getCode());
-		t.preUpdate();
-		return new Response<Integer>(true, dao.update(t));
 	}
 
 }

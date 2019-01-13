@@ -34,7 +34,7 @@ public class FileTypeUtils {
 	    if(name.contains(SplitCharEnum.DOT.getName())) {
 	       return StringUtils.substringAfterLast(name, SplitCharEnum.DOT.getName());
 	    }
-		return null;
+		return name;
 	}
 	
 }

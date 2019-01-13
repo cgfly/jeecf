@@ -4,7 +4,7 @@
 	namespace="org.jeecf.manager.engine.dao.SchemaTableDao">
 
 	<select id="findTableList"
-		resultType="org.jeecf.manager.engine.model.SchemaTable">
+		resultType="org.jeecf.manager.engine.model.schema.SchemaTable">
 		SELECT t.table_name AS name,t.TABLE_COMMENT AS comment
 		FROM
 		information_schema.`TABLES` t
@@ -16,7 +16,7 @@
 		ORDER BY t.TABLE_NAME
 	</select>
 	
-	<select id="findTableColumnList" resultType="org.jeecf.manager.engine.model.SchemaTableColumn">
+	<select id="findTableColumnList" resultType="org.jeecf.manager.engine.model.schema.SchemaTableColumn">
 		SELECT t.COLUMN_NAME AS name, 
 		  t.table_name AS "tableName",
 		  (CASE WHEN t.IS_NULLABLE = 'YES' THEN '0' ELSE '1' END) AS isNull,

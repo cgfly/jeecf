@@ -5,6 +5,7 @@ import java.util.Map;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.gen.tools.ObjectTools;
+import org.jeecf.manager.gen.tools.StringTools;
 /**
  * 规则参数拦截器
  * @author jianyiming
@@ -13,6 +14,8 @@ import org.jeecf.manager.gen.tools.ObjectTools;
 public class ToolParamHandler extends AbstractHandler{
 
 	public static ObjectTools objectTools = new ObjectTools();
+	
+	public static StringTools stringTools = new StringTools();
 	
 	@Override
 	public void init(ChainContext context) {
@@ -24,6 +27,7 @@ public class ToolParamHandler extends AbstractHandler{
 		@SuppressWarnings("unchecked")
 	    Map<String,Object> params = (Map<String, Object>) this.chainContext.get("params");
 		params.put("ObjectTools",objectTools);
+		params.put("StringTools",stringTools);
 		this.chainContext.put("params",params);
 		this.chainContext.next();
 	}

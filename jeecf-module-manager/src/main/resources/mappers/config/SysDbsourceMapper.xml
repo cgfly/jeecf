@@ -202,12 +202,6 @@
 			<if test="url != null">
 				url = #{url},
 			</if>
-			<if test="userName != null">
-				user_name = #{userName},
-			</if>
-			<if test="password != null">
-				password = #{password},
-			</if>
 			<if test="permission != null ">
 				permission = #{permission},
 			</if>

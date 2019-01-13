@@ -7,3 +7,22 @@ spring:
    redis: #redis配置
       host: 127.0.0.1
       port: 6379
+ 
+file:
+   osgi:
+      upload:
+         basePath: /
+      suffix: .jar
+   tmpl:
+      download:
+         prefix:
+            path: /Users/jianyiming/tmp/jeecm
+      upload:
+         path: /Users/jianyiming/tmp/template/real
+         tmp:
+            path: /Users/jianyiming/tmp/template/tmp
+      suffix:
+         name: zip
+         
+encrypt:
+   key: 12345678   

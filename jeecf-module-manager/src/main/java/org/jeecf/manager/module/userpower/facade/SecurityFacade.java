@@ -13,6 +13,7 @@ import org.jeecf.common.utils.IdGenUtils;
 import org.jeecf.common.utils.ResponseUtils;
 import org.jeecf.common.utils.SysEntrypt;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.PermissionUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
@@ -224,7 +225,8 @@ public class SecurityFacade {
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> deleteUser(String userId) {
 		SysUser sysUser = new SysUser(userId);
-		sysUserService.deleteByFlag(sysUser);
+		sysUser.setDelFlag(EnumUtils.DelFlag.YES.getCode());
+		sysUserService.save(sysUser);
 		SysUserRole sysUserRole = new SysUserRole();
 		sysUserRole.setSysUser(sysUser);
 		sysUserRoleService.delete(sysUserRole);

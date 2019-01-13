@@ -32,7 +32,23 @@ public enum SplitCharEnum {
     /**
      * 斜杠 /
      */
-    SLASH(7,"/")
+    SLASH(7,"/"),
+    /**
+     * 空格
+     */
+    BLANK(8," "),
+    /**
+     * 引号
+     */
+    QUOT(9,"'"),
+    /**
+     * 左括号 (
+     */
+    LEFT_BRACKET(10,"("),
+    /**
+     * 右括号
+     */
+    RIGHT_BRACKET(11,")"),
     ;
 	public final int code;
 	public final String name;

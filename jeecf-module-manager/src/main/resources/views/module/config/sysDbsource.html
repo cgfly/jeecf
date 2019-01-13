@@ -50,6 +50,7 @@
 					    <span shiro:hasPermission="config:sysDbsource:edit"><a href="javascript:void(0)" ng-show="delFlagVisible" ng-click="updateModal($index)">修改</a></span> 
 						<span shiro:hasPermission="config:sysDbsource:edit"><a href="javascript:void(0)" ng-click="actionForm($index)">{{ delFlag.action }}</a></span> 
 						<span><a href="javascript:void(0)" ng-show="delFlagVisible" ng-click="effectForm($index)">生效</a></span>
+						<span shiro:hasPermission="config:sysDbsource:edit"><a href="javascript:void(0)" ng-show="delFlagVisible" ng-if="sysDbsource.usable == 1" ng-click="syncGenForm($index)">同步</a></span>
 					</td>
 				</tr>
 			</tbody>

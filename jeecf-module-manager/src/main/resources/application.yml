@@ -14,19 +14,34 @@ spring:
       prefix: classpath:/views/ #在链接网址时预先查看名称的前缀
       suffix: .html #链接网址时附加到视图名称的后缀
    datasource:
-      primary:
-         initialSize: 5 #初始化大小
-         minIdle: 5 #最小
-         maxActive: 20 #最大  
-         maxWait: 60000 #配置获取连接等待超时的时间  
-         timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 
-         minEvictableIdleTimeMillis: 300000 # 配置一个连接在池中最小生存的时间，单位是毫秒   
-         validationQuery: SELECT 1 FROM DUAL
-         testWhileIdle: true
-         testOnBorrow: false
-         testOnReturn: false
-         poolPreparedStatements: true #打开PSCache
-         maxPoolPreparedStatementPerConnectionSize: 20 #指定每个连接上PSCache的大小
+      primary: 
+         pool:
+            initialSize: 5 #初始化大小
+            minIdle: 5 #最小
+            maxActive: 20 #最大  
+            maxWait: 60000 #配置获取连接等待超时的时间  
+            timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 
+            minEvictableIdleTimeMillis: 300000 # 配置一个连接在池中最小生存的时间，单位是毫秒   
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            poolPreparedStatements: true #打开PSCache
+            maxPoolPreparedStatementPerConnectionSize: 20 #指定每个连接上PSCache的大小
+      common: 
+         pool:
+            initialSize: 5 #初始化大小
+            minIdle: 5 #最小
+            maxActive: 20 #最大  
+            maxWait: 60000 #配置获取连接等待超时的时间  
+            timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 
+            minEvictableIdleTimeMillis: 300000 # 配置一个连接在池中最小生存的时间，单位是毫秒   
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            poolPreparedStatements: true #打开PSCache
+            maxPoolPreparedStatementPerConnectionSize: 20 #指定每个连接上PSCache的大小
       filters: stat,wall,log4j # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
    transaction:
       rollback-on-commit-failure: true

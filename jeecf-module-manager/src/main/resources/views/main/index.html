@@ -194,7 +194,8 @@ body {
 					<ul class="nav navbar-nav" style="height: 60px ! important; line-height: 60px; margin: 0 padding:0; margin-left: 20px; color:rgb(0,100,255);">
 						<li>用户:&nbsp;<span th:text="${#users.getName()}"></span>&nbsp;，</li>
 						<li>命名空间:&nbsp;<span th:text="${#namespaces.getName()}"></span>&nbsp;，</li>
-						<li>数据连接源:&nbsp;<span th:text="${#dbsources.getName()}"></span></li>
+						<li>数据连接源:&nbsp;<span th:text="${#dbsources.getName()}"></span>&nbsp;，</li>
+						<li>连接源可用性:&nbsp;<span th:text="${#dbsources.getUsable()}"></span></li>
 					</ul>
 					<ul class="navbar-right"
 						style="height: 60px ! important; line-height: 60px; margin: 0 padding:0; margin-right: 10px;">
@@ -205,10 +206,6 @@ body {
 						</a>
 							<ul class="dropdown-menu">
 								<li><a th:href="@{/logout}">退出</a></li>
-								<!-- 								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">Separated link</a></li> -->
 							</ul></li>
 					</ul>
 				</div>

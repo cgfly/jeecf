@@ -12,7 +12,7 @@
 		genTemplate.wiki_uri AS "wikiUri",
 		genField.name AS "genFieldName",
 		genTemplate.file_base_path AS "fileBasePath",
-		genTemplate.descrition AS "descrition",
+		genTemplate.description AS "description",
 		genTemplate.remark AS "remark",
 		genTemplate.create_date AS "createDate",
 		genTemplate.create_by AS "createBy",
@@ -37,8 +37,8 @@
 				<if test="data.fileBasePath != null and data.fileBasePath != '' ">
 					And genTemplate.file_base_path = #{data.fileBasePath}
 				</if>
-				<if test="data.descrition != null and data.descrition != '' ">
-					And genTemplate.descrition = #{data.descrition}
+				<if test="data.description != null and data.description != '' ">
+					And genTemplate.description = #{data.description}
 				</if>
 				<include refid="reginWhere" />
 			</if>
@@ -143,8 +143,8 @@
 			<if test="wikiUri != null">
 				wiki_uri,
 			</if>
-			<if test="descrition != null">
-				descrition,
+			<if test="description != null">
+				description,
 			</if>
 			<if test="remark != null">
 				remark,
@@ -182,8 +182,8 @@
 			<if test="wikiUri != null">
 				#{wikiUri},
 			</if>
-			<if test="descrition != null">
-				#{descrition},
+			<if test="description != null">
+				#{description},
 			</if>
 			<if test="remark != null">
 				#{remark},
@@ -224,8 +224,8 @@
 			<if test="wikiUri != null">
 				wiki_uri = #{wikiUri},
 			</if>
-			<if test="descrition != null">
-				descrition = #{descrition},
+			<if test="description != null">
+				description = #{description},
 			</if>
 			<if test="updateDate != null">
 				update_date = #{updateDate},

@@ -6,7 +6,7 @@
 	<sql id="columnList">
 		genField.id AS "id",
 		genField.name AS "name",
-		genField.descrition AS "descrition",
+		genField.description AS "description",
 		genField.remark AS "remark",
 		genField.create_date AS "createDate",
 		genField.create_by AS "createBy",
@@ -20,7 +20,7 @@
 				<if test="data.name != null and data.name != '' ">
 					And genField.name = #{data.name}
 				</if>
-				<if test="data.descrition != null and data.descrition != '' ">
+				<if test="data.description != null and data.description != '' ">
 					And genField.descrition = #{data.descrition}
 				</if>
 				<if test="data.sysNamespaceId != null ">
@@ -113,8 +113,8 @@
 			<if test="name != null">
 				name,
 			</if>
-			<if test="descrition != null">
-				descrition,
+			<if test="description != null">
+				description,
 			</if>
 			<if test="sysNamespaceId != null">
 				sys_namespace_id,
@@ -140,8 +140,8 @@
 			<if test="name != null">
 				#{name},
 			</if>
-			<if test="descrition != null">
-				#{descrition},
+			<if test="description != null">
+				#{description},
 			</if>
 			<if test="sysNamespaceId != null">
 				#{sysNamespaceId},
@@ -170,8 +170,8 @@
 			<if test="name != null">
 				name = #{name},
 			</if>
-			<if test="descrition != null">
-				descrition = #{descrition},
+			<if test="description != null">
+				description = #{description},
 			</if>
 			<if test="updateDate != null">
 				update_date = #{updateDate},

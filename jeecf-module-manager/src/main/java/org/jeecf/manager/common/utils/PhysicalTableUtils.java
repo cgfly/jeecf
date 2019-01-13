@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.manager.engine.model.SchemaTable;
+import org.jeecf.manager.engine.model.schema.SchemaTable;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 

@@ -6,7 +6,10 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.manager.engine.dao.BusinessTableDao;
-import org.jeecf.manager.engine.model.SelectTable;
+import org.jeecf.manager.engine.model.create.CreateTable;
+import org.jeecf.manager.engine.model.index.IndexTable;
+import org.jeecf.manager.engine.model.query.SelectTable;
+import org.jeecf.manager.engine.utils.JniValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +32,16 @@ public class BusinessTableService {
 		}
 		return null;
 	}
-
+	
+	public int create(CreateTable createTable){
+		return businessTableDao.create(createTable);
+	}
+	
+	public int drop(String tableName){
+		return businessTableDao.drop(JniValidate.columnValidate(tableName));
+	}
+	
+	public int addIndex(IndexTable indexTable){
+		return businessTableDao.addIndex(indexTable);
+	}
 }

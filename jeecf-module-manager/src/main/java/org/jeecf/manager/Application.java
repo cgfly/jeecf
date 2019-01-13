@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  */
 @SpringBootApplication
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 @Import({ DataSourceConfiguration.class })
 public class Application {
 

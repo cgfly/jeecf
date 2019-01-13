@@ -119,7 +119,7 @@ define([  'jquery', 'app' ], function($, app) {
 				return this.noticeConfig(ops);
 			},
 			delConfrim : function($scope){
-				return this.confirmConfig({content:"确定是否删除此项"},{
+				return this.confirmConfig({content:"确定是否删除此项"},'[data-confirm]',{
 					confirm : function(data){
 						$scope.deleteForm(data);
 					}
@@ -167,12 +167,13 @@ define([  'jquery', 'app' ], function($, app) {
      			  });
 				  return tableContainer;
 			},
-			confirmConfig : function(ops,callback){
+			confirmConfig : function(ops,attach,callback){
 				new jBox('Confirm', {
 					content: ops.content,
 					cancelButton: '取消',
 					confirmButton: '确定',
 					getContent: "",
+					attach:attach,
 				    _onAttach: function (el){  
 				      if (!this.options.confirm) {
 				        var submit = el.attr('ng-click') ? el.attr('ng-click') : (el.attr('href') ? (el.attr('target') ? 'window.open("' + el.attr('href') + '", "' + el.attr('target') + '");'  : 'window.location.href = "' + el.attr('href') + '";') : '');

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.jeecf.manager.module.extend.dao.SysVirtualTableColumnDao">
+
+	<sql id="columnList">
+		sysVirtualTableColumn.id AS "id",
+		sysVirtualTableColumn.sys_virtual_table_id AS "sysVirtualTableId",
+		sysVirtualTableColumn.name AS "name",
+		sysVirtualTableColumn.type AS "type",
+        sysVirtualTableColumn.length AS "length",
+        sysVirtualTableColumn.decimal_length AS "decimalLength",
+        sysVirtualTableColumn.is_not_null AS "isNotNull",
+        sysVirtualTableColumn.default_value AS "defaultValue",  
+        sysVirtualTableColumn.comment AS "comment",  
+        sysVirtualTableColumn.is_key AS "isKey",
+        sysVirtualTableColumn.is_auto AS "isAuto",
+		sysVirtualTableColumn.create_date AS "createDate",
+		sysVirtualTableColumn.update_date AS "updateDate"
+	</sql>
+
+	<sql id="commonWhere">
+		<where>
+			<if test="data != null">
+				<if test="data.name != null and data.name != '' ">
+					AND sysVirtualTableColumn.name = #{data.name}
+				</if>
+				<if test="data.sysVirtualTableId != null ">
+					AND sysVirtualTableColumn.sys_virtual_table_id = #{data.sysVirtualTableId}
+				</if>
+				<include refid="reginWhere" />
+			</if>
+			<include refid="containWhere" />
+		</where>
+	</sql>
+
+	<!-- 通用范围区间查询 -->
+	<sql id="reginWhere">
+
+	</sql>
+
+	<!-- in 和 not in的通用查询where -->
+	<sql id="containWhere">
+		<if test="contains != null">
+			<foreach item="item" index="i" collection="contains">
+				And item.columnName in
+				<foreach item="value" index="i"
+					collection="item.columnValue" separator="," open="(" close=")">
+					#{value}
+				</foreach>
+			</foreach>
+		</if>
+	</sql>
+
+	<!-- 通用排序处理 -->
+	<sql id="commonSorts">
+		<if test="sorts != null">
+			ORDER BY
+			<foreach collection="sorts" item="item" separator=",">
+				${item.columnName} ${item.sortMode}
+			</foreach>
+		</if>
+		<if test="sorts == null">
+			ORDER BY sysVirtualTableColumn.update_date desc
+		</if>
+	</sql>
+
+	<!-- 关联查询 -->
+	<sql id="leftJoinColumn">
+
+	</sql>
+
+	<select id="get"
+		resultType="org.jeecf.manager.module.extend.model.result.SysVirtualTableColumnResult">
+		select
+		<include refid="columnList" />
+		from sys_virtual_table_column sysVirtualTableColumn
+		<include refid="leftJoinColumn" />
+		where sysVirtualTableColumn.id = #{id}
+	</select>
+
+	<select id="query"
+		resultType="org.jeecf.manager.module.extend.model.result.SysVirtualTableColumnResult">
+		select
+		<include refid="columnList" />
+		from sys_virtual_table_column sysVirtualTableColumn
+		<include refid="leftJoinColumn" />
+		<include refid="commonWhere" />
+		<include refid="commonSorts" />
+		<if test="page != null">
+			limit ${page.startNo},${page.size}
+		</if>
+	</select>
+
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_virtual_table_column
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+		    <if test="sysVirtualTableId != null">
+				sys_virtual_table_id,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="length != null">
+				length,
+			</if>
+			<if test="decimalLength != null">
+				decimal_length,
+			</if>
+			<if test="isNotNull != null">
+				is_not_null,
+			</if>
+			<if test="defaultValue != null">
+				default_Value,
+			</if>
+			<if test="isAuto != null">
+				is_auto,
+			</if>
+			<if test="isKey != null">
+				is_key,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				#{name},
+			</if>
+		    <if test="sysVirtualTableId != null">
+				#{sysVirtualTableId},
+			</if>
+			<if test="comment != null">
+				#{comment},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+			<if test="length != null">
+				#{length},
+			</if>
+			<if test="decimalLength != null">
+				#{decimalLength},
+			</if>
+			<if test="isNotNull != null">
+				#{isNotNull},
+			</if>
+			<if test="defaultValue != null">
+				#{defaultValue},
+			</if>
+			<if test="isAuto != null">
+				#{isAuto},
+			</if>
+			<if test="isKey != null">
+				#{isKey},
+			</if>
+			<if test="createBy != null">
+				#{createBy},
+			</if>
+			<if test="createDate != null">
+				#{createDate},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate},
+			</if>
+			<if test="remark != null">
+				#{remark}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE sys_virtual_table_column
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sysVirtualTableId != null">
+				sys_virtual_table_id = #{sysVirtualTableId},
+			</if>
+			<if test="comment != null">
+				comment = #{comment},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="length != null">
+				length = #{length},
+			</if>
+			<if test="decimalLength != null">
+				decimal_length = #{decimalLength},
+			</if>
+			<if test="isNotNull != null">
+				is_not_null = #{isNotNull},
+			</if>
+			<if test="defaultValue != null">
+				default_value = #{defaultValue},
+			</if>
+			<if test="isAuto != null">
+				is_auto = #{isAuto},
+			</if>
+			<if test="isKey != null">
+				is_key = #{isKey},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remark != null">
+				remark = #{remark}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from sys_virtual_table_column
+		WHERE
+	    <if test="id != null and id != '' ">
+			id = #{id}
+		</if>
+		<if test="sysVirtualTableId != null ">
+			sys_virtual_table_id = #{sysVirtualTableId}
+		</if>
+	</delete>
+
+	<select id="count" resultType="int">
+		select count(1) from sys_virtual_table_column sysVirtualTableColumn
+		<include refid="leftJoinColumn" />
+	    <include refid="commonWhere" />
+	</select>
+
+</mapper>
