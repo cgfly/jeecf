@@ -8,7 +8,11 @@ import org.jeecf.osgi.enums.BoundleEnum;
 import org.jeecf.osgi.model.BoundleContext;
 import org.jeecf.osgi.model.PluginRequest;
 import org.jeecf.osgi.plugin.Plugin;
-
+/**
+ * 测试
+ * @author jianyiming
+ *
+ */
 public class PluginManagerTest {
 	
 	public static void main(String[] args) {

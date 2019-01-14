@@ -43,10 +43,10 @@ public class IndexTable extends AbstractTable {
 		};
 
 		protected Builder(IndexTable indexTable) {
-			if(StringUtils.isEmpty(this.indexTable.getTableName())) {
+			if(StringUtils.isEmpty(indexTable.getTableName())) {
 				throw new TableNameEmptyException();
 			}
-			if(CollectionUtils.isEmpty(this.indexTable.getIndexTableColumns())) {
+			if(CollectionUtils.isEmpty(indexTable.getIndexTableColumns())) {
 				throw new TableColumnNullException();
 			}
 			this.indexTable = indexTable;

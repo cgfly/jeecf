@@ -36,7 +36,11 @@ public interface AuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntity
 	 * @return
 	 */
 	public Response<R> updateByAuth(T t);
-
+    /**
+     * 更新及插入权限验证
+     * @param t
+     * @return
+     */
 	default Response<R> saveByAuth(T t) {
 		if (t.isNewRecord()) {
 			return this.insertByAuth(t);

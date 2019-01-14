@@ -25,7 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
+/**
+ * 树字典 controller
+ * @author jianyiming
+ *
+ */
 @Controller
 @RequestMapping(value = { "gen/sysTreeDict" })
 @Api(value = "sysTreeDict api", tags = { "树组接口" })

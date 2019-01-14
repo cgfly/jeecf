@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
+/**
+ * 枚举接口
+ * @author jianyiming
+ *
+ */
 @Controller
 @RequestMapping(value = { "common/enums" })
 @Api(value = "common api", tags = { "系统数据源接口" })
@@ -24,7 +28,7 @@ public class EnumsController {
 	@ResponseBody
 	@ApiOperation(value = "列表", notes = "查询枚举列表")
 	public Response<Map<String,String>> list() {
-		Map<String,String> result = new HashMap<>();
+		Map<String,String> result = new HashMap<>(12);
 		result.put("treeEventEnum", TreeEventEnum.toJsonString());
 		result.put("tableTypeEnum", TableTypeEnum.toJsonString());
 		result.put("osgiBoundleTypeEnum", BoundleEnum.toJsonString());

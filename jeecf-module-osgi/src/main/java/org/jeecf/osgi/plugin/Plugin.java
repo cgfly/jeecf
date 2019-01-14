@@ -20,8 +20,8 @@ public interface Plugin {
 	public void init(BoundleContext context);
 	/**
 	 * 插件处理
-	 * @param context
-	 * @return
+	 * @param request 入参
+	 * @return PluginResponse 回参
 	 */
 	public PluginResponse process(PluginRequest request);
 	/**

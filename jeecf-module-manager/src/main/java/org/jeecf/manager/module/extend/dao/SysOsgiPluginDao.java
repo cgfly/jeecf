@@ -13,6 +13,10 @@ import org.jeecf.manager.module.extend.model.result.SysOsgiPluginResult;
  */
 @Mapper
 public interface SysOsgiPluginDao extends Dao<SysOsgiPluginPO,SysOsgiPluginResult,SysOsgiPluginQuery,SysOsgiPlugin>{
-	
+	/**
+	 * 通过插件名称更新数据
+	 * @param sysOsgiPlugin
+	 * @return
+	 */
 	public Integer updateByName(SysOsgiPlugin sysOsgiPlugin);
 }

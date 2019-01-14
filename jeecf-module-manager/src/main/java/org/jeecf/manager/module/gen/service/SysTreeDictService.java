@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.druid.util.StringUtils;
-
+/**
+ * 树字典 Service
+ * @author jianyiming
+ *
+ */
 @Service
 public class SysTreeDictService extends AbstractTreeNamespaceAuthService<SysTreeDictDao,SysTreeDictPO,SysTreeDictResult,SysTreeDictQuery,SysTreeDict>{
 

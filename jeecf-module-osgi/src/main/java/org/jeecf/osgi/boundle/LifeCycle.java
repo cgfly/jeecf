@@ -25,18 +25,20 @@ public interface LifeCycle {
 	 * @throws ClassNotFoundException
 	 */
 	public void install(ClassLoader loader, String[] packageNames) throws ClassNotFoundException;
-
+	
 	/**
 	 * 初始化
-	 * 
+	 * @param context 上下文
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
 	public void init(BoundleContext context) throws InstantiationException, IllegalAccessException;
 
+
 	/**
 	 * 初始化
-	 * @param packageNames
+	 * @param packageNames 包名
+	 * @param context 上下文
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
