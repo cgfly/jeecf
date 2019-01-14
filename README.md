@@ -12,7 +12,11 @@ Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企�
 4.例子模版文件在 src/main/resources/document/example文件夹下  
 ## 功能说明  
 wiki:https://github.com/jianym/jeecf/wiki  
+## 总体架构
+![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture.png)
 ## MVC架构  
 ![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture_mvc.png)
 ## 代码生成架构  
 ![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture_gen.png)
+## OSGI插件架构  
+![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture_osgi.png)
