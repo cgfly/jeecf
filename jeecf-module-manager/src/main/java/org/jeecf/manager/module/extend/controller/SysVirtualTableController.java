@@ -66,7 +66,7 @@ public class SysVirtualTableController
 
 	@Autowired
 	private SysVirtualTableService sysVirtualTableService;
-	
+
 	@Autowired
 	private SysVirtualTableColumnService sysVirtualTableColumnService;
 
@@ -78,7 +78,7 @@ public class SysVirtualTableController
 
 	@Autowired
 	private GenTableFacade genTableFacade;
-	
+
 	@Autowired
 	private GenTableService genTableService;
 
@@ -97,7 +97,12 @@ public class SysVirtualTableController
 	@Override
 	public Response<List<SysVirtualTableResult>> list(
 			@RequestBody Request<SysVirtualTableQuery, SysVirtualTableSchema> request) {
-		return sysVirtualTableService.findPageByAuth(new SysVirtualTablePO(request));
+		Response<List<SysVirtualTableResult>> response = sysVirtualTableService
+				.findPageByAuth(new SysVirtualTablePO(request));
+		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			sysVirtualTableService.buildCreateBy(response.getData());
+		}
+		return response;
 	}
 
 	@PostMapping(value = { "save" })
@@ -148,14 +153,14 @@ public class SysVirtualTableController
 			query.setSysVirtualTableId(Integer.valueOf(tableRes.getData().getId()));
 			Response<List<SysVirtualTableColumnResult>> sysVirtualTableColumnRes = sysVirtualTableColumnService
 					.findList(new SysVirtualTableColumnPO(query));
-			
+
 			GenTableQuery queryTable = new GenTableQuery();
 			queryTable.setName(tableRes.getData().getName());
 			List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
 			if (CollectionUtils.isNotEmpty(genTableList)) {
 				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
 			}
-			
+
 			GenTable genTable = new GenTable();
 			BeanUtils.copyProperties(tableRes.getData(), genTable);
 			genTable.setId(null);

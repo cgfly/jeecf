@@ -73,6 +73,7 @@ public class SysOsgiPluginAllController
 		request.getData().setSysNamespaceId(0);
 		Response<List<SysOsgiPluginResult>> response = sysOsgiPluginService.findPage(new SysOsgiPluginPO(request));
 		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			sysOsgiPluginService.buildCreateBy(response.getData());
 			response.getData().forEach(result -> {
 				result.toCovert();
 			});

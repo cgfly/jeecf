@@ -44,6 +44,11 @@ public class GenTemplateSchema {
 	@ApiModelProperty(value = "描述", name = "description")
 	private boolean description = true;
 	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value="创建人",name="createBy")
+	private boolean createBy = true;
+	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value = "更新时间", name = "updateDate")
@@ -102,6 +107,12 @@ public class GenTemplateSchema {
 	}
 	public void setGenFieldName(boolean genFieldName) {
 		this.genFieldName = genFieldName;
+	}
+	public boolean isCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
 	}
 	public boolean isUpdateDate() {
 		return updateDate;

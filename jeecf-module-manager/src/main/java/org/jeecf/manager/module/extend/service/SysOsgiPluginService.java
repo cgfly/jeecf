@@ -41,7 +41,7 @@ public class SysOsgiPluginService extends
 
 	@Autowired
 	private PluginManager pluginManager;
-
+	
 	@Autowired
 	private AnnotationConfigEmbeddedWebApplicationContext annotationConfigEmbeddedWebApplicationContext;
 
@@ -132,4 +132,5 @@ public class SysOsgiPluginService extends
 		}
 		return new Response<>(pluginManager.getInstances(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, urls.toArray(new URL[urls.size()])));
 	}
+	
 }

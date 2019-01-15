@@ -9,6 +9,7 @@
 		sysVirtualTable.comment AS "comment",
         sysVirtualTable.sys_namespace_id AS "sysNamespaceId",
         sysVirtualTable.sys_dbsource_id AS "SysDbsourceId",
+        sysVirtualTable.create_by AS "createBy",
 		sysVirtualTable.create_date AS "createDate",
 		sysVirtualTable.update_date AS "updateDate"
 	</sql>

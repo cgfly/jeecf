@@ -101,7 +101,11 @@ public class GenTemplateController extends AbstractController {
 	@RequiresPermissions("template:genTemplate:view")
 	@ApiOperation(value = "列表", notes = "查询模版配置列表")
 	public Response<List<GenTemplateResult>> list(@RequestBody Request<GenTemplateQuery, GenTemplateSchema> request) {
-		return genTemplateService.findPageByAuth(new GenTemplatePO(request));
+		Response<List<GenTemplateResult>> response = genTemplateService.findPageByAuth(new GenTemplatePO(request));
+		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			genTemplateService.buildCreateBy(response.getData());
+		}
+		return  response;
 	}
 
 	@PostMapping(value = { "save" })

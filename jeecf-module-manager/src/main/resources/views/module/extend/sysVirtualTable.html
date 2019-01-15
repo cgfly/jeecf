@@ -19,6 +19,7 @@
 					<th>序号</th>
 					<th>表名</th>
 					<th>注释</th>
+					<th>创建人</th>
 					<th>更新时间</th>
 					<th>操作</th>
 				</tr>
@@ -28,6 +29,7 @@
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysVirtualTable.name }}</td>
 					<td>{{ sysVirtualTable.comment }}</td>
+					<td>{{ sysVirtualTable.createByName }}</td>
 					<td>{{ sysVirtualTable.updateDate | date:'yyyy-MM-dd hh:mm:ss'
 						}}</td>
 					<td><span shiro:hasPermission="extend:sysVirtualTable:edit"><a

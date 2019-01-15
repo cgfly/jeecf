@@ -13,6 +13,7 @@
 		sysOsgiPlugin.description AS "description",
 		sysOsgiPlugin.del_flag AS
 		"delFlag",
+		sysOsgiPlugin.create_by AS "createBy",
 		sysOsgiPlugin.create_date AS "createDate",
 		sysOsgiPlugin.update_date AS "updateDate"
 	</sql>

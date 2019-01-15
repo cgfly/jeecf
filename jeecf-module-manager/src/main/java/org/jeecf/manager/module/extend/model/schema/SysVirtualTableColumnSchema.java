@@ -64,7 +64,11 @@ public class SysVirtualTableColumnSchema {
 	 */
 	@ApiModelProperty(value="自增",name="isAuto")
 	private boolean isAuto = true;
-	
+	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value="创建人",name="createBy")
+	private boolean createBy = true;
 	/**
 	 * 创建时间
 	 */
@@ -141,6 +145,12 @@ public class SysVirtualTableColumnSchema {
 	}
 	public void setAuto(boolean isAuto) {
 		this.isAuto = isAuto;
+	}
+	public boolean isCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
 	}
 	public boolean isCreateDate() {
 		return createDate;

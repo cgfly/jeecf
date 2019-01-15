@@ -23,7 +23,11 @@ public abstract class AbstractEntity {
 	 */
 	@ApiModelProperty(value="创建人Id",name="createBy")
 	private String createBy;
-	
+	/**
+	 * 创建人姓名
+	 */
+	@ApiModelProperty(value="创建人姓名",name="createByName")
+	private String createByName;
 	/**
 	 * 创建时间
 	 */
@@ -35,7 +39,11 @@ public abstract class AbstractEntity {
 	 */
 	@ApiModelProperty(value="更新人Id",name="updateBy")
 	private String updateBy;
-	
+	/**
+	 * 创建人姓名
+	 */
+	@ApiModelProperty(value="更新人姓名",name="updateByName")
+	private String updateByName;
 	/**
 	 * 更新时间
 	 */
@@ -109,7 +117,12 @@ public abstract class AbstractEntity {
 	public void setNewRecord(boolean isNewRecord) {
 		this.isNewRecord = isNewRecord;
 	}
-	
+	public String getCreateByName() {
+		return createByName;
+	}
+	public void setCreateByName(String createByName) {
+		this.createByName = createByName;
+	}
 	/**
 	 * 插入前执行
 	 */

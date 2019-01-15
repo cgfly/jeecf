@@ -10,6 +10,7 @@
 		genTable.class_name AS "className",
 		genTable.parent_table_id AS "parentTableId",
 		genTable.parent_table_fk AS "parentTableFk",
+		genTable.create_by AS "createBy",
 		genTable.create_date AS "createDate",
 		genTable.update_date AS "updateDate"
 	</sql>

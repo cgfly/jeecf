@@ -28,6 +28,7 @@
 				    <th>标签</th>
 				    <th>键值</th>
 				    <th>描述</th>
+				    <th>创建人</th>
 				    <th>创建时间</th>
 				    <th shiro:hasPermission="gen:sysDict:edit">操作</th>
 				</tr>
@@ -41,6 +42,7 @@
 				    <td>{{ sysDict.label }}</td> 
 				    <td>{{ sysDict.value }}</td> 
 				    <td>{{ sysDict.description }}</td> 
+				    <td>{{ sysDict.createByName }}</td> 
 				    <td>{{ sysDict.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 				    <td shiro:hasPermission="gen:sysDict:edit">
 				       <span><a href="javascript:void(0)" ng-click="addModal($index)">添加</a></span>

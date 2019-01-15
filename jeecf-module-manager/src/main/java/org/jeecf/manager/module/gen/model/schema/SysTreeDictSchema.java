@@ -81,6 +81,16 @@ public class SysTreeDictSchema {
 	 */
 	@ApiModelProperty(value="同级排序",name="sort")
 	private boolean sort = true;
+	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value="创建人",name="createBy")
+	private boolean createBy = true;
+	/**
+	 * 创建时间
+	 */
+	@ApiModelProperty(value="创建时间",name="createDate")
+	private boolean createDate = true;
 
 	public boolean isId() {
 		return id;
@@ -168,6 +178,38 @@ public class SysTreeDictSchema {
 
 	public void setSort(boolean sort) {
 		this.sort = sort;
+	}
+
+	public boolean isLeftEqual() {
+		return leftEqual;
+	}
+
+	public void setLeftEqual(boolean leftEqual) {
+		this.leftEqual = leftEqual;
+	}
+
+	public boolean isRightEqual() {
+		return rightEqual;
+	}
+
+	public void setRightEqual(boolean rightEqual) {
+		this.rightEqual = rightEqual;
+	}
+
+	public boolean isCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
+	}
+
+	public boolean isCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(boolean createDate) {
+		this.createDate = createDate;
 	}
 	
 }

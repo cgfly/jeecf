@@ -28,6 +28,7 @@
 					<th>文件名</th>
 					<th>插件类型</th>
 					<th>描述</th>
+					<th>创建人</th>
 					<th>更新时间</th>
 					<th shiro:hasPermission="extend:sysOsgiPlugin:edit">操作</th>
 				</tr>
@@ -40,6 +41,7 @@
 					<td>{{ sysOsgiPlugin.fileName }}</td>
 					<td>{{ sysOsgiPlugin.boundleTypeName }}</td>
 					<td>{{ sysOsgiPlugin.description }}</td>
+					<td>{{ sysOsgiPlugin.createByName }}</td>
 					<td>{{ sysOsgiPlugin.updateDate | date:'yyyy-MM-dd hh:mm:ss'
 						}}</td>
 					<td shiro:hasPermission="extend:sysOsgiPlugin:edit"><span><a

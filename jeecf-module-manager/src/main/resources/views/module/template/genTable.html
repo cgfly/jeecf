@@ -19,6 +19,7 @@
 					<th>表名</th>
 					<th>说明</th>
 					<th>类名</th>
+					<th>创建人</th>
 					<th>更新时间</th>
 					<th>操作</th>
 				</tr>
@@ -29,6 +30,7 @@
 					<td>{{ genTable.name }}</td>
 					<td>{{ genTable.comment }}</td>
 					<td>{{ genTable.className }}</td>
+					<td>{{ genTable.createByName }}</td>
 					<td>{{ genTable.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genTable:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span> <span><a

@@ -63,7 +63,11 @@ public class SysDictController extends BaseController<SysDictQuery,SysDictResult
 	@ApiOperation(value = "列表", notes = "查询系统字典列表")
 	@Override
 	public Response<List<SysDictResult>> list(@RequestBody Request<SysDictQuery, SysDictSchema> request) {
-		return sysDictService.findPageByAuth(new SysDictPO(request));
+		Response<List<SysDictResult>> response =  sysDictService.findPageByAuth(new SysDictPO(request));
+		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			sysDictService.buildCreateBy(response.getData());
+		}
+		return response;
 	}
 
 	@PostMapping(value = { "save" })

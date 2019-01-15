@@ -53,6 +53,7 @@ public class SysOsgiPluginController extends AbstractController{
 	public Response<List<SysOsgiPluginResult>> list(@RequestBody Request<SysOsgiPluginQuery, SysOsgiPluginSchema> request) {
 		Response<List<SysOsgiPluginResult>> response = sysOsgiPluginService.findPageByAuth(new SysOsgiPluginPO(request));
 		if(response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			sysOsgiPluginService.buildCreateBy(response.getData());
 			response.getData().forEach(result->{
 				result.toCovert();
 			});

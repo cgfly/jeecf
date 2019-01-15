@@ -9,15 +9,18 @@
 		sysUser.password AS "password",
 		sysUser.name AS "name",
 		sysUser.sys_office_id AS "sysOfficeId",
-		sysOffice.name AS "sysOffice.name",
+		sysOffice.name AS
+		"sysOffice.name",
 		sysOffice.enname AS "sysOffice.enname",
 		sysOffice.parent_id AS "sysOffice.parentId",
-		
+
 		sysUser.remark AS "remark",
 		sysUser.create_date AS "createDate",
-		sysUser.create_by AS "createBy",
+		sysUser.create_by AS
+		"createBy",
 		sysUser.update_date AS "updateDate",
-		sysUser.update_by AS "updateBy"
+		sysUser.update_by AS
+		"updateBy"
 	</sql>
 
 	<sql id="commonWhere">
@@ -88,7 +91,7 @@
 
 	<!-- 关联查询 -->
 	<sql id="leftJoinColumn">
-	  Left join sys_office sysOffice on sysUser.sys_office_id = sysOffice.id
+		Left join sys_office sysOffice on sysUser.sys_office_id = sysOffice.id
 	</sql>
 
 
@@ -105,6 +108,20 @@
 		<if test="page != null">
 			limit ${page.startNo},${page.size}
 		</if>
+	</select>
+
+	<select id="queryByIds"
+		resultType="org.jeecf.manager.module.userpower.model.result.SysUserResult">
+		select
+		<include refid="columnList" />
+		from
+		sys_user sysUser
+		<include refid="leftJoinColumn" />
+		WHERE sysUser.id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 
 	<select id="get"

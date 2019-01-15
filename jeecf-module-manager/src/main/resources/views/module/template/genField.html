@@ -27,6 +27,7 @@
 					<th>序号</th>
 					<th>名称</th>
 					<th>描述</th>
+					<th>创建人</th>
 					<th>更新时间</th>
 					<th>操作</th>
 				</tr>
@@ -37,6 +38,7 @@
 					<td>{{ $index+1 }}</td>
 					<td>{{ genField.name }}</td>
 					<td>{{ genField.description }}</td>
+					<td>{{ genField.createByName }}</td>
 					<td>{{ genField.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genField:edit"><a
 							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span

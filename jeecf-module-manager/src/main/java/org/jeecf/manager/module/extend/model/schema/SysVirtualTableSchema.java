@@ -34,6 +34,11 @@ public class SysVirtualTableSchema {
 	@ApiModelProperty(value="数据连接源",name="sysDbsource")
 	private boolean sysDbsourceId = true;
 	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value="创建人",name="createBy")
+	private boolean createBy = true;
+	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value = "更新时间", name = "updateDate")
@@ -67,6 +72,12 @@ public class SysVirtualTableSchema {
 	}
 	public void setSysDbsourceId(boolean sysDbsourceId) {
 		this.sysDbsourceId = sysDbsourceId;
+	}
+	public boolean isCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
 	}
 	public boolean isUpdateDate() {
 		return updateDate;

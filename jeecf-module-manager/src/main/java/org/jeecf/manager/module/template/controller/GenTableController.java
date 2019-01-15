@@ -69,7 +69,11 @@ public class GenTableController extends BaseController<GenTableQuery, GenTableRe
 	@ApiOperation(value = "列表", notes = "查询代码生成业务表数据")
 	@Override
 	public Response<List<GenTableResult>> list(@RequestBody Request<GenTableQuery, GenTableSchema> request) {
-		return genTableService.findPageByAuth(new GenTablePO(request));
+		Response<List<GenTableResult>> response = genTableService.findPageByAuth(new GenTablePO(request));
+		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			genTableService.buildCreateBy(response.getData());
+		}
+		return  response;
 	}
 
 	@PostMapping(value = { "save" })

@@ -1,5 +1,6 @@
 package org.jeecf.manager.common.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jeecf.common.exception.BusinessException;
@@ -11,6 +12,8 @@ import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.utils.JqlUtils;
+import org.jeecf.manager.module.userpower.dao.SysUserDao;
+import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,9 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 
 	@Autowired
 	protected D dao;
+	
+	@Autowired
+	protected SysUserDao userDao;
 
 	@Override
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
@@ -111,6 +117,29 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public Response<Integer> delete(T t) {
 		return new Response<Integer>(true, dao.delete(t));
+	}
+	
+	/**
+	 * 构建创建人
+	 * 
+	 * @param rList
+	 * @return
+	 */
+	public List<R> buildCreateBy(List<R> rList) {
+		List<String> userIds = new ArrayList<>();
+		rList.forEach(r -> {
+			userIds.add(r.getCreateBy());
+		});
+		List<SysUserResult> sysUserResultList = userDao.queryByIds(userIds);
+		rList.forEach(r -> {
+			for (SysUserResult sysUserResult : sysUserResultList) {
+				if (r.getCreateBy().equals(sysUserResult.getId())) {
+					r.setCreateByName(sysUserResult.getUsername());
+					break;
+				}
+			}
+		});
+		return rList;
 	}
 
 }

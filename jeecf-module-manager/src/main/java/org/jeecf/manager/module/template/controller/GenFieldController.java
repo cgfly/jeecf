@@ -69,7 +69,11 @@ public class GenFieldController extends BaseController<GenFieldQuery,GenFieldRes
 	@ApiOperation(value = "列表", notes = "查询模版参数列表")
 	@Override
 	public Response<List<GenFieldResult>> list(@RequestBody Request<GenFieldQuery,GenFieldSchema> request) {
-		return genFieldService.findPageByAuth(new GenFieldPO(request));
+		Response<List<GenFieldResult>> response = genFieldService.findPageByAuth(new GenFieldPO(request));
+		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			genFieldService.buildCreateBy(response.getData());
+		}
+		return  response;
 	}
 	
 	@PostMapping(value= {"column/{genFieldId}"})

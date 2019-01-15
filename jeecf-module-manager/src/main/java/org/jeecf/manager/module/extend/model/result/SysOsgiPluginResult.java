@@ -16,10 +16,20 @@ import io.swagger.annotations.ApiModelProperty;
 public class SysOsgiPluginResult extends SysOsgiPlugin implements Serializable {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
 	 * pluginTypeName
 	 */
 	@ApiModelProperty(value="插件类型名称",name="pluginTypeName")
 	public String boundleTypeName;
+	/**
+	 * 创建人姓名
+	 */
+	@ApiModelProperty(value="创建人姓名",name="createByName")
+	private String createByName;
 	
 	public String getBoundleTypeName() {
 		return boundleTypeName;
@@ -29,14 +39,19 @@ public class SysOsgiPluginResult extends SysOsgiPlugin implements Serializable {
 		this.boundleTypeName = boundleTypeName;
 	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	public String getCreateByName() {
+		return createByName;
+	}
+
+	public void setCreateByName(String createByName) {
+		this.createByName = createByName;
+	}
 
 	public void toCovert() {
 		if(this.getBoundleType() != null) {
 			this.setBoundleTypeName(BoundleEnum.getName(this.getBoundleType()));
 		}
 	}
+	
+	
 }

@@ -48,6 +48,11 @@ public class GenTableSchema {
 	@ApiModelProperty(value = "父表外键", name = "parentTableFk")
 	private boolean parentTableFk = true;
 	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value="创建人",name="createBy")
+	private boolean createBy = true;
+	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value = "更新时间", name = "updateDate")
@@ -107,6 +112,14 @@ public class GenTableSchema {
 
 	public void setParentTableFk(boolean parentTableFk) {
 		this.parentTableFk = parentTableFk;
+	}
+	
+	public boolean isCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
 	}
 
 	public boolean isUpdateDate() {

@@ -37,6 +37,7 @@
 					<th>属性</th>
 					<th>注释</th>
 					<th>描述</th>
+					<th>创建人</th>
 					<th>创建时间</th>
 					<th shiro:hasPermission="gen:sysTableDict:edit">操作</th>
 				</tr>
@@ -50,6 +51,7 @@
 					<td>{{ sysTableDict.field }}</td>
 					<td>{{ sysTableDict.comment }}</td>
 					<td>{{ sysTableDict.description }}</td>
+					<td>{{ sysTableDict.createByName }}</td> 
 					<td>{{ sysTableDict.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td shiro:hasPermission="gen:sysTableDict:edit"><span><a
 							href="javascript:void(0)" ng-click="addModal($index)">添加</a></span> <span><a

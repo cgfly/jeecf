@@ -33,6 +33,10 @@ public class SysTableDictSchema {
 	 */
 	private boolean description = true;
 	/**
+	 * 创建人
+	 */
+	private boolean createBy = true;
+	/**
 	 * 创建时间
 	 */
 	private boolean createDate = true;
@@ -65,6 +69,12 @@ public class SysTableDictSchema {
 	}
 	public void setDescription(boolean description) {
 		this.description = description;
+	}
+	public boolean isCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
 	}
 	public boolean isCreateDate() {
 		return createDate;

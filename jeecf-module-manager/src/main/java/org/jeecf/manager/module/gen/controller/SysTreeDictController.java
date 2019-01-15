@@ -66,7 +66,11 @@ public class SysTreeDictController extends AbstractController {
 	@RequiresPermissions("gen:sysTreeDict:view")
 	@ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
 	public Response<List<SysTreeDictResult>> getTreeData(SysTreeDictQuery sysTreeDictQuery) {
-		return sysTreeDictService.getTreeData(new SysTreeDictPO(sysTreeDictQuery));
+		Response<List<SysTreeDictResult>> response =  sysTreeDictService.getTreeData(new SysTreeDictPO(sysTreeDictQuery));
+		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+			sysTreeDictService.buildCreateBy(response.getData());
+		}
+		return response;
 	}
 
 	@PostMapping(value = { "save" })

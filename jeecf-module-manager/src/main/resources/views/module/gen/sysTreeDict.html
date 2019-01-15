@@ -38,6 +38,7 @@
 					<th>等级</th>
 					<th>排序</th>
 					<th>描述</th>
+					<th>创建人</th>
 					<th shiro:hasPermission="gen:sysTreeDict:edit">操作</th>
 				</tr>
 
@@ -57,6 +58,7 @@
 					<td>{{ sysTreeDict.level }}</td>
 					<td>{{ sysTreeDict.sort }}</td>
 					<td>{{ sysTreeDict.description }}</td>
+					<td>{{ sysTreeDict.createByName }}</td>
 					<td shiro:hasPermission="gen:sysTreeDict:edit">
 					     <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级节点</a></span> 
 						 <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> 

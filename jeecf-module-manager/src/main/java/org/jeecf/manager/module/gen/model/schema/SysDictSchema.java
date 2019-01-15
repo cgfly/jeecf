@@ -35,11 +35,13 @@ public class SysDictSchema {
 	 */
 	private boolean description = true;
 	/**
+	 * 创建人
+	 */
+	private boolean createBy = true;
+	/**
 	 * 创建时间
 	 */
 	private boolean createDate = true;
-	
-
 
 	public boolean isType() {
 		return type;
@@ -79,6 +81,14 @@ public class SysDictSchema {
 
 	public void setDescription(boolean description) {
 		this.description = description;
+	}
+	
+	public boolean isCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(boolean createBy) {
+		this.createBy = createBy;
 	}
 
 	public boolean isCreateDate() {

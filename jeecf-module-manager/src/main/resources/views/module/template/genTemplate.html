@@ -29,6 +29,7 @@
 					<th>语言</th>
 					<th>模版参数</th>
 					<th>描述</th>
+					<th>创建人</th>
 					<th>更新时间</th>
 					<th>操作</th>
 				</tr>
@@ -41,6 +42,7 @@
 					<td>{{ genTemplate.languageName}}</td>
 					<td>{{ genTemplate.genFieldName}}</td>
 					<td>{{ genTemplate.description }}</td>
+					<td>{{ genTemplate.createByName }}</td>
 					<td>{{ genTemplate.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genTemplate:edit"><a
 							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span
