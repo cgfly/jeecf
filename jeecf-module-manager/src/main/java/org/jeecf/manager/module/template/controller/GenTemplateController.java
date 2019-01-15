@@ -11,12 +11,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.AbstractController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
@@ -267,7 +267,7 @@ public class GenTemplateController extends AbstractController {
 	@RequiresPermissions("template:genTemplate:view")
 	@ApiOperation(value = "列表", notes = "查询代码生成业务表列表")
 	public Response<String> getLanguages() {
-		return new Response<>(EnumUtils.Language.toJsonString());
+		return new Response<>(LanguageEnum.toJsonString());
 	}
 
 }

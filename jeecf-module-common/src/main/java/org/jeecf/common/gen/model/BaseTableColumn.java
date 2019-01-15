@@ -1,6 +1,7 @@
-package org.jeecf.manager.gen.model;
+package org.jeecf.common.gen.model;
 
-import org.jeecf.common.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 代码表字段信息
  * @author jianyiming
@@ -42,12 +43,6 @@ public class BaseTableColumn {
 	 * 表单 类型
 	 */
 	private int formType;
-	
-	/**
-	 * 类型
-	 */
-	private String type;
-	
 	/**
 	 * 属性
 	 */
@@ -166,14 +161,6 @@ public class BaseTableColumn {
 		this.queryType = queryType;
 	}
 	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getField() {
 		return field;
 	}
@@ -190,15 +177,6 @@ public class BaseTableColumn {
 		this.formType = formType;
 	}
 	
-	/**
-	 * 获取简写类型
-	 * @return
-	 */
-	public String getSimpleType(){
-		return StringUtils.indexOf(getType(), ".") != -1 
-				? StringUtils.substringAfterLast(getType(), ".")
-						: getType();
-	}
 	
 	/**
 	 * 获取jdbc简写类型
@@ -208,23 +186,26 @@ public class BaseTableColumn {
 		return StringUtils.substringBeforeLast(getJdbcType(), "(");
 	}
 	
-	
 	/**
-	 * 获取简写字段
+	 * 获取jdbc整型长度
 	 * @return
 	 */
-	public String getSimpleField(){
-		return StringUtils.substringBefore(getField(), ".");
+	public String getJdbcDataLength(){
+		String[] ss = StringUtils.split(StringUtils.substringBetween(getJdbcType(), "(", ")"), ",");
+		if (ss != null && ss.length >= 1){
+			return ss[0];
+		}
+		return "0";
 	}
 	
 	/**
-	 * 获取字符串长度
+	 * 获取jdbc浮点型长度
 	 * @return
 	 */
-	public String getDataLength(){
+	public String getJdbcDataFloatLength(){
 		String[] ss = StringUtils.split(StringUtils.substringBetween(getJdbcType(), "(", ")"), ",");
-		if (ss != null && ss.length == 1){
-			return ss[0];
+	    if(ss != null && ss.length >= 2) {
+			return ss[1];
 		}
 		return "0";
 	}

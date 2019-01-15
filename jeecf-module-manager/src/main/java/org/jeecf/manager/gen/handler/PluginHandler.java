@@ -19,20 +19,22 @@ public class PluginHandler extends AbstractHandler {
 
 	@Override
 	public void process() {
-		System.out.println("222222222");
 		@SuppressWarnings("unchecked")
 		Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
 		@SuppressWarnings("unchecked")
 		List<Plugin> plugins = (List<Plugin>) this.chainContext.get("genHandlerPlugin");
-		System.out.println(plugins.size());
+		Integer language  = (Integer) this.chainContext.get("language");
 		if (CollectionUtils.isNotEmpty(plugins)) {
 			PluginRequest request = new PluginRequest();
+			request.setAttribute("language", language);
 			plugins.forEach(plugin -> {
 				PluginResponse res = plugin.process(request);
+				System.out.println("!!!!!!!!!!!!!");
 				if (res != null) {
 					Map<String, Object> attr = res.attr();
+					System.out.println("????????????");
 					for (Map.Entry<String, Object> entry : attr.entrySet()) {
-						System.out.println("1111111111111");
+						System.out.println(entry.getKey());
 						params.put(entry.getKey(),entry.getValue());
 					}
 				}

@@ -2,6 +2,8 @@ package org.jeecf.manager.module.template.model.result;
 
 import java.io.Serializable;
 
+import org.jeecf.common.gen.enums.FormTypeEnum;
+import org.jeecf.common.gen.enums.QueryTypeEnum;
 import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.module.template.model.domain.GenTableColumn;
 
@@ -152,10 +154,10 @@ public class GenTableColumnResult extends GenTableColumn implements Serializable
 			this.setIsQueryName(EnumUtils.IfType.getName(genTableColumnResult.getIsQuery()));
 		}
 		if (genTableColumnResult.getQueryType() != null) {
-			this.setQueryTypeName(EnumUtils.QueryType.getName(genTableColumnResult.getQueryType()));
+			this.setQueryTypeName(QueryTypeEnum.getName(genTableColumnResult.getQueryType()));
 		}
 		if (genTableColumnResult.getFormType() != null) {
-			this.setFormTypeName(EnumUtils.FormType.getName(genTableColumnResult.getFormType()));
+			this.setFormTypeName(FormTypeEnum.getName(genTableColumnResult.getFormType()));
 		}
 	}
 }

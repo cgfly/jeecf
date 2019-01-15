@@ -6,7 +6,7 @@ import java.util.List;
 import org.jeecf.common.utils.HumpUtils;
 import org.jeecf.manager.engine.enums.WhereExpressEnum;
 import org.jeecf.manager.engine.model.query.WhereEntity;
-import org.jeecf.manager.gen.builder.AbstractLanguageBuilder;
+import org.jeecf.manager.gen.builder.TableBuilder;
 import org.jeecf.manager.gen.model.rule.FilterEntity;
 
 /**
@@ -17,7 +17,7 @@ import org.jeecf.manager.gen.model.rule.FilterEntity;
  */
 public class FilterStrategy {
 
-	public String handler(List<FilterEntity> filterEntitys, AbstractLanguageBuilder builder) {
+	public String handler(List<FilterEntity> filterEntitys, TableBuilder builder) {
 		List<WhereEntity> whereEntitys = new ArrayList<>();
 		if (filterEntitys != null) {
 			filterEntitys.forEach(filterEntity -> {

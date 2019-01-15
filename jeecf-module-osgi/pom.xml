@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>org.jeecf</groupId>
 			<artifactId>jeecf-module-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.5.0-RELEASE</version>
 		</dependency>
 	</dependencies>
 </project>

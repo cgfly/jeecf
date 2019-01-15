@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.gen.model.BaseTable;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.gen.builder.AbstractLanguageBuilder;
-import org.jeecf.manager.gen.builder.LanguageBuilderFactory;
+import org.jeecf.manager.gen.builder.TableBuilder;
 import org.jeecf.manager.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.manager.gen.model.config.ConfigContext;
 import org.jeecf.manager.gen.model.config.ModuleEntity;
@@ -87,8 +87,8 @@ public class TableParamHandler extends AbstractHandler {
 	private void buildFactory(Integer language, String tableName, RuleContext ruleContext,
 			List<ModuleEntity> moduleEntitys) {
 		if (StringUtils.isNotEmpty(tableName)) {
-			AbstractLanguageBuilder builder = LanguageBuilderFactory.getBuiler(language);
-			Object table = builder.build(tableName);
+			TableBuilder builder = new TableBuilder();
+			BaseTable table = builder.build(tableName);
 			if (ruleContext.isData()) {
 				String data = filterStrategy.handler(ruleContext.getFilterEntitys(), builder);
 				StrategyEntity strategyEntity = ruleContext.getStrategyEntity();
@@ -121,7 +121,7 @@ public class TableParamHandler extends AbstractHandler {
 	 * @param builder
 	 */
 	private void buildStrategy(String data, Object table, StrategyEntity strategyEntity,
-			List<ModuleEntity> moduleEntitys, AbstractLanguageBuilder builder) {
+			List<ModuleEntity> moduleEntitys, TableBuilder builder) {
 		if (strategyEntity.getName().equals(RuleStrategyNameEnum.MANY.name)) {
 			List<Object> tables = manyTableStrategy.handler(data, strategyEntity.getField(), builder);
 			if (CollectionUtils.isNotEmpty(tables)) {
