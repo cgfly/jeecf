@@ -2,9 +2,11 @@ package org.jeecf.manager.module.extend.model.result;
 
 import java.io.Serializable;
 
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.common.enums.IfTypeEnum;
 import org.jeecf.manager.engine.enums.TableTypeEnum;
 import org.jeecf.manager.module.extend.model.domain.SysVirtualTableColumn;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 虚表结果返回实体
@@ -18,13 +20,26 @@ public class SysVirtualTableColumnResult extends SysVirtualTableColumn implement
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+    /**
+     * 类型名称
+     */
+	@ApiModelProperty(value="类型名称",name="typeName")
 	private String typeName;
-
+    /**
+     * 为空名称
+     */
+	@ApiModelProperty(value="是否为空名称",name="isNotNullName")
 	private String isNotNullName;
-
+  
+	/**
+	 * 是否主键名称
+	 */
+	@ApiModelProperty(value="是否主键名称",name="isKeyName")
 	private String isKeyName;
-
+    /**
+     * 是否自增名称
+     */
+	@ApiModelProperty(value="是否自增名称",name="isAutoName")
 	private String isAutoName;
 
 	public String getTypeName() {
@@ -64,13 +79,13 @@ public class SysVirtualTableColumnResult extends SysVirtualTableColumn implement
 			this.setTypeName(TableTypeEnum.getName(this.getType()));
 		}
 		if (this.getIsNotNull() != null) {
-			this.setIsNotNullName(EnumUtils.IfType.getName(this.getIsNotNull()));
+			this.setIsNotNullName(IfTypeEnum.getName(this.getIsNotNull()));
 		}
 		if (this.getIsKey() != null) {
-			this.setIsKeyName(EnumUtils.IfType.getName(this.getIsKey()));
+			this.setIsKeyName(IfTypeEnum.getName(this.getIsKey()));
 		}
 		if (this.getIsAuto() != null) {
-			this.setIsAutoName(EnumUtils.IfType.getName(this.getIsAuto()));
+			this.setIsAutoName(IfTypeEnum.getName(this.getIsAuto()));
 		}
 	}
 

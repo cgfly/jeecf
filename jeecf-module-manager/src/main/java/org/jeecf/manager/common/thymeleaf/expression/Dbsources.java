@@ -1,6 +1,6 @@
 package org.jeecf.manager.common.thymeleaf.expression;
 
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.enums.UsableEnum;
 import org.jeecf.manager.config.DynamicDataSourceContextHolder;
 /**
  * 数据库资源 表达式
@@ -23,9 +23,9 @@ public class Dbsources {
 	public String getUsable() {
 		boolean usable = DynamicDataSourceContextHolder.getCurrentDataSourceUsable();
 		if(usable) {
-			return EnumUtils.Usable.YES.getName();
+			return UsableEnum.YES.getName();
 		}
-		return EnumUtils.Usable.NO.getName();
+		return UsableEnum.NO.getName();
 	}
 
 }

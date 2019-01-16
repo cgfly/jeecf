@@ -5,13 +5,15 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.config.model.domain.SysMenu;
 import org.jeecf.manager.module.config.model.po.SysMenuPO;
 import org.jeecf.manager.module.config.model.query.SysMenuQuery;
 import org.jeecf.manager.module.config.model.result.SysMenuResult;
+import org.jeecf.manager.module.config.model.schema.SysMenuSchema;
 import org.jeecf.manager.module.config.service.SysMenuService;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "config/sysMenu" })
 @Api(value = "sysMenu api", tags = { "系统菜单接口" })
-public class SysMenuController extends AbstractController {
+public class SysMenuController implements CurdController<SysMenuQuery, SysMenuResult, SysMenuSchema, SysMenu> {
 
 	@Autowired
 	private SysMenuService sysMenuService;
@@ -54,7 +56,8 @@ public class SysMenuController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysMenu:view")
 	@ApiOperation(value = "列表", notes = "查询系统菜单列表")
-	public Response<List<SysMenuResult>> list(@RequestBody SysMenuQuery sysMenuQuery) {
+	@Override
+	public Response<List<SysMenuResult>> list(@RequestBody Request<SysMenuQuery,SysMenuSchema> sysMenuQuery) {
 		return sysMenuService.getTreeData(new SysMenuPO(sysMenuQuery));
 	}
 
@@ -70,6 +73,7 @@ public class SysMenuController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysMenu:edit")
 	@ApiOperation(value = "更新", notes = "更新系统菜单数据")
+	@Override
 	public Response<SysMenuResult> save(@RequestBody @Validated({Add.class}) SysMenu sysMenu) {
 		if(sysMenu.isNewRecord()) {
 			SysMenuQuery query = new SysMenuQuery();
@@ -86,6 +90,7 @@ public class SysMenuController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysMenu:edit")
 	@ApiOperation(value = "删除", notes = "删除系统菜单数据")
+	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 			return sysMenuService.delete(new SysMenu(id));
 	}

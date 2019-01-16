@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.enums.ActionTypeEnum;
 import org.jeecf.manager.module.operation.model.po.CustomerActionLogPO;
 import org.jeecf.manager.module.operation.model.query.CustomerActionLogQuery;
 import org.jeecf.manager.module.operation.model.result.CustomerActionLogResult;
@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value= {"operation/customerActionLog"})
 @Api(value="customerActionLog api",tags={"客户操作日志"})
-public class CustomerActionLogController extends AbstractController {
+public class CustomerActionLogController implements BaseController {
 	
 	@Autowired
 	private CustomerActionLogService customerActionLogService;
@@ -51,7 +51,7 @@ public class CustomerActionLogController extends AbstractController {
 	public Response<List<CustomerActionLogResult>> list(@RequestBody Request<CustomerActionLogQuery, CustomerActionLogSchema> request) {
 		Response<List<CustomerActionLogResult>> customerActionLogRes = customerActionLogService.findPageByAuth(new CustomerActionLogPO(request));
 		customerActionLogRes.getData().forEach(customerActionLogResult -> {
-			customerActionLogResult.setActionTypeName(EnumUtils.ActionType.getName(customerActionLogResult.getActionType()));
+			customerActionLogResult.setActionTypeName(ActionTypeEnum.getName(customerActionLogResult.getActionType()));
 		});
 		return customerActionLogRes;
 	}

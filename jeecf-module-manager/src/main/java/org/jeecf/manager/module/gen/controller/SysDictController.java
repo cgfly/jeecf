@@ -10,7 +10,7 @@ import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.HumpUtils;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.module.gen.model.domian.SysDict;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = { "gen/sysDict" })
 @Api(value = "sysDict api", tags = { "系统字典接口" })
 @Validated
-public class SysDictController extends BaseController<SysDictQuery,SysDictResult,SysDictSchema,SysDict>  {
+public class SysDictController implements CurdController<SysDictQuery,SysDictResult,SysDictSchema,SysDict>  {
 
 	@Autowired
 	private SysDictService sysDictService;

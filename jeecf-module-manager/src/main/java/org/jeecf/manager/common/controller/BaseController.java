@@ -1,37 +1,21 @@
 package org.jeecf.manager.common.controller;
 
-import java.util.List;
+import org.springframework.ui.ModelMap;
 
-import org.jeecf.common.model.Request;
-import org.jeecf.common.model.Response;
-import org.springframework.web.bind.annotation.RequestBody;
+
 /**
- * 基础的controller
+ * 控制器 基类
  * @author jianyiming
  *
- * @param <Q>
- * @param <R>
- * @param <S>
- * @param <T>
  */
-public abstract class BaseController<Q,R,S,T> extends AbstractController{
+public interface BaseController {
+
 	/**
-	 * 查询数据列表
-	 * @param request
+	 * 页面定位
+	 * 
+	 * @param map
 	 * @return
 	 */
-	public abstract Response<List<R>> list(@RequestBody Request<Q,S> request);
-	/**
-	 * 保存数据
-	 * @param t
-	 * @return
-	 */
-	public abstract Response<R> save(T t);
-	/**
-	 * 根据主键删除
-	 * @param id
-	 * @return
-	 */
-	public abstract Response<Integer> delete(String id);
+	public String index(ModelMap map);
 
 }

@@ -8,7 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
@@ -49,7 +49,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value= {"userpower/sysRole"})
 @Api(value="sysRole api",tags={"系统角色接口"})
-public class SysRoleController extends BaseController<SysRoleQuery,SysRoleResult,SysRoleSchema,SysRole>{
+public class SysRoleController implements CurdController<SysRoleQuery,SysRoleResult,SysRoleSchema,SysRole>{
 
 	@Autowired
 	private SysRoleService sysRoleService;

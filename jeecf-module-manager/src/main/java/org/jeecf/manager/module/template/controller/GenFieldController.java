@@ -7,7 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.module.template.facade.GenFieldFacade;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value= {"template/genField"})
 @Api(value="genField api",tags={"模版参数接口"})
-public class GenFieldController extends BaseController<GenFieldQuery,GenFieldResult,GenFieldSchema,GenField> {
+public class GenFieldController implements CurdController<GenFieldQuery,GenFieldResult,GenFieldSchema,GenField> {
 
 	@Autowired
 	private GenFieldService genFieldService;

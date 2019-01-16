@@ -7,7 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.template.facade.GenTableFacade;
 import org.jeecf.manager.module.template.model.domain.GenTable;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "template/genTable" })
 @Api(value = "GenTable api", tags = { "代码生成业务表接口" })
-public class GenTableController extends BaseController<GenTableQuery, GenTableResult, GenTableSchema, GenTable> {
+public class GenTableController implements CurdController<GenTableQuery, GenTableResult, GenTableSchema, GenTable> {
 
 	@Autowired
 	private GenTableService genTableService;

@@ -8,7 +8,7 @@ import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.config.model.po.SysOfficePO;
 import org.jeecf.manager.module.config.model.query.SysOfficeQuery;
@@ -53,7 +53,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "userpower/sysUser" })
 @Api(value="sysUser api",tags={"系统用户接口"})
-public class SysUserController extends BaseController<SysUserQuery,SysUserResult,SysUserSchema,SysUser> {
+public class SysUserController implements CurdController<SysUserQuery,SysUserResult,SysUserSchema,SysUser> {
 
 	@Autowired
 	private SysRoleService sysRoleService;

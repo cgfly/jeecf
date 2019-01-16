@@ -15,7 +15,7 @@ import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
@@ -71,7 +71,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "template/genTemplate" })
 @Api(value = "genTemplate api", tags = { "模版配置接口" })
-public class GenTemplateController extends AbstractController {
+public class GenTemplateController implements CurdController<GenTemplateQuery, GenTemplateResult, GenTemplateSchema, GenTemplate>  {
 
 	@Autowired
 	private GenTemplateService genTemplateService;
@@ -100,6 +100,7 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:view")
 	@ApiOperation(value = "列表", notes = "查询模版配置列表")
+	@Override
 	public Response<List<GenTemplateResult>> list(@RequestBody Request<GenTemplateQuery, GenTemplateSchema> request) {
 		Response<List<GenTemplateResult>> response = genTemplateService.findPageByAuth(new GenTemplatePO(request));
 		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
@@ -112,6 +113,7 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:edit")
 	@ApiOperation(value = "更新", notes = "更新模版配置数据")
+	@Override
 	public Response<GenTemplateResult> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate) {
 		SysUser sysUser = UserUtils.getCurrentUser();
 		SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
@@ -135,6 +137,7 @@ public class GenTemplateController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("template:genTemplate:edit")
 	@ApiOperation(value = "删除", notes = "删除模版配置数据")
+	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 
 		GenTemplate genTemplate = genTemplateService.getByAuth(new GenTemplate(id)).getData();
@@ -273,5 +276,6 @@ public class GenTemplateController extends AbstractController {
 	public Response<String> getLanguages() {
 		return new Response<>(LanguageEnum.toJsonString());
 	}
+
 
 }

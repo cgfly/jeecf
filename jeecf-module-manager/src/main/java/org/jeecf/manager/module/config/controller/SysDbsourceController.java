@@ -8,14 +8,15 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.DesEncryptUtils;
 import org.jeecf.common.utils.HumpUtils;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.enums.UsableEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.config.DynamicDataSourceContextHolder;
@@ -62,7 +63,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = { "config/sysDbsource" })
 @Api(value = "系统数据源  api", tags = { "系统数据源接口" })
 public class SysDbsourceController
-		extends BaseController<SysDbsourceQuery, SysDbsourceResult, SysDbsourceSchema, SysDbsource> {
+		implements CurdController<SysDbsourceQuery, SysDbsourceResult, SysDbsourceSchema, SysDbsource> {
 
 	@Autowired
 	private SysDbsourceService sysDbsourceService;
@@ -104,7 +105,7 @@ public class SysDbsourceController
 		List<SysDbsourceResult> sysDbsourceList = sysDbsourceRes.getData();
 		if (CollectionUtils.isNotEmpty(sysDbsourceList)) {
 			sysDbsourceList.forEach(sysDbsourceEnum -> {
-				sysDbsourceEnum.setUsableName(EnumUtils.Usable.getName(sysDbsourceEnum.getUsable()));
+				sysDbsourceEnum.setUsableName(UsableEnum.getName(sysDbsourceEnum.getUsable()));
 			});
 		}
 		return sysDbsourceRes;
@@ -146,7 +147,7 @@ public class SysDbsourceController
 				if (!currentKeyName.equals(keyName)) {
 					SysDbsource invalidDb = new SysDbsource();
 					invalidDb.setId(id);
-					invalidDb.setDelFlag(EnumUtils.DelFlag.YES.getCode());
+					invalidDb.setDelFlag(DelFlagEnum.YES.getCode());
 					return sysDbsourceService.saveByAuth(invalidDb);
 				}
 				throw new BusinessException(BusinessErrorEnum.DARASOURCE_KEY_IS_CURRENT);
@@ -162,7 +163,7 @@ public class SysDbsourceController
 	@ApiOperation(value = "激活", notes = "激活系统数据源数据")
 	public Response<Integer> active(@PathVariable("id") String id) {
 		SysDbsource sysDbSource = new SysDbsource(id);
-		sysDbSource.setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		sysDbSource.setDelFlag(DelFlagEnum.NO.getCode());
 		sysDbsourceService.saveByAuth(sysDbSource);
 		return new Response<>(1);
 	}

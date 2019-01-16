@@ -7,7 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.DbsourceUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = { "gen/sysTableDict" })
 @Api(value = "sysTableDict api", tags = { "表组字典接口" })
 @Validated
-public class SysTableDictController  extends BaseController<SysTableDictQuery,SysTableDictResult,SysTableDictSchema,SysTableDict> {
+public class SysTableDictController  implements CurdController<SysTableDictQuery,SysTableDictResult,SysTableDictSchema,SysTableDict> {
 
 	@Autowired
 	private SysTableDictService sysTableDictService;

@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -47,7 +47,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "config/sysNamespace" })
 @Api(value = "sysNamespace api", tags = { "系统命名空间接口" })
-public class SysNamespaceController extends BaseController<SysNamespaceQuery,SysNamespaceResult,SysNamespaceSchema,SysNamespace>  {
+public class SysNamespaceController implements CurdController<SysNamespaceQuery,SysNamespaceResult,SysNamespaceSchema,SysNamespace>  {
 
 	@Autowired
 	private SysNamespaceService sysNamespaceService;
@@ -100,7 +100,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 			throw new BusinessException(BusinessErrorEnum.NAMESPACE_IS_CURRENT);
 		}
 		SysNamespace sysNamespace = new SysNamespace(id);
-		sysNamespace.setDelFlag(EnumUtils.DelFlag.YES.getCode());
+		sysNamespace.setDelFlag(DelFlagEnum.YES.getCode());
 		return sysNamespaceService.saveByAuth(sysNamespace);
 	}
 	
@@ -110,7 +110,7 @@ public class SysNamespaceController extends BaseController<SysNamespaceQuery,Sys
 	@ApiOperation(value = "激活", notes = "激活系统命名空间数据")
 	public Response<Integer> active(@PathVariable("id") String id) {
 		SysNamespace sysNamespace = new SysNamespace(id);
-		sysNamespace.setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		sysNamespace.setDelFlag(DelFlagEnum.NO.getCode());
 		sysNamespaceService.saveByAuth(sysNamespace);
 		return new Response<>(1);
 	}

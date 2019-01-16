@@ -1,6 +1,6 @@
 package org.jeecf.manager.listen;
 
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.enums.ActionTypeEnum;
 import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.SpringContextUtils;
@@ -41,7 +41,7 @@ public class UserLoginListener implements Listener {
 		CustomerActionLog customerActionLog = new CustomerActionLog();
 		customerActionLog.setIp(ip);
 		customerActionLog.setUserName(context.get(UserContextField.USER_NAME));
-		customerActionLog.setActionType(EnumUtils.ActionType.LOGIN.getCode());
+		customerActionLog.setActionType(ActionTypeEnum.LOGIN.getCode());
 		customerActionLogService.insert(customerActionLog);
 	}
 }

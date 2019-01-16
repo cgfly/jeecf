@@ -2,7 +2,7 @@ package org.jeecf.manager.module.userpower.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
+import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPwd;
 import org.jeecf.manager.module.userpower.model.result.SysUserResult;
@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "userpower/sysPwd" })
 @Api(value="sysPwd api",tags={"密码修改接口"})
-public class SysPwdController extends AbstractController{
+public class SysPwdController implements BaseController{
 	
 	@Autowired
 	private SecurityFacade securityFacade;

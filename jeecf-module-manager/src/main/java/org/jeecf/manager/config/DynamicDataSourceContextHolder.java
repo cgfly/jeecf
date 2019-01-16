@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jeecf.common.enums.SplitCharEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.enums.UsableEnum;
 import org.jeecf.manager.common.utils.JdbcUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -119,7 +119,7 @@ public class DynamicDataSourceContextHolder {
 		String datasourceKey = getCurrentDataSourceKey();
 		String value = (String) RedisCacheUtils.getSysCache(datasourceKey);
 		if (StringUtils.isEmpty(value)) {
-			RedisCacheUtils.setSysCache(datasourceKey, DEFAULT_DATASOURCE_KEY+SplitCharEnum.COLON.getName()+EnumUtils.Usable.YES.getCode());
+			RedisCacheUtils.setSysCache(datasourceKey, DEFAULT_DATASOURCE_KEY+SplitCharEnum.COLON.getName()+UsableEnum.YES.getCode());
 		}
 	}
 
@@ -133,7 +133,7 @@ public class DynamicDataSourceContextHolder {
 		String datasourceKey = getCurrentDataSourceKey();
 		String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
 		int usable = Integer.valueOf(values.split(SplitCharEnum.COLON.getName())[1]);
-		if(usable == EnumUtils.Usable.YES.getCode()) {
+		if(usable == UsableEnum.YES.getCode()) {
 			return true;
 		}
 		return false;

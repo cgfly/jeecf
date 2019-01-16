@@ -5,14 +5,16 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
 import org.jeecf.manager.module.userpower.model.po.SysPowerPO;
 import org.jeecf.manager.module.userpower.model.query.SysPowerQuery;
 import org.jeecf.manager.module.userpower.model.result.SysPowerResult;
+import org.jeecf.manager.module.userpower.model.schema.SysPowerSchema;
 import org.jeecf.manager.module.userpower.service.SysPowerService;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value= {"userpower/sysPower"})
 @Api(value="sysPower api",tags={"系统权限接口"})
-public class SysPowerController extends AbstractController {
+public class SysPowerController implements CurdController<SysPowerQuery,SysPowerResult,SysPowerSchema,SysPower> {
 
 	@Autowired
 	private SysPowerService sysPowerService;
@@ -57,8 +59,9 @@ public class SysPowerController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("userpower:sysPower:view")
 	@ApiOperation(value = "列表", notes = "查询系统权限列表")
-	public Response<List<SysPowerResult>> list(@RequestBody SysPowerQuery sysPowerQuery) {
-		return sysPowerService.getTreeData(new SysPowerPO(sysPowerQuery));
+	@Override
+	public Response<List<SysPowerResult>> list(@RequestBody Request<SysPowerQuery,SysPowerSchema> request) {
+		return sysPowerService.getTreeData(new SysPowerPO(request));
 	}
 	
 	@PostMapping(value = { "getTreeData" })
@@ -73,6 +76,7 @@ public class SysPowerController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "更新", notes = "更新系统权限数据")
+	@Override
 	public Response<SysPowerResult> save(@RequestBody @Validated({Add.class}) SysPower sysPower) {
 		if(sysPower.isNewRecord()) {
 			SysPowerQuery query = new SysPowerQuery();
@@ -89,6 +93,7 @@ public class SysPowerController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("userpower:sysPower:edit")
 	@ApiOperation(value = "删除", notes = "删除系统权限数据")
+	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		return securityFacade.deletePower(id);
 	}

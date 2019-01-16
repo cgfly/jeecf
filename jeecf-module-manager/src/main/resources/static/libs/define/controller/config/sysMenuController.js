@@ -17,7 +17,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		$scope.searchForm = function() {
 			
 			$httpRequest.post($ctx.getWebPath() + "config/sysMenu/list", 
-			$scope.request.data).then(function(res) {
+			$scope.request).then(function(res) {
 			        if (res.success) {
 						var data = res.data;
 						$scope.sysMenuList = data;
@@ -80,6 +80,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		}
 
 		$scope.initPageBack = function(request) {
+			$scope.request.page = null;
 			return $scope.searchForm();
 		};
 

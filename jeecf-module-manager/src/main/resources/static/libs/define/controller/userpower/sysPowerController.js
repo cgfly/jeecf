@@ -15,7 +15,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		
 		$scope.searchForm = function() {
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysPower/list",
-			$scope.request.data).then(function(res) { 
+			$scope.request).then(function(res) { 
 				if (res.success) {
 					$scope.sysPowerList = res.data;
 					$page.setPage($scope,0);
@@ -73,12 +73,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		}
 		
 		$scope.initPageBack = function(request) {
-			if($scope.query == undefined || $scope.query.page == undefined){
-				$scope.request.page.current = request.page.current;
-			} else {
-				$scope.request.page.current = $scope.query.page;
-			}
-			$scope.request.page.size = request.page.size;
+			$scope.request.page = null
 			return $scope.searchForm();
 		};
 		

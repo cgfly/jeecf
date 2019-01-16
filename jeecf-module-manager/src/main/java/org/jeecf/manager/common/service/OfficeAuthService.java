@@ -3,11 +3,11 @@ package org.jeecf.manager.common.service;
 import java.util.List;
 import java.util.Set;
 
+import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.model.Contain;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.dao.Dao;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.OfficeAuthEntity;
 import org.jeecf.manager.common.utils.JqlUtils;
@@ -54,7 +54,7 @@ extends BaseService<D, P, R, Q, T> implements AuthService<D, P, R, Q, T>  {
 		p.setContain(contain);
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		p.getData().setDelFlag(DelFlagEnum.NO.getCode());
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
 		JqlUtils.build(p.getSchema(), res.getData());
 		return res;
@@ -69,7 +69,7 @@ extends BaseService<D, P, R, Q, T> implements AuthService<D, P, R, Q, T>  {
 		contain.setColumnValue(officeIds);
 		p.setContain(contain);
 		p.buildContains();
-		p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		p.getData().setDelFlag(DelFlagEnum.NO.getCode());
 		return new Response<Integer>(true, dao.count(p));
 	}
 
@@ -84,7 +84,7 @@ extends BaseService<D, P, R, Q, T> implements AuthService<D, P, R, Q, T>  {
 		p.setContain(contain);
 		p.buildSorts();
 		p.buildContains();
-		p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+		p.getData().setDelFlag(DelFlagEnum.NO.getCode());
 		if (page != null) {
 			page.setTotal(dao.count(p));
 			page.setStartNo();

@@ -5,13 +5,15 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.config.model.domain.SysOffice;
 import org.jeecf.manager.module.config.model.po.SysOfficePO;
 import org.jeecf.manager.module.config.model.query.SysOfficeQuery;
 import org.jeecf.manager.module.config.model.result.SysOfficeResult;
+import org.jeecf.manager.module.config.model.schema.SysOfficeSchema;
 import org.jeecf.manager.module.config.service.SysOfficeService;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "config/sysOffice" })
 @Api(value = "sysOffice api", tags = { "系统组织结构接口" })
-public class SysOfficeController extends AbstractController {
+public class SysOfficeController implements CurdController<SysOfficeQuery, SysOfficeResult, SysOfficeSchema, SysOffice> {
 	
 	@Autowired
 	private SysOfficeService sysOfficeService;
@@ -52,7 +54,8 @@ public class SysOfficeController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:view")
 	@ApiOperation(value = "列表", notes = "查询组织结构列表")
-	public Response<List<SysOfficeResult>> list(@RequestBody SysOfficeQuery sysOfficeQuery) {
+	@Override
+	public Response<List<SysOfficeResult>> list(@RequestBody Request<SysOfficeQuery,SysOfficeSchema> sysOfficeQuery) {
 		return sysOfficeService.getTreeData(new SysOfficePO(sysOfficeQuery));
 	}
 	
@@ -68,6 +71,7 @@ public class SysOfficeController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:edit")
 	@ApiOperation(value = "更新", notes = "更新组织结构数据")
+	@Override
 	public Response<SysOfficeResult> save(@RequestBody @Validated({Add.class}) SysOffice sysOffice) {
 		if(sysOffice.isNewRecord()) {
 			SysOfficeQuery query = new SysOfficeQuery();
@@ -84,6 +88,7 @@ public class SysOfficeController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("config:sysOffice:edit")
 	@ApiOperation(value = "删除", notes = "删除组织结构数据")
+	@Override
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		return sysOfficeService.deleteWithChilds(new SysOffice(id));
 	}

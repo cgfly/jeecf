@@ -1,6 +1,6 @@
 package org.jeecf.manager.listen;
 
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.enums.ActionTypeEnum;
 import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.module.operation.model.domain.CustomerActionLog;
@@ -37,7 +37,7 @@ public class UserLogoutListener implements Listener {
 		CustomerActionLog customerActionLog = new CustomerActionLog();
 		customerActionLog.setIp(ip);
 		customerActionLog.setUserName(context.get(UserContextField.USER_NAME));
-		customerActionLog.setActionType(EnumUtils.ActionType.LOGOUT.getCode());
+		customerActionLog.setActionType(ActionTypeEnum.LOGOUT.getCode());
 		customerActionLog.setCreateBy(context.get(UserContextField.USER_ID));
 		customerActionLog.setUpdateBy(context.get(UserContextField.USER_ID));
 		customerActionLogService.insert(customerActionLog);

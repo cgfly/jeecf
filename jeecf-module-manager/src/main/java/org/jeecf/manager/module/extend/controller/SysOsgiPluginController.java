@@ -6,7 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.AbstractController;
+import org.jeecf.manager.common.controller.BaseController;
 import org.jeecf.manager.module.extend.model.domain.SysOsgiPlugin;
 import org.jeecf.manager.module.extend.model.po.SysOsgiPluginPO;
 import org.jeecf.manager.module.extend.model.query.SysOsgiPluginQuery;
@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "extend/sysOsgiPlugin" })
 @Api(value = "sysOsgiPlugin api", tags = { "OSGI插件接口" })
-public class SysOsgiPluginController extends AbstractController{
+public class SysOsgiPluginController implements BaseController{
 	
 	@Autowired
 	private SysOsgiPluginService sysOsgiPluginService;
@@ -42,7 +42,7 @@ public class SysOsgiPluginController extends AbstractController{
 	@RequiresPermissions("extend:sysOsgiPlugin:view")
 	@ApiOperation(value = "视图", notes = "查看OSGI插件参数视图")
 	@Override
-	protected String index(ModelMap map) {
+	public String index(ModelMap map) {
 		return "module/extend/sysOsgiPlugin";
 	}
 	

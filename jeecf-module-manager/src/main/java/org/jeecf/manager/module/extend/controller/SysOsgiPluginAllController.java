@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils.IfType;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.PluginUtils;
@@ -50,7 +50,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = { "extend/sysOsgiPluginAll" })
 @Api(value = "sysOsgiPluginAll api", tags = { "全量OSGI插件接口" })
 public class SysOsgiPluginAllController
-		extends BaseController<SysOsgiPluginQuery, SysOsgiPluginResult, SysOsgiPluginSchema, SysOsgiPlugin> {
+implements CurdController<SysOsgiPluginQuery, SysOsgiPluginResult, SysOsgiPluginSchema, SysOsgiPlugin> {
 
 	@Autowired
 	private SysOsgiPluginService sysOsgiPluginService;
@@ -159,7 +159,7 @@ public class SysOsgiPluginAllController
 		if (sysOsgiPluginResult != null) {
 			SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
 			sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
-			sysOsgiPlugin.setDelFlag(IfType.NO.getCode());
+			sysOsgiPlugin.setDelFlag(DelFlagEnum.NO.getCode());
 			return sysOsgiPluginService.updateByName(sysOsgiPlugin);
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
@@ -174,7 +174,7 @@ public class SysOsgiPluginAllController
 		if (sysOsgiPluginResult != null) {
 			SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
 			sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
-			sysOsgiPlugin.setDelFlag(IfType.YES.getCode());
+			sysOsgiPlugin.setDelFlag(DelFlagEnum.YES.getCode());
 			return sysOsgiPluginService.updateByName(sysOsgiPlugin);
 		}
 		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);

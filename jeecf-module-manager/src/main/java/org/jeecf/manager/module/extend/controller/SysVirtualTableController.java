@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jeecf.common.enums.IfTypeEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.HumpUtils;
-import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.engine.model.create.CreateTable;
 import org.jeecf.manager.engine.model.create.CreateTableColumn;
 import org.jeecf.manager.engine.model.create.CreateTableColumn.Builder;
@@ -62,7 +62,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = { "extend/sysVirtualTable" })
 @Api(value = "SysVirtualTable api", tags = { "虚表参数接口" })
 public class SysVirtualTableController
-		extends BaseController<SysVirtualTableQuery, SysVirtualTableResult, SysVirtualTableSchema, SysVirtualTable> {
+		implements CurdController<SysVirtualTableQuery, SysVirtualTableResult, SysVirtualTableSchema, SysVirtualTable> {
 
 	@Autowired
 	private SysVirtualTableService sysVirtualTableService;
@@ -86,7 +86,7 @@ public class SysVirtualTableController
 	@RequiresPermissions("extend:sysVirtualTable:view")
 	@ApiOperation(value = "视图", notes = "查看虚表参数视图")
 	@Override
-	protected String index(ModelMap map) {
+	public String index(ModelMap map) {
 		return "module/extend/sysVirtualTable";
 	}
 
@@ -205,8 +205,8 @@ public class SysVirtualTableController
 				Builder builder = CreateTableColumn.builder();
 				builder.setColumnName(tableColumn.getName()).setType(SqlHelper.toJdbcType(tableColumn.getType(),
 						tableColumn.getLength(), tableColumn.getDecimalLength())).setComment(tableColumn.getComment());
-				if (tableColumn.getIsKey() == EnumUtils.IfType.YES.getCode()) {
-					boolean isAuto = (tableColumn.getIsAuto() == EnumUtils.IfType.YES.getCode());
+				if (tableColumn.getIsKey() == IfTypeEnum.YES.getCode()) {
+					boolean isAuto = (tableColumn.getIsAuto() == IfTypeEnum.YES.getCode());
 					builder.isPrimaryKey(isAuto);
 				}
 				createTableColumns.add(builder.build());

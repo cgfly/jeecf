@@ -2,6 +2,9 @@ package org.jeecf.manager.module.extend.model.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.BaseEntity;
@@ -17,8 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ScriptAssert.List({
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)",message="字段名输入不能为空",groups= {Add.class}),
 	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)",message="字段注释输入不能为空",groups= {Add.class}),
-	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.sysVirtualTableId)",message="虚表值输入不能为空",groups= {Add.class}),
-	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.defualtValue)",message="默认值输入不能为空",groups= {Add.class})
+	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.type)",message="字段类型输入不能为空",groups= {Add.class})
 })
 @ApiModel(value="sysVirtualTableColumn",description="虚表字段实体")
 public class SysVirtualTableColumn extends BaseEntity implements Serializable{
@@ -111,7 +113,8 @@ public class SysVirtualTableColumn extends BaseEntity implements Serializable{
 	public void setType(Integer type) {
 		this.type = type;
 	}
-
+	
+	@Min(value=0,message="参数字段整数长度输入错误",groups= {Add.class})
 	public Integer getLength() {
 		return length;
 	}
@@ -120,6 +123,7 @@ public class SysVirtualTableColumn extends BaseEntity implements Serializable{
 		this.length = length;
 	}
 
+	@Min(value=0,message="参数字段小数长度输入错误",groups= {Add.class})
 	public Integer getDecimalLength() {
 		return decimalLength;
 	}
@@ -128,15 +132,17 @@ public class SysVirtualTableColumn extends BaseEntity implements Serializable{
 		this.decimalLength = decimalLength;
 	}
 
+	@Min(value=0,message="参数字段是否不为空输入错误",groups= {Add.class})
+	@Max(value=1,message="参数字段是否不为空输入错误",groups= {Add.class})
 	public Integer getIsNotNull() {
 		return isNotNull;
 	}
-
+	
 	public void setIsNotNull(Integer isNotNull) {
 		this.isNotNull = isNotNull;
 	}
 
-	@Length(min = 1, max = 20, message = "默认值长度必须介于 1 和 20 之间",groups= {Add.class})
+	@Length(min = 0, max = 20, message = "默认值长度必须介于 0 和 20 之间",groups= {Add.class})
 	public String getDefaultValue() {
 		return defaultValue;
 	}
@@ -145,6 +151,8 @@ public class SysVirtualTableColumn extends BaseEntity implements Serializable{
 		this.defaultValue = defaultValue;
 	}
 
+	@Min(value=0,message="参数字段是否主键输入错误",groups= {Add.class})
+	@Max(value=1,message="参数字段是否主键输入错误",groups= {Add.class})
 	public Integer getIsKey() {
 		return isKey;
 	}
@@ -153,6 +161,8 @@ public class SysVirtualTableColumn extends BaseEntity implements Serializable{
 		this.isKey = isKey;
 	}
 
+	@Min(value=0,message="参数字段是否自增输入错误",groups= {Add.class})
+	@Max(value=1,message="参数字段是否自增输入错误",groups= {Add.class})
 	public Integer getIsAuto() {
 		return isAuto;
 	}

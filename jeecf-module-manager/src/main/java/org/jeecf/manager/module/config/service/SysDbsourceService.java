@@ -12,7 +12,7 @@ import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.DesEncryptUtils;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
+import org.jeecf.manager.common.enums.UsableEnum;
 import org.jeecf.manager.common.service.PermissionAuthService;
 import org.jeecf.manager.common.utils.JdbcUtils;
 import org.jeecf.manager.common.utils.SpringContextUtils;
@@ -59,10 +59,10 @@ public class SysDbsourceService
 				String password = DesEncryptUtils.decryptWithBase64(sysDb.getPassword(), encryptKey);
 				boolean flag = JdbcUtils.test(sysDb.getUrl(), sysDb.getUserName(), password);
 				if (flag) {
-					sysDb.setUsable(EnumUtils.Usable.YES.getCode());
+					sysDb.setUsable(UsableEnum.YES.getCode());
 					this.initDbSource();
 				} else {
-					sysDb.setUsable(EnumUtils.Usable.NO.getCode());
+					sysDb.setUsable(UsableEnum.NO.getCode());
 				}
 				super.saveByAuth(sysDb);
 			} catch (Exception e) {
@@ -109,7 +109,7 @@ public class SysDbsourceService
 					sysDbSource.setPassword(sysDb.getPassword());
 					super.dao.update(sysDbSource);
 				} else {
-					if (sysDbSource.getUsable() == EnumUtils.Usable.YES.getCode()) {
+					if (sysDbSource.getUsable() == UsableEnum.YES.getCode()) {
 						try {
 							sysDbSource.setPassword(DesEncryptUtils.decryptWithBase64(sysDb.getPassword(), encryptKey));
 						} catch (Exception e) {

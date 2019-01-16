@@ -2,9 +2,9 @@ package org.jeecf.manager.module.template.model.result;
 
 import java.io.Serializable;
 
+import org.jeecf.common.enums.IfTypeEnum;
 import org.jeecf.common.gen.enums.FormTypeEnum;
 import org.jeecf.common.gen.enums.QueryTypeEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.module.template.model.domain.GenTableColumn;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -136,22 +136,22 @@ public class GenTableColumnResult extends GenTableColumn implements Serializable
 
 	public void coverField(GenTableColumnResult genTableColumnResult) {
 		if (genTableColumnResult.getIsKey() != null) {
-			this.setIsKeyName(EnumUtils.IfType.getName(genTableColumnResult.getIsKey()));
+			this.setIsKeyName(IfTypeEnum.getName(genTableColumnResult.getIsKey()));
 		}
 		if (genTableColumnResult.getIsNull() != null) {
-			this.setIsNullName(EnumUtils.IfType.getName(genTableColumnResult.getIsNull()));
+			this.setIsNullName(IfTypeEnum.getName(genTableColumnResult.getIsNull()));
 		}
 		if (genTableColumnResult.getIsEdit() != null) {
-			this.setIsEditName(EnumUtils.IfType.getName(genTableColumnResult.getIsEdit()));
+			this.setIsEditName(IfTypeEnum.getName(genTableColumnResult.getIsEdit()));
 		}
 		if (genTableColumnResult.getIsInsert() != null) {
-			this.setIsInsertName(EnumUtils.IfType.getName(genTableColumnResult.getIsInsert()));
+			this.setIsInsertName(IfTypeEnum.getName(genTableColumnResult.getIsInsert()));
 		}
 		if (genTableColumnResult.getIsList() != null) {
-			this.setIsListName(EnumUtils.IfType.getName(genTableColumnResult.getIsList()));
+			this.setIsListName(IfTypeEnum.getName(genTableColumnResult.getIsList()));
 		}
 		if (genTableColumnResult.getIsQuery() != null) {
-			this.setIsQueryName(EnumUtils.IfType.getName(genTableColumnResult.getIsQuery()));
+			this.setIsQueryName(IfTypeEnum.getName(genTableColumnResult.getIsQuery()));
 		}
 		if (genTableColumnResult.getQueryType() != null) {
 			this.setQueryTypeName(QueryTypeEnum.getName(genTableColumnResult.getQueryType()));

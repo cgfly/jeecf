@@ -3,13 +3,13 @@ package org.jeecf.manager.common.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.AbstractEntity;
 import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.enums.EnumUtils;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.module.userpower.dao.SysUserDao;
@@ -80,7 +80,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 		p.buildSorts();
 		p.buildContains();
 		if (p.getData().getDelFlag() == null) {
-			p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+			p.getData().setDelFlag(DelFlagEnum.NO.getCode());
 		}
 		Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
 		JqlUtils.build(p.getSchema(), res.getData());
@@ -91,7 +91,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 	public Response<Integer> count(P p) {
 		p.buildContains();
 		if (p.getData().getDelFlag() == null) {
-			p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+			p.getData().setDelFlag(DelFlagEnum.NO.getCode());
 		}
 		return new Response<Integer>(true, dao.count(p));
 	}
@@ -102,7 +102,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
 		p.buildSorts();
 		p.buildContains();
 		if (p.getData().getDelFlag() == null)  {
-			p.getData().setDelFlag(EnumUtils.DelFlag.NO.getCode());
+			p.getData().setDelFlag(DelFlagEnum.NO.getCode());
 		}
 		if (page != null) {
 			page.setTotal(dao.count(p));

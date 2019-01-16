@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jeecf.manager.common.thymeleaf.expression.Dbsources;
-import org.jeecf.manager.common.thymeleaf.expression.Enums;
 import org.jeecf.manager.common.thymeleaf.expression.Namespaces;
 import org.jeecf.manager.common.thymeleaf.expression.Users;
 import org.thymeleaf.context.IProcessingContext;
@@ -20,7 +19,7 @@ public class SysDialect extends AbstractDialect implements IExpressionEnhancingD
 
 	private static final Map<String,Object> EXPRESSION_MAP = initExpressionMap() ;
 	
-	private static final String ENUM_NAME = "enums";
+//	private static final String ENUM_NAME = "enums";
 	
 	private static final String USER_NAME = "users";
 	
@@ -30,7 +29,7 @@ public class SysDialect extends AbstractDialect implements IExpressionEnhancingD
 	
 	private static Map<String,Object> initExpressionMap(){
 		Map<String,Object> expressionMap = new HashMap<String,Object>(10);
-		expressionMap.put(ENUM_NAME, new Enums());
+//		expressionMap.put(ENUM_NAME, new Enums());
 		expressionMap.put(USER_NAME, new Users());
 		expressionMap.put(NAMESPACE_NAME, new Namespaces());
 		expressionMap.put(DBSOURCE_NAME, new Dbsources());
