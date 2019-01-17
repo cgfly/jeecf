@@ -19,7 +19,8 @@ wiki:https://github.com/jianym/jeecf/wiki
 4.优化数据源相关操作，真实数据源可以做为同步表结构和查询数据时使用，假数据源只做为数据源标识使用。  
 5.加入虚表配置和插件管理功能，参考wiki文档。  
 6.加入树组字典与相应策略，参考wiki文档。  
-7.代码的一些优化。  
+7.数据源密码加密入库
+8.代码的一些优化。  
 ## 总体架构
 ![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture.png)
 ## MVC架构  

@@ -40,7 +40,7 @@ public class TableBuilder {
 	private static GenTableColumnService genTableColumnService = SpringContextUtils.getBean("genTableColumnService",
 			GenTableColumnService.class);
 	
-	protected static TargetTableProxy targetTableProxy = SpringContextUtils.getBean("targetTableProxy",TargetTableProxy.class);
+	private static TargetTableProxy targetTableProxy = SpringContextUtils.getBean("targetTableProxy",TargetTableProxy.class);
 
 	private BaseTable baseTable;
 	
