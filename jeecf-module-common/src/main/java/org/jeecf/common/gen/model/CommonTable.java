@@ -72,16 +72,16 @@ public class CommonTable{
 	 * @return
 	 */
 	public List<BaseTableColumn> getQueryColumns() {
-		List<BaseTableColumn> CommonTableeruyColumns = new ArrayList<>();
+		List<BaseTableColumn> commonTableQueryColumns = new ArrayList<>();
 		List<BaseTableColumn> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
 				if (column.getQueryType() == 1) {
-					CommonTableeruyColumns.add(column);
+					commonTableQueryColumns.add(column);
 				}
 			});
 		}
-		return CommonTableeruyColumns;
+		return commonTableQueryColumns;
 	}
     /**
      * 获取列表 字段集合
@@ -144,9 +144,9 @@ public class CommonTable{
 		List<BaseTableColumn> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
-				int CommonTableueryType = column.getQueryType();
-				if (CommonTableueryType == QueryTypeEnum.OPEN_INTERVAL.getCode()
-						|| CommonTableueryType == QueryTypeEnum.CLOSE_INTERVAL.getCode()) {
+				int commonTableQueryType = column.getQueryType();
+				if (commonTableQueryType == QueryTypeEnum.OPEN_INTERVAL.getCode()
+						|| commonTableQueryType == QueryTypeEnum.CLOSE_INTERVAL.getCode()) {
 					intervalColumns.add(column);
 				}
 			});
@@ -163,8 +163,8 @@ public class CommonTable{
 		List<BaseTableColumn> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
-				int CommonTableueryType = column.getQueryType();
-				if (CommonTableueryType == QueryTypeEnum.OPEN_INTERVAL.getCode()) {
+				int commonTableQueryType = column.getQueryType();
+				if (commonTableQueryType == QueryTypeEnum.OPEN_INTERVAL.getCode()) {
 					intervalColumns.add(column);
 				}
 			});
@@ -180,8 +180,8 @@ public class CommonTable{
 		List<BaseTableColumn> genTableColumns = this.getGenTableColumns();
 		if (CollectionUtils.isNotEmpty(genTableColumns)) {
 			genTableColumns.forEach(column -> {
-				int CommonTableueryType = column.getQueryType();
-				if (CommonTableueryType == QueryTypeEnum.CLOSE_INTERVAL.getCode()) {
+				int commonTableQueryType = column.getQueryType();
+				if (commonTableQueryType == QueryTypeEnum.CLOSE_INTERVAL.getCode()) {
 					intervalColumns.add(column);
 				}
 			});

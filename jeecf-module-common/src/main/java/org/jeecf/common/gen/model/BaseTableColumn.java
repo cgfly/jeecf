@@ -191,8 +191,9 @@ public class BaseTableColumn {
 	 * @return
 	 */
 	public String getJdbcDataLength(){
+		int minLength = 1;
 		String[] ss = StringUtils.split(StringUtils.substringBetween(getJdbcType(), "(", ")"), ",");
-		if (ss != null && ss.length >= 1){
+		if (ss != null && ss.length >= minLength){
 			return ss[0];
 		}
 		return "0";
@@ -203,8 +204,9 @@ public class BaseTableColumn {
 	 * @return
 	 */
 	public String getJdbcDataFloatLength(){
+		int minLength = 2;
 		String[] ss = StringUtils.split(StringUtils.substringBetween(getJdbcType(), "(", ")"), ",");
-	    if(ss != null && ss.length >= 2) {
+	    if(ss != null && ss.length >= minLength) {
 			return ss[1];
 		}
 		return "0";
