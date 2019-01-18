@@ -99,7 +99,7 @@
 										<select class="form-control"
 											ng-model="updateGenTemplate.language" id="updateLanguage"
 											name="language"
-											ng-options="obj.code as obj.name for obj in languages"></select>
+											ng-options="obj.code as obj.name for obj in languageEnums"></select>
 									</div>
 								</div>
 							</div>
@@ -286,7 +286,7 @@
 						<div class="col-sm-6" style="padding-left: 0">
 							<select class="form-control" ng-model="genTemplate.language"
 								id="language" name="language"
-								ng-options="obj.code as obj.name for obj in languages"></select> 
+								ng-options="obj.code as obj.name for obj in languageEnums"></select> 
 			
 						</div>
 					</div>

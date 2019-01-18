@@ -142,6 +142,7 @@ public class ShiroConfiguration {
         sessionManager.setSessionDAO(sessionDAO);
         sessionManager.setGlobalSessionTimeout(1800000);
         sessionManager.setCacheManager(redisShiroCacheManager);
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;
     }
     

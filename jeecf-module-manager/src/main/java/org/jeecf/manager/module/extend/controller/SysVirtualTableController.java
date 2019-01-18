@@ -12,6 +12,8 @@ import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.HumpUtils;
 import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.utils.DbsourceUtils;
+import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.engine.model.create.CreateTable;
 import org.jeecf.manager.engine.model.create.CreateTableColumn;
 import org.jeecf.manager.engine.model.create.CreateTableColumn.Builder;
@@ -112,6 +114,17 @@ public class SysVirtualTableController
 	@Override
 	public Response<SysVirtualTableResult> save(
 			@RequestBody @Validated({ Add.class }) SysVirtualTable sysVirtualTable) {
+		if (sysVirtualTable.isNewRecord()) {
+			SysVirtualTableQuery query = new SysVirtualTableQuery();
+			query.setName(sysVirtualTable.getName());
+			query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+			query.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
+			List<SysVirtualTableResult> sysVirtualTableResultList = sysVirtualTableService.findList(new SysVirtualTablePO(query))
+					.getData();
+			if (CollectionUtils.isNotEmpty(sysVirtualTableResultList)) {
+				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+			}
+		}
 		return sysVirtualTableFacade.save(sysVirtualTable);
 	}
 

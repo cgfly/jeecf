@@ -11,7 +11,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
-import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
@@ -105,6 +104,9 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 		Response<List<GenTemplateResult>> response = genTemplateService.findPageByAuth(new GenTemplatePO(request));
 		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
 			genTemplateService.buildCreateBy(response.getData());
+			response.getData().forEach(result->{
+				result.toConvert();
+			});
 		}
 		return  response;
 	}
@@ -267,14 +269,6 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 	@ApiOperation(value = "列表", notes = "查询代码生成业务表列表")
 	public Response<List<GenTableResult>> findTable() {
 		return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));
-	}
-
-	@PostMapping(value = { "getLanguages" })
-	@ResponseBody
-	@RequiresPermissions("template:genTemplate:view")
-	@ApiOperation(value = "列表", notes = "查询代码生成业务表列表")
-	public Response<String> getLanguages() {
-		return new Response<>(LanguageEnum.toJsonString());
 	}
 
 

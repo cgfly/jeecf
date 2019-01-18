@@ -3,6 +3,7 @@ package org.jeecf.manager.module.common.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.enums.TreeEventEnum;
 import org.jeecf.manager.engine.enums.TableTypeEnum;
@@ -32,6 +33,7 @@ public class EnumsController {
 		result.put("treeEventEnum", TreeEventEnum.toJsonString());
 		result.put("tableTypeEnum", TableTypeEnum.toJsonString());
 		result.put("osgiBoundleTypeEnum", BoundleEnum.toJsonString());
+		result.put("languageEnum", LanguageEnum.toJsonString());
 		return new Response<>(result);
 	}
 

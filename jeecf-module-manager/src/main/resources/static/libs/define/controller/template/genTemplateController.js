@@ -31,11 +31,6 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 					$scope.request).then(function(res) { 
 				if (res.success) {
 					data = res.data;
-					if(data != undefined) {
-						for (var i = 0; i < data.length; i++) {
-							data[i]["languageName"] = $scope.toEnumName(data[i].language);
-						}
-					}
 					$scope.genTemplateList = data;
 					$page.setPage($scope, res.page.total);
 					setTimeout(function(){
@@ -103,19 +98,18 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		this.init = function() {
 			$scope.currentRouteName = $state.current.name;
 			$scope.currentRouteUrl = $state.current.url;
-			$scope.request = {
-				page : {
-					current : "",
-					size : ""
-				},
-				data : {}
-			};
+			$scope.request = {page : {current : "",size : ""},data : {}};
 			$scope.updateGenTemplate = {};
 			$scope.genTemplate = {};
 			$scope.getField();
-			$scope.queryLanguages();
+//			$scope.queryLanguages();
 			$page.init($scope, $page.getPageSize());
 			$scope.queryBaseTableList();
+			$ctx.getEnum($rootScope,"languageEnum",function(result){
+				$scope.$apply(function () {
+					$scope.languageEnums = result;
+				});
+			});
 		}
 
 		
@@ -169,14 +163,6 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$httpRequest.post($ctx.getWebPath()+"template/genTemplate/queryTableList").then(
 					function(res) { 
 						$scope.tableList = res.data;
-					});
-		};
-		
-		$scope.queryLanguages = function() {
-			$httpRequest.post($ctx.getWebPath()+"template/genTemplate/getLanguages").then(
-					function(res) { 
-						$scope.languages  = eval('(' + res.data + ')');
-						$scope.genTemplate.language = $scope.languages[0].code;
 					});
 		};
 		
@@ -234,13 +220,5 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
        	 	form.submit();
 		}
 		
-		$scope.toEnumName = function(code){
-		   var languages =	$scope.languages;
-		   for(var i in languages){
-			   if(languages[i].code == code){
-				   return languages[i].name;
-			   }
-		   }
-		}
 	};
 });
