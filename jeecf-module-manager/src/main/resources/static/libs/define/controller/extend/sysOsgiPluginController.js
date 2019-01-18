@@ -58,5 +58,10 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$page.init($scope, $page.getPageSize());
 		}
 		
+		$scope.downloadModal = function (index){
+			var form = $httpRequest.form($ctx.getWebPath() + "extend/sysOsgiPlugin/download/plugin/"+$scope.sysOsgiPluginList[index].id,"POST");
+       	 	form.submit();
+		}
+		
 	};
 });

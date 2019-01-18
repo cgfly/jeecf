@@ -1,12 +1,17 @@
 package org.jeecf.manager.module.extend.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
+import org.jeecf.manager.common.utils.DownloadUtils;
+import org.jeecf.manager.common.utils.PluginUtils;
 import org.jeecf.manager.module.extend.model.domain.SysOsgiPlugin;
 import org.jeecf.manager.module.extend.model.po.SysOsgiPluginPO;
 import org.jeecf.manager.module.extend.model.query.SysOsgiPluginQuery;
@@ -67,6 +72,16 @@ public class SysOsgiPluginController implements BaseController{
 	@ApiOperation(value = "删除", notes = "删除OSGI插件数据")
 	public Response<Integer> delete(@PathVariable("id") String id) {
 		return sysOsgiPluginService.deleteByAuth(new SysOsgiPlugin(id));
+	}
+	
+	@PostMapping(value = { "download/plugin/{id}" })
+	@ResponseBody
+	@RequiresPermissions("extend:sysOsgiPlugin:view")
+	@ApiOperation(value = "插件文件下载", notes = "下载")
+	public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+		SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
+		DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+		return;
 	}
 
 }

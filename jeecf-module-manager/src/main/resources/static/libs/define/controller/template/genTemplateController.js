@@ -102,7 +102,6 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.updateGenTemplate = {};
 			$scope.genTemplate = {};
 			$scope.getField();
-//			$scope.queryLanguages();
 			$page.init($scope, $page.getPageSize());
 			$scope.queryBaseTableList();
 			$ctx.getEnum($rootScope,"languageEnum",function(result){

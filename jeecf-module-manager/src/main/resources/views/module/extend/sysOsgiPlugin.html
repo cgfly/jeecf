@@ -30,7 +30,7 @@
 					<th>描述</th>
 					<th>创建人</th>
 					<th>更新时间</th>
-					<th shiro:hasPermission="extend:sysOsgiPlugin:edit">操作</th>
+					<th>操作</th>
 				</tr>
 
 			</thead>
@@ -44,9 +44,10 @@
 					<td>{{ sysOsgiPlugin.createByName }}</td>
 					<td>{{ sysOsgiPlugin.updateDate | date:'yyyy-MM-dd hh:mm:ss'
 						}}</td>
-					<td shiro:hasPermission="extend:sysOsgiPlugin:edit"><span><a
+					<td><span shiro:hasPermission="extend:sysOsgiPlugin:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}"
-							class="target-click" data-confirm="data-confirm">删除</a></span>
+							class="target-click" data-confirm="data-confirm">删除</a></span> <span><a
+							href="javascript:void(0)" ng-click="downloadModal($index)">插件下载</a></span>
 					</td>
 				</tr>
 			</tbody>

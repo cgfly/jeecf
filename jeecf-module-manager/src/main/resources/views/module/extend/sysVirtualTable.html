@@ -32,7 +32,7 @@
 					<td>{{ sysVirtualTable.createByName }}</td>
 					<td>{{ sysVirtualTable.updateDate | date:'yyyy-MM-dd hh:mm:ss'
 						}}</td>
-					<td><span shiro:hasPermission="extend:sysVirtualTable:edit"><a
+					<td><span><a
 							href="javascript:void(0)" ng-click="detailModal($index)">详情</a></span> <span
 						shiro:hasPermission="extend:sysVirtualTable:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}"

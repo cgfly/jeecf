@@ -61,6 +61,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery,Sy
 				.getTreeData(new SysTreeDictPO(rquest));
 		if (CollectionUtils.isNotEmpty(sysTreeDictRes.getData())) {
 			sysTreeDictRes.getData().forEach(sysTreeDictResult -> {
+				sysTreeDictService.buildCreateBy(sysTreeDictRes.getData());
 				sysTreeDictResult.toCovert();
 			});
 		}
