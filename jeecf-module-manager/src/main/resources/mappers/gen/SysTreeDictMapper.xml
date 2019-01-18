@@ -34,6 +34,9 @@
 				<if test="data.groupName != null and data.groupName != '' ">
 					And sysTreeDict.group_name = #{data.groupName}
 				</if>
+				<if test="data.name != null and data.name != '' ">
+					And sysTreeDict.name = #{data.name}
+				</if>
 				<if test="data.sysNamespaceId != null and data.sysNamespaceId != '' ">
 					And sysTreeDict.sys_namespace_id = #{data.sysNamespaceId}
 				</if>

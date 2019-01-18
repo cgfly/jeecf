@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.CurdController;
+import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.module.gen.model.domian.SysTreeDict;
 import org.jeecf.manager.module.gen.model.po.SysTreeDictPO;
 import org.jeecf.manager.module.gen.model.query.SysTreeDictQuery;
@@ -82,6 +85,15 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery,Sy
 	@ApiOperation(value = "更新", notes = "更新系统权限数据")
 	@Override
 	public Response<SysTreeDictResult> save(@RequestBody @Validated({ Add.class }) SysTreeDict sysTreeDict) {
+		if(sysTreeDict.isNewRecord()) {
+			SysTreeDictQuery query = new SysTreeDictQuery();
+			query.setName(sysTreeDict.getName());
+			query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+			List<SysTreeDictResult> sysTreeDictList = sysTreeDictService.findList(new SysTreeDictPO(query)).getData();
+			if(CollectionUtils.isNotEmpty(sysTreeDictList)) {
+				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+			}
+		}
 		return sysTreeDictService.save(sysTreeDict);
 	}
 
