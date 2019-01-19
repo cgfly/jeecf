@@ -70,7 +70,8 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "template/genTemplate" })
 @Api(value = "genTemplate api", tags = { "模版配置接口" })
-public class GenTemplateController implements CurdController<GenTemplateQuery, GenTemplateResult, GenTemplateSchema, GenTemplate>  {
+public class GenTemplateController
+		implements CurdController<GenTemplateQuery, GenTemplateResult, GenTemplateSchema, GenTemplate> {
 
 	@Autowired
 	private GenTemplateService genTemplateService;
@@ -104,11 +105,11 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 		Response<List<GenTemplateResult>> response = genTemplateService.findPageByAuth(new GenTemplatePO(request));
 		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
 			genTemplateService.buildCreateBy(response.getData());
-			response.getData().forEach(result->{
+			response.getData().forEach(result -> {
 				result.toConvert();
 			});
 		}
-		return  response;
+		return response;
 	}
 
 	@PostMapping(value = { "save" })
@@ -219,7 +220,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 			if (sysNamespace != null) {
 				String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getName());
 				String outPath = GenUtils.build(entity.getParams(), entity.getTableName(), sourcePath,
-						genTemplate.getLanguage(), sysNamespace, sysOsgiPluginService
+						genTemplate.getLanguage(), sysNamespace, sysUser, sysOsgiPluginService
 								.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
 				if (StringUtils.isNotEmpty(outPath)) {
 					return new Response<>(genTemplate.getFileBasePath());
@@ -270,6 +271,5 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 	public Response<List<GenTableResult>> findTable() {
 		return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));
 	}
-
 
 }

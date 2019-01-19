@@ -59,6 +59,7 @@ public class GenHandler extends AbstractHandler {
 					Set<Resource> resources = moduleEntity.getPaths();
 					String moduleParams = moduleEntity.getModuleParams();
 					params.put("moduleParams", moduleParams);
+					params.put("moduleName", moduleEntity.getName());
 					if (moduleEntity.getStrategyEntity() != null
 							&& StringUtils.isNotEmpty(moduleEntity.getStrategyEntity().getName())) {
 						builderStrategy(resources, params, configContext.getOutDir(), moduleEntity.getStrategyEntity(),

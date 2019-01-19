@@ -22,6 +22,7 @@ import org.jeecf.manager.common.utils.ChainUtils;
 import org.jeecf.manager.gen.model.GenParams;
 import org.jeecf.manager.gen.model.GenSchemaTemplate;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
+import org.jeecf.manager.module.userpower.model.domain.SysUser;
 import org.jeecf.osgi.plugin.Plugin;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -93,7 +94,7 @@ public class GenUtils {
 	}
 
 	public static String build(List<GenParams> genParamsList, String tableName, String sourcePath, Integer language,
-			SysNamespace sysNamespace,List<Plugin> plugins) {
+			SysNamespace sysNamespace,SysUser sysUser,List<Plugin> plugins) {
 		ChainContext genChainContext = ChainUtils.genChainContext();
 		String outZip = sourcePath + File.separator + "code.zip";
 		genChainContext.put("params", new HashMap<String, Object>(15));
@@ -101,6 +102,7 @@ public class GenUtils {
 		genChainContext.put("tableName", tableName);
 		genChainContext.put("language", language);
 		genChainContext.put("sysNamespace", sysNamespace);
+		genChainContext.put("sysUser", sysUser);
 		genChainContext.put("sourcePath", sourcePath);
 		genChainContext.put("configPath", sourcePath + File.separator + "config.json");
 		genChainContext.put("rulePath", sourcePath + File.separator + "rule.json");
