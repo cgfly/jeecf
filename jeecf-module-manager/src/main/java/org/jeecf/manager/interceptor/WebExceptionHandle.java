@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
@@ -37,7 +38,7 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.UNAUTHORIZED_ERROR.getCode());
 		response.setErrorMessage(SysErrorEnum.UNAUTHORIZED_ERROR.getMsg());
-		log.error(SysErrorEnum.UNAUTHORIZED_ERROR.getMsg());
+		log.error(ExceptionUtils.getStackTrace(e));
 		return response;
 	}
 	
@@ -48,7 +49,7 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.DB_ERROR.getCode());
 		response.setErrorMessage(e.getSQLException().getMessage());
-		log.error(e.getSQLException().getMessage());
+		log.error(ExceptionUtils.getStackTrace(e));
 		return response;
 	}
 
@@ -62,7 +63,7 @@ public class WebExceptionHandle {
 		set.forEach(violation -> {
 			response.setErrorMessage(violation.getMessage());
 		});
-		log.error(SysErrorEnum.FIELD_ERROR.getMsg());
+		log.error(ExceptionUtils.getStackTrace(e));
 		return response;
 	}
 
@@ -82,13 +83,12 @@ public class WebExceptionHandle {
 			response.setSuccess(false);
 			response.setErrorCode(SysErrorEnum.FIELD_ERROR.getCode());
 			response.setErrorMessage(errorMsg);
-			log.error(SysErrorEnum.FIELD_ERROR.getMsg());
 		} else {
 			response.setSuccess(false);
 			response.setErrorCode(SysErrorEnum.SYSTEM_ERROR.getCode());
 			response.setErrorMessage(SysErrorEnum.SYSTEM_ERROR.getMsg());
-			log.error(SysErrorEnum.SYSTEM_ERROR.getMsg());
 		}
+		log.error(ExceptionUtils.getStackTrace(e));
 		return response;
 	}
 
@@ -99,19 +99,18 @@ public class WebExceptionHandle {
 		response.setSuccess(false);
 		response.setErrorCode(e.getErrorCode());
 		response.setErrorMessage(e.getErrorMsg());
-		log.error(e.getMessage());
+		log.error(ExceptionUtils.getStackTrace(e));
 		return response;
 	}
 
 	@ExceptionHandler(Throwable.class)
 	@ResponseBody
 	public Response<String> exceptionHandler(Throwable t) {
-		t.printStackTrace();
 		Response<String> response = new Response<String>();
 		response.setSuccess(false);
 		response.setErrorCode(SysErrorEnum.SYSTEM_ERROR.getCode());
 		response.setErrorMessage(SysErrorEnum.SYSTEM_ERROR.getMsg());
-		log.error(SysErrorEnum.SYSTEM_ERROR.getMsg());
+		log.error(ExceptionUtils.getStackTrace(t));
 		return response;
 	}
 
