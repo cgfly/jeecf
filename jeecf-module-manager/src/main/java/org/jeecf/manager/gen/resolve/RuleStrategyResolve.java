@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class RuleStrategyResolve {
 
-    public StrategyEntity handler(JsonNode strategyNodes, boolean isData, Map<String, Object> paramsMap) {
+    public static StrategyEntity process(JsonNode strategyNodes, boolean isData, Map<String, Object> paramsMap) {
         if (!isData || strategyNodes == null) {
             return null;
         }
@@ -36,7 +36,7 @@ public class RuleStrategyResolve {
      * @param strategyNode
      * @return
      */
-    private String resolveName(JsonNode strategyNode) {
+    private static String resolveName(JsonNode strategyNode) {
         if (strategyNode != null) {
             String name = StringUtils.lowerCase(strategyNode.asText());
             if (RuleStrategyNameEnum.contains(name)) {
@@ -53,7 +53,7 @@ public class RuleStrategyResolve {
      * @param typeNode
      * @return
      */
-    private String resolveType(JsonNode typeNode) {
+    private static String resolveType(JsonNode typeNode) {
         if (typeNode != null) {
             String type = StringUtils.lowerCase(typeNode.asText());
             if (RuleStrategyTypeEnum.contains(type)) {
@@ -72,7 +72,7 @@ public class RuleStrategyResolve {
      * @param paramsMap
      * @return
      */
-    private String resolveField(JsonNode fieldNode, String type, Map<String, Object> paramsMap) {
+    private static String resolveField(JsonNode fieldNode, String type, Map<String, Object> paramsMap) {
         if (fieldNode != null) {
             if (type.equals(RuleStrategyTypeEnum.CURE.getName())) {
                 return fieldNode.asText();

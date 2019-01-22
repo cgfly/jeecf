@@ -3,6 +3,7 @@ package org.jeecf.manager.gen.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jeecf.common.gen.model.BaseTable;
 import org.jeecf.common.utils.HumpUtils;
 import org.jeecf.manager.engine.enums.WhereExpressEnum;
 import org.jeecf.manager.engine.model.query.WhereEntity;
@@ -17,7 +18,7 @@ import org.jeecf.manager.gen.model.rule.FilterEntity;
  */
 public class FilterStrategy {
 
-    public String handler(List<FilterEntity> filterEntitys, TableBuilder builder) {
+    public static String handler(List<FilterEntity> filterEntitys, TableBuilder builder,BaseTable baseTable) {
         List<WhereEntity> whereEntitys = new ArrayList<>();
         if (filterEntitys != null) {
             filterEntitys.forEach(filterEntity -> {
@@ -25,7 +26,7 @@ public class FilterStrategy {
                 whereEntitys.add(whereEntity);
             });
         }
-        return builder.getData(whereEntitys);
+        return builder.getData(whereEntitys,baseTable);
     }
 
 }

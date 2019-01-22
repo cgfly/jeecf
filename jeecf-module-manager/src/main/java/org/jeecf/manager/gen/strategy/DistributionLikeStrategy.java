@@ -26,7 +26,7 @@ public class DistributionLikeStrategy {
      * @param match 匹配规则
      * @return 过滤后数据
      */
-    public String handler(String data, String field, String match) {
+    public static String handler(String data, String field, String match) {
         List<Object> result = new ArrayList<>();
         JsonNode jsonNode = JsonMapper.getJsonNode(data);
         if (jsonNode.isArray()) {
@@ -52,7 +52,7 @@ public class DistributionLikeStrategy {
      * @param match 匹配规则字符串
      * @return 是否匹配成功
      */
-    private boolean matchText(String text, String match) {
+    private static boolean matchText(String text, String match) {
         char[] textChars = text.toCharArray();
         char[] matchChars = match.toCharArray();
         int nextMatchar = 0;

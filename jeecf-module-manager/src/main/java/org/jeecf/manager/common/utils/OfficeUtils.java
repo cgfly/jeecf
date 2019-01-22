@@ -15,11 +15,11 @@ import org.jeecf.manager.module.config.service.SysOfficeService;
  */
 public class OfficeUtils {
 
-    private static SysOfficeService sysOfficeService = SpringContextUtils.getBean("sysOfficeService", SysOfficeService.class);
+    private static SysOfficeService SYS_OFFICE_SERVICE = SpringContextUtils.getBean("sysOfficeService", SysOfficeService.class);
 
     public static Set<String> findChilds(String userId) {
         Set<String> result = new HashSet<>();
-        List<SysOfficeResult> sysOfficeList = sysOfficeService.findChilds(userId).getData();
+        List<SysOfficeResult> sysOfficeList = SYS_OFFICE_SERVICE.findChilds(userId).getData();
         sysOfficeList.forEach(sysOffice -> {
             result.add(sysOffice.getId());
         });

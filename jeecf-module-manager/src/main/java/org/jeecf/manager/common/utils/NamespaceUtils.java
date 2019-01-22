@@ -25,11 +25,11 @@ import com.alibaba.druid.util.StringUtils;
  */
 public class NamespaceUtils {
 
-    private static SysUserNamespaceService sysUserNamespaceService = SpringContextUtils.getBean("sysUserNamespaceService", SysUserNamespaceService.class);
+    private static final SysUserNamespaceService SYS_USER_NAMESPACE_SERVICE = SpringContextUtils.getBean("sysUserNamespaceService", SysUserNamespaceService.class);
 
-    private static SysNamespaceService sysNamespaceService = SpringContextUtils.getBean("sysNamespaceService", SysNamespaceService.class);
+    private static final SysNamespaceService SYS_NAMESPACE_SERVICE = SpringContextUtils.getBean("sysNamespaceService", SysNamespaceService.class);
 
-    private static ThreadLocalProperties threadLocalProperties = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
+    private static final ThreadLocalProperties THREAD_LOCAL_PROPERTIES = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
 
     private static final String NAMESPACE_ID = "namespaceId";
 
@@ -39,15 +39,15 @@ public class NamespaceUtils {
      * @return
      */
     public static Integer getNamespaceId() {
-        String namespaceId = threadLocalProperties.get(NAMESPACE_ID);
+        String namespaceId = THREAD_LOCAL_PROPERTIES.get(NAMESPACE_ID);
         if (StringUtils.isEmpty(namespaceId)) {
             String userId = UserUtils.getCurrentUserId();
             SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
             sysUserNamespace.setUserId(userId);
-            List<SysUserNamespaceResult> namespaceList = sysUserNamespaceService.findList(new SysUserNamespacePO(sysUserNamespace)).getData();
+            List<SysUserNamespaceResult> namespaceList = SYS_USER_NAMESPACE_SERVICE.findList(new SysUserNamespacePO(sysUserNamespace)).getData();
             if (CollectionUtils.isNotEmpty(namespaceList)) {
                 namespaceId = String.valueOf(namespaceList.get(0).getNamespaceId());
-                threadLocalProperties.set(NAMESPACE_ID, namespaceId);
+                THREAD_LOCAL_PROPERTIES.set(NAMESPACE_ID, namespaceId);
                 return Integer.valueOf(namespaceId);
             }
             return null;
@@ -61,14 +61,14 @@ public class NamespaceUtils {
      * @return
      */
     public static Integer getNamespaceId(String userId) {
-        String namespaceId = threadLocalProperties.get(NAMESPACE_ID);
+        String namespaceId = THREAD_LOCAL_PROPERTIES.get(NAMESPACE_ID);
         if (StringUtils.isEmpty(namespaceId)) {
             SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
             sysUserNamespace.setUserId(userId);
-            List<SysUserNamespaceResult> namespaceList = sysUserNamespaceService.findList(new SysUserNamespacePO(sysUserNamespace)).getData();
+            List<SysUserNamespaceResult> namespaceList = SYS_USER_NAMESPACE_SERVICE.findList(new SysUserNamespacePO(sysUserNamespace)).getData();
             if (CollectionUtils.isNotEmpty(namespaceList)) {
                 namespaceId = String.valueOf(namespaceList.get(0).getNamespaceId());
-                threadLocalProperties.set(NAMESPACE_ID, namespaceId);
+                THREAD_LOCAL_PROPERTIES.set(NAMESPACE_ID, namespaceId);
                 return Integer.valueOf(namespaceId);
             }
             return null;
@@ -84,12 +84,12 @@ public class NamespaceUtils {
     public static SysNamespace getNamespace(String userId) {
         SysUserNamespaceQuery sysUserNamespace = new SysUserNamespaceQuery();
         sysUserNamespace.setUserId(userId);
-        List<SysUserNamespaceResult> namespaceList = sysUserNamespaceService.findList(new SysUserNamespacePO(sysUserNamespace)).getData();
+        List<SysUserNamespaceResult> namespaceList = SYS_USER_NAMESPACE_SERVICE.findList(new SysUserNamespacePO(sysUserNamespace)).getData();
         if (CollectionUtils.isNotEmpty(namespaceList)) {
             SysUserNamespace sysUsernameSpace = namespaceList.get(0);
             SysNamespace querySysNamespace = new SysNamespace();
             querySysNamespace.setId(String.valueOf(sysUsernameSpace.getNamespaceId()));
-            return sysNamespaceService.getByAuth(querySysNamespace).getData();
+            return SYS_NAMESPACE_SERVICE.getByAuth(querySysNamespace).getData();
         }
         return null;
     }
@@ -103,14 +103,14 @@ public class NamespaceUtils {
         String userId = UserUtils.getCurrentUserId();
         Integer namespaceId = NamespaceUtils.getNamespaceId(userId);
         if (namespaceId == null || namespaceId <= 0) {
-            List<SysNamespaceResult> sysNamespaceList = sysNamespaceService.findListByAuth(new SysNamespacePO(new SysNamespaceQuery())).getData();
+            List<SysNamespaceResult> sysNamespaceList = SYS_NAMESPACE_SERVICE.findListByAuth(new SysNamespacePO(new SysNamespaceQuery())).getData();
             if (CollectionUtils.isNotEmpty(sysNamespaceList)) {
                 List<SysNamespaceResult> filterNamespaceList = PermissionUtils.filter(sysNamespaceList);
                 if (CollectionUtils.isNotEmpty(filterNamespaceList)) {
                     SysUserNamespace sysUserNamespace = new SysUserNamespace();
                     sysUserNamespace.setUserId(userId);
                     sysUserNamespace.setNamespaceId(Integer.valueOf(filterNamespaceList.get(0).getId()));
-                    sysUserNamespaceService.save(sysUserNamespace);
+                    SYS_USER_NAMESPACE_SERVICE.save(sysUserNamespace);
                 }
             }
 

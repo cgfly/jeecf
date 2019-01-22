@@ -24,15 +24,15 @@ import org.jeecf.manager.module.userpower.service.SysPowerService;
  */
 public class PermissionUtils {
 
-    private static SecurityFacade securityFacade = SpringContextUtils.getBean("securityFacade", SecurityFacade.class);
+    private static final SecurityFacade SECURITY_FACADE = SpringContextUtils.getBean("securityFacade", SecurityFacade.class);
 
-    private static SysPowerService sysPowerService = SpringContextUtils.getBean("sysPowerService", SysPowerService.class);
+    private static final SysPowerService SYS_POWER_SERVICE = SpringContextUtils.getBean("sysPowerService", SysPowerService.class);
 
-    private static PowerProperties powerProperties = SpringContextUtils.getBean("powerProperties", PowerProperties.class);
+    private static PowerProperties POWER_PROPERTIES = SpringContextUtils.getBean("powerProperties", PowerProperties.class);
 
-    public static final String MATCH_PERMISSION = powerProperties.getSuffixBaseName();
+    public static final String MATCH_PERMISSION = POWER_PROPERTIES.getSuffixBaseName();
 
-    public static final String[] RESOLVE_PERMISSION = {powerProperties.getSuffixEditName(), powerProperties.getSuffixViewName() };
+    public static final String[] RESOLVE_PERMISSION = {POWER_PROPERTIES.getSuffixEditName(), POWER_PROPERTIES.getSuffixViewName()};
 
     /**
      * 权限格式验证
@@ -57,7 +57,7 @@ public class PermissionUtils {
     public static String[] getResolvePermissions(String permission) {
         if (StringUtils.isNotEmpty(permission)) {
             String matchPermission = StringUtils.substringAfterLast(permission, ":");
-            if (powerProperties.getSuffixBaseName().equals(matchPermission)) {
+            if (POWER_PROPERTIES.getSuffixBaseName().equals(matchPermission)) {
                 String[] resolvePermission = new String[RESOLVE_PERMISSION.length];
                 String prefixPermission = StringUtils.substringBeforeLast(permission, ":");
                 for (int i = 0; i < RESOLVE_PERMISSION.length; i++) {
@@ -66,7 +66,7 @@ public class PermissionUtils {
                 return resolvePermission;
             }
         }
-        return new String[] {permission };
+        return new String[] {permission};
     }
 
     /**
@@ -74,7 +74,7 @@ public class PermissionUtils {
      */
     public static <T extends PermissionEntity> List<T> filter(List<T> permissions) {
         String userId = UserUtils.getCurrentUserId();
-        Set<String> sysPermissionSet = securityFacade.findPermission(userId).getData();
+        Set<String> sysPermissionSet = SECURITY_FACADE.findPermission(userId).getData();
         if (CollectionUtils.isNotEmpty(permissions) && CollectionUtils.isNotEmpty(sysPermissionSet)) {
             return permissions.stream().filter(t -> {
                 String[] tPermissions = PermissionUtils.getResolvePermissions(t.getPermission());
@@ -99,7 +99,7 @@ public class PermissionUtils {
      */
     public static boolean isExist(String permission) {
         String userId = UserUtils.getCurrentUserId();
-        Set<String> sysPermissionSet = securityFacade.findPermission(userId).getData();
+        Set<String> sysPermissionSet = SECURITY_FACADE.findPermission(userId).getData();
         if (CollectionUtils.isNotEmpty(sysPermissionSet)) {
             for (String permiss : sysPermissionSet) {
                 if (permiss.equals(permission)) {
@@ -144,10 +144,10 @@ public class PermissionUtils {
         if (flag) {
             String prefixPermission = StringUtils.substringBefore(permission, SplitCharEnum.COLON.getName());
             String suffixPermission = StringUtils.substringAfterLast(permission, SplitCharEnum.COLON.getName());
-            String queryPermission = prefixPermission + SplitCharEnum.COLON.getName() + powerProperties.getSuffixBaseName();
+            String queryPermission = prefixPermission + SplitCharEnum.COLON.getName() + POWER_PROPERTIES.getSuffixBaseName();
             SysPowerQuery sysPowerQuery = new SysPowerQuery();
             sysPowerQuery.setPermission(queryPermission);
-            List<SysPowerResult> sysPowerResultList = sysPowerService.findList(new SysPowerPO(sysPowerQuery)).getData();
+            List<SysPowerResult> sysPowerResultList = SYS_POWER_SERVICE.findList(new SysPowerPO(sysPowerQuery)).getData();
             if (CollectionUtils.isNotEmpty(sysPowerResultList)) {
                 SysPowerResult sysPowerResult = sysPowerResultList.get(0);
                 SysPower sysPower = new SysPower();
@@ -155,18 +155,18 @@ public class PermissionUtils {
                 sysPower.setPermission(permission);
                 sysPower.setParentId(sysPowerResult.getId());
                 sysPower.setParentIds(sysPowerResult.getId());
-                sysPower.setName(prefixName + suffixPermission + powerProperties.getFunctionName());
+                sysPower.setName(prefixName + suffixPermission + POWER_PROPERTIES.getFunctionName());
                 sysPower.setSort(10);
-                sysPowerService.save(sysPower);
+                SYS_POWER_SERVICE.save(sysPower);
             }
-        } else { 
+        } else {
             SysPowerQuery sysPowerQuery = new SysPowerQuery();
             sysPowerQuery.setPermission(permission);
-            List<SysPowerResult> sysPowerResultList = sysPowerService.findList(new SysPowerPO(sysPowerQuery)).getData();
+            List<SysPowerResult> sysPowerResultList = SYS_POWER_SERVICE.findList(new SysPowerPO(sysPowerQuery)).getData();
             if (CollectionUtils.isNotEmpty(sysPowerResultList)) {
                 SysPowerResult sysPowerResult = sysPowerResultList.get(0);
                 sysPowerResult.setPermission(permission);
-                sysPowerService.save(sysPowerResult);
+                SYS_POWER_SERVICE.save(sysPowerResult);
             }
         }
     }
@@ -174,7 +174,7 @@ public class PermissionUtils {
     public static void deletePower(String permission) {
         SysPowerQuery sysPowerQuery = new SysPowerQuery();
         sysPowerQuery.setPermission(permission);
-        List<SysPowerResult> sysPowerResultList = sysPowerService.findList(new SysPowerPO(sysPowerQuery)).getData();
+        List<SysPowerResult> sysPowerResultList = SYS_POWER_SERVICE.findList(new SysPowerPO(sysPowerQuery)).getData();
         if (CollectionUtils.isNotEmpty(sysPowerResultList)) {
             SecurityFacade securityFacade = SpringContextUtils.getBean("securityFacade", SecurityFacade.class);
             securityFacade.deletePower(sysPowerResultList.get(0).getId());

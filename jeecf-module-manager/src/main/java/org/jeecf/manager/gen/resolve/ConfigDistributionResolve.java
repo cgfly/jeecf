@@ -25,7 +25,7 @@ public class ConfigDistributionResolve {
      * @param paramsMap
      * @return
      */
-    public DistributionEntity process(JsonNode distributionNode, Map<String, Object> paramsMap) {
+    public static DistributionEntity process(JsonNode distributionNode, Map<String, Object> paramsMap) {
         DistributionEntity distributionEntity = new DistributionEntity();
         if (distributionNode != null) {
             distributionEntity.setActive(resolveDistributionActive(distributionNode.get("active")));
@@ -42,7 +42,7 @@ public class ConfigDistributionResolve {
      * @param activeNode
      * @return
      */
-    private boolean resolveDistributionActive(JsonNode activeNode) {
+    private static boolean resolveDistributionActive(JsonNode activeNode) {
         if (activeNode != null) {
             return activeNode.asBoolean();
         }
@@ -55,7 +55,7 @@ public class ConfigDistributionResolve {
      * @param strategyNode
      * @return
      */
-    private String resolveDistributionStrategy(JsonNode strategyNode) {
+    private static String resolveDistributionStrategy(JsonNode strategyNode) {
         if (strategyNode != null) {
             String strategy = StringUtils.lowerCase(strategyNode.asText());
             if (DistributionStrategyEnum.contains(strategy)) {
@@ -72,7 +72,7 @@ public class ConfigDistributionResolve {
      * @param typeNode
      * @return
      */
-    private String resolveDistributionType(JsonNode typeNode) {
+    private static String resolveDistributionType(JsonNode typeNode) {
         if (typeNode != null) {
             String type = StringUtils.lowerCase(typeNode.asText());
             if (RuleFilterTypeEnum.contains(type)) {
@@ -91,7 +91,7 @@ public class ConfigDistributionResolve {
      * @param paramsMap
      * @return
      */
-    private String resolveDistributionField(JsonNode fieldNode, String type, Map<String, Object> paramsMap) {
+    private static String resolveDistributionField(JsonNode fieldNode, String type, Map<String, Object> paramsMap) {
         if (fieldNode != null) {
             if (type.equals(RuleFilterTypeEnum.CURE.getName())) {
                 return fieldNode.asText();

@@ -27,10 +27,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class ConfigResolveHandler extends AbstractHandler {
 
-    private ConfigModuleResolve configModuleResolve = new ConfigModuleResolve();
-
-    private ConfigDistributionResolve configDistributionResolve = new ConfigDistributionResolve();
-
     @Override
     public void init(ChainContext context) {
         this.chainContext = context;
@@ -61,10 +57,10 @@ public class ConfigResolveHandler extends AbstractHandler {
             if (globalNode != null) {
                 globalParams = JsonMapper.toJson(globalNode);
             }
-            DistributionEntity distributionEntity = configDistributionResolve.process(distributionNode, paramsMap);
+            DistributionEntity distributionEntity = ConfigDistributionResolve.process(distributionNode, paramsMap);
             context.setOutDir(outDir);
             context.setGlobalParams(globalParams);
-            context.setModuleEntitys(configModuleResolve.process(modulesNode, sourcePath, distributionEntity.isActive()));
+            context.setModuleEntitys(ConfigModuleResolve.process(modulesNode, sourcePath, distributionEntity.isActive()));
             context.setDistributionEntity(distributionEntity);
             this.chainContext.put("configContext", context);
             this.chainContext.next();

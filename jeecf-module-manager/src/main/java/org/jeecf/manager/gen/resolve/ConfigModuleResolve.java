@@ -27,17 +27,17 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class ConfigModuleResolve {
 
-    public List<ModuleEntity> process(JsonNode modulesNode, String sourcePath, boolean isDistribution) {
+    public static List<ModuleEntity> process(JsonNode modulesNode, String sourcePath, boolean isDistribution) {
         List<ModuleEntity> mdouleEntityList = new ArrayList<>();
         if (modulesNode != null) {
             if (modulesNode.isArray()) {
                 Iterator<JsonNode> modulesIter = modulesNode.iterator();
                 while (modulesIter.hasNext()) {
                     JsonNode moduleNode = modulesIter.next();
-                    mdouleEntityList.add(this.buildModuleEntity(moduleNode, sourcePath, isDistribution));
+                    mdouleEntityList.add(buildModuleEntity(moduleNode, sourcePath, isDistribution));
                 }
             } else {
-                mdouleEntityList.add(this.buildModuleEntity(modulesNode, sourcePath, isDistribution));
+                mdouleEntityList.add(buildModuleEntity(modulesNode, sourcePath, isDistribution));
             }
         } else {
             throw new BusinessException(BusinessErrorEnum.CONFIG_MODULE_MPTY);
@@ -51,7 +51,7 @@ public class ConfigModuleResolve {
      * @param nameNode
      * @return
      */
-    private String resolveName(JsonNode nameNode) {
+    private static String resolveName(JsonNode nameNode) {
         if (nameNode != null) {
             return nameNode.asText();
         }
@@ -65,7 +65,7 @@ public class ConfigModuleResolve {
      * @param isDistribution
      * @return
      */
-    private String resolveMatch(JsonNode matchNode, boolean isDistribution) {
+    private static String resolveMatch(JsonNode matchNode, boolean isDistribution) {
         if (matchNode != null && isDistribution) {
             return matchNode.asText();
         }
@@ -79,7 +79,7 @@ public class ConfigModuleResolve {
      * @param basePath
      * @return
      */
-    private Set<Resource> resolvePath(JsonNode pathsNode, String basePath) {
+    private static Set<Resource> resolvePath(JsonNode pathsNode, String basePath) {
         Set<Resource> paths = new HashSet<>();
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         if (pathsNode != null) {
@@ -88,11 +88,11 @@ public class ConfigModuleResolve {
                     Iterator<JsonNode> pathsIter = pathsNode.iterator();
                     while (pathsIter.hasNext()) {
                         String path = basePath + File.separator + pathsIter.next().asText();
-                        this.buildPathResources(path, resolver, paths);
+                        buildPathResources(path, resolver, paths);
                     }
                 } else {
                     String path = basePath + File.separator + pathsNode.asText();
-                    this.buildPathResources(path, resolver, paths);
+                    buildPathResources(path, resolver, paths);
                 }
                 return paths;
             } catch (IOException e) {
@@ -108,7 +108,7 @@ public class ConfigModuleResolve {
      * @param parmasNode
      * @return
      */
-    private String resolveParams(JsonNode parmasNode) {
+    private static String resolveParams(JsonNode parmasNode) {
         if (parmasNode != null) {
             return JsonMapper.toJson(parmasNode);
         }
@@ -121,7 +121,7 @@ public class ConfigModuleResolve {
      * @param ruleNode
      * @return
      */
-    private String resolveRule(JsonNode ruleNode) {
+    private static String resolveRule(JsonNode ruleNode) {
         if (ruleNode != null) {
             return ruleNode.asText();
         }
@@ -135,7 +135,7 @@ public class ConfigModuleResolve {
      * @param path
      * @return
      */
-    private ModuleEntity buildModuleEntity(JsonNode moduleNode, String path, boolean isDistribution) {
+    private static ModuleEntity buildModuleEntity(JsonNode moduleNode, String path, boolean isDistribution) {
         ModuleEntity moduleEntity = new ModuleEntity();
         moduleEntity.setName(resolveName(moduleNode.get("name")));
         moduleEntity.setRule(resolveRule(moduleNode.get("rule")));
@@ -153,7 +153,7 @@ public class ConfigModuleResolve {
      * @param paths
      * @throws IOException
      */
-    private void buildPathResources(String path, ResourcePatternResolver resolver, Set<Resource> paths) throws IOException {
+    private static void buildPathResources(String path, ResourcePatternResolver resolver, Set<Resource> paths) throws IOException {
         Resource[] resources;
         resources = resolver.getResources("file:" + path);
         for (Resource resource : resources) {

@@ -24,40 +24,40 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class TemplateUtils {
 
-    private static TemplateProperties properties = SpringContextUtils.getBean("templateProperties", TemplateProperties.class);
+    private static TemplateProperties PROPERTIES = SpringContextUtils.getBean("templateProperties", TemplateProperties.class);
 
     public static void delDownload(String filePath, String namespaceName) {
-        String sourcePath = properties.getUploadPath() + File.separator + namespaceName + File.separator + filePath;
-        String tempPath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + filePath;
+        String sourcePath = PROPERTIES.getUploadPath() + File.separator + namespaceName + File.separator + filePath;
+        String tempPath = PROPERTIES.getUploadTmpPath() + File.separator + namespaceName + File.separator + filePath;
         FileUtils.deleteDirectory(sourcePath);
         FileUtils.deleteDirectory(tempPath);
     }
 
     public static void unzip(String path, String name, String namespaceName) {
-        String tempFilePath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + path + File.separator + name;
+        String tempFilePath = PROPERTIES.getUploadTmpPath() + File.separator + namespaceName + File.separator + path + File.separator + name;
         String desPath = getUnzipPath(path, namespaceName);
         ZipUtils.unzip(tempFilePath, desPath);
     }
 
     public static String getUnzipPath(String path, String namespaceName) {
-        String sourcePath = properties.getUploadPath() + File.separator + namespaceName + File.separator + path;
+        String sourcePath = PROPERTIES.getUploadPath() + File.separator + namespaceName + File.separator + path;
         return sourcePath;
     }
 
     public static String getZipFilePath(String path, String namespaceName) {
-        String zipFilePath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + path + SplitCharEnum.DOT.getName() + properties.getSuffixName();
+        String zipFilePath = PROPERTIES.getUploadTmpPath() + File.separator + namespaceName + File.separator + path + SplitCharEnum.DOT.getName() + PROPERTIES.getSuffixName();
         return zipFilePath;
     }
 
     public static String upload(MultipartFile file, SysNamespace sysNamespace) {
-        boolean isZip = FileTypeUtils.isType(properties.getSuffixName(), file.getOriginalFilename());
+        boolean isZip = FileTypeUtils.isType(PROPERTIES.getSuffixName(), file.getOriginalFilename());
         if (!isZip) {
             throw new BusinessException(BusinessErrorEnum.ZIP_NOT);
         }
         if (sysNamespace != null) {
             int randomNumber = 5;
             String uuid = IdGenUtils.randomUUID(randomNumber);
-            String suffixPath = properties.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator + uuid;
+            String suffixPath = PROPERTIES.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator + uuid;
             String filePath = suffixPath + File.separator + file.getOriginalFilename();
             try {
                 FileUtils.createDirectory(suffixPath);

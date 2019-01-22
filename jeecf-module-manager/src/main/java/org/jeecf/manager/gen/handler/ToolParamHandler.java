@@ -15,9 +15,9 @@ import org.jeecf.manager.gen.tools.StringTools;
  */
 public class ToolParamHandler extends AbstractHandler {
 
-    private ObjectTools objectTools = new ObjectTools();
+    private static final ObjectTools OBJECT_TOOLS = new ObjectTools();
 
-    private StringTools stringTools = new StringTools();
+    private static final StringTools STRING_TOOLS = new StringTools();
 
     @Override
     public void init(ChainContext context) {
@@ -28,8 +28,8 @@ public class ToolParamHandler extends AbstractHandler {
     public void process() {
         @SuppressWarnings("unchecked")
         Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-        params.put("ObjectTools", objectTools);
-        params.put("StringTools", stringTools);
+        params.put("ObjectTools", OBJECT_TOOLS);
+        params.put("StringTools", STRING_TOOLS);
         this.chainContext.put("params", params);
         this.chainContext.next();
     }

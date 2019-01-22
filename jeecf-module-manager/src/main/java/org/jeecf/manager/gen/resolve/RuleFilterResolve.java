@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class RuleFilterResolve {
 
-    public List<FilterEntity> handler(JsonNode filterNodes, boolean isData, Map<String, Object> paramsMap) {
+    public static List<FilterEntity> process(JsonNode filterNodes, boolean isData, Map<String, Object> paramsMap) {
         if (!isData) {
             return null;
         }
@@ -34,10 +34,10 @@ public class RuleFilterResolve {
                 Iterator<JsonNode> rulesIter = filterNodes.iterator();
                 while (rulesIter.hasNext()) {
                     JsonNode ruleNode = rulesIter.next();
-                    filterEntitys.add(this.buildFilterEntity(ruleNode, paramsMap));
+                    filterEntitys.add(buildFilterEntity(ruleNode, paramsMap));
                 }
             } else {
-                filterEntitys.add(this.buildFilterEntity(filterNodes, paramsMap));
+                filterEntitys.add(buildFilterEntity(filterNodes, paramsMap));
             }
         } else {
             filterEntitys.add(new FilterEntity());
@@ -51,7 +51,7 @@ public class RuleFilterResolve {
      * @param filterNode
      * @return
      */
-    private FilterEntity buildFilterEntity(JsonNode filterNode, Map<String, Object> paramsMap) {
+    private static FilterEntity buildFilterEntity(JsonNode filterNode, Map<String, Object> paramsMap) {
         FilterEntity filterEntity = new FilterEntity();
         filterEntity.setStrategy(resolveFilterStrategy(filterNode.get("strategy")));
         filterEntity.setType(resolveFilterType(filterNode.get("type")));
@@ -66,7 +66,7 @@ public class RuleFilterResolve {
      * @param strategyNode
      * @return
      */
-    private String resolveFilterStrategy(JsonNode strategyNode) {
+    private static String resolveFilterStrategy(JsonNode strategyNode) {
         if (strategyNode != null) {
             String strategy = StringUtils.lowerCase(strategyNode.asText());
             if (RuleFilterStrategyEnum.contains(strategy)) {
@@ -83,7 +83,7 @@ public class RuleFilterResolve {
      * @param strategyNode
      * @return
      */
-    private String resolveFilterType(JsonNode typeNode) {
+    private static String resolveFilterType(JsonNode typeNode) {
         if (typeNode != null) {
             String type = StringUtils.lowerCase(typeNode.asText());
             if (RuleFilterTypeEnum.contains(type)) {
@@ -101,7 +101,7 @@ public class RuleFilterResolve {
      * @param type
      * @return
      */
-    private String resolveFilterField(JsonNode fieldNode, String type, Map<String, Object> paramsMap) {
+    private static String resolveFilterField(JsonNode fieldNode, String type, Map<String, Object> paramsMap) {
         if (fieldNode != null) {
             if (type.equals(RuleFilterTypeEnum.CURE.getName())) {
                 return fieldNode.asText();
@@ -119,7 +119,7 @@ public class RuleFilterResolve {
      * @param strategy
      * @return
      */
-    private String resolveFilterValue(JsonNode valueNode, String strategy, Map<String, Object> paramsMap) {
+    private static String resolveFilterValue(JsonNode valueNode, String strategy, Map<String, Object> paramsMap) {
         if (strategy.equals(RuleFilterStrategyEnum.VALUE.getName()) && valueNode == null) {
             throw new BusinessException(BusinessErrorEnum.RULE_FILTER_VALUE_EMPTY);
         }

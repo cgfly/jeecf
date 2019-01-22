@@ -32,16 +32,6 @@ import org.jeecf.manager.gen.strategy.TreeDataStrategy;
  */
 public class TableParamHandler extends AbstractHandler {
 
-    private ManyTableStrategy manyTableStrategy = new ManyTableStrategy();
-
-    private GroupDataStrategy groupDataStrategy = new GroupDataStrategy();
-
-    private FilterStrategy filterStrategy = new FilterStrategy();
-
-    private TreeDataStrategy treeDataStrategy = new TreeDataStrategy();
-
-    private DistributionLikeStrategy distributionLikeStrategy = new DistributionLikeStrategy();
-
     @Override
     public void init(ChainContext context) {
         this.chainContext = context;
@@ -92,7 +82,7 @@ public class TableParamHandler extends AbstractHandler {
             TableBuilder builder = new TableBuilder();
             BaseTable table = builder.build(tableName);
             if (ruleContext.isData()) {
-                String data = filterStrategy.handler(ruleContext.getFilterEntitys(), builder);
+                String data = FilterStrategy.handler(ruleContext.getFilterEntitys(), builder,table);
                 StrategyEntity strategyEntity = ruleContext.getStrategyEntity();
                 if (strategyEntity != null && StringUtils.isNotBlank(strategyEntity.getName())) {
                     if (StringUtils.isEmpty(data)) {
@@ -130,7 +120,7 @@ public class TableParamHandler extends AbstractHandler {
             buildDatas(moduleEntitys, data, table, strategyEntity.getField(), distributionEntity);
             return;
         } else if (strategyEntity.getName().equals(RuleStrategyNameEnum.TREE.name)) {
-            data = treeDataStrategy.handler(data);
+            data = TreeDataStrategy.handler(data);
             buildData(moduleEntitys, data, table, distributionEntity);
             return;
         }
@@ -169,12 +159,12 @@ public class TableParamHandler extends AbstractHandler {
         if (distributionEntity.isActive()) {
             moduleEntitys.forEach(moduleEntity -> {
                 String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch());
-                List<Map<String, Object>> datas = groupDataStrategy.handler(distributionData, field.split(","));
+                List<Map<String, Object>> datas = GroupDataStrategy.handler(distributionData, field.split(","));
                 moduleEntity.setDatas(datas);
                 moduleEntity.setTable(table);
             });
         } else {
-            List<Map<String, Object>> datas = groupDataStrategy.handler(data, field.split(","));
+            List<Map<String, Object>> datas = GroupDataStrategy.handler(data, field.split(","));
             moduleEntitys.forEach(moduleEntity -> {
                 moduleEntity.setDatas(datas);
                 moduleEntity.setTable(table);
@@ -195,12 +185,12 @@ public class TableParamHandler extends AbstractHandler {
         if (distributionEntity.isActive()) {
             moduleEntitys.forEach(moduleEntity -> {
                 String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch());
-                List<Object> tables = manyTableStrategy.handler(distributionData, field, builder);
+                List<Object> tables = ManyTableStrategy.handler(distributionData, field, builder);
                 moduleEntity.setData(data);
                 moduleEntity.setTables(tables);
             });
         } else {
-            List<Object> tables = manyTableStrategy.handler(data, field, builder);
+            List<Object> tables = ManyTableStrategy.handler(data, field, builder);
             moduleEntitys.forEach(moduleEntity -> {
                 moduleEntity.setData(data);
                 moduleEntity.setTables(tables);
@@ -217,7 +207,7 @@ public class TableParamHandler extends AbstractHandler {
      * @return
      */
     private String buildDistributionStrategy(String data, String field, String match) {
-        return distributionLikeStrategy.handler(data, field, match);
+        return DistributionLikeStrategy.handler(data, field, match);
     }
 
 }

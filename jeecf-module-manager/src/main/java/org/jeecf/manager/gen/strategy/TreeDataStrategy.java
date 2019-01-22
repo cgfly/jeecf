@@ -26,7 +26,7 @@ public class TreeDataStrategy {
 
     private static final String CHILDS = "_childs";
 
-    public String handler(String data) {
+    public static String handler(String data) {
         JsonNode dataNodes = JsonMapper.getJsonNode(data);
         ArrayNode resultNode = JsonNodeFactory.instance.arrayNode();
         ObjectNode objNode = JsonNodeFactory.instance.objectNode();

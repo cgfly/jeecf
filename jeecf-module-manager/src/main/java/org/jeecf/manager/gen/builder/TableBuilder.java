@@ -26,33 +26,31 @@ import org.jeecf.manager.proxy.TargetTableProxy;
 import org.springframework.beans.BeanUtils;
 
 /**
- * 语言构建类
+ * 表构建类
  * 
  * @author jianyiming
  *
  */
 public class TableBuilder {
 
-    private GenTableService genTableService = SpringContextUtils.getBean("genTableService", GenTableService.class);
+    private static final GenTableService GEN_TABLE_SERVICE = SpringContextUtils.getBean("genTableService", GenTableService.class);
 
-    private GenTableFacade genTableFacade = SpringContextUtils.getBean("genTableFacade", GenTableFacade.class);
+    private static final GenTableFacade GEN_TABLE_FACADE = SpringContextUtils.getBean("genTableFacade", GenTableFacade.class);
 
-    private GenTableColumnService genTableColumnService = SpringContextUtils.getBean("genTableColumnService", GenTableColumnService.class);
+    private static final GenTableColumnService GEN_TABLE_COLUMN_SERVICE = SpringContextUtils.getBean("genTableColumnService", GenTableColumnService.class);
 
-    private TargetTableProxy targetTableProxy = SpringContextUtils.getBean("targetTableProxy", TargetTableProxy.class);
-
-    private BaseTable baseTable;
+    private static final TargetTableProxy TARGET_TABLE_PROXY = SpringContextUtils.getBean("targetTableProxy", TargetTableProxy.class);
 
     public BaseTable build(String tableName) {
         GenTableQuery queryGenTable = new GenTableQuery();
         queryGenTable.setName(tableName);
-        List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryGenTable)).getData();
+        List<GenTableResult> genTableList = GEN_TABLE_SERVICE.findListByAuth(new GenTablePO(queryGenTable)).getData();
         GenTableResult genTable = null;
         if (CollectionUtils.isNotEmpty(genTableList)) {
             genTable = genTableList.get(0);
             GenTableColumnQuery queryTableColumn = new GenTableColumnQuery();
             queryTableColumn.setGenTable(genTable);
-            Response<List<GenTableColumnResult>> tableColumnRes = genTableColumnService.findList(new GenTableColumnPO(queryTableColumn));
+            Response<List<GenTableColumnResult>> tableColumnRes = GEN_TABLE_COLUMN_SERVICE.findList(new GenTableColumnPO(queryTableColumn));
             List<GenTableColumnResult> tableColumnList = tableColumnRes.getData();
             if (CollectionUtils.isNotEmpty(tableColumnList)) {
                 genTable.setGenTableColumns(tableColumnList);
@@ -62,10 +60,8 @@ public class TableBuilder {
         BeanUtils.copyProperties(genTable, baseTable);
         List<GenTableColumnResult> genTableColumnResultList = genTable.getGenTableColumns();
         baseTable.setGenTableColumns(buildCommonTableColumn(genTableColumnResultList));
-
         baseTable.setParent(getParent(genTable.getParentTableId()));
         baseTable.setChildList(getChilds(genTable.getId()));
-        this.baseTable = baseTable;
         return baseTable;
     }
 
@@ -75,17 +71,17 @@ public class TableBuilder {
      * @param whereEntitys
      * @return
      */
-    public String getData(List<WhereEntity> whereEntitys) {
-        if (this.baseTable != null) {
-            SelectTable selectTable = SelectTable.Builder.build(this.baseTable.getClassName(), this.baseTable.getName());
+    public String getData(List<WhereEntity> whereEntitys, BaseTable baseTable) {
+        if (baseTable != null) {
+            SelectTable selectTable = SelectTable.Builder.build(baseTable.getClassName(), baseTable.getName());
             List<SelectTableColumn> columnList = new ArrayList<>();
-            List<BaseTableColumn> tableColumnList = this.baseTable.getGenTableColumns();
+            List<BaseTableColumn> tableColumnList = baseTable.getGenTableColumns();
             tableColumnList.forEach(tableColumn -> {
                 columnList.add(SelectTableColumn.Builder.build(tableColumn.getField(), tableColumn.getName()));
             });
             selectTable.setWhereEntitys(whereEntitys);
             selectTable.setSelectTableColumns(columnList);
-            return targetTableProxy.selectTable(selectTable).getData();
+            return TARGET_TABLE_PROXY.selectTable(selectTable).getData();
         }
         return null;
     }
@@ -97,7 +93,7 @@ public class TableBuilder {
      * @return
      */
     private List<CommonTable> getChilds(String id) {
-        List<GenTableResult> tableResultList = genTableFacade.findChildTables(id).getData();
+        List<GenTableResult> tableResultList = GEN_TABLE_FACADE.findChildTables(id).getData();
         List<CommonTable> childTables = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(tableResultList)) {
             tableResultList.forEach(tableResult -> {
@@ -118,7 +114,7 @@ public class TableBuilder {
      * @return
      */
     private CommonTable getParent(String id) {
-        GenTable parentTable = genTableFacade.findParentTable(id).getData();
+        GenTable parentTable = GEN_TABLE_FACADE.findParentTable(id).getData();
         CommonTable parentCommonTable = new CommonTable();
         if (parentTable != null) {
             BeanUtils.copyProperties(parentTable, parentCommonTable);

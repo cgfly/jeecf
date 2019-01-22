@@ -16,25 +16,25 @@ public class RedisCacheUtils {
 
     public static final String[] CACHE_TYPE = {"SYS"};
 
-    private static int DEFAULT_TIMEOUT = 24 * 60 * 60;
+    private static final int DEFAULT_TIMEOUT = 24 * 60 * 60;
 
-    private static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+    private static final StringRedisSerializer STRING_REDIS_SERIALIZER = new StringRedisSerializer();
 
-    private static RedisObjectSerializer redisObjectSerializer = new RedisObjectSerializer();
+    private static final RedisObjectSerializer REDIS_OBJECT_SERIALIZER = new RedisObjectSerializer();
 
     public static void setSysCache(String key, String value) {
         Jedis jedis = RedisUtils.getJedis();
-        jedis.setex(stringRedisSerializer.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key), DEFAULT_TIMEOUT, stringRedisSerializer.serialize(value));
+        jedis.setex(STRING_REDIS_SERIALIZER.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key), DEFAULT_TIMEOUT, STRING_REDIS_SERIALIZER.serialize(value));
         jedis.close();
     }
 
     public static String getSysCache(String key) {
         String result = null;
         Jedis jedis = RedisUtils.getJedis();
-        byte[] bytes = jedis.get(stringRedisSerializer.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key));
+        byte[] bytes = jedis.get(STRING_REDIS_SERIALIZER.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key));
         if (bytes != null) {
-            result = stringRedisSerializer.deserialize(bytes);
-            jedis.expire(stringRedisSerializer.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key), DEFAULT_TIMEOUT);
+            result = STRING_REDIS_SERIALIZER.deserialize(bytes);
+            jedis.expire(STRING_REDIS_SERIALIZER.serialize(CACHE_TYPE[0] + SplitCharEnum.UNDERLINE.getName() + key), DEFAULT_TIMEOUT);
         }
         jedis.close();
         return result;
@@ -42,29 +42,29 @@ public class RedisCacheUtils {
 
     public static void setCache(String key, Object value) {
         Jedis jedis = RedisUtils.getJedis();
-        jedis.set(stringRedisSerializer.serialize(key), redisObjectSerializer.serialize(value));
+        jedis.set(STRING_REDIS_SERIALIZER.serialize(key), REDIS_OBJECT_SERIALIZER.serialize(value));
         jedis.close();
     }
 
     public static void setCache(String key, Object value, int timeout) {
         Jedis jedis = RedisUtils.getJedis();
-        jedis.setex(stringRedisSerializer.serialize(key), timeout, redisObjectSerializer.serialize(value));
+        jedis.setex(STRING_REDIS_SERIALIZER.serialize(key), timeout, REDIS_OBJECT_SERIALIZER.serialize(value));
         jedis.close();
     }
 
     public static Object getCache(String key) {
         Jedis jedis = RedisUtils.getJedis();
-        byte[] bytes = jedis.get(stringRedisSerializer.serialize(key));
+        byte[] bytes = jedis.get(STRING_REDIS_SERIALIZER.serialize(key));
         jedis.close();
         if (bytes != null) {
-            return redisObjectSerializer.deserialize(bytes);
+            return REDIS_OBJECT_SERIALIZER.deserialize(bytes);
         }
         return null;
     }
 
     public static void delCache(String key) {
         Jedis jedis = RedisUtils.getJedis();
-        jedis.del(stringRedisSerializer.serialize(key));
+        jedis.del(STRING_REDIS_SERIALIZER.serialize(key));
         jedis.close();
     }
 

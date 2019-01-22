@@ -29,10 +29,6 @@ public class RuleResolveHandler extends AbstractHandler {
 
     private Map<String, Object> paramsMap = null;
 
-    private RuleFilterResolve ruleFilterResolve = new RuleFilterResolve();
-
-    private RuleStrategyResolve ruleStrategyResolve = new RuleStrategyResolve();
-
     @Override
     public void init(ChainContext context) {
         this.chainContext = context;
@@ -79,8 +75,8 @@ public class RuleResolveHandler extends AbstractHandler {
         RuleContext context = new RuleContext();
         context.setName(resolveName(ruleNode.get("name")));
         context.setData(resolveData(ruleNode.get("data")));
-        context.setFilterEntitys(ruleFilterResolve.handler(ruleNode.get("filter"), context.isData(), paramsMap));
-        context.setStrategyEntity(ruleStrategyResolve.handler(ruleNode.get("strategy"), context.isData(), paramsMap));
+        context.setFilterEntitys(RuleFilterResolve.process(ruleNode.get("filter"), context.isData(), paramsMap));
+        context.setStrategyEntity(RuleStrategyResolve.process(ruleNode.get("strategy"), context.isData(), paramsMap));
         return context;
     }
 

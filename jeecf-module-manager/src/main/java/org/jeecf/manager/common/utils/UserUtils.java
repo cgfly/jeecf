@@ -12,7 +12,7 @@ import org.jeecf.manager.module.userpower.service.SysUserService;
  */
 public class UserUtils {
 
-    private static SysUserService sysUserService = SpringContextUtils.getBean("sysUserService", SysUserService.class);
+    private static final SysUserService SYS_USER_SERVICE = SpringContextUtils.getBean("sysUserService", SysUserService.class);
 
     /**
      * 获取当前用户标示
@@ -35,7 +35,7 @@ public class UserUtils {
         String id = (String) RedisCacheUtils.getSysCache(sessionId);
         SysUser queryUser = new SysUser();
         queryUser.setId(id);
-        return sysUserService.get(queryUser).getData();
+        return SYS_USER_SERVICE.get(queryUser).getData();
     }
 
 }

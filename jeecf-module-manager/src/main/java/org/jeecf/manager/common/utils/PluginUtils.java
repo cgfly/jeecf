@@ -21,14 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class PluginUtils {
 
-    private static PluginProperties properties = SpringContextUtils.getBean("pluginProperties", PluginProperties.class);
+    private static final PluginProperties PROPERTIES = SpringContextUtils.getBean("pluginProperties", PluginProperties.class);
 
     public static String getFilePath(String fileName) {
-        return properties.getUploadPath() + File.separator + fileName;
+        return PROPERTIES.getUploadPath() + File.separator + fileName;
     }
 
     public static String getTmpFilePath(String fileName) {
-        return properties.getUploadTmpPath() + File.separator + fileName;
+        return PROPERTIES.getUploadTmpPath() + File.separator + fileName;
     }
 
     public static void delFile(String fileName) {
@@ -42,13 +42,13 @@ public class PluginUtils {
     }
 
     public static String upload(MultipartFile file) {
-        boolean isJar = FileTypeUtils.isType(properties.getSuffixName(), file.getOriginalFilename());
+        boolean isJar = FileTypeUtils.isType(PROPERTIES.getSuffixName(), file.getOriginalFilename());
         if (!isJar) {
             throw new BusinessException(BusinessErrorEnum.JAR_NOT);
         }
-        String filePath = properties.getUploadTmpPath() + File.separator + file.getOriginalFilename();
+        String filePath = PROPERTIES.getUploadTmpPath() + File.separator + file.getOriginalFilename();
         try {
-            FileUtils.createDirectory(properties.getUploadTmpPath());
+            FileUtils.createDirectory(PROPERTIES.getUploadTmpPath());
             Files.write(Paths.get(filePath), file.getBytes());
             return filePath;
         } catch (IOException e) {

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class GroupDataStrategy {
 
-    public List<Map<String, Object>> handler(String data, String... groups) {
+    public static List<Map<String, Object>> handler(String data, String... groups) {
         List<Map<String, Object>> result = new ArrayList<>();
         if (groups.length > 0) {
             JsonNode jsonNode = JsonMapper.getJsonNode(data);

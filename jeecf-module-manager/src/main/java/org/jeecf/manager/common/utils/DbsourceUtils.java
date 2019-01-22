@@ -19,22 +19,22 @@ import org.jeecf.manager.module.config.service.SysDbsourceService;
  */
 public class DbsourceUtils {
 
-    private static ThreadLocalProperties threadLocalProperties = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
+    private static final ThreadLocalProperties THREAD_LOCAL_PROPERTIES = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
 
-    private static SysDbsourceService sysDbsourceService = SpringContextUtils.getBean("sysDbsourceService", SysDbsourceService.class);
+    private static final SysDbsourceService SYS_DBSOURCE_SERVICE = SpringContextUtils.getBean("sysDbsourceService", SysDbsourceService.class);
 
     private static final String DBSOURCE_ID = "dbsourceId";
 
     public static Integer getSysDbsourceId() {
-        String dbsourceId = threadLocalProperties.get(DBSOURCE_ID);
+        String dbsourceId = THREAD_LOCAL_PROPERTIES.get(DBSOURCE_ID);
         if (StringUtils.isEmpty(dbsourceId)) {
             SysDbsourceQuery sysDbsourceQuery = new SysDbsourceQuery();
             sysDbsourceQuery.setKeyName(DynamicDataSourceContextHolder.getCurrentDataSourceValue());
             SysDbsourcePO sysDbsourcePO = new SysDbsourcePO(sysDbsourceQuery);
-            List<SysDbsourceResult> dbList = sysDbsourceService.findListByAuth(sysDbsourcePO).getData();
+            List<SysDbsourceResult> dbList = SYS_DBSOURCE_SERVICE.findListByAuth(sysDbsourcePO).getData();
             if (CollectionUtils.isNotEmpty(dbList)) {
                 dbsourceId = String.valueOf(dbList.get(0).getId());
-                threadLocalProperties.set(DBSOURCE_ID, dbsourceId);
+                THREAD_LOCAL_PROPERTIES.set(DBSOURCE_ID, dbsourceId);
                 return Integer.valueOf(dbsourceId);
             }
         }

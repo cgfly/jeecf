@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class ManyTableStrategy {
 
-    public List<Object> handler(String data, String field, TableBuilder builder) {
+    public static List<Object> handler(String data, String field, TableBuilder builder) {
         List<Object> tables = new ArrayList<>();
         JsonNode dataNodes = JsonMapper.getJsonNode(data);
         if (dataNodes.isArray()) {
