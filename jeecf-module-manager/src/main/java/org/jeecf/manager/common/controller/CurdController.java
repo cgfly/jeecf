@@ -17,28 +17,28 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @param <T> 实体
  */
 public interface CurdController<Q, R, S, T> extends BaseController {
-	/**
-	 * 查询数据列表
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public Response<List<R>> list(@RequestBody Request<Q, S> request);
+    /**
+     * 查询数据列表
+     * 
+     * @param request
+     * @return
+     */
+    public Response<List<R>> list(@RequestBody Request<Q, S> request);
 
-	/**
-	 * 保存数据
-	 * 
-	 * @param t
-	 * @return
-	 */
-	public Response<R> save(T t);
+    /**
+     * 保存数据
+     * 
+     * @param t
+     * @return
+     */
+    public Response<R> save(T t);
 
-	/**
-	 * 根据主键删除
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public Response<Integer> delete(String id);
+    /**
+     * 根据主键删除
+     * 
+     * @param id
+     * @return
+     */
+    public Response<Integer> delete(String id);
 
 }

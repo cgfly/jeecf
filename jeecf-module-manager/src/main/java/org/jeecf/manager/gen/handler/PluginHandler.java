@@ -17,31 +17,31 @@ import org.jeecf.osgi.plugin.Plugin;
  */
 public class PluginHandler extends AbstractHandler {
 
-	@Override
-	public void process() {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-		@SuppressWarnings("unchecked")
-		List<Plugin> plugins = (List<Plugin>) this.chainContext.get("genHandlerPlugin");
-		Integer language  = (Integer) this.chainContext.get("language");
-		Integer namespace  = (Integer) this.chainContext.get("namespace");
-		String username  = (String) this.chainContext.get("username");
-		if (CollectionUtils.isNotEmpty(plugins)) {
-			PluginRequest request = new PluginRequest();
-			request.setAttribute("language", language);
-			request.setAttribute("namespace", namespace);
-			request.setAttribute("username", username);
-			plugins.forEach(plugin -> {
-				PluginResponse res = plugin.process(request);
-				if (res != null) {
-					Map<String, Object> attr = res.attr();
-					for (Map.Entry<String, Object> entry : attr.entrySet()) {
-						params.put(entry.getKey(),entry.getValue());
-					}
-				}
-			});
-		}
-		this.chainContext.next();
-	}
+    @Override
+    public void process() {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
+        @SuppressWarnings("unchecked")
+        List<Plugin> plugins = (List<Plugin>) this.chainContext.get("genHandlerPlugin");
+        Integer language = (Integer) this.chainContext.get("language");
+        Integer namespace = (Integer) this.chainContext.get("namespace");
+        String username = (String) this.chainContext.get("username");
+        if (CollectionUtils.isNotEmpty(plugins)) {
+            PluginRequest request = new PluginRequest();
+            request.setAttribute("language", language);
+            request.setAttribute("namespace", namespace);
+            request.setAttribute("username", username);
+            plugins.forEach(plugin -> {
+                PluginResponse res = plugin.process(request);
+                if (res != null) {
+                    Map<String, Object> attr = res.attr();
+                    for (Map.Entry<String, Object> entry : attr.entrySet()) {
+                        params.put(entry.getKey(), entry.getValue());
+                    }
+                }
+            });
+        }
+        this.chainContext.next();
+    }
 
 }

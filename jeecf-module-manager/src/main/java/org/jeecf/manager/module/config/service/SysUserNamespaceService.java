@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 用户命名空间对应
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Service
-public class SysUserNamespaceService extends BaseService<SysUserNamespaceDao,SysUserNamespacePO,SysUserNamespaceResult,SysUserNamespaceQuery,SysUserNamespace> {
-   	
+public class SysUserNamespaceService extends BaseService<SysUserNamespaceDao, SysUserNamespacePO, SysUserNamespaceResult, SysUserNamespaceQuery, SysUserNamespace> {
+
 }

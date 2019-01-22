@@ -14,35 +14,39 @@ import org.springframework.core.io.Resource;
  *
  */
 public class ModuleEntity {
-	
-	/**
-	 * 名称
-	 */
-	private String name;
-	/**
-	 * 规则名称
-	 */
-	private String rule = "default";
-	/**
-	 * 模块参数
-	 */
-	private String moduleParams;
-	/**
-	 * 路径集合
-	 */
-	private Set<Resource> paths;
-	/**
-	 * 模块表数据
-	 */
-	private String data;
-	 /**
+
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 规则名称
+     */
+    private String rule = "default";
+    /**
+     * 分发数据匹配
+     */
+    private String match;
+    /**
+     * 模块参数
+     */
+    private String moduleParams;
+    /**
+     * 路径集合
+     */
+    private Set<Resource> paths;
+    /**
+     * 模块表数据
+     */
+    private String data;
+    /**
      * 模块表
      */
-	private Object table;
-	/**
-	 * 模块表数据
-	 */
-    private List<Map<String,Object>> datas;
+    private Object table;
+    /**
+     * 模块表数据
+     */
+    private List<Map<String, Object>> datas;
     /**
      * 模块表
      */
@@ -52,78 +56,84 @@ public class ModuleEntity {
      */
     private StrategyEntity strategyEntity;
 
-	public String getModuleParams() {
-		return moduleParams;
-	}
+    public String getModuleParams() {
+        return moduleParams;
+    }
 
-	public void setModuleParams(String moduleParams) {
-		this.moduleParams = moduleParams;
-	}
+    public void setModuleParams(String moduleParams) {
+        this.moduleParams = moduleParams;
+    }
 
-	public Set<Resource> getPaths() {
-		return paths;
-	}
+    public Set<Resource> getPaths() {
+        return paths;
+    }
 
-	public void setPaths(Set<Resource> paths) {
-		this.paths = paths;
-	}
+    public void setPaths(Set<Resource> paths) {
+        this.paths = paths;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getRule() {
-		return rule;
-	}
+    public String getRule() {
+        return rule;
+    }
 
-	public void setRule(String rule) {
-		this.rule = rule;
-	}
+    public void setRule(String rule) {
+        this.rule = rule;
+    }
 
-	public String getData() {
-		return data;
-	}
+    public String getData() {
+        return data;
+    }
 
-	public void setData(String data) {
-		this.data = data;
-	}
+    public void setData(String data) {
+        this.data = data;
+    }
 
-	public List<Object> getTables() {
-		return tables;
-	}
+    public List<Object> getTables() {
+        return tables;
+    }
 
-	public void setTables(List<Object> tables) {
-		this.tables = tables;
-	}
+    public void setTables(List<Object> tables) {
+        this.tables = tables;
+    }
 
-	public Object getTable() {
-		return table;
-	}
+    public Object getTable() {
+        return table;
+    }
 
-	public void setTable(Object table) {
-		this.table = table;
-	}
+    public void setTable(Object table) {
+        this.table = table;
+    }
 
-	public List<Map<String,Object>> getDatas() {
-		return datas;
-	}
+    public List<Map<String, Object>> getDatas() {
+        return datas;
+    }
 
-	public void setDatas(List<Map<String,Object>> datas) {
-		this.datas = datas;
-	}
+    public void setDatas(List<Map<String, Object>> datas) {
+        this.datas = datas;
+    }
 
-	public StrategyEntity getStrategyEntity() {
-		return strategyEntity;
-	}
+    public StrategyEntity getStrategyEntity() {
+        return strategyEntity;
+    }
 
-	public void setStrategyEntity(StrategyEntity strategyEntity) {
-		this.strategyEntity = strategyEntity;
-	}
-	
-	
-	
+    public void setStrategyEntity(StrategyEntity strategyEntity) {
+        this.strategyEntity = strategyEntity;
+    }
+
+    public String getMatch() {
+        return match;
+    }
+
+    public void setMatch(String match) {
+        this.match = match;
+    }
+
 }

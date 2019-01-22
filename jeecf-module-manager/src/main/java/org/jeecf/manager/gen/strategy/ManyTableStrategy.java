@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.mapper.JsonMapper;
+import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.gen.builder.TableBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,19 +20,22 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class ManyTableStrategy {
 
-	public List<Object> handler(String data, String field, TableBuilder builder) {
-		List<Object> tables = new ArrayList<>();
-		JsonNode dataNodes = JsonMapper.getJsonNode(data);
-		if (dataNodes.isArray()) {
-			Iterator<JsonNode> iterNode = dataNodes.iterator();
-			while (iterNode.hasNext()) {
-				JsonNode fieldNode = iterNode.next().get(field);
-				if (fieldNode != null) {
-					tables.add(builder.build(fieldNode.asText()));
-				}
-			}
-		}
-		return tables;
-	}
+    public List<Object> handler(String data, String field, TableBuilder builder) {
+        List<Object> tables = new ArrayList<>();
+        JsonNode dataNodes = JsonMapper.getJsonNode(data);
+        if (dataNodes.isArray()) {
+            Iterator<JsonNode> iterNode = dataNodes.iterator();
+            while (iterNode.hasNext()) {
+                JsonNode fieldNode = iterNode.next().get(field);
+                if (fieldNode != null) {
+                    tables.add(builder.build(fieldNode.asText()));
+                }
+            }
+        }
+        if (CollectionUtils.isEmpty(tables)) {
+            throw new BusinessException(BusinessErrorEnum.RULE_TABLE_PARAM_MANY_NOT_QUERY);
+        }
+        return tables;
+    }
 
 }

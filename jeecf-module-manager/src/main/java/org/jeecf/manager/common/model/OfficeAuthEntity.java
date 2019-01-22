@@ -7,41 +7,43 @@ import org.jeecf.manager.validate.groups.Add;
 
 /**
  * 组织结构安全验证实体
+ * 
  * @author jianyiming
  *
  */
-@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysOfficeId)",message="组织结构输入不能为空",groups= {Add.class})
-public class OfficeAuthEntity extends BaseEntity{
-	
-	public OfficeAuthEntity() {
-	}
-	
-	public OfficeAuthEntity(String id) {
-		super(id);
-	}
-	/**
-	 * 组织结构id
-	 */
-	private Integer sysOfficeId;
-	/**
-	 * 组织结构id集
-	 */
-	private Set<String> sysOfficeIds;
+@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysOfficeId)", message = "组织结构输入不能为空", groups = { Add.class })
+public class OfficeAuthEntity extends BaseEntity {
 
-	public Integer getSysOfficeId() {
-		return sysOfficeId;
-	}
+    public OfficeAuthEntity() {
+    }
 
-	public void setSysOfficeId(Integer sysOfficeId) {
-		this.sysOfficeId = sysOfficeId;
-	}
+    public OfficeAuthEntity(String id) {
+        super(id);
+    }
 
-	public Set<String> getSysOfficeIds() {
-		return sysOfficeIds;
-	}
+    /**
+     * 组织结构id
+     */
+    private Integer sysOfficeId;
+    /**
+     * 组织结构id集
+     */
+    private Set<String> sysOfficeIds;
 
-	public void setSysOfficeIds(Set<String> sysOfficeIds) {
-		this.sysOfficeIds = sysOfficeIds;
-	}
-	
+    public Integer getSysOfficeId() {
+        return sysOfficeId;
+    }
+
+    public void setSysOfficeId(Integer sysOfficeId) {
+        this.sysOfficeId = sysOfficeId;
+    }
+
+    public Set<String> getSysOfficeIds() {
+        return sysOfficeIds;
+    }
+
+    public void setSysOfficeIds(Set<String> sysOfficeIds) {
+        this.sysOfficeIds = sysOfficeIds;
+    }
+
 }

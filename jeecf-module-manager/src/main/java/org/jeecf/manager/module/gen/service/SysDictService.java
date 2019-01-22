@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class SysDictService extends NamespaceAuthService<SysDictDao, SysDictPO,SysDictResult,SysDictQuery, SysDict> {
+public class SysDictService extends NamespaceAuthService<SysDictDao, SysDictPO, SysDictResult, SysDictQuery, SysDict> {
 
 }

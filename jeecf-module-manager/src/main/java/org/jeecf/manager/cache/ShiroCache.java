@@ -9,8 +9,10 @@ import java.util.concurrent.TimeUnit;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.springframework.data.redis.core.RedisTemplate;
+
 /**
  * shiro 缓存
+ * 
  * @author jianyiming
  *
  * @param <K>
@@ -79,4 +81,3 @@ public class ShiroCache<K, V> implements Cache<K, V> {
         return (K) (this.cacheKey + k);
     }
 }
-

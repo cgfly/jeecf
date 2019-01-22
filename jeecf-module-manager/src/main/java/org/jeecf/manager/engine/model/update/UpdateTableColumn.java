@@ -11,17 +11,17 @@ import org.jeecf.manager.engine.utils.JniValidate;
  */
 public class UpdateTableColumn extends BaseTableColumn {
 
-	protected UpdateTableColumn() {
-	}
-	
-	public static class Builder {
+    protected UpdateTableColumn() {
+    }
 
-		public static UpdateTableColumn build(String name, String columnName) {
-			UpdateTableColumn updateTableColumn = new UpdateTableColumn();
-			updateTableColumn.setColumnName(JniValidate.columnValidate(columnName));
-			updateTableColumn.setName(name);
-			return updateTableColumn;
-		}
-	}
+    public static class Builder {
+
+        public static UpdateTableColumn build(String name, String columnName) {
+            UpdateTableColumn updateTableColumn = new UpdateTableColumn();
+            updateTableColumn.setColumnName(JniValidate.columnValidate(columnName));
+            updateTableColumn.setName(name);
+            return updateTableColumn;
+        }
+    }
 
 }

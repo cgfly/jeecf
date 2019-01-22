@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 系统命名空间
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Service
-public class SysNamespaceService extends PermissionAuthService<SysNamespaceDao,SysNamespacePO,SysNamespaceResult,SysNamespaceQuery,SysNamespace> {
+public class SysNamespaceService extends PermissionAuthService<SysNamespaceDao, SysNamespacePO, SysNamespaceResult, SysNamespaceQuery, SysNamespace> {
 
-	
 }

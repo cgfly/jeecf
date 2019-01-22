@@ -17,16 +17,15 @@ import org.jeecf.manager.gen.model.rule.FilterEntity;
  */
 public class FilterStrategy {
 
-	public String handler(List<FilterEntity> filterEntitys, TableBuilder builder) {
-		List<WhereEntity> whereEntitys = new ArrayList<>();
-		if (filterEntitys != null) {
-			filterEntitys.forEach(filterEntity -> {
-				WhereEntity whereEntity = WhereEntity.Builder.buildAnd(HumpUtils.humpToLine2(filterEntity.getField()), WhereExpressEnum.EQUALS,
-						filterEntity.getValue());
-				whereEntitys.add(whereEntity);
-			});
-		}
-		return builder.getData(whereEntitys);
-	}
+    public String handler(List<FilterEntity> filterEntitys, TableBuilder builder) {
+        List<WhereEntity> whereEntitys = new ArrayList<>();
+        if (filterEntitys != null) {
+            filterEntitys.forEach(filterEntity -> {
+                WhereEntity whereEntity = WhereEntity.Builder.buildAnd(HumpUtils.humpToLine2(filterEntity.getField()), WhereExpressEnum.EQUALS, filterEntity.getValue());
+                whereEntitys.add(whereEntity);
+            });
+        }
+        return builder.getData(whereEntitys);
+    }
 
 }

@@ -14,12 +14,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
-	/**
-	 * 拦截器配置
-	 */
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new WebAppInterceptor()).addPathPatterns("/**");
-	}
+    /**
+     * 拦截器配置
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new WebAppInterceptor()).addPathPatterns("/**");
+    }
 
 }

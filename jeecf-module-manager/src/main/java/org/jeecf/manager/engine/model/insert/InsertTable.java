@@ -7,34 +7,37 @@ import org.jeecf.manager.engine.utils.JniValidate;
 
 /**
  * 插入表
+ * 
  * @author jianyiming
  *
  */
-public class InsertTable extends BaseTable{
-	
-	protected InsertTable(){}
-	/**
-	 * 字段集合
-	 */
-	private List<InsertTableColumn> insertTableColumns;
+public class InsertTable extends BaseTable {
 
-	public List<InsertTableColumn> getInsertTableColumns() {
-		return insertTableColumns;
-	}
+    protected InsertTable() {
+    }
 
-	public void setInsertTableColumns(List<InsertTableColumn> insertTableColumns) {
-		this.insertTableColumns = insertTableColumns;
-	}
-	
-	public static class Builder {
+    /**
+     * 字段集合
+     */
+    private List<InsertTableColumn> insertTableColumns;
 
-		public static InsertTable build(String name, String tableName) {
-			InsertTable insertTable = new InsertTable();
-			insertTable.setName(JniValidate.columnValidate(name));
-			insertTable.setTableName(JniValidate.columnValidate(tableName));
-			return insertTable;
-		}
+    public List<InsertTableColumn> getInsertTableColumns() {
+        return insertTableColumns;
+    }
 
-	}
+    public void setInsertTableColumns(List<InsertTableColumn> insertTableColumns) {
+        this.insertTableColumns = insertTableColumns;
+    }
+
+    public static class Builder {
+
+        public static InsertTable build(String name, String tableName) {
+            InsertTable insertTable = new InsertTable();
+            insertTable.setName(JniValidate.columnValidate(name));
+            insertTable.setTableName(JniValidate.columnValidate(tableName));
+            return insertTable;
+        }
+
+    }
 
 }

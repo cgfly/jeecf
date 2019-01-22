@@ -13,22 +13,22 @@ import org.jeecf.manager.validate.constraints.English;
  * @author jianyiming
  *
  */
-public class EnglishValidator implements ConstraintValidator<English, CharSequence>{
+public class EnglishValidator implements ConstraintValidator<English, CharSequence> {
 
-	private String pattern = "^[a-zA-Z0-9_?!@<>^%&();&~{}+-^#$.,:]+$";
-	
-	@Override
-	public void initialize(English constraintAnnotation) {
-		// TODO Auto-generated method stub
-		
-	}
+    private String pattern = "^[a-zA-Z0-9_?!@<>^%&();&~{}+-^#$.,:]+$";
 
-	@Override
-	public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
-		if(value == null) {
-			return true;
-		}
-		return Pattern.matches(pattern, value);
-	}
+    @Override
+    public void initialize(English constraintAnnotation) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return true;
+        }
+        return Pattern.matches(pattern, value);
+    }
 
 }

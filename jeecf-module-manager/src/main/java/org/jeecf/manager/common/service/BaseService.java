@@ -29,117 +29,116 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <T>
  */
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
-public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends AbstractEntity>
-		implements Service<P, R, Q, T> {
+public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends AbstractEntity> implements Service<P, R, Q, T> {
 
-	@Autowired
-	protected D dao;
-	
-	@Autowired
-	protected SysUserDao userDao;
+    @Autowired
+    protected D dao;
 
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<R> insert(T t) {
-		t.preInsert();
-		Integer result = dao.insert(t);
-		if (result != null && result > 0) {
-			return new Response<>(true, dao.get(t));
-		}
-		throw new BusinessException(BusinessErrorEnum.INSERT_DATA_FAIL);
-	}
+    @Autowired
+    protected SysUserDao userDao;
 
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<R> update(T t) {
-		t.preUpdate();
-		Integer result = dao.update(t);
-		if (result != null && result > 0) {
-			return new Response<>(true, dao.get(t));
-		}
-		throw new BusinessException(BusinessErrorEnum.UPDATE_DATA_FAIL);
-	}
+    @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<R> insert(T t) {
+        t.preInsert();
+        Integer result = dao.insert(t);
+        if (result != null && result > 0) {
+            return new Response<>(true, dao.get(t));
+        }
+        throw new BusinessException(BusinessErrorEnum.INSERT_DATA_FAIL);
+    }
 
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<R> save(T t) {
-		if (t.isNewRecord()) {
-			return this.insert(t);
-		} else {
-			return this.update(t);
-		}
-	}
+    @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<R> update(T t) {
+        t.preUpdate();
+        Integer result = dao.update(t);
+        if (result != null && result > 0) {
+            return new Response<>(true, dao.get(t));
+        }
+        throw new BusinessException(BusinessErrorEnum.UPDATE_DATA_FAIL);
+    }
 
-	@Override
-	public Response<R> get(T t) {
-		return new Response<R>(true, dao.get(t));
-	}
+    @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<R> save(T t) {
+        if (t.isNewRecord()) {
+            return this.insert(t);
+        } else {
+            return this.update(t);
+        }
+    }
 
-	@Override
-	public Response<List<R>> findList(P p) {
-		p.buildSorts();
-		p.buildContains();
-		if (p.getData().getDelFlag() == null) {
-			p.getData().setDelFlag(DelFlagEnum.NO.getCode());
-		}
-		Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
-		JqlUtils.build(p.getSchema(), res.getData());
-		return res;
-	}
+    @Override
+    public Response<R> get(T t) {
+        return new Response<R>(true, dao.get(t));
+    }
 
-	@Override
-	public Response<Integer> count(P p) {
-		p.buildContains();
-		if (p.getData().getDelFlag() == null) {
-			p.getData().setDelFlag(DelFlagEnum.NO.getCode());
-		}
-		return new Response<Integer>(true, dao.count(p));
-	}
+    @Override
+    public Response<List<R>> findList(P p) {
+        p.buildSorts();
+        p.buildContains();
+        if (p.getData().getDelFlag() == null) {
+            p.getData().setDelFlag(DelFlagEnum.NO.getCode());
+        }
+        Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
+        JqlUtils.build(p.getSchema(), res.getData());
+        return res;
+    }
 
-	@Override
-	public Response<List<R>> findPage(P p) {
-		Page page = p.getPage();
-		p.buildSorts();
-		p.buildContains();
-		if (p.getData().getDelFlag() == null)  {
-			p.getData().setDelFlag(DelFlagEnum.NO.getCode());
-		}
-		if (page != null) {
-			page.setTotal(dao.count(p));
-			page.setStartNo();
-		}
-		Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
-		JqlUtils.build(p.getSchema(), res.getData());
-		return res;
-	}
+    @Override
+    public Response<Integer> count(P p) {
+        p.buildContains();
+        if (p.getData().getDelFlag() == null) {
+            p.getData().setDelFlag(DelFlagEnum.NO.getCode());
+        }
+        return new Response<Integer>(true, dao.count(p));
+    }
 
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> delete(T t) {
-		return new Response<Integer>(true, dao.delete(t));
-	}
-	
-	/**
-	 * 构建创建人
-	 * 
-	 * @param rList
-	 * @return
-	 */
-	public List<R> buildCreateBy(List<R> rList) {
-		List<String> userIds = new ArrayList<>();
-		rList.forEach(r -> {
-			userIds.add(r.getCreateBy());
-		});
-		List<SysUserResult> sysUserResultList = userDao.queryByIds(userIds);
-		rList.forEach(r -> {
-			for (SysUserResult sysUserResult : sysUserResultList) {
-				if (r.getCreateBy().equals(sysUserResult.getId())) {
-					r.setCreateByName(sysUserResult.getUsername());
-					break;
-				}
-			}
-		});
-		return rList;
-	}
+    @Override
+    public Response<List<R>> findPage(P p) {
+        Page page = p.getPage();
+        p.buildSorts();
+        p.buildContains();
+        if (p.getData().getDelFlag() == null) {
+            p.getData().setDelFlag(DelFlagEnum.NO.getCode());
+        }
+        if (page != null) {
+            page.setTotal(dao.count(p));
+            page.setStartNo();
+        }
+        Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
+        JqlUtils.build(p.getSchema(), res.getData());
+        return res;
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<Integer> delete(T t) {
+        return new Response<Integer>(true, dao.delete(t));
+    }
+
+    /**
+     * 构建创建人
+     * 
+     * @param rList
+     * @return
+     */
+    public List<R> buildCreateBy(List<R> rList) {
+        List<String> userIds = new ArrayList<>();
+        rList.forEach(r -> {
+            userIds.add(r.getCreateBy());
+        });
+        List<SysUserResult> sysUserResultList = userDao.queryByIds(userIds);
+        rList.forEach(r -> {
+            for (SysUserResult sysUserResult : sysUserResultList) {
+                if (r.getCreateBy().equals(sysUserResult.getId())) {
+                    r.setCreateByName(sysUserResult.getUsername());
+                    break;
+                }
+            }
+        });
+        return rList;
+    }
 
 }

@@ -19,31 +19,32 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SchemaTableService {
-	
-	@Autowired
-	private SchemaTableDao schemaTableDao;
 
-	public Response<SchemaTable> getTable(String name){
-		SchemaTable schemaTable = new SchemaTable();
-		schemaTable.setName(JniValidate.columnValidate(name));
-		List<SchemaTable> schemaTableList = schemaTableDao.findTableList(schemaTable);
-		if(CollectionUtils.isNotEmpty(schemaTableList)) {
-			return new Response<>(schemaTableList.get(0));
-		}
-		return new Response<>();
-	}
-	public Response<List<SchemaTable>> findTableList(){
-		return new Response<>(schemaTableDao.findTableList(new SchemaTable()));
-	}
+    @Autowired
+    private SchemaTableDao schemaTableDao;
 
-	public Response<List<SchemaTableColumn>> findTableColumn(String tableName){
-		SchemaTableColumn schemaTableColumn = new SchemaTableColumn();
-		schemaTableColumn.setTableName(JniValidate.columnValidate(tableName));
-		return new Response<>(schemaTableDao.findTableColumnList(schemaTableColumn));
-	}
-	
-	public Response<List<SchemaTableColumn>> findTableColumnList(){
-		return new Response<>(schemaTableDao.findTableColumnList(new SchemaTableColumn()));
-	}
+    public Response<SchemaTable> getTable(String name) {
+        SchemaTable schemaTable = new SchemaTable();
+        schemaTable.setName(JniValidate.columnValidate(name));
+        List<SchemaTable> schemaTableList = schemaTableDao.findTableList(schemaTable);
+        if (CollectionUtils.isNotEmpty(schemaTableList)) {
+            return new Response<>(schemaTableList.get(0));
+        }
+        return new Response<>();
+    }
+
+    public Response<List<SchemaTable>> findTableList() {
+        return new Response<>(schemaTableDao.findTableList(new SchemaTable()));
+    }
+
+    public Response<List<SchemaTableColumn>> findTableColumn(String tableName) {
+        SchemaTableColumn schemaTableColumn = new SchemaTableColumn();
+        schemaTableColumn.setTableName(JniValidate.columnValidate(tableName));
+        return new Response<>(schemaTableDao.findTableColumnList(schemaTableColumn));
+    }
+
+    public Response<List<SchemaTableColumn>> findTableColumnList() {
+        return new Response<>(schemaTableDao.findTableColumnList(new SchemaTableColumn()));
+    }
 
 }

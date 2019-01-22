@@ -38,79 +38,80 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 模版参数
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Controller
-@RequestMapping(value= {"template/genField"})
-@Api(value="genField api",tags={"模版参数接口"})
-public class GenFieldController implements CurdController<GenFieldQuery,GenFieldResult,GenFieldSchema,GenField> {
+@RequestMapping(value = { "template/genField" })
+@Api(value = "genField api", tags = { "模版参数接口" })
+public class GenFieldController implements CurdController<GenFieldQuery, GenFieldResult, GenFieldSchema, GenField> {
 
-	@Autowired
-	private GenFieldService genFieldService;
-	
-	@Autowired
-	private GenFieldColumnService genFieldColumnService;
-	
-	@Autowired
-	private GenFieldFacade genFieldFacade;
+    @Autowired
+    private GenFieldService genFieldService;
 
-	@GetMapping(value= {"","index"})
-	@RequiresPermissions("template:genField:view")
-	@ApiOperation(value = "视图", notes = "查看模版参数视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/template/genField";
-	}
-	
-	@PostMapping(value= {"list"})
-	@ResponseBody
-	@RequiresPermissions("template:genField:view")
-	@ApiOperation(value = "列表", notes = "查询模版参数列表")
-	@Override
-	public Response<List<GenFieldResult>> list(@RequestBody Request<GenFieldQuery,GenFieldSchema> request) {
-		Response<List<GenFieldResult>> response = genFieldService.findPageByAuth(new GenFieldPO(request));
-		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
-			genFieldService.buildCreateBy(response.getData());
-		}
-		return  response;
-	}
-	
-	@PostMapping(value= {"column/{genFieldId}"})
-	@ResponseBody
-	@RequiresPermissions("template:genField:view")
-	@ApiOperation(value = "详情列表", notes = "查询模版参数详情列表")
-	public Response<List<GenFieldColumnResult>> column(@PathVariable("genFieldId") Integer genFieldId) {
-		GenFieldColumnQuery genFieldColumn = new GenFieldColumnQuery();
-		genFieldColumn.setGenFieldId(genFieldId);
-		return genFieldColumnService.findList(new GenFieldColumnPO(genFieldColumn));
-	}
-	
-	@PostMapping(value= {"save"})
-	@ResponseBody
-	@RequiresPermissions("template:genField:edit")
-	@ApiOperation(value = "更新", notes = "更新模版参数数据")
-	@Override
-	public Response<GenFieldResult> save(@RequestBody @Validated({Add.class}) GenField genField) {
-		if(genField.isNewRecord()) {
-			GenFieldQuery query = new GenFieldQuery();
-			query.setName(genField.getName());
-			query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-			List<GenFieldResult> genFieldList = genFieldService.findList(new GenFieldPO(query)).getData();
-			if(CollectionUtils.isNotEmpty(genFieldList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-		}
-		return genFieldFacade.save(genField);
-	}
-	
-	@PostMapping(value= {"delete/{id}"})
-	@ResponseBody
-	@RequiresPermissions("template:genField:edit")
-	@ApiOperation(value = "删除", notes = "删除模版参数数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
-		return genFieldFacade.delete(new GenField(id));
-	}
+    @Autowired
+    private GenFieldColumnService genFieldColumnService;
+
+    @Autowired
+    private GenFieldFacade genFieldFacade;
+
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("template:genField:view")
+    @ApiOperation(value = "视图", notes = "查看模版参数视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/template/genField";
+    }
+
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("template:genField:view")
+    @ApiOperation(value = "列表", notes = "查询模版参数列表")
+    @Override
+    public Response<List<GenFieldResult>> list(@RequestBody Request<GenFieldQuery, GenFieldSchema> request) {
+        Response<List<GenFieldResult>> response = genFieldService.findPageByAuth(new GenFieldPO(request));
+        if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+            genFieldService.buildCreateBy(response.getData());
+        }
+        return response;
+    }
+
+    @PostMapping(value = { "column/{genFieldId}" })
+    @ResponseBody
+    @RequiresPermissions("template:genField:view")
+    @ApiOperation(value = "详情列表", notes = "查询模版参数详情列表")
+    public Response<List<GenFieldColumnResult>> column(@PathVariable("genFieldId") Integer genFieldId) {
+        GenFieldColumnQuery genFieldColumn = new GenFieldColumnQuery();
+        genFieldColumn.setGenFieldId(genFieldId);
+        return genFieldColumnService.findList(new GenFieldColumnPO(genFieldColumn));
+    }
+
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("template:genField:edit")
+    @ApiOperation(value = "更新", notes = "更新模版参数数据")
+    @Override
+    public Response<GenFieldResult> save(@RequestBody @Validated({ Add.class }) GenField genField) {
+        if (genField.isNewRecord()) {
+            GenFieldQuery query = new GenFieldQuery();
+            query.setName(genField.getName());
+            query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+            List<GenFieldResult> genFieldList = genFieldService.findList(new GenFieldPO(query)).getData();
+            if (CollectionUtils.isNotEmpty(genFieldList)) {
+                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+            }
+        }
+        return genFieldFacade.save(genField);
+    }
+
+    @PostMapping(value = { "delete/{id}" })
+    @ResponseBody
+    @RequiresPermissions("template:genField:edit")
+    @ApiOperation(value = "删除", notes = "删除模版参数数据")
+    @Override
+    public Response<Integer> delete(@PathVariable("id") String id) {
+        return genFieldFacade.delete(new GenField(id));
+    }
 
 }

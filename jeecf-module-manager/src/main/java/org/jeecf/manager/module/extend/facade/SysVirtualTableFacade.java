@@ -17,47 +17,48 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 虚表 facade
+ * 
  * @author jianyiming
  *
  */
 @Service
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class SysVirtualTableFacade {
-	
-	@Autowired
-	private SysVirtualTableService sysVirtualTableService;
-	
-	@Autowired
-	private SysVirtualTableColumnService sysVirtualTableColumnService; 
-	
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<SysVirtualTableResult> save(SysVirtualTable sysVirtualTable) {
-		Response<SysVirtualTableResult> sysVirtualTableRes = sysVirtualTableService.saveByAuth(sysVirtualTable);
-		List<SysVirtualTableColumn> sysVirtualTableColumnList = sysVirtualTable.getSysVirtualTableColumns();
-		if(CollectionUtils.isNotEmpty(sysVirtualTableColumnList)) {
-			if(StringUtils.isNotEmpty(sysVirtualTable.getId())) {
-				SysVirtualTableColumn sysVirtualTableColumn = new SysVirtualTableColumn();
-				sysVirtualTableColumn.setSysVirtualTableId(Integer.valueOf(sysVirtualTable.getId()));
-				sysVirtualTableColumnService.delete(sysVirtualTableColumn);
-			}
-			sysVirtualTableColumnList.forEach(sysVirtualTableColumn->{
-				sysVirtualTableColumn.setNewRecord(true);
-				sysVirtualTableColumn.setSysVirtualTableId(Integer.valueOf(sysVirtualTable.getId()));
-				sysVirtualTableColumnService.save(sysVirtualTableColumn);
-			});
-		} 
-		return sysVirtualTableRes;
-	}
-	
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> delete(SysVirtualTable sysVirtualTable) {
-		Response<Integer> genTableRes = sysVirtualTableService.deleteByAuth(sysVirtualTable);
-		if (ResponseUtils.isNotEmpty(genTableRes)) {
-			SysVirtualTableColumn deleteTableColumn = new SysVirtualTableColumn();
-			deleteTableColumn.setSysVirtualTableId(Integer.valueOf(sysVirtualTable.getId()));
-			sysVirtualTableColumnService.delete(deleteTableColumn);
-		}
-		return genTableRes;
-	}
+
+    @Autowired
+    private SysVirtualTableService sysVirtualTableService;
+
+    @Autowired
+    private SysVirtualTableColumnService sysVirtualTableColumnService;
+
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<SysVirtualTableResult> save(SysVirtualTable sysVirtualTable) {
+        Response<SysVirtualTableResult> sysVirtualTableRes = sysVirtualTableService.saveByAuth(sysVirtualTable);
+        List<SysVirtualTableColumn> sysVirtualTableColumnList = sysVirtualTable.getSysVirtualTableColumns();
+        if (CollectionUtils.isNotEmpty(sysVirtualTableColumnList)) {
+            if (StringUtils.isNotEmpty(sysVirtualTable.getId())) {
+                SysVirtualTableColumn sysVirtualTableColumn = new SysVirtualTableColumn();
+                sysVirtualTableColumn.setSysVirtualTableId(Integer.valueOf(sysVirtualTable.getId()));
+                sysVirtualTableColumnService.delete(sysVirtualTableColumn);
+            }
+            sysVirtualTableColumnList.forEach(sysVirtualTableColumn -> {
+                sysVirtualTableColumn.setNewRecord(true);
+                sysVirtualTableColumn.setSysVirtualTableId(Integer.valueOf(sysVirtualTable.getId()));
+                sysVirtualTableColumnService.save(sysVirtualTableColumn);
+            });
+        }
+        return sysVirtualTableRes;
+    }
+
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<Integer> delete(SysVirtualTable sysVirtualTable) {
+        Response<Integer> genTableRes = sysVirtualTableService.deleteByAuth(sysVirtualTable);
+        if (ResponseUtils.isNotEmpty(genTableRes)) {
+            SysVirtualTableColumn deleteTableColumn = new SysVirtualTableColumn();
+            deleteTableColumn.setSysVirtualTableId(Integer.valueOf(sysVirtualTable.getId()));
+            sysVirtualTableColumnService.delete(deleteTableColumn);
+        }
+        return genTableRes;
+    }
 
 }

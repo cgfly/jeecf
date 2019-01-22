@@ -43,106 +43,106 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 系统角色
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Controller
-@RequestMapping(value= {"userpower/sysRole"})
-@Api(value="sysRole api",tags={"系统角色接口"})
-public class SysRoleController implements CurdController<SysRoleQuery,SysRoleResult,SysRoleSchema,SysRole>{
+@RequestMapping(value = { "userpower/sysRole" })
+@Api(value = "sysRole api", tags = { "系统角色接口" })
+public class SysRoleController implements CurdController<SysRoleQuery, SysRoleResult, SysRoleSchema, SysRole> {
 
-	@Autowired
-	private SysRoleService sysRoleService;
-	
-	@Autowired
-	private SysRolePowerService sysRolePowerService;
-	
-	@Autowired
-	private SysPowerService sysPowerService;
-	
-	@Autowired
-	private SecurityFacade securityFacade;
+    @Autowired
+    private SysRoleService sysRoleService;
 
-	@GetMapping(value= {"","index"})
-	@RequiresPermissions("userpower:sysRole:view")
-	@ApiOperation(value = "视图", notes = "查看系统角色视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/userpower/sysRole";
-	}
-	
-	@PostMapping(value= {"list"})
-	@ResponseBody
-	@RequiresPermissions("userpower:sysRole:view")
-	@ApiOperation(value = "列表", notes = "查询系统角色列表")
-	@Override
-	public Response<List<SysRoleResult>> list(@RequestBody Request<SysRoleQuery,SysRoleSchema> request) {
-		return sysRoleService.findPage(new SysRolePO(request));
-	}
-	
-	
-	@PostMapping(value= {"getTree/{roleId}"})
-	@ResponseBody
-	@RequiresPermissions("userpower:sysRole:view")
-	@ApiOperation(value = "列表", notes = "查询系统角色树结构列表")
-	public Response<SysRoleResult> getTree(@PathVariable("roleId") String roleId) {
-		SysRole queryRole = new SysRole(roleId);
-		Response<SysRoleResult> sysRoleRes = sysRoleService.get(queryRole);
-		if(sysRoleRes.isSuccess() && sysRoleRes.getData() != null) {
-			SysRoleResult sysRole = sysRoleRes.getData();
-			SysRolePowerQuery rolePower = new SysRolePowerQuery();
-			queryRole.setId(sysRole.getId());;
-			rolePower.setSysRole(queryRole);
-			Response<List<SysRolePowerResult>> rolePowerList = sysRolePowerService.findList(new SysRolePowerPO(rolePower));
-			List<SysPower> sysPowerList = new ArrayList<>(); 
-			rolePowerList.getData().forEach( power-> {
-				sysPowerList.add(power.getSysPower());
-			});
-			List<SysPowerResult> sysPowerTreeList = sysPowerService.findList(new SysPowerPO(new SysPowerQuery())).getData();
-			sysPowerTreeList.forEach(sysPowerTree -> {
-				sysPowerList.forEach(sysPower ->{
-					if(sysPower.getId().equals(sysPowerTree.getId())) {
-						sysPowerTree.setChecked(true);
-					}
-				});
-			});
-			sysRole.setSysPowerList(sysPowerTreeList);
-		}
-		return sysRoleRes;
-	}
-	
-	@PostMapping(value= {"getAllTree"})
-	@ResponseBody
-	@RequiresPermissions("userpower:sysRole:view")
-	@ApiOperation(value = "列表", notes = "查询系统权限列表")
-	public Response<List<SysPowerResult>> getPowerTree() {
-		return sysPowerService.findList(new SysPowerPO(new SysPowerQuery()));
-	}
-	
-	@PostMapping(value= {"save"})
-	@ResponseBody
-	@RequiresPermissions("userpower:sysRole:edit")
-	@ApiOperation(value = "更新", notes = "更新系统角色数据")
-	@Override
-	public Response<SysRoleResult> save(@RequestBody @Validated({Add.class}) SysRole sysRole) {
-		if(sysRole.isNewRecord()) {
-			SysRoleQuery query = new SysRoleQuery();
-			query.setEnname(sysRole.getEnname());
-			List<SysRoleResult> sysRoleList = sysRoleService.findList(new SysRolePO(query)).getData();
-			if(CollectionUtils.isNotEmpty(sysRoleList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-		}
-		return securityFacade.saveRole(sysRole);
-	}
-	
-	@PostMapping(value= {"delete/{id}"})
-	@ResponseBody
-	@RequiresPermissions("userpower:sysRole:edit")
-	@ApiOperation(value = "删除", notes = "删除系统角色数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deleteRole(id);
-	}
+    @Autowired
+    private SysRolePowerService sysRolePowerService;
+
+    @Autowired
+    private SysPowerService sysPowerService;
+
+    @Autowired
+    private SecurityFacade securityFacade;
+
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("userpower:sysRole:view")
+    @ApiOperation(value = "视图", notes = "查看系统角色视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/userpower/sysRole";
+    }
+
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysRole:view")
+    @ApiOperation(value = "列表", notes = "查询系统角色列表")
+    @Override
+    public Response<List<SysRoleResult>> list(@RequestBody Request<SysRoleQuery, SysRoleSchema> request) {
+        return sysRoleService.findPage(new SysRolePO(request));
+    }
+
+    @PostMapping(value = { "getTree/{roleId}" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysRole:view")
+    @ApiOperation(value = "列表", notes = "查询系统角色树结构列表")
+    public Response<SysRoleResult> getTree(@PathVariable("roleId") String roleId) {
+        SysRole queryRole = new SysRole(roleId);
+        Response<SysRoleResult> sysRoleRes = sysRoleService.get(queryRole);
+        if (sysRoleRes.isSuccess() && sysRoleRes.getData() != null) {
+            SysRoleResult sysRole = sysRoleRes.getData();
+            SysRolePowerQuery rolePower = new SysRolePowerQuery();
+            queryRole.setId(sysRole.getId());
+            rolePower.setSysRole(queryRole);
+            Response<List<SysRolePowerResult>> rolePowerList = sysRolePowerService.findList(new SysRolePowerPO(rolePower));
+            List<SysPower> sysPowerList = new ArrayList<>();
+            rolePowerList.getData().forEach(power -> {
+                sysPowerList.add(power.getSysPower());
+            });
+            List<SysPowerResult> sysPowerTreeList = sysPowerService.findList(new SysPowerPO(new SysPowerQuery())).getData();
+            sysPowerTreeList.forEach(sysPowerTree -> {
+                sysPowerList.forEach(sysPower -> {
+                    if (sysPower.getId().equals(sysPowerTree.getId())) {
+                        sysPowerTree.setChecked(true);
+                    }
+                });
+            });
+            sysRole.setSysPowerList(sysPowerTreeList);
+        }
+        return sysRoleRes;
+    }
+
+    @PostMapping(value = { "getAllTree" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysRole:view")
+    @ApiOperation(value = "列表", notes = "查询系统权限列表")
+    public Response<List<SysPowerResult>> getPowerTree() {
+        return sysPowerService.findList(new SysPowerPO(new SysPowerQuery()));
+    }
+
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysRole:edit")
+    @ApiOperation(value = "更新", notes = "更新系统角色数据")
+    @Override
+    public Response<SysRoleResult> save(@RequestBody @Validated({ Add.class }) SysRole sysRole) {
+        if (sysRole.isNewRecord()) {
+            SysRoleQuery query = new SysRoleQuery();
+            query.setEnname(sysRole.getEnname());
+            List<SysRoleResult> sysRoleList = sysRoleService.findList(new SysRolePO(query)).getData();
+            if (CollectionUtils.isNotEmpty(sysRoleList)) {
+                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+            }
+        }
+        return securityFacade.saveRole(sysRole);
+    }
+
+    @PostMapping(value = { "delete/{id}" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysRole:edit")
+    @ApiOperation(value = "删除", notes = "删除系统角色数据")
+    @Override
+    public Response<Integer> delete(@PathVariable("id") String id) {
+        return securityFacade.deleteRole(id);
+    }
 
 }

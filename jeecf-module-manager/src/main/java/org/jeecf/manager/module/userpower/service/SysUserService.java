@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 系统用户
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Service
-public class SysUserService extends OfficeAuthService<SysUserDao,SysUserPO,SysUserResult,SysUserQuery,SysUser> {
-	
-	
+public class SysUserService extends OfficeAuthService<SysUserDao, SysUserPO, SysUserResult, SysUserQuery, SysUser> {
+
 }

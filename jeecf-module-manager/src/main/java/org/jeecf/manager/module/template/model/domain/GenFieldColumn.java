@@ -20,94 +20,92 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
-@ScriptAssert.List({
-	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)",message="参数字段名称输入不能为空",groups= {Add.class}),
-	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)",message="参数字段描述输入不能为空",groups= {Add.class}),
-	@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.isNull)",message="参数字段是否为空为必填项",groups= {Add.class})
+@ScriptAssert.List({ 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "参数字段名称输入不能为空", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "参数字段描述输入不能为空", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.isNull)", message = "参数字段是否为空为必填项", groups = { Add.class }) 
 })
 @ApiModel(value = "genFieldColumn", description = "模版参数列表实体")
 public class GenFieldColumn extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 关联gen_field
-	 */
-	@ApiModelProperty(value = "关联gen_field", name = "genFieldId")
-	private Integer genFieldId;
-	/**
-	 * 名称
-	 */
-	@ApiModelProperty(value = "名称", name = "name")
-	private String name;
-	/**
-	 * 允许为空
-	 */
-	@ApiModelProperty(value = "为空", name = "isNull")
-	private Integer isNull;
-	/**
-	 * 默认值
-	 */
-	private String defaultValue;
-	/**
-	 * 描述
-	 */
-	@ApiModelProperty(value = "描述", name = "description")
-	private String description;
+    private static final long serialVersionUID = 1L;
+    /**
+     * 关联gen_field
+     */
+    @ApiModelProperty(value = "关联gen_field", name = "genFieldId")
+    private Integer genFieldId;
+    /**
+     * 名称
+     */
+    @ApiModelProperty(value = "名称", name = "name")
+    private String name;
+    /**
+     * 允许为空
+     */
+    @ApiModelProperty(value = "为空", name = "isNull")
+    private Integer isNull;
+    /**
+     * 默认值
+     */
+    private String defaultValue;
+    /**
+     * 描述
+     */
+    @ApiModelProperty(value = "描述", name = "description")
+    private String description;
 
-	public GenFieldColumn() {
-		super();
-	}
+    public GenFieldColumn() {
+        super();
+    }
 
-	public GenFieldColumn(String id) {
-		super(id);
-	}
+    public GenFieldColumn(String id) {
+        super(id);
+    }
 
-	public Integer getGenFieldId() {
-		return genFieldId;
-	}
+    public Integer getGenFieldId() {
+        return genFieldId;
+    }
 
-	public void setGenFieldId(Integer genFieldId) {
-		this.genFieldId = genFieldId;
-	}
+    public void setGenFieldId(Integer genFieldId) {
+        this.genFieldId = genFieldId;
+    }
 
-	@Length(min = 1, max = 20, message = "参数字段名称长度必须介于 1 和 20 之间",groups= {Add.class})
-	@Pattern(regexp="^[a-zA-Z]+$",message="参数字段名称只能由a-zA-Z组成",groups= {Add.class})
-	public String getName() {
-		return name;
-	}
+    @Length(min = 1, max = 20, message = "参数字段名称长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "参数字段名称只能由a-zA-Z组成", groups = { Add.class })
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	@Length(min = 1, max = 50, message = "参数字段描述长度必须介于 1 和 50 之间",groups= {Add.class})
-	public String getDescription() {
-		return description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	@Min(value=0,message="参数字段是否为空输入错误",groups= {Add.class})
-	@Max(value=1,message="参数字段是否为空输入错误",groups= {Add.class})
-	public Integer getIsNull() {
-		return isNull;
-	}
+    @Length(min = 1, max = 50, message = "参数字段描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    public String getDescription() {
+        return description;
+    }
 
-	public void setIsNull(Integer isNull) {
-		this.isNull = isNull;
-	}
-	
-	@Length(min = 0, max = 30, message = "默认值长度必须介于 0 和 30 之间",groups= {Add.class})
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-	
-	
-	
+    @Min(value = 0, message = "参数字段是否为空输入错误", groups = { Add.class })
+    @Max(value = 1, message = "参数字段是否为空输入错误", groups = { Add.class })
+    public Integer getIsNull() {
+        return isNull;
+    }
+
+    public void setIsNull(Integer isNull) {
+        this.isNull = isNull;
+    }
+
+    @Length(min = 0, max = 30, message = "默认值长度必须介于 0 和 30 之间", groups = { Add.class })
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
 }

@@ -12,41 +12,42 @@ import org.jeecf.manager.engine.utils.JniValidate;
  *
  */
 public class UpdateTable extends BaseTable {
-	
-	protected UpdateTable() {
-	}
+
+    protected UpdateTable() {
+    }
+
     /**
      * 主键
      */
-	private Object id;
-	
-	public Object getId() {
-		return id;
-	}
+    private Object id;
 
-	public void setId(Object id) {
-		this.id = id;
-	}
+    public Object getId() {
+        return id;
+    }
 
-	private List<UpdateTableColumn> updateTableColumns;
+    public void setId(Object id) {
+        this.id = id;
+    }
 
-	public List<UpdateTableColumn> getUpdateTableColumns() {
-		return updateTableColumns;
-	}
+    private List<UpdateTableColumn> updateTableColumns;
 
-	public void setUpdateTableColumns(List<UpdateTableColumn> updateTableColumns) {
-		this.updateTableColumns = updateTableColumns;
-	}
+    public List<UpdateTableColumn> getUpdateTableColumns() {
+        return updateTableColumns;
+    }
 
-	public static class Builder {
+    public void setUpdateTableColumns(List<UpdateTableColumn> updateTableColumns) {
+        this.updateTableColumns = updateTableColumns;
+    }
 
-		public static UpdateTable build(String name, String tableName) {
-			UpdateTable updateTable = new UpdateTable();
-			updateTable.setName(JniValidate.columnValidate(name));
-			updateTable.setTableName(JniValidate.columnValidate(tableName));
-			return updateTable;
-		}
+    public static class Builder {
 
-	}
+        public static UpdateTable build(String name, String tableName) {
+            UpdateTable updateTable = new UpdateTable();
+            updateTable.setName(JniValidate.columnValidate(name));
+            updateTable.setTableName(JniValidate.columnValidate(tableName));
+            return updateTable;
+        }
+
+    }
 
 }

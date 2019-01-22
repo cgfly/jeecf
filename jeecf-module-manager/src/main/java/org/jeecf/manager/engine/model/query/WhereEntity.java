@@ -3,8 +3,10 @@ package org.jeecf.manager.engine.model.query;
 import org.jeecf.manager.engine.enums.WhereConnectorEnum;
 import org.jeecf.manager.engine.enums.WhereExpressEnum;
 import org.jeecf.manager.engine.utils.JniValidate;
+
 /**
  * 查询条件实体
+ * 
  * @author jianyiming
  *
  */
@@ -12,75 +14,74 @@ public class WhereEntity {
     /**
      * 字段
      */
-	private String column;
+    private String column;
     /**
      * 表达式
      */
-	private String express;
-	/**
-	 * 连接方式
-	 */
-	private String  connector;
+    private String express;
+    /**
+     * 连接方式
+     */
+    private String connector;
     /**
      * 值
      */
-	private String value;
-	
-	protected WhereEntity() {}
+    private String value;
 
-	public String getColumn() {
-		return column;
-	}
+    protected WhereEntity() {
+    }
 
-	protected void setColumn(String column) {
-		this.column = column;
-	}
+    public String getColumn() {
+        return column;
+    }
 
-	public String getExpress() {
-		return express;
-	}
+    protected void setColumn(String column) {
+        this.column = column;
+    }
 
-	protected void setExpress(String express) {
-		this.express = express;
-	}
+    public String getExpress() {
+        return express;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    protected void setExpress(String express) {
+        this.express = express;
+    }
 
-	protected void setValue(String value) {
-		this.value = value;
-	}
-	
-	public String getConnector() {
-		return connector;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	protected void setConnector(String connector) {
-		this.connector = connector;
-	}
+    protected void setValue(String value) {
+        this.value = value;
+    }
 
+    public String getConnector() {
+        return connector;
+    }
 
+    protected void setConnector(String connector) {
+        this.connector = connector;
+    }
 
-	public static class Builder {
-		
-		public static WhereEntity buildOr(String column,WhereExpressEnum expressEnum, String value) {
-			return build(column, WhereConnectorEnum.OR.getName(),expressEnum.getName(),value);
-		}
+    public static class Builder {
 
-		public static WhereEntity buildAnd(String column,WhereExpressEnum expressEnum, String value) {
-			return build(column, WhereConnectorEnum.AND.getName(),expressEnum.getName(), value);
-		}
+        public static WhereEntity buildOr(String column, WhereExpressEnum expressEnum, String value) {
+            return build(column, WhereConnectorEnum.OR.getName(), expressEnum.getName(), value);
+        }
 
-		private static WhereEntity build(String column, String connector,String express, String value) {
-			WhereEntity whereEntity = new WhereEntity();
-			column = JniValidate.columnValidate(column);
-			whereEntity.setColumn(column);
-			whereEntity.setConnector(connector);
-			whereEntity.setExpress(express);
-			whereEntity.setValue(value);
-			return whereEntity;
-		}
-	}
+        public static WhereEntity buildAnd(String column, WhereExpressEnum expressEnum, String value) {
+            return build(column, WhereConnectorEnum.AND.getName(), expressEnum.getName(), value);
+        }
+
+        private static WhereEntity build(String column, String connector, String express, String value) {
+            WhereEntity whereEntity = new WhereEntity();
+            column = JniValidate.columnValidate(column);
+            whereEntity.setColumn(column);
+            whereEntity.setConnector(connector);
+            whereEntity.setExpress(express);
+            whereEntity.setValue(value);
+            return whereEntity;
+        }
+    }
 
 }

@@ -14,31 +14,31 @@ import org.jeecf.common.exception.BusinessException;
  */
 public class Md5Digests extends AbstractDigests {
 
-	private static Md5Digests md5 = null;
+    private static Md5Digests MD5 = null;
 
-	private static final String ALGORITHM = "MD5";
+    private static final String ALGORITHM = "MD5";
 
-	private Md5Digests() {
-	}
+    private Md5Digests() {
+    }
 
-	public synchronized static final Md5Digests getInstance() {
-		if (md5 == null) {
-			md5 = new Md5Digests();
-		}
-		return md5;
-	}
+    public synchronized static final Md5Digests getInstance() {
+        if (MD5 == null) {
+            MD5 = new Md5Digests();
+        }
+        return MD5;
+    }
 
-	@Override
-	public byte[] encrpt(byte[] input, byte[] salt, int iterations) {
-		return digest(input, salt, ALGORITHM, iterations);
-	}
+    @Override
+    public byte[] encrpt(byte[] input, byte[] salt, int iterations) {
+        return digest(input, salt, ALGORITHM, iterations);
+    }
 
-	@Override
-	public byte[] encrpt(InputStream input) {
-		try {
-			return digest(input, ALGORITHM);
-		} catch (IOException e) {
-			throw new BusinessException(SysErrorEnum.IO_ERROR);
-		}
-	}
+    @Override
+    public byte[] encrpt(InputStream input) {
+        try {
+            return digest(input, ALGORITHM);
+        } catch (IOException e) {
+            throw new BusinessException(SysErrorEnum.IO_ERROR);
+        }
+    }
 }

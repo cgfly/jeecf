@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 模版参数列表
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Service
-public class GenFieldColumnService extends BaseService<GenFieldColumnDao,GenFieldColumnPO,GenFieldColumnResult,GenFieldColumnQuery,GenFieldColumn> {
+public class GenFieldColumnService extends BaseService<GenFieldColumnDao, GenFieldColumnPO, GenFieldColumnResult, GenFieldColumnQuery, GenFieldColumn> {
 
-	
 }

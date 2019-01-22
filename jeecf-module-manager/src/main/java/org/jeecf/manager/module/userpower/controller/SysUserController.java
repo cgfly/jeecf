@@ -52,104 +52,104 @@ import io.swagger.annotations.ApiOperation;
  */
 @Controller
 @RequestMapping(value = { "userpower/sysUser" })
-@Api(value="sysUser api",tags={"系统用户接口"})
-public class SysUserController implements CurdController<SysUserQuery,SysUserResult,SysUserSchema,SysUser> {
+@Api(value = "sysUser api", tags = { "系统用户接口" })
+public class SysUserController implements CurdController<SysUserQuery, SysUserResult, SysUserSchema, SysUser> {
 
-	@Autowired
-	private SysRoleService sysRoleService;
+    @Autowired
+    private SysRoleService sysRoleService;
 
-	@Autowired
-	private SysUserRoleService sysUserRoleService;
-	
-	@Autowired
-	private SysUserService sysUserService;
-	
-	@Autowired
-	private SysOfficeService sysOfficeService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
-	@Autowired
-	private SecurityFacade securityFacade;
+    @Autowired
+    private SysUserService sysUserService;
 
-	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("userpower:sysUser:view")
-	@ApiOperation(value = "视图", notes = "查看系统用户视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/userpower/sysUser";
-	}
+    @Autowired
+    private SysOfficeService sysOfficeService;
 
-	@PostMapping(value = { "list" })
-	@ResponseBody
-	@RequiresPermissions("userpower:sysUser:view")
-	@ApiOperation(value = "列表", notes = "查询系统用户列表")
-	@Override
-	public Response<List<SysUserResult>> list(@RequestBody Request<SysUserQuery,SysUserSchema> request) {
-		SysUserSchema schema =	request.getSchema();
-		if(schema == null) {
-			schema = new SysUserSchema();
-			request.setSchema(schema);
-		}
-		schema.setPassword(false);
-		return securityFacade.findUser(new SysUserPO(request));
-	}
+    @Autowired
+    private SecurityFacade securityFacade;
 
-	@PostMapping(value = { "roles/{userId}" })
-	@ResponseBody
-	@RequiresPermissions("userpower:sysUser:view")
-	@ApiOperation(value = "列表", notes = "查询系统角色列表")
-	public Response<List<SysRoleResult>> roles(@PathVariable("userId") String userId) {
-		Response<List<SysRoleResult>> sysRoleRes = sysRoleService.findList(new SysRolePO(new SysRoleQuery()));
-		if (StringUtils.isNotEmpty(userId)) {
-			SysUserRoleQuery queryUserRole = new SysUserRoleQuery();
-			queryUserRole.setSysUser(new SysUser(userId));
-			Response<List<SysUserRoleResult>> userRoleRes = sysUserRoleService.findList(new SysUserRolePO(queryUserRole));
-			List<SysUserRoleResult> userRoleList = userRoleRes.getData();
-			sysRoleRes.getData().forEach(sysRole -> {
-				userRoleList.forEach(userRole -> {
-					if (sysRole.getId().equals(userRole.getSysRole().getId())) {
-						sysRole.setChecked(true);
-					}
-				});
-			});
-		}
-		return sysRoleRes;
-	}
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("userpower:sysUser:view")
+    @ApiOperation(value = "视图", notes = "查看系统用户视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/userpower/sysUser";
+    }
 
-	@PostMapping(value = { "save" })
-	@ResponseBody
-	@RequiresPermissions("userpower:sysUser:edit")
-	@ApiOperation(value = "更新", notes = "更新系统用户数据")
-	@Override
-	public Response<SysUserResult> save(@RequestBody @Validated({Add.class}) SysUser sysUser) {
-		if(sysUser.isNewRecord()) {
-			if(StringUtils.isBlank(sysUser.getPassword())) {
-				throw new BusinessException(BusinessErrorEnum.USER_PASSWORD_ERROR);
-			}
-			SysUserQuery query = new SysUserQuery();
-			query.setUsername(sysUser.getUsername());
-			List<SysUserResult> sysUserList = sysUserService.findList(new SysUserPO(query)).getData();
-			if(CollectionUtils.isNotEmpty(sysUserList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-		}
-		return securityFacade.saveUser(sysUser);
-	}
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysUser:view")
+    @ApiOperation(value = "列表", notes = "查询系统用户列表")
+    @Override
+    public Response<List<SysUserResult>> list(@RequestBody Request<SysUserQuery, SysUserSchema> request) {
+        SysUserSchema schema = request.getSchema();
+        if (schema == null) {
+            schema = new SysUserSchema();
+            request.setSchema(schema);
+        }
+        schema.setPassword(false);
+        return securityFacade.findUser(new SysUserPO(request));
+    }
 
-	@PostMapping(value = { "delete/{id}" })
-	@ResponseBody
-	@RequiresPermissions("userpower:sysUser:edit")
-	@ApiOperation(value = "删除", notes = "删除系统用户数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
-		return securityFacade.deleteUser(id);
-	}
-	
-	@PostMapping(value = { "getTreeData" })
-	@ResponseBody
-	@RequiresPermissions("userpower:sysUser:view")
-	@ApiOperation(value = "列表", notes = "查询组织结构表格列表")
-	public Response<List<SysOfficeResult>> getTreeData() {
-		return sysOfficeService.getTreeData(new SysOfficePO(new SysOfficeQuery()));
-	}
+    @PostMapping(value = { "roles/{userId}" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysUser:view")
+    @ApiOperation(value = "列表", notes = "查询系统角色列表")
+    public Response<List<SysRoleResult>> roles(@PathVariable("userId") String userId) {
+        Response<List<SysRoleResult>> sysRoleRes = sysRoleService.findList(new SysRolePO(new SysRoleQuery()));
+        if (StringUtils.isNotEmpty(userId)) {
+            SysUserRoleQuery queryUserRole = new SysUserRoleQuery();
+            queryUserRole.setSysUser(new SysUser(userId));
+            Response<List<SysUserRoleResult>> userRoleRes = sysUserRoleService.findList(new SysUserRolePO(queryUserRole));
+            List<SysUserRoleResult> userRoleList = userRoleRes.getData();
+            sysRoleRes.getData().forEach(sysRole -> {
+                userRoleList.forEach(userRole -> {
+                    if (sysRole.getId().equals(userRole.getSysRole().getId())) {
+                        sysRole.setChecked(true);
+                    }
+                });
+            });
+        }
+        return sysRoleRes;
+    }
+
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysUser:edit")
+    @ApiOperation(value = "更新", notes = "更新系统用户数据")
+    @Override
+    public Response<SysUserResult> save(@RequestBody @Validated({ Add.class }) SysUser sysUser) {
+        if (sysUser.isNewRecord()) {
+            if (StringUtils.isBlank(sysUser.getPassword())) {
+                throw new BusinessException(BusinessErrorEnum.USER_PASSWORD_ERROR);
+            }
+            SysUserQuery query = new SysUserQuery();
+            query.setUsername(sysUser.getUsername());
+            List<SysUserResult> sysUserList = sysUserService.findList(new SysUserPO(query)).getData();
+            if (CollectionUtils.isNotEmpty(sysUserList)) {
+                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+            }
+        }
+        return securityFacade.saveUser(sysUser);
+    }
+
+    @PostMapping(value = { "delete/{id}" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysUser:edit")
+    @ApiOperation(value = "删除", notes = "删除系统用户数据")
+    @Override
+    public Response<Integer> delete(@PathVariable("id") String id) {
+        return securityFacade.deleteUser(id);
+    }
+
+    @PostMapping(value = { "getTreeData" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysUser:view")
+    @ApiOperation(value = "列表", notes = "查询组织结构表格列表")
+    public Response<List<SysOfficeResult>> getTreeData() {
+        return sysOfficeService.getTreeData(new SysOfficePO(new SysOfficeQuery()));
+    }
 
 }

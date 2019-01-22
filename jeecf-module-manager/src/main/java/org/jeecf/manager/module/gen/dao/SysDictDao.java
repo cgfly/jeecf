@@ -1,6 +1,5 @@
 package org.jeecf.manager.module.gen.dao;
 
-
 import org.apache.ibatis.annotations.Mapper;
 import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.module.gen.model.domian.SysDict;
@@ -10,12 +9,11 @@ import org.jeecf.manager.module.gen.model.result.SysDictResult;
 
 /**
  * 数据字典
+ * 
  * @author GloryJian
  *
  */
 @Mapper
-public interface SysDictDao extends Dao<SysDictPO,SysDictResult,SysDictQuery,SysDict>{
-
-
+public interface SysDictDao extends Dao<SysDictPO, SysDictResult, SysDictQuery, SysDict> {
 
 }

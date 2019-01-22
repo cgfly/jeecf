@@ -49,135 +49,131 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(value = { "extend/sysOsgiPluginAll" })
 @Api(value = "sysOsgiPluginAll api", tags = { "全量OSGI插件接口" })
-public class SysOsgiPluginAllController
-implements CurdController<SysOsgiPluginQuery, SysOsgiPluginResult, SysOsgiPluginSchema, SysOsgiPlugin> {
+public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQuery, SysOsgiPluginResult, SysOsgiPluginSchema, SysOsgiPlugin> {
 
-	@Autowired
-	private SysOsgiPluginService sysOsgiPluginService;
+    @Autowired
+    private SysOsgiPluginService sysOsgiPluginService;
 
-	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("extend:sysOsgiPluginAll:view")
-	@ApiOperation(value = "视图", notes = "查看全量OSGI插件视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/extend/sysOsgiPluginAll";
-	}
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("extend:sysOsgiPluginAll:view")
+    @ApiOperation(value = "视图", notes = "查看全量OSGI插件视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/extend/sysOsgiPluginAll";
+    }
 
-	@PostMapping(value = { "list" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:view")
-	@ApiOperation(value = "列表", notes = "查询OSGI插件数据")
-	@Override
-	public Response<List<SysOsgiPluginResult>> list(
-			@RequestBody Request<SysOsgiPluginQuery, SysOsgiPluginSchema> request) {
-		request.getData().setSysNamespaceId(0);
-		Response<List<SysOsgiPluginResult>> response = sysOsgiPluginService.findPage(new SysOsgiPluginPO(request));
-		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
-			sysOsgiPluginService.buildCreateBy(response.getData());
-			response.getData().forEach(result -> {
-				result.toCovert();
-			});
-		}
-		return response;
-	}
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:view")
+    @ApiOperation(value = "列表", notes = "查询OSGI插件数据")
+    @Override
+    public Response<List<SysOsgiPluginResult>> list(@RequestBody Request<SysOsgiPluginQuery, SysOsgiPluginSchema> request) {
+        request.getData().setSysNamespaceId(0);
+        Response<List<SysOsgiPluginResult>> response = sysOsgiPluginService.findPage(new SysOsgiPluginPO(request));
+        if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+            sysOsgiPluginService.buildCreateBy(response.getData());
+            response.getData().forEach(result -> {
+                result.toCovert();
+            });
+        }
+        return response;
+    }
 
-	@PostMapping(value = { "save" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:edit")
-	@ApiOperation(value = "更新", notes = "更新OSGI插件数据")
-	@Override
-	public Response<SysOsgiPluginResult> save(@RequestBody @Validated({ Add.class }) SysOsgiPlugin sysOsgiPlugin) {
-		if (sysOsgiPlugin.isNewRecord()) {
-			SysOsgiPluginQuery query = new SysOsgiPluginQuery();
-			query.setName(sysOsgiPlugin.getName());
-			List<SysOsgiPluginResult> sysOsgiPluginList = sysOsgiPluginService.findList(new SysOsgiPluginPO(query))
-					.getData();
-			if (CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-			return sysOsgiPluginService.insert(sysOsgiPlugin);
-		}
-		return sysOsgiPluginService.save(sysOsgiPlugin);
-	}
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @ApiOperation(value = "更新", notes = "更新OSGI插件数据")
+    @Override
+    public Response<SysOsgiPluginResult> save(@RequestBody @Validated({ Add.class }) SysOsgiPlugin sysOsgiPlugin) {
+        if (sysOsgiPlugin.isNewRecord()) {
+            SysOsgiPluginQuery query = new SysOsgiPluginQuery();
+            query.setName(sysOsgiPlugin.getName());
+            List<SysOsgiPluginResult> sysOsgiPluginList = sysOsgiPluginService.findList(new SysOsgiPluginPO(query)).getData();
+            if (CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
+                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+            }
+            return sysOsgiPluginService.insert(sysOsgiPlugin);
+        }
+        return sysOsgiPluginService.save(sysOsgiPlugin);
+    }
 
-	@PostMapping(value = { "upload" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:edit")
-	@ApiOperation(value = "上传", notes = "上传模版文件")
-	public Response<String> upload(@RequestParam("file") MultipartFile file) {
-		String fileName = file.getOriginalFilename();
-		PluginUtils.upload(file);
-		return new Response<>(fileName);
-	}
+    @PostMapping(value = { "upload" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @ApiOperation(value = "上传", notes = "上传模版文件")
+    public Response<String> upload(@RequestParam("file") MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        PluginUtils.upload(file);
+        return new Response<>(fileName);
+    }
 
-	@PostMapping(value = { "delete/{id}" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:edit")
-	@ApiOperation(value = "删除", notes = "删除OSGI插件数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
-		return sysOsgiPluginService.delete(new SysOsgiPlugin(id));
-	}
+    @PostMapping(value = { "delete/{id}" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @ApiOperation(value = "删除", notes = "删除OSGI插件数据")
+    @Override
+    public Response<Integer> delete(@PathVariable("id") String id) {
+        return sysOsgiPluginService.delete(new SysOsgiPlugin(id));
+    }
 
-	@PostMapping(value = { "download/plugin/{id}" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:view")
-	@ApiOperation(value = "插件文件下载", notes = "下载")
-	public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
-		SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
-		DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
-		return;
-	}
+    @PostMapping(value = { "download/plugin/{id}" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:view")
+    @ApiOperation(value = "插件文件下载", notes = "下载")
+    public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+        SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
+        DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+        return;
+    }
 
-	@PostMapping(value = { "gain/{id}" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:edit")
-	@ApiOperation(value = "删除", notes = "删除OSGI插件数据")
-	public Response<SysOsgiPluginResult> gain(@PathVariable("id") String id) {
-		SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
-		if(sysOsgiPluginResult != null) {
-			SysOsgiPluginQuery query = new SysOsgiPluginQuery();
-			query.setName(sysOsgiPluginResult.getName());
-			query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-			List<SysOsgiPluginResult> sysOsgiPlugins = sysOsgiPluginService.findList(new SysOsgiPluginPO(query)).getData();
-			if(CollectionUtils.isEmpty(sysOsgiPlugins)) {
-				sysOsgiPluginResult.setNewRecord(true);
-				return sysOsgiPluginService.saveByAuth(sysOsgiPluginResult);
-			}
-			throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-		}
-		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-	}
-	
-	
-	@PostMapping(value = { "active/{id}" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:edit")
-	@ApiOperation(value = "激活", notes = "激活OSGI插件数据")
-	public Response<Integer> active(@PathVariable("id") String id) {
-		SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
-		if (sysOsgiPluginResult != null) {
-			SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
-			sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
-			sysOsgiPlugin.setDelFlag(DelFlagEnum.NO.getCode());
-			return sysOsgiPluginService.updateByName(sysOsgiPlugin);
-		}
-		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-	}
+    @PostMapping(value = { "gain/{id}" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @ApiOperation(value = "删除", notes = "删除OSGI插件数据")
+    public Response<SysOsgiPluginResult> gain(@PathVariable("id") String id) {
+        SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
+        if (sysOsgiPluginResult != null) {
+            SysOsgiPluginQuery query = new SysOsgiPluginQuery();
+            query.setName(sysOsgiPluginResult.getName());
+            query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+            List<SysOsgiPluginResult> sysOsgiPlugins = sysOsgiPluginService.findList(new SysOsgiPluginPO(query)).getData();
+            if (CollectionUtils.isEmpty(sysOsgiPlugins)) {
+                sysOsgiPluginResult.setNewRecord(true);
+                return sysOsgiPluginService.saveByAuth(sysOsgiPluginResult);
+            }
+            throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+        }
+        throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+    }
 
-	@PostMapping(value = { "invalid/{id}" })
-	@ResponseBody
-	@RequiresPermissions("extend:sysOsgiPluginAll:edit")
-	@ApiOperation(value = "失效", notes = "失效OSGI插件数据")
-	public Response<Integer> effect(@NotEmpty @PathVariable("id") String id) {
-		SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
-		if (sysOsgiPluginResult != null) {
-			SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
-			sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
-			sysOsgiPlugin.setDelFlag(DelFlagEnum.YES.getCode());
-			return sysOsgiPluginService.updateByName(sysOsgiPlugin);
-		}
-		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-	}
+    @PostMapping(value = { "active/{id}" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @ApiOperation(value = "激活", notes = "激活OSGI插件数据")
+    public Response<Integer> active(@PathVariable("id") String id) {
+        SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
+        if (sysOsgiPluginResult != null) {
+            SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
+            sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
+            sysOsgiPlugin.setDelFlag(DelFlagEnum.NO.getCode());
+            return sysOsgiPluginService.updateByName(sysOsgiPlugin);
+        }
+        throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+    }
+
+    @PostMapping(value = { "invalid/{id}" })
+    @ResponseBody
+    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @ApiOperation(value = "失效", notes = "失效OSGI插件数据")
+    public Response<Integer> effect(@NotEmpty @PathVariable("id") String id) {
+        SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
+        if (sysOsgiPluginResult != null) {
+            SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
+            sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
+            sysOsgiPlugin.setDelFlag(DelFlagEnum.YES.getCode());
+            return sysOsgiPluginService.updateByName(sysOsgiPlugin);
+        }
+        throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+    }
 
 }

@@ -18,74 +18,75 @@ import org.jeecf.manager.common.model.AbstractEntityPO;
  * @param <Q>
  * @param <T>
  */
-public interface AuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends AbstractEntity>
-		extends Service<P, R, Q, T> {
+public interface AuthService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends AbstractEntity> extends Service<P, R, Q, T> {
 
-	/**
-	 * 插入数据权限验证
-	 * 
-	 * @param t
-	 * @return
-	 */
-	public Response<R> insertByAuth(T t);
-
-	/**
-	 * 更新数据权限验证
-	 * 
-	 * @param t
-	 * @return
-	 */
-	public Response<R> updateByAuth(T t);
     /**
-     * 更新及插入权限验证
+     * 插入数据权限验证
+     * 
      * @param t
      * @return
      */
-	default Response<R> saveByAuth(T t) {
-		if (t.isNewRecord()) {
-			return this.insertByAuth(t);
-		} else {
-			return this.updateByAuth(t);
-		}
-	}
+    public Response<R> insertByAuth(T t);
 
-	/**
-	 * 单条获取数据权限验证
-	 * 
-	 * @param t
-	 * @return
-	 */
-	public Response<R> getByAuth(T t);
+    /**
+     * 更新数据权限验证
+     * 
+     * @param t
+     * @return
+     */
+    public Response<R> updateByAuth(T t);
 
-	/**
-	 * 查询数据权限验证
-	 * 
-	 * @param p
-	 * @return
-	 */
-	public Response<List<R>> findListByAuth(P p);
+    /**
+     * 更新及插入权限验证
+     * 
+     * @param t
+     * @return
+     */
+    default Response<R> saveByAuth(T t) {
+        if (t.isNewRecord()) {
+            return this.insertByAuth(t);
+        } else {
+            return this.updateByAuth(t);
+        }
+    }
 
-	/**
-	 * 统计数据权限验证
-	 * 
-	 * @param p
-	 * @return
-	 */
-	public Response<Integer> countByAuth(P p);
+    /**
+     * 单条获取数据权限验证
+     * 
+     * @param t
+     * @return
+     */
+    public Response<R> getByAuth(T t);
 
-	/**
-	 * 分页查询权限验证
-	 * 
-	 * @param p
-	 * @return
-	 */
-	public Response<List<R>> findPageByAuth(P p);
+    /**
+     * 查询数据权限验证
+     * 
+     * @param p
+     * @return
+     */
+    public Response<List<R>> findListByAuth(P p);
 
-	/**
-	 * 删除数据权限验证
-	 * 
-	 * @param t
-	 * @return
-	 */
-	public Response<Integer> deleteByAuth(T t);
+    /**
+     * 统计数据权限验证
+     * 
+     * @param p
+     * @return
+     */
+    public Response<Integer> countByAuth(P p);
+
+    /**
+     * 分页查询权限验证
+     * 
+     * @param p
+     * @return
+     */
+    public Response<List<R>> findPageByAuth(P p);
+
+    /**
+     * 删除数据权限验证
+     * 
+     * @param t
+     * @return
+     */
+    public Response<Integer> deleteByAuth(T t);
 }

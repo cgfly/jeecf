@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class SysRoleService extends BaseService<SysRoleDao, SysRolePO,SysRoleResult,SysRoleQuery, SysRole> {
-
+public class SysRoleService extends BaseService<SysRoleDao, SysRolePO, SysRoleResult, SysRoleQuery, SysRole> {
 
 }

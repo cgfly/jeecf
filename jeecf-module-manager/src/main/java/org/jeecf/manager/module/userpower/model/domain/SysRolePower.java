@@ -12,38 +12,38 @@ import org.jeecf.manager.common.model.BaseEntity;
  */
 public class SysRolePower extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 角色索引
-	 */
-	private SysRole sysRole;
-	/**
-	 * 权限索引
-	 */
-	private SysPower sysPower;
+    private static final long serialVersionUID = 1L;
+    /**
+     * 角色索引
+     */
+    private SysRole sysRole;
+    /**
+     * 权限索引
+     */
+    private SysPower sysPower;
 
-	public SysRolePower() {
-		super();
-	}
+    public SysRolePower() {
+        super();
+    }
 
-	public SysRolePower(String id) {
-		super(id);
-	}
+    public SysRolePower(String id) {
+        super(id);
+    }
 
-	public SysRole getSysRole() {
-		return sysRole;
-	}
+    public SysRole getSysRole() {
+        return sysRole;
+    }
 
-	public void setSysRole(SysRole sysRole) {
-		this.sysRole = sysRole;
-	}
+    public void setSysRole(SysRole sysRole) {
+        this.sysRole = sysRole;
+    }
 
-	public SysPower getSysPower() {
-		return sysPower;
-	}
+    public SysPower getSysPower() {
+        return sysPower;
+    }
 
-	public void setSysPower(SysPower sysPower) {
-		this.sysPower = sysPower;
-	}
+    public void setSysPower(SysPower sysPower) {
+        this.sysPower = sysPower;
+    }
 
 }

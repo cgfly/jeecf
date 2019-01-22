@@ -8,39 +8,39 @@ package org.jeecf.manager.gen.enums;
  */
 public enum RuleFilterTypeEnum {
 
-	/**
-	 * 固化
-	 */
-	CURE(1, "cure"),
-	/**
-	 * 参数
-	 */
-	PARAM(2, "param"),;
+    /**
+     * 固化
+     */
+    CURE(1, "cure"),
+    /**
+     * 参数
+     */
+    PARAM(2, "param"),;
 
-	public final int code;
-	public final String name;
+    public final int code;
+    public final String name;
 
-	private RuleFilterTypeEnum(int code, String name) {
-		this.code = code;
-		this.name = name;
-	}
+    private RuleFilterTypeEnum(int code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
-	public int getCode() {
-		return this.code;
-	}
+    public int getCode() {
+        return this.code;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public static boolean contains(String name) {
-		RuleFilterTypeEnum[] ruleFilterTypeEnums = RuleFilterTypeEnum.values();
-		for(RuleFilterTypeEnum ruleFilterTypeEnum : ruleFilterTypeEnums) {
-			if(ruleFilterTypeEnum.getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public static boolean contains(String name) {
+        RuleFilterTypeEnum[] ruleFilterTypeEnums = RuleFilterTypeEnum.values();
+        for (RuleFilterTypeEnum ruleFilterTypeEnum : ruleFilterTypeEnums) {
+            if (ruleFilterTypeEnum.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

@@ -6,27 +6,28 @@ import org.jeecf.common.enums.ErrorEnum;
 
 /**
  * 自定义业务异常
+ * 
  * @author GloryJ
  *
  */
 public class BusinessException extends RuntimeException implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private Class<?> clazz;
     private int errorCode;
     private String errorMsg;
     private Boolean isPrint;
 
     public BusinessException(int errorCode, String errorMsg) {
-    	this(errorCode,errorMsg,BusinessException.class);
+        this(errorCode, errorMsg, BusinessException.class);
     }
-    
-    public BusinessException(int errorCode, String errorMsg,Class<?> clazz) {
-       this(errorCode,errorMsg,clazz,null);
+
+    public BusinessException(int errorCode, String errorMsg, Class<?> clazz) {
+        this(errorCode, errorMsg, clazz, null);
     }
-    
-    public BusinessException(int errorCode, String errorMsg,Class<?> clazz,Boolean isPrint) {
+
+    public BusinessException(int errorCode, String errorMsg, Class<?> clazz, Boolean isPrint) {
         super(errorMsg);
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
@@ -54,20 +55,20 @@ public class BusinessException extends RuntimeException implements Serializable 
         this.errorMsg = errorMsg;
     }
 
-	public Class<?> getClazz() {
-		return clazz;
-	}
+    public Class<?> getClazz() {
+        return clazz;
+    }
 
-	public void setClazz(Class<?> clazz) {
-		this.clazz = clazz;
-	}
+    public void setClazz(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
-	public Boolean getIsPrint() {
-		return isPrint;
-	}
+    public Boolean getIsPrint() {
+        return isPrint;
+    }
 
-	public void setIsPrint(Boolean isPrint) {
-		this.isPrint = isPrint;
-	}
-	
+    public void setIsPrint(Boolean isPrint) {
+        this.isPrint = isPrint;
+    }
+
 }

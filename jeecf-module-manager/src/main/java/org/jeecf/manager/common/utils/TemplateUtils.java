@@ -24,58 +24,54 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class TemplateUtils {
 
-	private static TemplateProperties properties = SpringContextUtils.getBean("templateProperties",
-			TemplateProperties.class);
+    private static TemplateProperties properties = SpringContextUtils.getBean("templateProperties", TemplateProperties.class);
 
-	public static void delDownload(String filePath, String namespaceName) {
-		String sourcePath = properties.getUploadPath() + File.separator + namespaceName + File.separator + filePath;
-		String tempPath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + filePath;
-		FileUtils.deleteDirectory(sourcePath);
-		FileUtils.deleteDirectory(tempPath);
-	}
+    public static void delDownload(String filePath, String namespaceName) {
+        String sourcePath = properties.getUploadPath() + File.separator + namespaceName + File.separator + filePath;
+        String tempPath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + filePath;
+        FileUtils.deleteDirectory(sourcePath);
+        FileUtils.deleteDirectory(tempPath);
+    }
 
-	public static void unzip(String path, String name, String namespaceName) {
-		String tempFilePath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + path
-				+ File.separator + name;
-		String desPath = getUnzipPath(path, namespaceName);
-		ZipUtils.unzip(tempFilePath, desPath);
-	}
+    public static void unzip(String path, String name, String namespaceName) {
+        String tempFilePath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + path + File.separator + name;
+        String desPath = getUnzipPath(path, namespaceName);
+        ZipUtils.unzip(tempFilePath, desPath);
+    }
 
-	public static String getUnzipPath(String path, String namespaceName) {
-		String sourcePath = properties.getUploadPath() + File.separator + namespaceName + File.separator + path;
-		return sourcePath;
-	}
+    public static String getUnzipPath(String path, String namespaceName) {
+        String sourcePath = properties.getUploadPath() + File.separator + namespaceName + File.separator + path;
+        return sourcePath;
+    }
 
-	public static String getZipFilePath(String path, String namespaceName) {
-		String zipFilePath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + path
-				+ SplitCharEnum.DOT.getName() + properties.getSuffixName();
-		return zipFilePath;
-	}
+    public static String getZipFilePath(String path, String namespaceName) {
+        String zipFilePath = properties.getUploadTmpPath() + File.separator + namespaceName + File.separator + path + SplitCharEnum.DOT.getName() + properties.getSuffixName();
+        return zipFilePath;
+    }
 
-	public static String upload(MultipartFile file, SysNamespace sysNamespace) {
-		boolean isZip = FileTypeUtils.isType(properties.getSuffixName(), file.getOriginalFilename());
-		if (!isZip) {
-			throw new BusinessException(BusinessErrorEnum.ZIP_NOT);
-		}
-		if (sysNamespace != null) {
-			int randomNumber = 5;
-			String uuid = IdGenUtils.randomUUID(randomNumber);
-			String suffixPath = properties.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator
-					+ uuid;
-			String filePath = suffixPath + File.separator + file.getOriginalFilename();
-			try {
-				FileUtils.createDirectory(suffixPath);
-				Files.write(Paths.get(filePath), file.getBytes());
-				return uuid + File.separator + file.getOriginalFilename();
-			} catch (IOException e) {
-				throw new BusinessException(SysErrorEnum.IO_ERROR);
-			}
-		}
-		throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
-	}
+    public static String upload(MultipartFile file, SysNamespace sysNamespace) {
+        boolean isZip = FileTypeUtils.isType(properties.getSuffixName(), file.getOriginalFilename());
+        if (!isZip) {
+            throw new BusinessException(BusinessErrorEnum.ZIP_NOT);
+        }
+        if (sysNamespace != null) {
+            int randomNumber = 5;
+            String uuid = IdGenUtils.randomUUID(randomNumber);
+            String suffixPath = properties.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator + uuid;
+            String filePath = suffixPath + File.separator + file.getOriginalFilename();
+            try {
+                FileUtils.createDirectory(suffixPath);
+                Files.write(Paths.get(filePath), file.getBytes());
+                return uuid + File.separator + file.getOriginalFilename();
+            } catch (IOException e) {
+                throw new BusinessException(SysErrorEnum.IO_ERROR);
+            }
+        }
+        throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
+    }
 
-	public static String getDownloadPath(String sourcePath) {
-		return sourcePath + File.separator + "code.zip";
-	}
+    public static String getDownloadPath(String sourcePath) {
+        return sourcePath + File.separator + "code.zip";
+    }
 
 }

@@ -15,41 +15,41 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class GenTemplateResult extends GenTemplate implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 代码属性名称
-	 */
-	@ApiModelProperty(value = "代码属性名称", name = "genFieldName")
-	private String genFieldName;
-	/**
-	 * 语言名称
-	 */
-	@ApiModelProperty(value = "语言名称", name = "languageName")
-	private String languageName;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    /**
+     * 代码属性名称
+     */
+    @ApiModelProperty(value = "代码属性名称", name = "genFieldName")
+    private String genFieldName;
+    /**
+     * 语言名称
+     */
+    @ApiModelProperty(value = "语言名称", name = "languageName")
+    private String languageName;
 
-	public String getGenFieldName() {
-		return genFieldName;
-	}
+    public String getGenFieldName() {
+        return genFieldName;
+    }
 
-	public void setGenFieldName(String genFieldName) {
-		this.genFieldName = genFieldName;
-	}
+    public void setGenFieldName(String genFieldName) {
+        this.genFieldName = genFieldName;
+    }
 
-	public String getLanguageName() {
-		return languageName;
-	}
+    public String getLanguageName() {
+        return languageName;
+    }
 
-	public void setLanguageName(String languageName) {
-		this.languageName = languageName;
-	}
+    public void setLanguageName(String languageName) {
+        this.languageName = languageName;
+    }
 
-	public void toConvert() {
-		if (this.getLanguage() != null) {
-			this.setLanguageName(LanguageEnum.getName(this.getLanguage()));
-		}
-	}
+    public void toConvert() {
+        if (this.getLanguage() != null) {
+            this.setLanguageName(LanguageEnum.getName(this.getLanguage()));
+        }
+    }
 
 }

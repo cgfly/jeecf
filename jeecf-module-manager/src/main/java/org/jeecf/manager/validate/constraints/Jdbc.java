@@ -15,21 +15,23 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 import org.jeecf.manager.validate.internal.constraintvalidators.JdbcValidator;
+
 /**
  * Jdbc 连接串注解
+ * 
  * @author jianyiming
  *
  */
 @Documented
-@Constraint(validatedBy = { JdbcValidator.class})
+@Constraint(validatedBy = { JdbcValidator.class })
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 public @interface Jdbc {
-	
-	String message() default "{org.hibernate.validator.constraints.Length.message}";
-	
-	Class<?>[] groups() default { };
 
-	Class<? extends Payload>[] payload() default { };
+    String message() default "{org.hibernate.validator.constraints.Length.message}";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 
 }

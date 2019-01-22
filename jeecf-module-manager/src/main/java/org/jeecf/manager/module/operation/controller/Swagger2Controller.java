@@ -8,20 +8,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 /**
  * api 查看测试
+ * 
  * @author jianyiming
  *
  */
 @Controller
-@RequestMapping(value= {"operation/swagger2"})
-@Api(value="swagger2 api",tags={"api视图"})
+@RequestMapping(value = { "operation/swagger2" })
+@Api(value = "swagger2 api", tags = { "api视图" })
 public class Swagger2Controller {
-	
-	@GetMapping(value= {"","index"})
-	@RequiresPermissions("operation:swagger2:view")
-	@ApiOperation(value = "视图", notes = "查看api视图")
-	public String index(ModelMap map) {
-		return "module/operation/swagger2";
-	}
+
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("operation:swagger2:view")
+    @ApiOperation(value = "视图", notes = "查看api视图")
+    public String index(ModelMap map) {
+        return "module/operation/swagger2";
+    }
 }

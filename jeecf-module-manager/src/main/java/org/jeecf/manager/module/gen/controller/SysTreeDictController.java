@@ -30,81 +30,82 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 /**
  * 树字典 controller
+ * 
  * @author jianyiming
  *
  */
 @Controller
 @RequestMapping(value = { "gen/sysTreeDict" })
 @Api(value = "sysTreeDict api", tags = { "树组接口" })
-public class SysTreeDictController implements CurdController<SysTreeDictQuery,SysTreeDictResult,SysTreeDictSchema,SysTreeDict> {
+public class SysTreeDictController implements CurdController<SysTreeDictQuery, SysTreeDictResult, SysTreeDictSchema, SysTreeDict> {
 
-	@Autowired
-	private SysTreeDictService sysTreeDictService;
+    @Autowired
+    private SysTreeDictService sysTreeDictService;
 
-	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("gen:sysTreeDict:view")
-	@ApiOperation(value = "视图", notes = "查看系统权限视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/gen/sysTreeDict";
-	}
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("gen:sysTreeDict:view")
+    @ApiOperation(value = "视图", notes = "查看系统权限视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/gen/sysTreeDict";
+    }
 
-	@PostMapping(value = { "list" })
-	@ResponseBody
-	@RequiresPermissions("gen:sysTreeDict:view")
-	@ApiOperation(value = "列表", notes = "查询系统权限列表")
-	@Override
-	public Response<List<SysTreeDictResult>> list(@RequestBody Request<SysTreeDictQuery,SysTreeDictSchema> rquest) {
-		Response<List<SysTreeDictResult>> sysTreeDictRes = sysTreeDictService
-				.getTreeData(new SysTreeDictPO(rquest));
-		if (CollectionUtils.isNotEmpty(sysTreeDictRes.getData())) {
-			sysTreeDictRes.getData().forEach(sysTreeDictResult -> {
-				sysTreeDictService.buildCreateBy(sysTreeDictRes.getData());
-				sysTreeDictResult.toCovert();
-			});
-		}
-		return sysTreeDictRes;
-	}
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("gen:sysTreeDict:view")
+    @ApiOperation(value = "列表", notes = "查询系统权限列表")
+    @Override
+    public Response<List<SysTreeDictResult>> list(@RequestBody Request<SysTreeDictQuery, SysTreeDictSchema> rquest) {
+        Response<List<SysTreeDictResult>> sysTreeDictRes = sysTreeDictService.getTreeData(new SysTreeDictPO(rquest));
+        if (CollectionUtils.isNotEmpty(sysTreeDictRes.getData())) {
+            sysTreeDictRes.getData().forEach(sysTreeDictResult -> {
+                sysTreeDictService.buildCreateBy(sysTreeDictRes.getData());
+                sysTreeDictResult.toCovert();
+            });
+        }
+        return sysTreeDictRes;
+    }
 
-	@PostMapping(value = { "getTreeData" })
-	@ResponseBody
-	@RequiresPermissions("gen:sysTreeDict:view")
-	@ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
-	public Response<List<SysTreeDictResult>> getTreeData(SysTreeDictQuery sysTreeDictQuery) {
-		Response<List<SysTreeDictResult>> response =  sysTreeDictService.getTreeData(new SysTreeDictPO(sysTreeDictQuery));
-		if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
-			sysTreeDictService.buildCreateBy(response.getData());
-		}
-		return response;
-	}
+    @PostMapping(value = { "getTreeData" })
+    @ResponseBody
+    @RequiresPermissions("gen:sysTreeDict:view")
+    @ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
+    public Response<List<SysTreeDictResult>> getTreeData(SysTreeDictQuery sysTreeDictQuery) {
+        Response<List<SysTreeDictResult>> response = sysTreeDictService.getTreeData(new SysTreeDictPO(sysTreeDictQuery));
+        if (response.isSuccess() && CollectionUtils.isNotEmpty(response.getData())) {
+            sysTreeDictService.buildCreateBy(response.getData());
+        }
+        return response;
+    }
 
-	@PostMapping(value = { "save" })
-	@ResponseBody
-	@RequiresPermissions("gen:sysTreeDict:edit")
-	@ApiOperation(value = "更新", notes = "更新系统权限数据")
-	@Override
-	public Response<SysTreeDictResult> save(@RequestBody @Validated({ Add.class }) SysTreeDict sysTreeDict) {
-		if(sysTreeDict.isNewRecord()) {
-			SysTreeDictQuery query = new SysTreeDictQuery();
-			query.setName(sysTreeDict.getName());
-			query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
-			List<SysTreeDictResult> sysTreeDictList = sysTreeDictService.findList(new SysTreeDictPO(query)).getData();
-			if(CollectionUtils.isNotEmpty(sysTreeDictList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-		}
-		return sysTreeDictService.save(sysTreeDict);
-	}
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("gen:sysTreeDict:edit")
+    @ApiOperation(value = "更新", notes = "更新系统权限数据")
+    @Override
+    public Response<SysTreeDictResult> save(@RequestBody @Validated({ Add.class }) SysTreeDict sysTreeDict) {
+        if (sysTreeDict.isNewRecord()) {
+            SysTreeDictQuery query = new SysTreeDictQuery();
+            query.setName(sysTreeDict.getName());
+            query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
+            List<SysTreeDictResult> sysTreeDictList = sysTreeDictService.findList(new SysTreeDictPO(query)).getData();
+            if (CollectionUtils.isNotEmpty(sysTreeDictList)) {
+                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+            }
+        }
+        return sysTreeDictService.save(sysTreeDict);
+    }
 
-	@PostMapping(value = { "delete/{id}" })
-	@ResponseBody
-	@RequiresPermissions("gen:sysTreeDict:edit")
-	@ApiOperation(value = "删除", notes = "删除系统权限数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
-		return sysTreeDictService.delete(new SysTreeDict(id));
-	}
+    @PostMapping(value = { "delete/{id}" })
+    @ResponseBody
+    @RequiresPermissions("gen:sysTreeDict:edit")
+    @ApiOperation(value = "删除", notes = "删除系统权限数据")
+    @Override
+    public Response<Integer> delete(@PathVariable("id") String id) {
+        return sysTreeDictService.delete(new SysTreeDict(id));
+    }
 
 }

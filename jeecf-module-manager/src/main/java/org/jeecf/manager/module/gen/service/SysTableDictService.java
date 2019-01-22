@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class SysTableDictService  extends NamespaceAndDbAuthService<SysTableDictDao, SysTableDictPO,SysTableDictResult,SysTableDictQuery, SysTableDict>{
+public class SysTableDictService extends NamespaceAndDbAuthService<SysTableDictDao, SysTableDictPO, SysTableDictResult, SysTableDictQuery, SysTableDict> {
 
 }

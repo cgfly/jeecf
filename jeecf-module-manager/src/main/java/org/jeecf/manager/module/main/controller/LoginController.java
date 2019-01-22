@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 /**
  * 登录接口 controller
+ * 
  * @author jianyiming
  *
  */
@@ -29,39 +31,38 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "login api", tags = { "登录接口" })
 public class LoginController {
 
-	@Autowired
-	private UserSubject userSubject;
+    @Autowired
+    private UserSubject userSubject;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	@ApiOperation(value = "视图", notes = "登录视图")
-	public String login() {
-		return "login";
-	}
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @ApiOperation(value = "视图", notes = "登录视图")
+    public String login() {
+        return "login";
+    }
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ResponseBody
-	@ApiOperation(value = "验证", notes = "登录验证")
-	public Response<Integer> login(@RequestBody LoginVo loginVo) {
-		boolean rememberMe = loginVo.isRememberMe();
-		try {
-			SecurityUtils.getSubject()
-					.login(new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPassword(), rememberMe));
-			SysUser sysUser = new SysUser();
-			sysUser.setUsername(loginVo.getUsername());
-			userSubject.updateLogin(sysUser);
-		} catch (AuthenticationException e) {
-			throw new BusinessException(BusinessErrorEnum.USER_USER_AND_PASSWORD_ERROR);
-		}
-		return new Response<Integer>(1);
-	}
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "验证", notes = "登录验证")
+    public Response<Integer> login(@RequestBody LoginVo loginVo) {
+        boolean rememberMe = loginVo.isRememberMe();
+        try {
+            SecurityUtils.getSubject().login(new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPassword(), rememberMe));
+            SysUser sysUser = new SysUser();
+            sysUser.setUsername(loginVo.getUsername());
+            userSubject.updateLogin(sysUser);
+        } catch (AuthenticationException e) {
+            throw new BusinessException(BusinessErrorEnum.USER_USER_AND_PASSWORD_ERROR);
+        }
+        return new Response<Integer>(1);
+    }
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	@ApiOperation(value = "退出", notes = "退出登录")
-	public String logout(ModelMap map) {
-		SysUser sysUser = UserUtils.getCurrentUser();
-		SecurityUtils.getSubject().logout();
-		userSubject.updateLogout(sysUser);
-		return "login";
-	}
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ApiOperation(value = "退出", notes = "退出登录")
+    public String logout(ModelMap map) {
+        SysUser sysUser = UserUtils.getCurrentUser();
+        SecurityUtils.getSubject().logout();
+        userSubject.updateLogout(sysUser);
+        return "login";
+    }
 
 }

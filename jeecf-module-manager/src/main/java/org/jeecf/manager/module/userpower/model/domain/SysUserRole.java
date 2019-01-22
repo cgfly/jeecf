@@ -12,38 +12,38 @@ import org.jeecf.manager.common.model.BaseEntity;
  */
 public class SysUserRole extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 关联用户
-	 */
-	private SysUser sysUser;
-	/**
-	 * 关联角色
-	 */
-	private SysRole sysRole;
+    private static final long serialVersionUID = 1L;
+    /**
+     * 关联用户
+     */
+    private SysUser sysUser;
+    /**
+     * 关联角色
+     */
+    private SysRole sysRole;
 
-	public SysUserRole() {
-		super();
-	}
+    public SysUserRole() {
+        super();
+    }
 
-	public SysUserRole(String id) {
-		super(id);
-	}
+    public SysUserRole(String id) {
+        super(id);
+    }
 
-	public SysUser getSysUser() {
-		return sysUser;
-	}
+    public SysUser getSysUser() {
+        return sysUser;
+    }
 
-	public void setSysUser(SysUser sysUser) {
-		this.sysUser = sysUser;
-	}
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
 
-	public SysRole getSysRole() {
-		return sysRole;
-	}
+    public SysRole getSysRole() {
+        return sysRole;
+    }
 
-	public void setSysRole(SysRole sysRole) {
-		this.sysRole = sysRole;
-	}
+    public void setSysRole(SysRole sysRole) {
+        this.sysRole = sysRole;
+    }
 
 }

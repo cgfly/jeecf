@@ -18,30 +18,29 @@ import org.jeecf.manager.subject.UserContextField;
  */
 public class UserLoginListener implements Listener {
 
-	private ThreadLocalProperties threadLocalProperties = null;
+    private ThreadLocalProperties threadLocalProperties = null;
 
-	private CustomerActionLogService customerActionLogService = null;
+    private CustomerActionLogService customerActionLogService = null;
 
-	private void initParam() {
-		if (threadLocalProperties == null) {
-			threadLocalProperties = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
-		}
-		if (customerActionLogService == null) {
-			customerActionLogService = SpringContextUtils.getBean("customerActionLogService",
-					CustomerActionLogService.class);
-		}
-	}
+    private void initParam() {
+        if (threadLocalProperties == null) {
+            threadLocalProperties = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
+        }
+        if (customerActionLogService == null) {
+            customerActionLogService = SpringContextUtils.getBean("customerActionLogService", CustomerActionLogService.class);
+        }
+    }
 
-	@Override
-	public void notice(SubjectContext context) {
-		initParam();
-		DynamicDataSourceContextHolder.initCurrentDataSourceValue();
-		NamespaceUtils.initSysNamespace();
-		String ip = threadLocalProperties.get("ip");
-		CustomerActionLog customerActionLog = new CustomerActionLog();
-		customerActionLog.setIp(ip);
-		customerActionLog.setUserName(context.get(UserContextField.USER_NAME));
-		customerActionLog.setActionType(ActionTypeEnum.LOGIN.getCode());
-		customerActionLogService.insert(customerActionLog);
-	}
+    @Override
+    public void notice(SubjectContext context) {
+        initParam();
+        DynamicDataSourceContextHolder.initCurrentDataSourceValue();
+        NamespaceUtils.initSysNamespace();
+        String ip = threadLocalProperties.get("ip");
+        CustomerActionLog customerActionLog = new CustomerActionLog();
+        customerActionLog.setIp(ip);
+        customerActionLog.setUserName(context.get(UserContextField.USER_NAME));
+        customerActionLog.setActionType(ActionTypeEnum.LOGIN.getCode());
+        customerActionLogService.insert(customerActionLog);
+    }
 }

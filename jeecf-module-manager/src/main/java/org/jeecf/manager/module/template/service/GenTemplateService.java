@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 模版配置
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Service
-public class GenTemplateService extends NamespaceAuthService<GenTemplateDao,GenTemplatePO,GenTemplateResult,GenTemplateQuery,GenTemplate> {
-
+public class GenTemplateService extends NamespaceAuthService<GenTemplateDao, GenTemplatePO, GenTemplateResult, GenTemplateQuery, GenTemplate> {
 
 }

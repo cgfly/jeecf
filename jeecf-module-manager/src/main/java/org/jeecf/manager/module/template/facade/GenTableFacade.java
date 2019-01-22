@@ -30,76 +30,73 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class GenTableFacade {
 
-	@Autowired
-	private GenTableColumnService genTableColumnService;
+    @Autowired
+    private GenTableColumnService genTableColumnService;
 
-	@Autowired
-	private GenTableService genTableService;
+    @Autowired
+    private GenTableService genTableService;
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<GenTableResult> saveTable(GenTable genTable) {
-		Response<GenTableResult> genTableRes = genTableService.saveByAuth(genTable);
-		List<GenTableColumnResult> columnList = genTable.getGenTableColumns();
-		if (CollectionUtils.isNotEmpty(columnList)) {
-			if(StringUtils.isNotEmpty(genTable.getId())) {
-				GenTableColumn delTableColumn = new GenTableColumn();
-				delTableColumn.setGenTable(genTable);
-				genTableColumnService.delete(delTableColumn);
-			}
-			columnList.forEach(column->{
-				column.setNewRecord(true);
-				column.setGenTable(genTable);
-				genTableColumnService.save(column);
-			});
-		}
-		return genTableRes;
-	}
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<GenTableResult> saveTable(GenTable genTable) {
+        Response<GenTableResult> genTableRes = genTableService.saveByAuth(genTable);
+        List<GenTableColumnResult> columnList = genTable.getGenTableColumns();
+        if (CollectionUtils.isNotEmpty(columnList)) {
+            if (StringUtils.isNotEmpty(genTable.getId())) {
+                GenTableColumn delTableColumn = new GenTableColumn();
+                delTableColumn.setGenTable(genTable);
+                genTableColumnService.delete(delTableColumn);
+            }
+            columnList.forEach(column -> {
+                column.setNewRecord(true);
+                column.setGenTable(genTable);
+                genTableColumnService.save(column);
+            });
+        }
+        return genTableRes;
+    }
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> deleteTable(GenTable genTable) {
-		Response<Integer> genTableRes = genTableService.deleteByAuth(genTable);
-		if (ResponseUtils.isNotEmpty(genTableRes)) {
-			GenTableColumn deleteTableColumn = new GenTableColumn();
-			deleteTableColumn.setGenTable(genTable);
-			genTableColumnService.delete(deleteTableColumn);
-		}
-		return new Response<Integer>(true);
-	}
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<Integer> deleteTable(GenTable genTable) {
+        Response<Integer> genTableRes = genTableService.deleteByAuth(genTable);
+        if (ResponseUtils.isNotEmpty(genTableRes)) {
+            GenTableColumn deleteTableColumn = new GenTableColumn();
+            deleteTableColumn.setGenTable(genTable);
+            genTableColumnService.delete(deleteTableColumn);
+        }
+        return new Response<Integer>(true);
+    }
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<GenTable> findParentTable(String parentId) {
-		GenTable parentTable = null;
-		if (StringUtils.isNotEmpty(parentId)) {
-			GenTable queryTable = new GenTable();
-			queryTable.setId(parentId);
-			parentTable = this.genTableService.get(queryTable).getData();
-			if (parentTable != null) {
-				GenTableColumnQuery queryGenTableColumn = new GenTableColumnQuery();
-				queryGenTableColumn.setGenTable(parentTable);
-				List<GenTableColumnResult> genTableColumnResultList = genTableColumnService
-						.findList(new GenTableColumnPO(queryGenTableColumn)).getData();
-				parentTable.setGenTableColumns(genTableColumnResultList);
-			}
-		}
-		return new Response<>(parentTable);
-	}
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<GenTable> findParentTable(String parentId) {
+        GenTable parentTable = null;
+        if (StringUtils.isNotEmpty(parentId)) {
+            GenTable queryTable = new GenTable();
+            queryTable.setId(parentId);
+            parentTable = this.genTableService.get(queryTable).getData();
+            if (parentTable != null) {
+                GenTableColumnQuery queryGenTableColumn = new GenTableColumnQuery();
+                queryGenTableColumn.setGenTable(parentTable);
+                List<GenTableColumnResult> genTableColumnResultList = genTableColumnService.findList(new GenTableColumnPO(queryGenTableColumn)).getData();
+                parentTable.setGenTableColumns(genTableColumnResultList);
+            }
+        }
+        return new Response<>(parentTable);
+    }
 
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<List<GenTableResult>> findChildTables(String id) {
-		GenTableQuery queryGenTable = new GenTableQuery();
-		queryGenTable.setParentTableId(id);
-		List<GenTableResult> childTableList = this.genTableService.findList(new GenTablePO(queryGenTable)).getData();
-		if (CollectionUtils.isNotEmpty(childTableList)) {
-			childTableList.forEach(tableResult -> {
-				GenTableColumnQuery queryGenTableColumn = new GenTableColumnQuery();
-				queryGenTableColumn.setGenTable(tableResult);
-				List<GenTableColumnResult> genTableColumnResultList = genTableColumnService
-						.findList(new GenTableColumnPO(queryGenTableColumn)).getData();
-				tableResult.setGenTableColumns(genTableColumnResultList);
-			});
-		}
-		return new Response<>(childTableList);
-	}
-
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<List<GenTableResult>> findChildTables(String id) {
+        GenTableQuery queryGenTable = new GenTableQuery();
+        queryGenTable.setParentTableId(id);
+        List<GenTableResult> childTableList = this.genTableService.findList(new GenTablePO(queryGenTable)).getData();
+        if (CollectionUtils.isNotEmpty(childTableList)) {
+            childTableList.forEach(tableResult -> {
+                GenTableColumnQuery queryGenTableColumn = new GenTableColumnQuery();
+                queryGenTableColumn.setGenTable(tableResult);
+                List<GenTableColumnResult> genTableColumnResultList = genTableColumnService.findList(new GenTableColumnPO(queryGenTableColumn)).getData();
+                tableResult.setGenTableColumns(genTableColumnResultList);
+            });
+        }
+        return new Response<>(childTableList);
+    }
 
 }

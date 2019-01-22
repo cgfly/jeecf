@@ -12,46 +12,45 @@ import org.jeecf.common.exception.BusinessException;
  * @author GloryJ
  *
  */
-public class Sha1Digests extends AbstractDigests{
-	
-	private static Sha1Digests sha1 = null;
-	
-	private static final String ALGORITHM = "SHA-1";
+public class Sha1Digests extends AbstractDigests {
 
-	private Sha1Digests() {
-	}
+    private static Sha1Digests SHA1 = null;
 
-	public synchronized static final Sha1Digests getInstance() {
-		if (sha1 == null) {
-			sha1 = new Sha1Digests();
-		}
-		return sha1;
-	}
-	
-	@Override
-	public byte[] encrpt(byte[] input, byte[] salt, int iterations) {
-		return digest(input, salt, ALGORITHM, iterations);
-	}
-	
-	
-	public static byte[] encrpt1(byte[] input) {
-		return getInstance().encrpt(input);
-	}
-	
-	public static byte[] encrpt1(byte[] input, byte[] salt) {
-		return getInstance().encrpt(input,salt);
-	}
-	
-	public static byte[] encrpt1(byte[] input, byte[] salt, int iterations) {
-		return getInstance().encrpt(input,salt,iterations);
-	}
+    private static final String ALGORITHM = "SHA-1";
 
-	@Override
-	public byte[] encrpt(InputStream input) {
-		try {
-			return digest(input, ALGORITHM);
-		} catch (IOException e) {
-			throw new BusinessException(SysErrorEnum.IO_ERROR);
-		}
-	}
+    private Sha1Digests() {
+    }
+
+    public synchronized static final Sha1Digests getInstance() {
+        if (SHA1 == null) {
+            SHA1 = new Sha1Digests();
+        }
+        return SHA1;
+    }
+
+    @Override
+    public byte[] encrpt(byte[] input, byte[] salt, int iterations) {
+        return digest(input, salt, ALGORITHM, iterations);
+    }
+
+    public static byte[] encrpt1(byte[] input) {
+        return getInstance().encrpt(input);
+    }
+
+    public static byte[] encrpt1(byte[] input, byte[] salt) {
+        return getInstance().encrpt(input, salt);
+    }
+
+    public static byte[] encrpt1(byte[] input, byte[] salt, int iterations) {
+        return getInstance().encrpt(input, salt, iterations);
+    }
+
+    @Override
+    public byte[] encrpt(InputStream input) {
+        try {
+            return digest(input, ALGORITHM);
+        } catch (IOException e) {
+            throw new BusinessException(SysErrorEnum.IO_ERROR);
+        }
+    }
 }

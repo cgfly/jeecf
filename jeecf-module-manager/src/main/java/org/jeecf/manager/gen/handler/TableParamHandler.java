@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.gen.model.BaseTable;
 import org.jeecf.common.lang.StringUtils;
@@ -15,9 +14,11 @@ import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.gen.builder.TableBuilder;
 import org.jeecf.manager.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.manager.gen.model.config.ConfigContext;
+import org.jeecf.manager.gen.model.config.DistributionEntity;
 import org.jeecf.manager.gen.model.config.ModuleEntity;
 import org.jeecf.manager.gen.model.rule.RuleContext;
 import org.jeecf.manager.gen.model.rule.StrategyEntity;
+import org.jeecf.manager.gen.strategy.DistributionLikeStrategy;
 import org.jeecf.manager.gen.strategy.FilterStrategy;
 import org.jeecf.manager.gen.strategy.GroupDataStrategy;
 import org.jeecf.manager.gen.strategy.ManyTableStrategy;
@@ -31,139 +32,192 @@ import org.jeecf.manager.gen.strategy.TreeDataStrategy;
  */
 public class TableParamHandler extends AbstractHandler {
 
-	private static ManyTableStrategy manyTableStrategy = new ManyTableStrategy();
+    private ManyTableStrategy manyTableStrategy = new ManyTableStrategy();
 
-	private static GroupDataStrategy groupDataStrategy = new GroupDataStrategy();
+    private GroupDataStrategy groupDataStrategy = new GroupDataStrategy();
 
-	private static FilterStrategy filterStrategy = new FilterStrategy();
-	
-	private static TreeDataStrategy treeDataStrategy = new TreeDataStrategy();
+    private FilterStrategy filterStrategy = new FilterStrategy();
 
-	@Override
-	public void init(ChainContext context) {
-		this.chainContext = context;
-	}
+    private TreeDataStrategy treeDataStrategy = new TreeDataStrategy();
 
-	@Override
-	public void process() {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-		String tableName = (String) this.chainContext.get("tableName");
-		Integer language = (Integer) this.chainContext.get("language");
-		ConfigContext configContext = (ConfigContext) this.chainContext.get("configContext");
-		@SuppressWarnings("unchecked")
-		List<RuleContext> ruleContexts = (List<RuleContext>) this.chainContext.get("ruleContexts");
-		List<ModuleEntity> moduleEntitys = configContext.getModuleEntitys();
-		Map<RuleContext, List<ModuleEntity>> filterMap = new HashMap<>(10);
-		moduleEntitys.forEach(module -> {
-			for (RuleContext rule : ruleContexts) {
-				if (module.getRule().equals(rule.getName())) {
-					List<ModuleEntity> moduleEntityList = filterMap.get(rule);
-					if (moduleEntityList == null) {
-						moduleEntityList = new ArrayList<>();
-						filterMap.put(rule, moduleEntityList);
-					}
-					module.setStrategyEntity(rule.getStrategyEntity());
-					moduleEntityList.add(module);
-					break;
-				}
-			}
-		});
-		for (Map.Entry<RuleContext, List<ModuleEntity>> entry : filterMap.entrySet()) {
-			this.buildFactory(language, tableName, entry.getKey(), entry.getValue());
-		}
-		this.chainContext.put("params", params);
-		this.chainContext.next();
-	}
+    private DistributionLikeStrategy distributionLikeStrategy = new DistributionLikeStrategy();
 
-	/**
-	 * 构建工厂
-	 * 
-	 * @param language
-	 * @param tableName
-	 * @param ruleContext
-	 * @param moduleEntitys
-	 */
-	private void buildFactory(Integer language, String tableName, RuleContext ruleContext,
-			List<ModuleEntity> moduleEntitys) {
-		if (StringUtils.isNotEmpty(tableName)) {
-			TableBuilder builder = new TableBuilder();
-			BaseTable table = builder.build(tableName);
-			if (ruleContext.isData()) {
-				String data = filterStrategy.handler(ruleContext.getFilterEntitys(), builder);
-				StrategyEntity strategyEntity = ruleContext.getStrategyEntity();
-				if (strategyEntity != null && StringUtils.isNotBlank(strategyEntity.getName())) {
-					if (StringUtils.isEmpty(data)) {
-						throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-					}
-					if (StringUtils.isBlank(strategyEntity.getField())) {
-						throw new BusinessException(BusinessErrorEnum.RULE_STRATEGY_FIELD_NOT_EMPTY);
-					}
-					buildStrategy(data, table, strategyEntity, moduleEntitys, builder);
-				} else {
-					buildData(moduleEntitys, data, table, null, null);
-				}
-			} else {
-				moduleEntitys.forEach(moduleEntity -> {
-					moduleEntity.setTable(table);
-				});
-				buildData(moduleEntitys, null, table, null, null);
-			}
-		}
-	}
+    @Override
+    public void init(ChainContext context) {
+        this.chainContext = context;
+    }
 
-	/**
-	 * 构建策略
-	 * 
-	 * @param data
-	 * @param strategyEntity
-	 * @param moduleEntitys
-	 * @param builder
-	 */
-	private void buildStrategy(String data, Object table, StrategyEntity strategyEntity,
-			List<ModuleEntity> moduleEntitys, TableBuilder builder) {
-		if (strategyEntity.getName().equals(RuleStrategyNameEnum.MANY.name)) {
-			List<Object> tables = manyTableStrategy.handler(data, strategyEntity.getField(), builder);
-			if (CollectionUtils.isNotEmpty(tables)) {
-				buildData(moduleEntitys, data, null, null, tables);
-				return;
-			}
-			throw new BusinessException(BusinessErrorEnum.RULE_TABLE_PARAM_MANY_NOT_QUERY);
-		} else if (strategyEntity.getName().equals(RuleStrategyNameEnum.GROUP.name)) {
-			List<Map<String, Object>> datas = groupDataStrategy.handler(data, strategyEntity.getField().split(","));
-			if (CollectionUtils.isNotEmpty(datas)) {
-				buildData(moduleEntitys, null, table, datas, null);
-				return;
-			}
-			throw new BusinessException(BusinessErrorEnum.RULE_DATA_GROUP_ERROR);
-		} else if (strategyEntity.getName().equals(RuleStrategyNameEnum.TREE.name)) {
-		    data = treeDataStrategy.handler(data);
-			if (StringUtils.isNotEmpty(data)) {
-				buildData(moduleEntitys, data, table, null, null);
-				return;
-			}
-			throw new BusinessException(BusinessErrorEnum.RULE_DATA_TREE_ERROR);
-		}
-		throw new BusinessException(BusinessErrorEnum.RULE_STRATEGY_NAME_NOT_MATCH);
-	}
+    @Override
+    public void process() {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
+        String tableName = (String) this.chainContext.get("tableName");
+        Integer language = (Integer) this.chainContext.get("language");
+        ConfigContext configContext = (ConfigContext) this.chainContext.get("configContext");
+        @SuppressWarnings("unchecked")
+        List<RuleContext> ruleContexts = (List<RuleContext>) this.chainContext.get("ruleContexts");
+        List<ModuleEntity> moduleEntitys = configContext.getModuleEntitys();
+        Map<RuleContext, List<ModuleEntity>> filterMap = new HashMap<>(10);
+        moduleEntitys.forEach(module -> {
+            for (RuleContext rule : ruleContexts) {
+                if (module.getRule().equals(rule.getName())) {
+                    List<ModuleEntity> moduleEntityList = filterMap.get(rule);
+                    if (moduleEntityList == null) {
+                        moduleEntityList = new ArrayList<>();
+                        filterMap.put(rule, moduleEntityList);
+                    }
+                    module.setStrategyEntity(rule.getStrategyEntity());
+                    moduleEntityList.add(module);
+                    break;
+                }
+            }
+        });
+        for (Map.Entry<RuleContext, List<ModuleEntity>> entry : filterMap.entrySet()) {
+            this.buildFactory(language, tableName, entry.getKey(), entry.getValue(), configContext.getDistributionEntity());
+        }
+        this.chainContext.put("params", params);
+        this.chainContext.next();
+    }
 
-	/**
-	 * 构建数据
-	 * 
-	 * @param moduleEntitys
-	 * @param data
-	 * @param table
-	 * @param datas
-	 * @param tables
-	 */
-	public void buildData(List<ModuleEntity> moduleEntitys, String data, Object table, List<Map<String, Object>> datas,
-			List<Object> tables) {
-		moduleEntitys.forEach(moduleEntity -> {
-			moduleEntity.setData(data);
-			moduleEntity.setDatas(datas);
-			moduleEntity.setTable(table);
-			moduleEntity.setTables(tables);
-		});
-	}
+    /**
+     * 构建工厂
+     * 
+     * @param language
+     * @param tableName
+     * @param ruleContext
+     * @param moduleEntitys
+     */
+    private void buildFactory(Integer language, String tableName, RuleContext ruleContext, List<ModuleEntity> moduleEntitys, DistributionEntity distributionEntity) {
+        if (StringUtils.isNotEmpty(tableName)) {
+            TableBuilder builder = new TableBuilder();
+            BaseTable table = builder.build(tableName);
+            if (ruleContext.isData()) {
+                String data = filterStrategy.handler(ruleContext.getFilterEntitys(), builder);
+                StrategyEntity strategyEntity = ruleContext.getStrategyEntity();
+                if (strategyEntity != null && StringUtils.isNotBlank(strategyEntity.getName())) {
+                    if (StringUtils.isEmpty(data)) {
+                        throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+                    }
+                    if (StringUtils.isBlank(strategyEntity.getField())) {
+                        throw new BusinessException(BusinessErrorEnum.RULE_STRATEGY_FIELD_NOT_EMPTY);
+                    }
+                    buildStrategy(data, table, strategyEntity, moduleEntitys, builder, distributionEntity);
+                } else {
+                    buildData(moduleEntitys, data, table, distributionEntity);
+                }
+            } else {
+                moduleEntitys.forEach(moduleEntity -> {
+                    moduleEntity.setTable(table);
+                });
+                buildData(moduleEntitys, null, table, distributionEntity);
+            }
+        }
+    }
+
+    /**
+     * 构建策略数据
+     * 
+     * @param data
+     * @param strategyEntity
+     * @param moduleEntitys
+     * @param builder
+     */
+    private void buildStrategy(String data, Object table, StrategyEntity strategyEntity, List<ModuleEntity> moduleEntitys, TableBuilder builder, DistributionEntity distributionEntity) {
+        if (strategyEntity.getName().equals(RuleStrategyNameEnum.MANY.name)) {
+            buildTables(moduleEntitys, builder, data, strategyEntity.getField(), distributionEntity);
+            return;
+        } else if (strategyEntity.getName().equals(RuleStrategyNameEnum.GROUP.name)) {
+            buildDatas(moduleEntitys, data, table, strategyEntity.getField(), distributionEntity);
+            return;
+        } else if (strategyEntity.getName().equals(RuleStrategyNameEnum.TREE.name)) {
+            data = treeDataStrategy.handler(data);
+            buildData(moduleEntitys, data, table, distributionEntity);
+            return;
+        }
+        throw new BusinessException(BusinessErrorEnum.RULE_STRATEGY_NAME_NOT_MATCH);
+    }
+
+    /**
+     * 构建数据
+     * 
+     * @param moduleEntitys
+     * @param data
+     * @param table
+     * @param distributionEntity
+     */
+    private void buildData(List<ModuleEntity> moduleEntitys, String data, Object table, DistributionEntity distributionEntity) {
+        moduleEntitys.forEach(moduleEntity -> {
+            if (distributionEntity.isActive()) {
+                moduleEntity.setData(buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch()));
+            } else {
+                moduleEntity.setData(data);
+            }
+            moduleEntity.setTable(table);
+        });
+    }
+
+    /**
+     * 构建分组数据
+     * 
+     * @param moduleEntitys
+     * @param data
+     * @param table
+     * @param field
+     * @param distributionEntity
+     */
+    private void buildDatas(List<ModuleEntity> moduleEntitys, String data, Object table, String field, DistributionEntity distributionEntity) {
+        if (distributionEntity.isActive()) {
+            moduleEntitys.forEach(moduleEntity -> {
+                String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch());
+                List<Map<String, Object>> datas = groupDataStrategy.handler(distributionData, field.split(","));
+                moduleEntity.setDatas(datas);
+                moduleEntity.setTable(table);
+            });
+        } else {
+            List<Map<String, Object>> datas = groupDataStrategy.handler(data, field.split(","));
+            moduleEntitys.forEach(moduleEntity -> {
+                moduleEntity.setDatas(datas);
+                moduleEntity.setTable(table);
+            });
+        }
+    }
+
+    /**
+     * 构建多表数据
+     * 
+     * @param moduleEntitys
+     * @param builder
+     * @param data
+     * @param field
+     * @param distributionEntity
+     */
+    private void buildTables(List<ModuleEntity> moduleEntitys, TableBuilder builder, String data, String field, DistributionEntity distributionEntity) {
+        if (distributionEntity.isActive()) {
+            moduleEntitys.forEach(moduleEntity -> {
+                String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch());
+                List<Object> tables = manyTableStrategy.handler(distributionData, field, builder);
+                moduleEntity.setData(data);
+                moduleEntity.setTables(tables);
+            });
+        } else {
+            List<Object> tables = manyTableStrategy.handler(data, field, builder);
+            moduleEntitys.forEach(moduleEntity -> {
+                moduleEntity.setData(data);
+                moduleEntity.setTables(tables);
+            });
+        }
+    }
+
+    /**
+     * 构建分发数据
+     * 
+     * @param data
+     * @param field
+     * @param match
+     * @return
+     */
+    private String buildDistributionStrategy(String data, String field, String match) {
+        return distributionLikeStrategy.handler(data, field, match);
+    }
 
 }

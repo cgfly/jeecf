@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 系统角色权限
+ * 
  * @author GloryJian
  * @version 1.0
  */
 @Service
-public class SysRolePowerService extends BaseService<SysRolePowerDao,SysRolePowerPO,SysRolePowerResult,SysRolePowerQuery,SysRolePower> {
+public class SysRolePowerService extends BaseService<SysRolePowerDao, SysRolePowerPO, SysRolePowerResult, SysRolePowerQuery, SysRolePower> {
 
-	
 }

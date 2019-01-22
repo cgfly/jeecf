@@ -1,92 +1,94 @@
 package org.jeecf.manager.module.config.model.schema;
 
 import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 命名空间 schema
+ * 
  * @author jianyiming
  *
  */
 public class SysNamespaceSchema {
-	/**
-	 * 主键
-	 */
-	@ApiModelProperty(value = "主键", name = "id")
-	private  boolean id = true;
-	/**
-	 * 权限
-	 */
-	@ApiModelProperty(value="权限",name="permission")
-	private boolean permission = true;
-	/**
-	 * 名称
-	 */
-	@ApiModelProperty(value = "名称", name = "name")
-	private boolean name = true;
-	
-	/**
-	 * 逻辑删除
-	 */
-	@ApiModelProperty(value = "逻辑删除", name = "delFlag")
-	private boolean delFlag = true;
-	
-	/**
-	 * 描述
-	 */
-	@ApiModelProperty(value = "描述", name = "description")
-	private boolean description = true;
-	
-	/**
-	 * 描述
-	 */
-	@ApiModelProperty(value = "更新时间", name = "updateDate")
-	private boolean updateDate = true;
+    /**
+     * 主键
+     */
+    @ApiModelProperty(value = "主键", name = "id")
+    private boolean id = true;
+    /**
+     * 权限
+     */
+    @ApiModelProperty(value = "权限", name = "permission")
+    private boolean permission = true;
+    /**
+     * 名称
+     */
+    @ApiModelProperty(value = "名称", name = "name")
+    private boolean name = true;
 
-	public boolean isId() {
-		return id;
-	}
+    /**
+     * 逻辑删除
+     */
+    @ApiModelProperty(value = "逻辑删除", name = "delFlag")
+    private boolean delFlag = true;
 
-	public void setId(boolean id) {
-		this.id = id;
-	}
+    /**
+     * 描述
+     */
+    @ApiModelProperty(value = "描述", name = "description")
+    private boolean description = true;
 
-	public boolean isPermission() {
-		return permission;
-	}
+    /**
+     * 描述
+     */
+    @ApiModelProperty(value = "更新时间", name = "updateDate")
+    private boolean updateDate = true;
 
-	public void setPermission(boolean permission) {
-		this.permission = permission;
-	}
+    public boolean isId() {
+        return id;
+    }
 
-	public boolean isName() {
-		return name;
-	}
+    public void setId(boolean id) {
+        this.id = id;
+    }
 
-	public void setName(boolean name) {
-		this.name = name;
-	}
+    public boolean isPermission() {
+        return permission;
+    }
 
-	public boolean isDescription() {
-		return description;
-	}
+    public void setPermission(boolean permission) {
+        this.permission = permission;
+    }
 
-	public void setDescription(boolean description) {
-		this.description = description;
-	}
+    public boolean isName() {
+        return name;
+    }
 
-	public boolean isUpdateDate() {
-		return updateDate;
-	}
+    public void setName(boolean name) {
+        this.name = name;
+    }
 
-	public void setUpdateDate(boolean updateDate) {
-		this.updateDate = updateDate;
-	}
+    public boolean isDescription() {
+        return description;
+    }
 
-	public boolean isDelFlag() {
-		return delFlag;
-	}
+    public void setDescription(boolean description) {
+        this.description = description;
+    }
 
-	public void setDelFlag(boolean delFlag) {
-		this.delFlag = delFlag;
-	}
-	
+    public boolean isUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(boolean updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public boolean isDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(boolean delFlag) {
+        this.delFlag = delFlag;
+    }
+
 }

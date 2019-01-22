@@ -41,58 +41,58 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "sysMenu api", tags = { "系统菜单接口" })
 public class SysMenuController implements CurdController<SysMenuQuery, SysMenuResult, SysMenuSchema, SysMenu> {
 
-	@Autowired
-	private SysMenuService sysMenuService;
+    @Autowired
+    private SysMenuService sysMenuService;
 
-	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("config:sysMenu:view")
-	@ApiOperation(value = "视图", notes = "查看系统菜单视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/config/sysMenu";
-	}
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("config:sysMenu:view")
+    @ApiOperation(value = "视图", notes = "查看系统菜单视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/config/sysMenu";
+    }
 
-	@PostMapping(value = { "list" })
-	@ResponseBody
-	@RequiresPermissions("config:sysMenu:view")
-	@ApiOperation(value = "列表", notes = "查询系统菜单列表")
-	@Override
-	public Response<List<SysMenuResult>> list(@RequestBody Request<SysMenuQuery,SysMenuSchema> sysMenuQuery) {
-		return sysMenuService.getTreeData(new SysMenuPO(sysMenuQuery));
-	}
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("config:sysMenu:view")
+    @ApiOperation(value = "列表", notes = "查询系统菜单列表")
+    @Override
+    public Response<List<SysMenuResult>> list(@RequestBody Request<SysMenuQuery, SysMenuSchema> sysMenuQuery) {
+        return sysMenuService.getTreeData(new SysMenuPO(sysMenuQuery));
+    }
 
-	@PostMapping(value = { "getTreeData" })
-	@ResponseBody
-	@RequiresPermissions("config:sysMenu:view")
-	@ApiOperation(value = "列表", notes = "查询系统菜单树表格列表")
-	public Response<List<SysMenuResult>> getTreeData(SysMenuQuery sysMenuQuery) {
-		return sysMenuService.getTreeData(new SysMenuPO(sysMenuQuery));
-	}
+    @PostMapping(value = { "getTreeData" })
+    @ResponseBody
+    @RequiresPermissions("config:sysMenu:view")
+    @ApiOperation(value = "列表", notes = "查询系统菜单树表格列表")
+    public Response<List<SysMenuResult>> getTreeData(SysMenuQuery sysMenuQuery) {
+        return sysMenuService.getTreeData(new SysMenuPO(sysMenuQuery));
+    }
 
-	@PostMapping(value = { "save" })
-	@ResponseBody
-	@RequiresPermissions("config:sysMenu:edit")
-	@ApiOperation(value = "更新", notes = "更新系统菜单数据")
-	@Override
-	public Response<SysMenuResult> save(@RequestBody @Validated({Add.class}) SysMenu sysMenu) {
-		if(sysMenu.isNewRecord()) {
-			SysMenuQuery query = new SysMenuQuery();
-			query.setLabel(sysMenu.getLabel());
-			List<SysMenuResult> sysMenuList = sysMenuService.findList(new SysMenuPO(query)).getData();
-			if(CollectionUtils.isNotEmpty(sysMenuList)) {
-				throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
-			}
-		}
-		return sysMenuService.save(sysMenu);
-	}
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("config:sysMenu:edit")
+    @ApiOperation(value = "更新", notes = "更新系统菜单数据")
+    @Override
+    public Response<SysMenuResult> save(@RequestBody @Validated({ Add.class }) SysMenu sysMenu) {
+        if (sysMenu.isNewRecord()) {
+            SysMenuQuery query = new SysMenuQuery();
+            query.setLabel(sysMenu.getLabel());
+            List<SysMenuResult> sysMenuList = sysMenuService.findList(new SysMenuPO(query)).getData();
+            if (CollectionUtils.isNotEmpty(sysMenuList)) {
+                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+            }
+        }
+        return sysMenuService.save(sysMenu);
+    }
 
-	@PostMapping(value = { "delete/{id}" })
-	@ResponseBody
-	@RequiresPermissions("config:sysMenu:edit")
-	@ApiOperation(value = "删除", notes = "删除系统菜单数据")
-	@Override
-	public Response<Integer> delete(@PathVariable("id") String id) {
-			return sysMenuService.delete(new SysMenu(id));
-	}
+    @PostMapping(value = { "delete/{id}" })
+    @ResponseBody
+    @RequiresPermissions("config:sysMenu:edit")
+    @ApiOperation(value = "删除", notes = "删除系统菜单数据")
+    @Override
+    public Response<Integer> delete(@PathVariable("id") String id) {
+        return sysMenuService.delete(new SysMenu(id));
+    }
 
 }

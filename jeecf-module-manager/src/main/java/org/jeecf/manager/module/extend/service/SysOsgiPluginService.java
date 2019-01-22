@@ -36,101 +36,97 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
-public class SysOsgiPluginService extends
-		NamespaceAuthService<SysOsgiPluginDao, SysOsgiPluginPO, SysOsgiPluginResult, SysOsgiPluginQuery, SysOsgiPlugin> {
+public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao, SysOsgiPluginPO, SysOsgiPluginResult, SysOsgiPluginQuery, SysOsgiPlugin> {
 
-	@Autowired
-	private PluginManager pluginManager;
-	
-	@Autowired
-	private AnnotationConfigEmbeddedWebApplicationContext annotationConfigEmbeddedWebApplicationContext;
+    @Autowired
+    private PluginManager pluginManager;
 
-	public void initPlugin() {
-		try {
-			SysOsgiPluginQuery query = new SysOsgiPluginQuery();
-			Response<List<SysOsgiPluginResult>> sysOsgiPluginRes = this.findList(new SysOsgiPluginPO(query));
-			List<URL> genHandlerURL = new ArrayList<>();
-			if (sysOsgiPluginRes.isSuccess() && CollectionUtils.isNotEmpty(sysOsgiPluginRes.getData())) {
-				List<SysOsgiPluginResult> sysOsgiPlugins = sysOsgiPluginRes.getData();
-				for (SysOsgiPluginResult sysOsgiPlugin : sysOsgiPlugins) {
-					if (sysOsgiPlugin.getBoundleType() == BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE.getCode()) {
-						URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
-						genHandlerURL.add(url);
-					}
-				}
-				pluginManager.install(genHandlerURL.toArray(new URL[genHandlerURL.size()]),
-						BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
-						annotationConfigEmbeddedWebApplicationContext.getClassLoader());
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
+    @Autowired
+    private AnnotationConfigEmbeddedWebApplicationContext annotationConfigEmbeddedWebApplicationContext;
 
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<SysOsgiPluginResult> insert(SysOsgiPlugin sysOsgiPlugin) {
-		try {
-			Response<SysOsgiPluginResult> sysOsgiPluginResultRes = super.insert(sysOsgiPlugin);
-			boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getFileName()), PluginUtils.getFilePath(sysOsgiPlugin.getFileName()), true);
-			if(flag) {
-				pluginManager.install(new URL[] { new URL("file:"+PluginUtils.getFilePath(sysOsgiPlugin.getFileName())) },
-						BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
-						annotationConfigEmbeddedWebApplicationContext.getClassLoader());
-				return sysOsgiPluginResultRes;
-			}
-			throw new BusinessException(SysErrorEnum.IO_ERROR);
-		} catch (Exception e) {
-			PluginUtils.delFile(sysOsgiPlugin.getFileName());
-			e.printStackTrace();
-			throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
-		} finally {
-			PluginUtils.delTmpFile(sysOsgiPlugin.getFileName());
-		}
-	}
-	
-	@Override
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> delete(SysOsgiPlugin sysOsgiPlugin) {
-		Response<SysOsgiPluginResult> sysOsgiPluginRes = super.get(sysOsgiPlugin);
-		if (sysOsgiPluginRes.isSuccess()) {
-			SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginRes.getData();
-			sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
-			sysOsgiPlugin.setId(null);
-			Response<Integer> response = super.delete(sysOsgiPlugin);
-			String path = PluginUtils.getFilePath(sysOsgiPluginResult.getFileName());
-			try {
-				pluginManager.uninstall(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, new URL("file:"+path));
-				PluginUtils.delFile(sysOsgiPluginResult.getFileName());
-				return response;
-			} catch (Exception e) {
-				throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
-			} 
-		}
-		throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-	}
-	
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public Response<Integer> updateByName(SysOsgiPlugin sysOsgiPlugin) {
-		return new Response<>(dao.updateByName(sysOsgiPlugin));
-	}
-	
-	public Response<List<Plugin>> findFilePathByBoundleType(BoundleEnum boundleEnum) {
-		List<URL> urls = new ArrayList<>();
-		SysOsgiPluginQuery query = new SysOsgiPluginQuery();
-		query.setBoundleType(boundleEnum.getCode());
-		List<SysOsgiPluginResult> sysOsgiPluginList = this.findListByAuth(new SysOsgiPluginPO(query)).getData();
-		if(CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
-			sysOsgiPluginList.forEach(sysOsgiPlugin->{
-				try {
-					URL url = new URL("file:"+PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
-					urls.add(url);
-				} catch (MalformedURLException e) {
-					throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
-				}
-			});
-		}
-		return new Response<>(pluginManager.getInstances(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, urls.toArray(new URL[urls.size()])));
-	}
-	
+    public void initPlugin() {
+        try {
+            SysOsgiPluginQuery query = new SysOsgiPluginQuery();
+            Response<List<SysOsgiPluginResult>> sysOsgiPluginRes = this.findList(new SysOsgiPluginPO(query));
+            List<URL> genHandlerURL = new ArrayList<>();
+            if (sysOsgiPluginRes.isSuccess() && CollectionUtils.isNotEmpty(sysOsgiPluginRes.getData())) {
+                List<SysOsgiPluginResult> sysOsgiPlugins = sysOsgiPluginRes.getData();
+                for (SysOsgiPluginResult sysOsgiPlugin : sysOsgiPlugins) {
+                    if (sysOsgiPlugin.getBoundleType() == BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE.getCode()) {
+                        URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+                        genHandlerURL.add(url);
+                    }
+                }
+                pluginManager.install(genHandlerURL.toArray(new URL[genHandlerURL.size()]), BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
+                        annotationConfigEmbeddedWebApplicationContext.getClassLoader());
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<SysOsgiPluginResult> insert(SysOsgiPlugin sysOsgiPlugin) {
+        try {
+            Response<SysOsgiPluginResult> sysOsgiPluginResultRes = super.insert(sysOsgiPlugin);
+            boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getFileName()), PluginUtils.getFilePath(sysOsgiPlugin.getFileName()), true);
+            if (flag) {
+                pluginManager.install(new URL[] {new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()))}, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,annotationConfigEmbeddedWebApplicationContext.getClassLoader());
+                return sysOsgiPluginResultRes;
+            }
+            throw new BusinessException(SysErrorEnum.IO_ERROR);
+        } catch (Exception e) {
+            PluginUtils.delFile(sysOsgiPlugin.getFileName());
+            e.printStackTrace();
+            throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
+        } finally {
+            PluginUtils.delTmpFile(sysOsgiPlugin.getFileName());
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<Integer> delete(SysOsgiPlugin sysOsgiPlugin) {
+        Response<SysOsgiPluginResult> sysOsgiPluginRes = super.get(sysOsgiPlugin);
+        if (sysOsgiPluginRes.isSuccess()) {
+            SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginRes.getData();
+            sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
+            sysOsgiPlugin.setId(null);
+            Response<Integer> response = super.delete(sysOsgiPlugin);
+            String path = PluginUtils.getFilePath(sysOsgiPluginResult.getFileName());
+            try {
+                pluginManager.uninstall(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, new URL("file:" + path));
+                PluginUtils.delFile(sysOsgiPluginResult.getFileName());
+                return response;
+            } catch (Exception e) {
+                throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
+            }
+        }
+        throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<Integer> updateByName(SysOsgiPlugin sysOsgiPlugin) {
+        return new Response<>(dao.updateByName(sysOsgiPlugin));
+    }
+
+    public Response<List<Plugin>> findFilePathByBoundleType(BoundleEnum boundleEnum) {
+        List<URL> urls = new ArrayList<>();
+        SysOsgiPluginQuery query = new SysOsgiPluginQuery();
+        query.setBoundleType(boundleEnum.getCode());
+        List<SysOsgiPluginResult> sysOsgiPluginList = this.findListByAuth(new SysOsgiPluginPO(query)).getData();
+        if (CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
+            sysOsgiPluginList.forEach(sysOsgiPlugin -> {
+                try {
+                    URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+                    urls.add(url);
+                } catch (MalformedURLException e) {
+                    throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
+                }
+            });
+        }
+        return new Response<>(pluginManager.getInstances(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, urls.toArray(new URL[urls.size()])));
+    }
+
 }

@@ -9,10 +9,11 @@ import org.jeecf.manager.module.config.model.result.SysOfficeResult;
 
 /**
  * 组织机构 dao
+ * 
  * @author jianyiming
  *
  */
 @Mapper
-public interface SysOfficeDao extends Dao<SysOfficePO,SysOfficeResult,SysOfficeQuery,SysOffice>{
+public interface SysOfficeDao extends Dao<SysOfficePO, SysOfficeResult, SysOfficeQuery, SysOffice> {
 
 }

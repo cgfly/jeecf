@@ -7,12 +7,14 @@ import org.jeecf.manager.module.operation.model.po.CustomerActionLogPO;
 import org.jeecf.manager.module.operation.model.query.CustomerActionLogQuery;
 import org.jeecf.manager.module.operation.model.result.CustomerActionLogResult;
 import org.springframework.stereotype.Service;
+
 /**
  * 客户操作日志 service
+ * 
  * @author jianyiming
  *
  */
 @Service
-public class CustomerActionLogService extends UserAuthService<CustomerActionLogDao, CustomerActionLogPO,CustomerActionLogResult,CustomerActionLogQuery, CustomerActionLog>{
+public class CustomerActionLogService extends UserAuthService<CustomerActionLogDao, CustomerActionLogPO, CustomerActionLogResult, CustomerActionLogQuery, CustomerActionLog> {
 
 }

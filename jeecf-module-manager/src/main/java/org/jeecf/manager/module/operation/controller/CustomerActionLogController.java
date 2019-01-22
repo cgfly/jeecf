@@ -23,37 +23,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 /**
  * 客户操作日志 controller
+ * 
  * @author jianyiming
  *
  */
 @Controller
-@RequestMapping(value= {"operation/customerActionLog"})
-@Api(value="customerActionLog api",tags={"客户操作日志"})
+@RequestMapping(value = { "operation/customerActionLog" })
+@Api(value = "customerActionLog api", tags = { "客户操作日志" })
 public class CustomerActionLogController implements BaseController {
-	
-	@Autowired
-	private CustomerActionLogService customerActionLogService;
-	
-	@GetMapping(value= {"","index"})
-	@RequiresPermissions("operation:customerActionLog:view")
-	@ApiOperation(value = "视图", notes = "查看api视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/operation/customerActionLog";
-	}
-	
-	@PostMapping(value = { "list" })
-	@ResponseBody
-	@RequiresPermissions("operation:customerActionLog:view")
-	@ApiOperation(value = "列表", notes = "客户操作日志列表")
-	public Response<List<CustomerActionLogResult>> list(@RequestBody Request<CustomerActionLogQuery, CustomerActionLogSchema> request) {
-		Response<List<CustomerActionLogResult>> customerActionLogRes = customerActionLogService.findPageByAuth(new CustomerActionLogPO(request));
-		customerActionLogRes.getData().forEach(customerActionLogResult -> {
-			customerActionLogResult.setActionTypeName(ActionTypeEnum.getName(customerActionLogResult.getActionType()));
-		});
-		return customerActionLogRes;
-	}
+
+    @Autowired
+    private CustomerActionLogService customerActionLogService;
+
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("operation:customerActionLog:view")
+    @ApiOperation(value = "视图", notes = "查看api视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/operation/customerActionLog";
+    }
+
+    @PostMapping(value = { "list" })
+    @ResponseBody
+    @RequiresPermissions("operation:customerActionLog:view")
+    @ApiOperation(value = "列表", notes = "客户操作日志列表")
+    public Response<List<CustomerActionLogResult>> list(@RequestBody Request<CustomerActionLogQuery, CustomerActionLogSchema> request) {
+        Response<List<CustomerActionLogResult>> customerActionLogRes = customerActionLogService.findPageByAuth(new CustomerActionLogPO(request));
+        customerActionLogRes.getData().forEach(customerActionLogResult -> {
+            customerActionLogResult.setActionTypeName(ActionTypeEnum.getName(customerActionLogResult.getActionType()));
+        });
+        return customerActionLogRes;
+    }
 
 }

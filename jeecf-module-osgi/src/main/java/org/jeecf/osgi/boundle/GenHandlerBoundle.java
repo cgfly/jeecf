@@ -10,9 +10,9 @@ import org.jeecf.osgi.plugin.GenHandlerPlugin;
  */
 public class GenHandlerBoundle extends BaseBoundle {
 
-	@Override
-	public Class<?> getClasses() {
-		return GenHandlerPlugin.class;
-	}
+    @Override
+    public Class<?> getClasses() {
+        return GenHandlerPlugin.class;
+    }
 
 }

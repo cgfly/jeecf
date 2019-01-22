@@ -14,35 +14,35 @@ import org.jeecf.manager.module.userpower.model.domain.SysUser;
 
 /**
  * 基础参数责任链
+ * 
  * @author jianyiming
  *
  */
-public class BaseParamHandler extends AbstractHandler{
-	
+public class BaseParamHandler extends AbstractHandler {
 
-	@Override
-	public void init(ChainContext context) {
-	   this.chainContext = context;
-	}
+    @Override
+    public void init(ChainContext context) {
+        this.chainContext = context;
+    }
 
-	@Override
-	public void process() {
-		@SuppressWarnings("unchecked")
-	    Map<String,Object> params = (Map<String, Object>) this.chainContext.get("params");
-		@SuppressWarnings("unchecked")
-		List<GenParams> genParamsList = (List<GenParams>) this.chainContext.get("genParamsList");
-		SysNamespace sysNamespace = (SysNamespace) this.chainContext.get("sysNamespace");
-		SysUser sysUser = (SysUser) this.chainContext.get("sysUser");
-		params.put("nowDate", DateFormatUtils.getSfFormat().format(new Date()));
-		params.put("namespace",Integer.valueOf(sysNamespace.getId()) );
-		params.put("username",sysUser.getUsername());
-		if (CollectionUtils.isNotEmpty(genParamsList)) {
-			genParamsList.forEach(genParam -> {
-				params.put(genParam.getName(), genParam.getValue());
-			});
-		}
-		this.chainContext.put("params",params);
-		this.chainContext.next();
-	}
+    @Override
+    public void process() {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
+        @SuppressWarnings("unchecked")
+        List<GenParams> genParamsList = (List<GenParams>) this.chainContext.get("genParamsList");
+        SysNamespace sysNamespace = (SysNamespace) this.chainContext.get("sysNamespace");
+        SysUser sysUser = (SysUser) this.chainContext.get("sysUser");
+        params.put("nowDate", DateFormatUtils.getSfFormat().format(new Date()));
+        params.put("namespace", Integer.valueOf(sysNamespace.getId()));
+        params.put("username", sysUser.getUsername());
+        if (CollectionUtils.isNotEmpty(genParamsList)) {
+            genParamsList.forEach(genParam -> {
+                params.put(genParam.getName(), genParam.getValue());
+            });
+        }
+        this.chainContext.put("params", params);
+        this.chainContext.next();
+    }
 
 }

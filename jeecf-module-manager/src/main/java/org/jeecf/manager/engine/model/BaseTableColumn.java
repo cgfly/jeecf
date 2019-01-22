@@ -6,22 +6,22 @@ package org.jeecf.manager.engine.model;
  * @author jianyiming
  *
  */
-public class BaseTableColumn extends AbstractTableColumn{
+public class BaseTableColumn extends AbstractTableColumn {
 
-	protected BaseTableColumn() {}
-	
-	/**
-	 * 名称
-	 */
-	private String name;
+    protected BaseTableColumn() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * 名称
+     */
+    private String name;
 
-	protected void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
+    protected void setName(String name) {
+        this.name = name;
+    }
 
 }

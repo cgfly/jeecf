@@ -15,20 +15,22 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 import org.jeecf.manager.validate.internal.constraintvalidators.EnglishValidator;
+
 /**
  * 英文字符验证
+ * 
  * @author jianyiming
  *
  */
 @Documented
-@Constraint(validatedBy = { EnglishValidator.class})
+@Constraint(validatedBy = { EnglishValidator.class })
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 public @interface English {
-	
-    String message() default "{org.hibernate.validator.constraints.Length.message}";
-	
-	Class<?>[] groups() default { };
 
-	Class<? extends Payload>[] payload() default { };
+    String message() default "{org.hibernate.validator.constraints.Length.message}";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

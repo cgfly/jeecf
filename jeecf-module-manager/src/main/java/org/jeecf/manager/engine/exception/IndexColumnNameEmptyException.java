@@ -8,17 +8,17 @@ package org.jeecf.manager.engine.exception;
  */
 public class IndexColumnNameEmptyException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	public IndexColumnNameEmptyException(){
-	     super("idnex column name is empty... ");
-	}
+    public IndexColumnNameEmptyException() {
+        super("idnex column name is empty... ");
+    }
 
-	public IndexColumnNameEmptyException(String message ){
-	     super(message);
-	}
+    public IndexColumnNameEmptyException(String message) {
+        super(message);
+    }
 
 }

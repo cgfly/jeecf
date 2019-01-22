@@ -13,30 +13,30 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-public class SysTreeDictResult extends SysTreeDict implements Serializable{
+public class SysTreeDictResult extends SysTreeDict implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 事件名称
-	 */
-	@ApiModelProperty(value = "事件名称", name = "eventName")
-	private String eventName;
-	
-	public String getEventName() {
-		return eventName;
-	}
-	
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    /**
+     * 事件名称
+     */
+    @ApiModelProperty(value = "事件名称", name = "eventName")
+    private String eventName;
 
-	public void toCovert() {
-		if(this.getEvent() != null) {
-			this.setEventName(TreeEventEnum.getName(this.getEvent()));
-		}
-	}
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public void toCovert() {
+        if (this.getEvent() != null) {
+            this.setEventName(TreeEventEnum.getName(this.getEvent()));
+        }
+    }
 
 }

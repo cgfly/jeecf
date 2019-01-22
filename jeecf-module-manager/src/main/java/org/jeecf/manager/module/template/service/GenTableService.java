@@ -7,12 +7,14 @@ import org.jeecf.manager.module.template.model.po.GenTablePO;
 import org.jeecf.manager.module.template.model.query.GenTableQuery;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 import org.springframework.stereotype.Service;
+
 /**
  * 业务表service
+ * 
  * @author jianyiming
  *
  */
 @Service
-public class GenTableService  extends NamespaceAndDbAuthService<GenTableDao,GenTablePO,GenTableResult,GenTableQuery,GenTable>{
-	
+public class GenTableService extends NamespaceAndDbAuthService<GenTableDao, GenTablePO, GenTableResult, GenTableQuery, GenTable> {
+
 }

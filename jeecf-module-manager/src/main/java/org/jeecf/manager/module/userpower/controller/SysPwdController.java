@@ -28,26 +28,26 @@ import io.swagger.annotations.ApiOperation;
  */
 @Controller
 @RequestMapping(value = { "userpower/sysPwd" })
-@Api(value="sysPwd api",tags={"密码修改接口"})
-public class SysPwdController implements BaseController{
-	
-	@Autowired
-	private SecurityFacade securityFacade;
-	
-	@GetMapping(value = { "", "index" })
-	@RequiresPermissions("userpower:sysPwd:view")
-	@ApiOperation(value = "视图", notes = "查看系统用户密码视图")
-	@Override
-	public String index(ModelMap map) {
-		return "module/userpower/sysPwd";
-	}
-	
-	@PostMapping(value = { "save" })
-	@ResponseBody
-	@RequiresPermissions("userpower:sysPwd:edit")
-	@ApiOperation(value = "更新", notes = "更新系统用户密码数据")
-	public Response<SysUserResult> save(@RequestBody @Validated({Add.class}) SysPwd sysPwd) {
-		return securityFacade.updatePassword(sysPwd);
-	}
+@Api(value = "sysPwd api", tags = { "密码修改接口" })
+public class SysPwdController implements BaseController {
+
+    @Autowired
+    private SecurityFacade securityFacade;
+
+    @GetMapping(value = { "", "index" })
+    @RequiresPermissions("userpower:sysPwd:view")
+    @ApiOperation(value = "视图", notes = "查看系统用户密码视图")
+    @Override
+    public String index(ModelMap map) {
+        return "module/userpower/sysPwd";
+    }
+
+    @PostMapping(value = { "save" })
+    @ResponseBody
+    @RequiresPermissions("userpower:sysPwd:edit")
+    @ApiOperation(value = "更新", notes = "更新系统用户密码数据")
+    public Response<SysUserResult> save(@RequestBody @Validated({ Add.class }) SysPwd sysPwd) {
+        return securityFacade.updatePassword(sysPwd);
+    }
 
 }

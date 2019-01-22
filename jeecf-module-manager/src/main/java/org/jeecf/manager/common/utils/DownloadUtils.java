@@ -10,22 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
+
 /**
  * 文件下载工具类
+ * 
  * @author jianyiming
  *
  */
 public class DownloadUtils {
 
-	public static void downloadFile(HttpServletResponse response,String fileName) {
+    public static void downloadFile(HttpServletResponse response, String fileName) {
         if (fileName != null) {
             File file = new File(fileName);
             if (file.exists()) {
-            	// 设置强制下载不打开
+                // 设置强制下载不打开
                 response.setContentType("application/force-download");
-             // 设置文件名
-                response.addHeader("Content-Disposition",
-                        "attachment;fileName=" + fileName);
+                // 设置文件名
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;
@@ -39,20 +40,20 @@ public class DownloadUtils {
                         i = bis.read(buffer);
                     }
                 } catch (Exception e) {
-    				throw new BusinessException(SysErrorEnum.FILE_NO);
+                    throw new BusinessException(SysErrorEnum.FILE_NO);
                 } finally {
                     if (bis != null) {
                         try {
                             bis.close();
                         } catch (IOException e) {
-    						throw new BusinessException(SysErrorEnum.IO_ERROR);
+                            throw new BusinessException(SysErrorEnum.IO_ERROR);
                         }
                     }
                     if (fis != null) {
                         try {
                             fis.close();
                         } catch (IOException e) {
-    						throw new BusinessException(SysErrorEnum.IO_ERROR);
+                            throw new BusinessException(SysErrorEnum.IO_ERROR);
                         }
                     }
                 }

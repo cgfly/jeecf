@@ -8,29 +8,31 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**
  * thymeleaf 配置
+ * 
  * @author jianyiming
  *
  */
 @Configuration
 public class ThymeleafConfiguration {
-	
-	/**
-	 * shiro方言
-	 * @return
-	 */
-    @Bean  
-    public ShiroDialect shiroDialect() {  
-        return new ShiroDialect();  
-    }  
-    
+
     /**
-     * 系统方言
+     * shiro方言
+     * 
      * @return
      */
-    @Bean  
-    public SysDialect sysDialect() {  
-        return new SysDialect();  
-    }  
-    
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
+
+    /**
+     * 系统方言
+     * 
+     * @return
+     */
+    @Bean
+    public SysDialect sysDialect() {
+        return new SysDialect();
+    }
 
 }
