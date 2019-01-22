@@ -15,49 +15,51 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 /**
  * 基础mock 用于实体类实现
+ * 
  * @author jianyiming
  *
  */
 public class BaseMokMvc {
-	
-	@Autowired
-	protected WebApplicationContext context;
 
-	@Autowired
-	protected SecurityManager securityManager;
-	
-	protected Subject subject;
-	protected MockMvc mockMvc;
-	protected MockHttpServletRequest mockHttpServletRequest;
-	protected MockHttpServletResponse mockHttpServletResponse;
-	
-	protected static final String SUCCESS = "success";
-	
-	protected void init() {
-		this.init(null,null);
-	}
-	
-	protected void init(String username,String passwoed) {
-		mockHttpServletRequest = new MockHttpServletRequest(context.getServletContext());
-		mockHttpServletResponse = new MockHttpServletResponse();
-		MockHttpSession mockHttpSession = new MockHttpSession(context.getServletContext());
-		mockHttpServletRequest.setSession(mockHttpSession);
-		SecurityUtils.setSecurityManager(securityManager);
-		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-		if(StringUtils.isNotEmpty(username)) {
-			login(username,passwoed);
-		}
-	}
+    @Autowired
+    protected WebApplicationContext context;
 
-	protected void login(String username, String password) {
-		subject = new WebSubject.Builder(mockHttpServletRequest, mockHttpServletResponse).buildWebSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password, true);
-		subject.login(token);
-		String id = (String) subject.getPrincipal();
-		RedisCacheUtils.setSysCache((String)subject.getSession().getId(), id);
-		ThreadContext.bind(subject);
-	}
+    @Autowired
+    protected SecurityManager securityManager;
+
+    protected Subject subject;
+    protected MockMvc mockMvc;
+    protected MockHttpServletRequest mockHttpServletRequest;
+    protected MockHttpServletResponse mockHttpServletResponse;
+
+    protected static final String SUCCESS = "success";
+
+    protected void init() {
+        this.init(null, null);
+    }
+
+    protected void init(String username, String passwoed) {
+        mockHttpServletRequest = new MockHttpServletRequest(context.getServletContext());
+        mockHttpServletResponse = new MockHttpServletResponse();
+        MockHttpSession mockHttpSession = new MockHttpSession(context.getServletContext());
+        mockHttpServletRequest.setSession(mockHttpSession);
+        SecurityUtils.setSecurityManager(securityManager);
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        if (StringUtils.isNotEmpty(username)) {
+            login(username, passwoed);
+        }
+    }
+
+    protected void login(String username, String password) {
+        subject = new WebSubject.Builder(mockHttpServletRequest, mockHttpServletResponse).buildWebSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, true);
+        subject.login(token);
+        String id = (String) subject.getPrincipal();
+        RedisCacheUtils.setSysCache((String) subject.getSession().getId(), id);
+        ThreadContext.bind(subject);
+    }
 
 }

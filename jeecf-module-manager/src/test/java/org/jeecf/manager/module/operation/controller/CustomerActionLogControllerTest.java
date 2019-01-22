@@ -21,32 +21,30 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
  * 客户操作日志 测试
+ * 
  * @author jianyiming
  *
  */
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CustomerActionLogControllerTest extends BaseMokMvc{
-	
-	@Before
-	public void setUp() throws Exception {
-		super.init("admin", "123456");
-	}
+public class CustomerActionLogControllerTest extends BaseMokMvc {
 
-	@Test
-	public void list() throws Exception {
-		Request<CustomerActionLogQuery, CustomerActionLogSchema> request = new Request<CustomerActionLogQuery, CustomerActionLogSchema>();
-		CustomerActionLogQuery query = new CustomerActionLogQuery();
-		request.setData(query);
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(request);
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/operation/customerActionLog/list").contentType(MediaType.APPLICATION_JSON)
-						.content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
+    @Before
+    public void setUp() throws Exception {
+        super.init("admin", "123456");
+    }
+
+    @Test
+    public void list() throws Exception {
+        Request<CustomerActionLogQuery, CustomerActionLogSchema> request = new Request<CustomerActionLogQuery, CustomerActionLogSchema>();
+        CustomerActionLogQuery query = new CustomerActionLogQuery();
+        request.setData(query);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(request);
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/operation/customerActionLog/list").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
 }

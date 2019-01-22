@@ -36,136 +36,112 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenTemplateControllerTest extends BaseMokMvc {
 
-	@Before
-	public void setUp() throws Exception {
-		super.init("admin", "123456");
-	}
+    @Before
+    public void setUp() throws Exception {
+        super.init("admin", "123456");
+    }
 
-	@Test
-	public void list() throws Exception {
-		Request<GenTemplateQuery, GenTemplateSchema> request = new Request<GenTemplateQuery, GenTemplateSchema>();
-		GenTemplateQuery query = new GenTemplateQuery();
-		request.setData(query);
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(request);
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/list")
-						.contentType(MediaType.APPLICATION_JSON).content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
+    @Test
+    public void list() throws Exception {
+        Request<GenTemplateQuery, GenTemplateSchema> request = new Request<GenTemplateQuery, GenTemplateSchema>();
+        GenTemplateQuery query = new GenTemplateQuery();
+        request.setData(query);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(request);
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/list").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
-	@Test
-	public void getField() throws Exception {
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/field")
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
+    @Test
+    public void getField() throws Exception {
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/field").contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
-	@Test
-	public void params() throws Exception {
-		String genFieldId = "1";
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/params/" + genFieldId)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
+    @Test
+    public void params() throws Exception {
+        String genFieldId = "1";
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/params/" + genFieldId).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
-	@Test
-	public void findTable() throws Exception {
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/queryTableList")
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
+    @Test
+    public void findTable() throws Exception {
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/queryTableList").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
-	@Test
-	public void getLanguages() throws Exception {
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/getLanguages")
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
-	
-	@Test
-	public void gen() throws Exception {
-		GenTemplateEntity entity = new GenTemplateEntity();
-		entity.setTemplateId(15);
-		entity.setTableName("sys_dict");
-		List<GenParams> genParamsList = new ArrayList<>();
-		GenParams packageParam = new GenParams();
-		packageParam.setName("packageName");
-		packageParam.setValue("ee");
-		genParamsList.add(packageParam);
-		GenParams filterParam = new GenParams();
-		filterParam.setName("filterField");
-		filterParam.setValue("sysNamespaceId");
-		genParamsList.add(filterParam);
-		GenParams groupParam = new GenParams();
-		groupParam.setName("groupField");
-		groupParam.setValue("type");
-		genParamsList.add(groupParam);
-		entity.setParams(genParamsList);
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(entity);
-		String responseString = mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/gen")
-						.contentType(MediaType.APPLICATION_JSON).content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-		assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
-	}
+    @Test
+    public void getLanguages() throws Exception {
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/getLanguages").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
-	@Test
-	public void dataOperation() throws Exception {
-		GenTemplate genTemplate = new GenTemplate();
-		genTemplate.setFileBasePath("1243fe3ef/k.zip");
-		genTemplate.setName("test");
-		genTemplate.setDescription("test");
-		genTemplate.setLanguage(1);
-		JsonNode saveNode = JsonMapper.getJsonNode(this.save(genTemplate));
-		if (saveNode.get(SUCCESS).asBoolean()) {
-			genTemplate.setName("saveUpdate");
-			genTemplate.setId(saveNode.get("data").get("id").asText());
-			JsonNode updateNode = JsonMapper.getJsonNode(this.save(genTemplate));
-			if (updateNode.get(SUCCESS).asBoolean()) {
-				JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(genTemplate.getId()));
-				assert deleteNode.get(SUCCESS).asBoolean();
-			}
-			assert updateNode.get(SUCCESS).asBoolean();
-		}
-		assert saveNode.get(SUCCESS).asBoolean();
-	}
+    @Test
+    public void gen() throws Exception {
+        GenTemplateEntity entity = new GenTemplateEntity();
+        entity.setTemplateId(15);
+        entity.setTableName("sys_dict");
+        List<GenParams> genParamsList = new ArrayList<>();
+        GenParams packageParam = new GenParams();
+        packageParam.setName("packageName");
+        packageParam.setValue("ee");
+        genParamsList.add(packageParam);
+        GenParams filterParam = new GenParams();
+        filterParam.setName("filterField");
+        filterParam.setValue("sysNamespaceId");
+        genParamsList.add(filterParam);
+        GenParams groupParam = new GenParams();
+        groupParam.setName("groupField");
+        groupParam.setValue("type");
+        genParamsList.add(groupParam);
+        entity.setParams(genParamsList);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(entity);
+        String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/gen").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+        assert JsonMapper.getJsonNode(responseString).get(SUCCESS).asBoolean();
+    }
 
-	private String save(GenTemplate genTemplate) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(genTemplate);
-		return mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/save")
-						.contentType(MediaType.APPLICATION_JSON).content(requestJson))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-	}
+    @Test
+    public void dataOperation() throws Exception {
+        GenTemplate genTemplate = new GenTemplate();
+        genTemplate.setFileBasePath("1243fe3ef/k.zip");
+        genTemplate.setName("test");
+        genTemplate.setDescription("test");
+        genTemplate.setLanguage(1);
+        JsonNode saveNode = JsonMapper.getJsonNode(this.save(genTemplate));
+        if (saveNode.get(SUCCESS).asBoolean()) {
+            genTemplate.setName("saveUpdate");
+            genTemplate.setId(saveNode.get("data").get("id").asText());
+            JsonNode updateNode = JsonMapper.getJsonNode(this.save(genTemplate));
+            if (updateNode.get(SUCCESS).asBoolean()) {
+                JsonNode deleteNode = JsonMapper.getJsonNode(this.delete(genTemplate.getId()));
+                assert deleteNode.get(SUCCESS).asBoolean();
+            }
+            assert updateNode.get(SUCCESS).asBoolean();
+        }
+        assert saveNode.get(SUCCESS).asBoolean();
+    }
 
-	private String delete(String id) throws Exception {
-		return mockMvc
-				.perform(MockMvcRequestBuilders.post("/template/genTemplate/delete/" + id)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn()
-				.getResponse().getContentAsString();
-	}
+    private String save(GenTemplate genTemplate) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(genTemplate);
+        return mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/save").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+    }
+
+    private String delete(String id) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders.post("/template/genTemplate/delete/" + id).contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn().getResponse().getContentAsString();
+    }
 
 }
