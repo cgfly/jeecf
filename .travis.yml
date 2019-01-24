@@ -1,5 +1,5 @@
 language: java
 jdk: oraclejdk8
 script:
-   - mvn checkstyle:check
-   - mvn clean package -DskipTests=true
+   - mvn checkstyle:check -Dgpg.skip
+   - mvn clean package -DskipTests=true -Dgpg.skip
