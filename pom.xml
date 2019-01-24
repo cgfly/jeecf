@@ -17,6 +17,17 @@
     <url>https://github.com/jianym/jeecf</url>
     <description>Code Generation Program Based on Freemarket to Solve Enterprise Development Efficiency and Code Specification</description>
 
+    <developers>
+        <developer>
+            <name>jianyiming</name>
+            <email>3502168163@qq.com</email>
+            <roles>
+                <role>creator</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -35,7 +46,6 @@
         <developerConnection>scm:git:git@github.com:jianym/jeecf.git</developerConnection>
         <url>https://github.com/jianym/jeecf</url>
     </scm>
-
 
     <properties>
         <java.version>1.8</java.version>
@@ -101,18 +111,18 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <distributionManagement>
-        <repository>
-            <id>jeecf-releases</id>
-            <name>Nexus Release Repository</name>
-            <url>http://47.104.187.199:8081/repository/maven-releases/</url>
-        </repository>
         <snapshotRepository>
-            <id>jeecf-snapshots</id>
-            <name>Nexus Snapshot Repository</name>
-            <url>http://47.104.187.199:8081/repository/maven-snapshots/</url>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -251,18 +261,27 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <!-- <configLocation>checkStyle.xml</configLocation> -->
-                            <!-- <headerLocation>skywalking/CHECKSTYLE_HEAD</headerLocation> -->
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
                             <failsOnError>true</failsOnError>
-                            <!-- <excludes>org.apache.skywalking.apm/network/**/*.java, 
-                                org.apache.skywalking.apm/collector/remote/grpc/**/*.java, org.apache.skywalking.apm/agent/core/context/ids/base64/*.java 
-                                </excludes> -->
                         </configuration>
                         <goals>
                             <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- GPG -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>

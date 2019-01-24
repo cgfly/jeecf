@@ -22,9 +22,9 @@ import org.jeecf.osgi.enums.BoundleEnum;
 import org.jeecf.osgi.plugin.Plugin;
 import org.jeecf.osgi.utils.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,7 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
     private PluginManager pluginManager;
 
     @Autowired
-    private AnnotationConfigEmbeddedWebApplicationContext annotationConfigEmbeddedWebApplicationContext;
+    private ConfigurableWebApplicationContext applicationContext;
 
     public void initPlugin() {
         try {
@@ -57,8 +57,7 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
                         genHandlerURL.add(url);
                     }
                 }
-                pluginManager.install(genHandlerURL.toArray(new URL[genHandlerURL.size()]), BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
-                        annotationConfigEmbeddedWebApplicationContext.getClassLoader());
+                pluginManager.install(genHandlerURL.toArray(new URL[genHandlerURL.size()]), BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true, applicationContext.getClassLoader());
             }
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -72,7 +71,8 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
             Response<SysOsgiPluginResult> sysOsgiPluginResultRes = super.insert(sysOsgiPlugin);
             boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getFileName()), PluginUtils.getFilePath(sysOsgiPlugin.getFileName()), true);
             if (flag) {
-                pluginManager.install(new URL[] {new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()))}, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,annotationConfigEmbeddedWebApplicationContext.getClassLoader());
+                pluginManager.install(new URL[] { new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
+                        applicationContext.getClassLoader());
                 return sysOsgiPluginResultRes;
             }
             throw new BusinessException(SysErrorEnum.IO_ERROR);
