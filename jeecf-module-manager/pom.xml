@@ -118,7 +118,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>jeecf-manager-1.0.0-SNAPSHOT</finalName>
+		<finalName>jeecf-manager-1.5.0-RELEASE</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
