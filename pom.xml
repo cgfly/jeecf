@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jeecf</groupId>
     <artifactId>jeecf-parent</artifactId>
-    <version>1.5.0-RELEASE</version>
+    <version>2.0.0-RELEASE</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -13,7 +13,7 @@
         <version>1.5.11.RELEASE</version>
     </parent>
 
-    <name>Jee Cloud Factory</name>
+    <name>Jeecf parent</name>
     <url>https://github.com/jianym/jeecf</url>
     <description>Code Generation Program Based on Freemarket to Solve Enterprise Development Efficiency and Code Specification</description>
 
@@ -272,23 +272,35 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- GPG -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>oss</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <modules>
         <module>jeecf-module-common</module>
