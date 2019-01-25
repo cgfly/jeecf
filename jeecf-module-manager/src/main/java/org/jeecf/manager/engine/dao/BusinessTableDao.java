@@ -29,7 +29,7 @@ public interface BusinessTableDao {
 	 * @param insertTable
 	 * @return
 	 */
-	public int query(InsertTable insertTable);
+	public int insert(InsertTable insertTable);
 	
 	/**
 	 * 更新数据
