@@ -3,7 +3,7 @@ package org.jeecf.manager.module.extend.model.result;
 import java.io.Serializable;
 
 import org.jeecf.common.enums.IfTypeEnum;
-import org.jeecf.manager.engine.enums.TableTypeEnum;
+import org.jeecf.engine.mysql.enums.TableTypeEnum;
 import org.jeecf.manager.module.extend.model.domain.SysVirtualTableColumn;
 
 import io.swagger.annotations.ApiModelProperty;

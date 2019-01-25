@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.jeecf.manager.engine.model.create.CreateTable;
-import org.jeecf.manager.engine.model.index.IndexTable;
-import org.jeecf.manager.engine.model.insert.InsertTable;
-import org.jeecf.manager.engine.model.query.SelectTable;
-import org.jeecf.manager.engine.model.update.UpdateTable;
+import org.jeecf.engine.mysql.model.create.CreateTable;
+import org.jeecf.engine.mysql.model.index.IndexTable;
+import org.jeecf.engine.mysql.model.insert.InsertTable;
+import org.jeecf.engine.mysql.model.query.SelectTable;
+import org.jeecf.engine.mysql.model.update.UpdateTable;
 
 /**
  * 表查询
@@ -34,7 +34,7 @@ public interface BusinessTableDao {
      * @param insertTable
      * @return
      */
-    public int query(InsertTable insertTable);
+    public int insert(InsertTable insertTable);
 
     /**
      * 更新数据

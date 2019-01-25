@@ -3,10 +3,10 @@ package org.jeecf.manager.proxy;
 import java.util.List;
 
 import org.jeecf.common.model.Response;
+import org.jeecf.engine.mysql.model.create.CreateTable;
+import org.jeecf.engine.mysql.model.query.SelectTable;
 import org.jeecf.manager.annotation.TargetDataSource;
 import org.jeecf.manager.common.utils.PhysicalTableUtils;
-import org.jeecf.manager.engine.model.create.CreateTable;
-import org.jeecf.manager.engine.model.query.SelectTable;
 import org.jeecf.manager.engine.model.schema.SchemaTable;
 import org.jeecf.manager.engine.model.schema.SchemaTableColumn;
 import org.jeecf.manager.engine.service.BusinessTableService;

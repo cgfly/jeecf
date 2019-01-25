@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.common.model.Response;
+import org.jeecf.engine.mysql.enums.TableTypeEnum;
 import org.jeecf.manager.common.enums.TreeEventEnum;
-import org.jeecf.manager.engine.enums.TableTypeEnum;
 import org.jeecf.osgi.enums.BoundleEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

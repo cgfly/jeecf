@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.mapper.JsonMapper;
+import org.jeecf.engine.mysql.model.create.CreateTable;
+import org.jeecf.engine.mysql.model.index.IndexTable;
+import org.jeecf.engine.mysql.model.query.SelectTable;
+import org.jeecf.engine.mysql.utils.JniValidate;
 import org.jeecf.manager.engine.dao.BusinessTableDao;
-import org.jeecf.manager.engine.model.create.CreateTable;
-import org.jeecf.manager.engine.model.index.IndexTable;
-import org.jeecf.manager.engine.model.query.SelectTable;
-import org.jeecf.manager.engine.utils.JniValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

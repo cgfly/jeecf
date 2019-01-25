@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.model.Response;
+import org.jeecf.engine.mysql.utils.JniValidate;
 import org.jeecf.manager.engine.dao.SchemaTableDao;
 import org.jeecf.manager.engine.model.schema.SchemaTable;
 import org.jeecf.manager.engine.model.schema.SchemaTableColumn;
-import org.jeecf.manager.engine.utils.JniValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

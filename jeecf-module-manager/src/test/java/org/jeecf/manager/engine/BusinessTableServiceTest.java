@@ -3,11 +3,11 @@ package org.jeecf.manager.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jeecf.engine.mysql.model.create.CreateTable;
+import org.jeecf.engine.mysql.model.create.CreateTableColumn;
+import org.jeecf.engine.mysql.model.query.SelectTable;
+import org.jeecf.engine.mysql.model.query.SelectTableColumn;
 import org.jeecf.manager.Application;
-import org.jeecf.manager.engine.model.create.CreateTable;
-import org.jeecf.manager.engine.model.create.CreateTableColumn;
-import org.jeecf.manager.engine.model.query.SelectTable;
-import org.jeecf.manager.engine.model.query.SelectTableColumn;
 import org.jeecf.manager.engine.service.BusinessTableService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

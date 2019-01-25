@@ -10,7 +10,7 @@ import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Sort;
 import org.jeecf.common.utils.HumpUtils;
-import org.jeecf.manager.engine.utils.JniValidate;
+import org.jeecf.engine.mysql.utils.JniValidate;
 
 /**
  * 实体PO抽象类
