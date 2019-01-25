@@ -123,8 +123,8 @@ public class CreateTable extends AbstractTable {
         StringBuilder builder = new StringBuilder("CREATE TABLE ");
         builder.append(this.getTableName());
         builder.append(SplitCharEnum.LEFT_BRACKET.getName() + SplitCharEnum.BLANK.getName());
-        for(int i = 0 ; i < createTableColumns.size() ; i++) {
-            CreateTableColumn   createTableColumn = createTableColumns.get(i);
+        for (int i = 0; i < createTableColumns.size(); i++) {
+            CreateTableColumn createTableColumn = createTableColumns.get(i);
             builder.append(createTableColumn.getColumnName() + SplitCharEnum.BLANK.getName());
             builder.append(createTableColumn.getType() + SplitCharEnum.BLANK.getName());
             builder.append(createTableColumn.getNullModel() + SplitCharEnum.BLANK.getName());

@@ -62,11 +62,11 @@ public class UpdateTable extends BaseTable {
         StringBuilder builder = new StringBuilder("UPDATE ");
         builder.append(this.getTableName() + SplitCharEnum.BLANK.getName());
         builder.append(this.getName() + SplitCharEnum.BLANK.getName());
-        for(int i = 0 ; i < updateTableColumns.size() ; i++) {
+        for (int i = 0; i < updateTableColumns.size(); i++) {
             UpdateTableColumn updateTableColumn = updateTableColumns.get(i);
             builder.append(updateTableColumn.getColumnName());
             builder.append(" = ");
-            builder.append(SqlHelper.toJdbcValue(updateTableColumn.getName())+ SplitCharEnum.BLANK.getName());
+            builder.append(SqlHelper.toJdbcValue(updateTableColumn.getName()) + SplitCharEnum.BLANK.getName());
             if (i < updateTableColumns.size() - 1) {
                 builder.append(SplitCharEnum.COMMA.getName());
             }

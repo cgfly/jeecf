@@ -41,7 +41,7 @@ public class InsertTable extends BaseTable {
         }
 
     }
-    
+
     /**
      * 插入表sql
      * 
@@ -52,17 +52,17 @@ public class InsertTable extends BaseTable {
         StringBuilder builder = new StringBuilder(" INSERT INTO ");
         builder.append(this.getTableName() + SplitCharEnum.BLANK.getName());
         builder.append(this.getName() + SplitCharEnum.BLANK.getName());
-        for(int i = 0 ; i < insertTableColumns.size() ; i++) {
+        for (int i = 0; i < insertTableColumns.size(); i++) {
             InsertTableColumn insertTableColumn = insertTableColumns.get(i);
             builder.append(insertTableColumn.getName());
             builder.append(SplitCharEnum.DOT.getName());
-            builder.append(insertTableColumn.getColumnName()+ SplitCharEnum.BLANK.getName());
+            builder.append(insertTableColumn.getColumnName() + SplitCharEnum.BLANK.getName());
             if (i < insertTableColumns.size() - 1) {
                 builder.append(SplitCharEnum.COMMA.getName());
             }
         }
         builder.append(" VALUES ");
-        for(int i = 0 ; i < insertTableColumns.size() ; i++) {
+        for (int i = 0; i < insertTableColumns.size(); i++) {
             InsertTableColumn insertTableColumn = insertTableColumns.get(i);
             builder.append(SqlHelper.toJdbcValue(insertTableColumn.getName()));
             if (i < insertTableColumns.size() - 1) {
