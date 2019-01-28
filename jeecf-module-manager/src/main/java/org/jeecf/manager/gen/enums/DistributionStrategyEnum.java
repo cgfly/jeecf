@@ -15,8 +15,7 @@ public enum DistributionStrategyEnum {
     /**
      * regex
      */
-    REGEX(1, "regex"),
-    ;
+    REGEX(1, "regex"),;
 
     public final int code;
     public final String name;
