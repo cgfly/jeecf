@@ -181,5 +181,15 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			});
 		};
 		
+		$scope.wikiModal = function(index) {
+			var wikiUri = $scope.sysOsgiPluginAllList[index].wikiUri;
+			if(wikiUri != undefined && wikiUri != null ){
+				var wikiUrl = $ctx.getWikiUrl(wikiUri);
+			    window.open(wikiUrl);    
+			} else {
+				$jBoxcm.error("没有填写wiki地址");
+			}
+		}
+		
 	};
 });

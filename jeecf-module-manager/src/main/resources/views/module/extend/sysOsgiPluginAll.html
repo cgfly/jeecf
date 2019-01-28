@@ -16,12 +16,14 @@
 			<div class="form-group">
 				<label>名称:</label> <input type="text" class="form-control"
 					id="searchName" ng-model="request.data.name" />
-			</div>&nbsp;
+			</div>
+			&nbsp;
 			<div class="form-group">
 				<label>状态:</label> <select class="form-control"
 					ng-model="request.data.delFlag" style="height: 35px;"
 					ng-options="delFlag.value as delFlag.name for delFlag in delFlags"></select>
-			</div>&nbsp;
+			</div>
+			&nbsp;
 			<div class="form-group">
 				<button type="submit" class="btn btn-default">提交</button>
 			</div>
@@ -61,7 +63,9 @@
 						shiro:hasPermission="extend:sysOsgiPluginAll:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}"
 							class="target-click" data-confirm="data-confirm">删除</a></span> <span><a
-							href="javascript:void(0)" ng-click="downloadModal($index)">插件下载</a></span></td>
+							href="javascript:void(0)" ng-click="downloadModal($index)">插件下载</a></span>
+						<span><a href="javascript:void(0)"
+							ng-click="wikiModal($index)">wiki</a></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -105,13 +109,24 @@
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
 										<select class="form-control"
-											ng-model="updateSysOsgiPluginAll.boundleType" id="boundleType"
-											style="height: 25px;" name="boundleType"
+											ng-model="updateSysOsgiPluginAll.boundleType"
+											id="updateBoundleType" style="height: 25px;"
+											name="boundleType"
 											ng-options="osgiBoundleTypeEnum.code as osgiBoundleTypeEnum.name for osgiBoundleTypeEnum in osgiBoundleTypeEnums"></select>
 									</div>
 								</div>
 							</div>
 
+							<div class="form-group">
+								<label class="col-sm-3 control-label">wiki地址：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateWikiUri"
+											name="wikiUri" ng-model="updateSysOsgiPluginAll.wikiUri"
+											placeholder="请输入wiki地址" />
+									</div>
+								</div>
+							</div>
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">描述：</label>
@@ -172,6 +187,17 @@
 								ng-init="sysOsgiPluginAll.boundleType=1" style="height: 25px;"
 								name="pluginType"
 								ng-options="osgiBoundleTypeEnum.code as osgiBoundleTypeEnum.name for osgiBoundleTypeEnum in osgiBoundleTypeEnums"></select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">wiki地址：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-10" style="padding-left: 0">
+							<input type="text" class="form-control" id="wikiUri"
+								name="wikiUri" ng-model="sysOsgiPluginAll.wikiUri"
+								placeholder="请输入wiki地址" />
 						</div>
 					</div>
 				</div>

@@ -94,7 +94,9 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
             }
             return sysOsgiPluginService.insert(sysOsgiPlugin);
         }
-        return sysOsgiPluginService.save(sysOsgiPlugin);
+        sysOsgiPlugin.setSysNamespaceId(null);
+        sysOsgiPluginService.updateByName(sysOsgiPlugin);
+        return sysOsgiPluginService.get(sysOsgiPlugin);
     }
 
     @PostMapping(value = { "upload" })

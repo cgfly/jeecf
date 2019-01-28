@@ -10,6 +10,7 @@
 		sysOsgiPlugin.file_name AS
 		"fileName",
 		sysOsgiPlugin.sys_namespace_id AS "sysNamespaceId",
+        sysOsgiPlugin.wiki_uri AS "wikiUri",
 		sysOsgiPlugin.description AS "description",
 		sysOsgiPlugin.del_flag AS
 		"delFlag",
@@ -114,6 +115,9 @@
 			<if test="boundleType != null">
 				boundle_type,
 			</if>
+            <if test="wikiUri != null">
+                wiki_uri,
+            </if>
 			<if test="description != null">
 				description,
 			</if>
@@ -147,6 +151,9 @@
 			<if test="boundleType != null">
 				#{boundleType},
 			</if>
+            <if test="wikiUri != null">
+               #{wikiUri},
+            </if>
 			<if test="description != null">
 				#{description},
 			</if>
@@ -177,6 +184,9 @@
 			<if test="boundleType != null">
 				boundle_type = #{boundleType},
 			</if>
+            <if test="wikiUri != null">
+                wiki_uri = #{wikiUri},
+            </if>
 			<if test="description != null">
 				description = #{description},
 			</if>
@@ -227,6 +237,9 @@
 			<if test="boundleType != null">
 				boundle_type = #{boundleType},
 			</if>
+            <if test="wikiUri != null">
+                wiki_uri = #{wikiUri},
+            </if>
 			<if test="description != null">
 				description = #{description},
 			</if>

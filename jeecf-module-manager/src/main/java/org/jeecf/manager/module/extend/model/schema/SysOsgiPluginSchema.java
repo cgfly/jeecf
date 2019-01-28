@@ -30,6 +30,11 @@ public class SysOsgiPluginSchema {
     @ApiModelProperty(value = "插件绑定类型", name = "boundleType")
     private boolean boundleType = true;
     /**
+     * wiki地址
+     */
+    @ApiModelProperty(value = "wiki地址", name = "wikiUri")
+    private boolean wikiUri = true;
+    /**
      * 命名空间
      */
     @ApiModelProperty(value = "命名空间", name = "sysNamespaceId")
@@ -90,6 +95,14 @@ public class SysOsgiPluginSchema {
 
     public void setBoundleType(boolean boundleType) {
         this.boundleType = boundleType;
+    }
+
+    public boolean isWikiUri() {
+        return wikiUri;
+    }
+
+    public void setWikiUri(boolean wikiUri) {
+        this.wikiUri = wikiUri;
     }
 
     public boolean isSysNamespaceId() {
