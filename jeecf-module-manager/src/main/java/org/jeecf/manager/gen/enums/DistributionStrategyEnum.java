@@ -11,7 +11,12 @@ public enum DistributionStrategyEnum {
     /**
      * like
      */
-    LIKE(1, "like"),;
+    LIKE(1, "like"),
+    /**
+     * regex
+     */
+    REGEX(1, "regex"),
+    ;
 
     public final int code;
     public final String name;

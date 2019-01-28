@@ -12,6 +12,7 @@ import org.jeecf.manager.common.chain.AbstractHandler;
 import org.jeecf.manager.common.chain.ChainContext;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.gen.builder.TableBuilder;
+import org.jeecf.manager.gen.enums.DistributionStrategyEnum;
 import org.jeecf.manager.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.manager.gen.model.config.ConfigContext;
 import org.jeecf.manager.gen.model.config.DistributionEntity;
@@ -19,6 +20,7 @@ import org.jeecf.manager.gen.model.config.ModuleEntity;
 import org.jeecf.manager.gen.model.rule.RuleContext;
 import org.jeecf.manager.gen.model.rule.StrategyEntity;
 import org.jeecf.manager.gen.strategy.DistributionLikeStrategy;
+import org.jeecf.manager.gen.strategy.DistributionRegexStrategy;
 import org.jeecf.manager.gen.strategy.FilterStrategy;
 import org.jeecf.manager.gen.strategy.GroupDataStrategy;
 import org.jeecf.manager.gen.strategy.ManyTableStrategy;
@@ -82,7 +84,7 @@ public class TableParamHandler extends AbstractHandler {
             TableBuilder builder = new TableBuilder();
             BaseTable table = builder.build(tableName);
             if (ruleContext.isData()) {
-                String data = FilterStrategy.handler(ruleContext.getFilterEntitys(), builder,table);
+                String data = FilterStrategy.handler(ruleContext.getFilterEntitys(), builder, table);
                 StrategyEntity strategyEntity = ruleContext.getStrategyEntity();
                 if (strategyEntity != null && StringUtils.isNotBlank(strategyEntity.getName())) {
                     if (StringUtils.isEmpty(data)) {
@@ -138,7 +140,7 @@ public class TableParamHandler extends AbstractHandler {
     private void buildData(List<ModuleEntity> moduleEntitys, String data, Object table, DistributionEntity distributionEntity) {
         moduleEntitys.forEach(moduleEntity -> {
             if (distributionEntity.isActive()) {
-                moduleEntity.setData(buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch()));
+                moduleEntity.setData(buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch(), distributionEntity.getStrategy()));
             } else {
                 moduleEntity.setData(data);
             }
@@ -158,7 +160,7 @@ public class TableParamHandler extends AbstractHandler {
     private void buildDatas(List<ModuleEntity> moduleEntitys, String data, Object table, String field, DistributionEntity distributionEntity) {
         if (distributionEntity.isActive()) {
             moduleEntitys.forEach(moduleEntity -> {
-                String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch());
+                String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch(), distributionEntity.getStrategy());
                 List<Map<String, Object>> datas = GroupDataStrategy.handler(distributionData, field.split(","));
                 moduleEntity.setDatas(datas);
                 moduleEntity.setTable(table);
@@ -184,7 +186,7 @@ public class TableParamHandler extends AbstractHandler {
     private void buildTables(List<ModuleEntity> moduleEntitys, TableBuilder builder, String data, String field, DistributionEntity distributionEntity) {
         if (distributionEntity.isActive()) {
             moduleEntitys.forEach(moduleEntity -> {
-                String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch());
+                String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch(), distributionEntity.getStrategy());
                 List<Object> tables = ManyTableStrategy.handler(distributionData, field, builder);
                 moduleEntity.setData(data);
                 moduleEntity.setTables(tables);
@@ -206,8 +208,13 @@ public class TableParamHandler extends AbstractHandler {
      * @param match
      * @return
      */
-    private String buildDistributionStrategy(String data, String field, String match) {
-        return DistributionLikeStrategy.handler(data, field, match);
+    private String buildDistributionStrategy(String data, String field, String match, String strategy) {
+        if (strategy.equals(DistributionStrategyEnum.LIKE.getName())) {
+            return DistributionLikeStrategy.handler(data, field, match);
+        } else if (strategy.equals(DistributionStrategyEnum.REGEX.getName())) {
+            return DistributionRegexStrategy.handler(data, field, match);
+        }
+        return null;
     }
 
 }
