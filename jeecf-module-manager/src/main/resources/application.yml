@@ -58,12 +58,4 @@ mybatis:
 
 logging:
   config: classpath:log/logback-${spring.profiles.active}.xml  
-redis:
-   host: 127.0.0.1
-   port: 6379
-   maxTotal: 100
-   maxIdle: 30
-   maxWaitMillis: 6000
-   testWhileIdle: true
-   timeBetweenEvictionRunsMillis: 30000
-   minEvictableIdleTimeMillis: 1800000
+

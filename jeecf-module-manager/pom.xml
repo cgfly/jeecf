@@ -11,7 +11,11 @@
 
     <properties>
         <thymeleaf.extras.shiro.version>1.0.2</thymeleaf.extras.shiro.version>
+        <docker.hub.domain>local</docker.hub.domain>
+        <docker.image.prefix>cgfly</docker.image.prefix>
+        <docker.image.tag>v1</docker.image.tag>
     </properties>
+
     <dependencies>
 
         <dependency>
@@ -124,7 +128,7 @@
     </dependencies>
 
     <build>
-        <finalName>jeecf-manager-2.0.0-RELEASE</finalName>
+        <finalName>jeecf-manager</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -175,8 +179,46 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
 
     </build>
 
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.4.12</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <imageName>${docker.hub.domain}/${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</imageName>
+                            <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                            <resources>
+                                <resource>
+                                    <targetPath>/</targetPath>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>${project.build.finalName}.jar</include>
+                                </resource>
+                            </resources>
+                            <serverId>${project.build.finalName}-docker-hub-registry</serverId>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
