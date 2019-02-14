@@ -100,7 +100,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page : {current : "",size : ""},data : {}};
 			$scope.updateGenTemplate = {};
-			$scope.genTemplate = {};
+			$scope.genTemplate = {"version":"1.0.0"};
 			$scope.getField();
 			$page.init($scope, $page.getPageSize());
 			$scope.queryBaseTableList();

@@ -82,7 +82,7 @@ public class SysOsgiPluginController implements BaseController {
     @ApiOperation(value = "插件文件下载", notes = "下载")
     public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
-        DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+        DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getName()));
         return;
     }
 

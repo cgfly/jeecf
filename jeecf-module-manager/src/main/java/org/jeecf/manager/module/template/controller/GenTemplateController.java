@@ -132,6 +132,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
         TemplateUtils.unzip(paths[0], paths[1], sysNamespace.getName());
         String fileName = StringUtils.substringBeforeLast(paths[1], ".");
         genTemplate.setFileBasePath(paths[0] + File.separator + fileName);
+        genTemplate.setName(fileName);
         return genTemplateService.saveByAuth(genTemplate);
     }
 

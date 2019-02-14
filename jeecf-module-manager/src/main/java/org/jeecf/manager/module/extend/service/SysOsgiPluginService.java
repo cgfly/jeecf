@@ -53,7 +53,7 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
                 List<SysOsgiPluginResult> sysOsgiPlugins = sysOsgiPluginRes.getData();
                 for (SysOsgiPluginResult sysOsgiPlugin : sysOsgiPlugins) {
                     if (sysOsgiPlugin.getBoundleType() == BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE.getCode()) {
-                        URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+                        URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName()));
                         genHandlerURL.add(url);
                     }
                 }
@@ -67,21 +67,22 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
     @Override
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<SysOsgiPluginResult> insert(SysOsgiPlugin sysOsgiPlugin) {
+        
         try {
             Response<SysOsgiPluginResult> sysOsgiPluginResultRes = super.insert(sysOsgiPlugin);
-            boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getFileName()), PluginUtils.getFilePath(sysOsgiPlugin.getFileName()), true);
+            boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getName()), PluginUtils.getFilePath(sysOsgiPlugin.getName()), true);
             if (flag) {
-                pluginManager.install(new URL[] {new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
+                pluginManager.install(new URL[] {new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
                         applicationContext.getClassLoader());
                 return sysOsgiPluginResultRes;
             }
             throw new BusinessException(SysErrorEnum.IO_ERROR);
         } catch (Exception e) {
-            PluginUtils.delFile(sysOsgiPlugin.getFileName());
+            PluginUtils.delFile(sysOsgiPlugin.getName());
             e.printStackTrace();
             throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
         } finally {
-            PluginUtils.delTmpFile(sysOsgiPlugin.getFileName());
+            PluginUtils.delTmpFile(sysOsgiPlugin.getName());
         }
     }
 
@@ -94,10 +95,10 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
             sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
             sysOsgiPlugin.setId(null);
             Response<Integer> response = super.delete(sysOsgiPlugin);
-            String path = PluginUtils.getFilePath(sysOsgiPluginResult.getFileName());
+            String path = PluginUtils.getFilePath(sysOsgiPluginResult.getName());
             try {
                 pluginManager.uninstall(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, new URL("file:" + path));
-                PluginUtils.delFile(sysOsgiPluginResult.getFileName());
+                PluginUtils.delFile(sysOsgiPluginResult.getName());
                 return response;
             } catch (Exception e) {
                 throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());
@@ -119,7 +120,7 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
         if (CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
             sysOsgiPluginList.forEach(sysOsgiPlugin -> {
                 try {
-                    URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getFileName()));
+                    URL url = new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName()));
                     urls.add(url);
                 } catch (MalformedURLException e) {
                     throw new BusinessException(SysErrorEnum.SYSTEM_ERROR.getCode(), e.getMessage());

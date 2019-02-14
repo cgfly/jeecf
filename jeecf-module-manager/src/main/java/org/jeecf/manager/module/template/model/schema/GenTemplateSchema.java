@@ -41,6 +41,11 @@ public class GenTemplateSchema {
     @ApiModelProperty(value = "wiki地址", name = "wikiUri")
     private boolean wikiUri = true;
     /**
+     * 版本号
+     */
+    @ApiModelProperty(value = "版本号", name = "version")
+    private boolean version = true;
+    /**
      * 描述
      */
     @ApiModelProperty(value = "描述", name = "description")
@@ -100,6 +105,14 @@ public class GenTemplateSchema {
 
     public void setFileBasePath(boolean fileBasePath) {
         this.fileBasePath = fileBasePath;
+    }
+
+    public boolean isVersion() {
+        return version;
+    }
+
+    public void setVersion(boolean version) {
+        this.version = version;
     }
 
     public boolean isWikiUri() {

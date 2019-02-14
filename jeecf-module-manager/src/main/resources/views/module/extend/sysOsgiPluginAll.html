@@ -34,7 +34,6 @@
 				<tr>
 					<th>序号</th>
 					<th>名称</th>
-					<th>文件名</th>
 					<th>插件类型</th>
 					<th>描述</th>
 					<th>创建人</th>
@@ -47,7 +46,6 @@
 				<tr ng-repeat="sysOsgiPluginAll in sysOsgiPluginAllList ">
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysOsgiPluginAll.name }}</td>
-					<td>{{ sysOsgiPluginAll.fileName }}</td>
 					<td>{{ sysOsgiPluginAll.boundleTypeName }}</td>
 					<td>{{ sysOsgiPluginAll.description }}</td>
 					<td>{{ sysOsgiPluginAll.createByName }}</td>
@@ -86,7 +84,7 @@
 					<div class="modal-body">
 						<form class="form-horizontal" ng-submit="updateForm()"
 							id="updateSysOsgiPluginAllForm" name="updateSysOsgiPluginAllForm">
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="col-sm-3 control-label">名称：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
@@ -102,7 +100,7 @@
 										</span>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">插件类型：</label>
@@ -116,6 +114,24 @@
 									</div>
 								</div>
 							</div>
+
+							<!-- <div class="form-group">
+								<label class="col-sm-3 control-label">版本号：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateVersion"
+											name="version" ng-model="updateSysOsgiPluginAll.version"
+											placeholder="请输入版本号" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateSysOsgiPluginAllForm.version.$dirty &amp;&amp; updateSysOsgiPluginAllForm.version.$invalid">
+											<span
+											ng-show="updateSysOsgiPluginAllForm.version.$error.required">版本号是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div> -->
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">wiki地址：</label>
@@ -161,7 +177,7 @@
 		<div class="form-model">
 			<form class="form-horizontal" ng-submit="submitForm()"
 				name="sysOsgiPluginAllForm">
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="col-sm-2 control-label">名称：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
@@ -176,7 +192,7 @@
 							</span>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">插件类型：</label>
@@ -191,6 +207,23 @@
 					</div>
 				</div>
 
+				<!-- <div class="form-group">
+					<label class="col-sm-2 control-label">版本号：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-10" style="padding-left: 0">
+							<input type="text" class="form-control" id="version"
+								name="version" ng-model="sysOsgiPluginAll.version"
+								placeholder="请输入版本号"/>
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="sysOsgiPluginAllForm.version.$dirty &amp;&amp; sysOsgiPluginAllForm.version.$invalid">
+								<span ng-show="sysOsgiPluginAllForm.version.$error.required">版本号是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div> -->
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">wiki地址：</label>
 					<div class="col-sm-4">
@@ -201,6 +234,7 @@
 						</div>
 					</div>
 				</div>
+
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">描述：</label>

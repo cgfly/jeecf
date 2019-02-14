@@ -21,9 +21,9 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value = "genTemplate", description = "生成模版实体")
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "名称输入不能为空", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.language)", message = "语言输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fileBasePath)", message = "模版文件基础路径输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fileBasePath)", message = "模版文件基础路径输入不能为空", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.version)", message = "版本号输入不能为空", groups = { Add.class }) 
 })
 public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
@@ -49,6 +49,11 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     @ApiModelProperty(value = "模版文件基础路径", name = "fileBasePath")
     private String fileBasePath;
     /**
+     * 版本号
+     */
+    @ApiModelProperty(value = "版本号", name = "version")
+    private String version;
+    /**
      * wiki地址
      */
     @ApiModelProperty(value = "wiki地址", name = "wikiUri")
@@ -67,7 +72,6 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -120,4 +124,14 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Length(min = 1, max = 20, message = "版本号长度必须介于 1 和 20 之间", groups = { Add.class })
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+    
 }

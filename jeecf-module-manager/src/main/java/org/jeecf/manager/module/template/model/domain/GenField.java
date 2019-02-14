@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.NamespaceAuthEntity;
+import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModel;
@@ -54,6 +55,7 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间", groups = { Add.class })
+    @English(message = "名称必须为英文",groups = { Add.class })
     public String getName() {
         return name;
     }

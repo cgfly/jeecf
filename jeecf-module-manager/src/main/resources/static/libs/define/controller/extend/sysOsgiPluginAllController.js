@@ -96,7 +96,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.delFlags = [{"name":"激活","value":0,"action":"失效"},{"name":"失效","value":1,"action":"激活"}];
 			$scope.request = {page : {current : "",size : ""},data : {}};
 			$scope.updateSysOsgiPluginAll = {};
-			$scope.sysOsgiPluginAll = {};
+			$scope.sysOsgiPluginAll = {"version":"1.0.0"};
 			$page.init($scope, $page.getPageSize());
 			$ctx.getEnum($rootScope,"osgiBoundleTypeEnum",function(result){
 				$scope.$apply(function () {
@@ -115,10 +115,9 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			 $httpRequest.upload(url,fd).then(function(res) {
 		        		$(fileId).modal('hide');
 						if (res.success) { 
-							sysOsgiPluginAll.fileName = res.data;
+							sysOsgiPluginAll.name = res.data;
 							$httpRequest.post($ctx.getWebPath() + "extend/sysOsgiPluginAll/save",
 									sysOsgiPluginAll).then(function(res) {
-							    console.log(res);
 								if (res.success) {
 									 setTimeout(function() {
 										 $jBoxcm.success("保存数据成功");

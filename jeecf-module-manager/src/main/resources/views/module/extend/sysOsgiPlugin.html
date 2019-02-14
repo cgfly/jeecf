@@ -25,7 +25,6 @@
 				<tr>
 					<th>序号</th>
 					<th>名称</th>
-					<th>文件名</th>
 					<th>插件类型</th>
 					<th>描述</th>
 					<th>创建人</th>
@@ -38,7 +37,6 @@
 				<tr ng-repeat="sysOsgiPlugin in sysOsgiPluginList ">
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysOsgiPlugin.name }}</td>
-					<td>{{ sysOsgiPlugin.fileName }}</td>
 					<td>{{ sysOsgiPlugin.boundleTypeName }}</td>
 					<td>{{ sysOsgiPlugin.description }}</td>
 					<td>{{ sysOsgiPlugin.createByName }}</td>

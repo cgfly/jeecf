@@ -28,6 +28,7 @@
 					<th>名称</th>
 					<th>语言</th>
 					<th>模版参数</th>
+					<th>版本号</th>
 					<th>描述</th>
 					<th>创建人</th>
 					<th>更新时间</th>
@@ -39,8 +40,9 @@
 				<tr ng-repeat="genTemplate in genTemplateList ">
 					<td>{{ $index+1 }}</td>
 					<td>{{ genTemplate.name }}</td>
-					<td>{{ genTemplate.languageName}}</td>
-					<td>{{ genTemplate.genFieldName}}</td>
+					<td>{{ genTemplate.languageName }}</td>
+					<td>{{ genTemplate.genFieldName }}</td>
+					<td>{{ genTemplate.version }}</td>
 					<td>{{ genTemplate.description }}</td>
 					<td>{{ genTemplate.createByName }}</td>
 					<td>{{ genTemplate.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
@@ -54,8 +56,8 @@
 						<span><a href="javascript:void(0)"
 							ng-click="genModal($index)">代码生成</a></span> <span><a
 							href="javascript:void(0)" ng-click="downloadModal($index)">模版下载</a></span>
-						<span><a href="javascript:void(0)" ng-click="wikiModal($index)">wiki</a></span>
-					</td>
+						<span><a href="javascript:void(0)"
+							ng-click="wikiModal($index)">wiki</a></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -76,22 +78,7 @@
 					<div class="modal-body">
 						<form class="form-horizontal" ng-submit="updateForm()"
 							id="updateGenTemplateForm" name="updateGenTemplateForm">
-							<div class="form-group">
-								<label class="col-sm-3 control-label">名称：</label>
-								<div class="col-sm-8">
-									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName"
-											name="name" ng-model="updateGenTemplate.name"
-											placeholder="请输入名称" required="required" />
-									</div>
-									<div class="col-sm-6">
-										<span style="color: red"
-											ng-show="updateGenTemplateForm.name.$dirty &amp;&amp; updateGenTemplateForm.name.$invalid">
-											<span ng-show="updateGenTemplateForm.name.$error.required">名称是必须的。</span>
-										</span>
-									</div>
-								</div>
-							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-3 control-label">语言：</label>
 								<div class="col-sm-8">
@@ -124,7 +111,24 @@
 									</div>
 								</div>
 							</div>
-							
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">版本号：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<input type="text" class="form-control" id="updateVersion"
+											name="version" ng-model="updateGenTemplate.version"
+											placeholder="请输入版本号" required="required" />
+									</div>
+									<div class="col-sm-6">
+										<span style="color: red"
+											ng-show="updateGenTemplateForm.version.$dirty &amp;&amp; updateGenTemplateForm.version.$invalid">
+											<span ng-show="updateGenTemplateForm.version.$error.required">版本号是必须的。</span>
+										</span>
+									</div>
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="col-sm-3 control-label">wiki地址后缀：</label>
 								<div class="col-sm-8">
@@ -263,22 +267,7 @@
 		<div class="form-model">
 			<form class="form-horizontal" ng-submit="submitForm()"
 				name="genTemplateForm">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">名称：</label>
-					<div class="col-sm-4">
-						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="name" name="name"
-								ng-model="genTemplate.name" placeholder="请输入名称"
-								required="required" />
-						</div>
-						<div class="col-sm-6">
-							<span style="color: red"
-								ng-show="genTemplateForm.name.$dirty &amp;&amp; genTemplateForm.name.$invalid">
-								<span ng-show="genTemplateForm.name.$error.required">名称是必须的。</span>
-							</span>
-						</div>
-					</div>
-				</div>
+				
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">语言：</label>
@@ -286,8 +275,8 @@
 						<div class="col-sm-6" style="padding-left: 0">
 							<select class="form-control" ng-model="genTemplate.language"
 								id="language" name="language"
-								ng-options="obj.code as obj.name for obj in languageEnums"></select> 
-			
+								ng-options="obj.code as obj.name for obj in languageEnums"></select>
+
 						</div>
 					</div>
 				</div>
@@ -302,7 +291,24 @@
 						</div>
 					</div>
 				</div>
-				
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">版本号：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<input type="text" class="form-control" id="version"
+								name="version" ng-model="genTemplate.version"
+								placeholder="请输入版本号" required="required"/>
+						</div>
+						<div class="col-sm-6">
+							<span style="color: red"
+								ng-show="genTemplateForm.verrsion.$dirty &amp;&amp; genTemplateForm.version.$invalid">
+								<span ng-show="genTemplateForm.version.$error.required">版本号是必须的。</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">wiki地址后缀：</label>
 					<div class="col-sm-4">

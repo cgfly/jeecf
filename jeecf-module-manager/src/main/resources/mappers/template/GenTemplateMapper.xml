@@ -9,6 +9,7 @@
 		genTemplate.sys_namespace_id AS "sysNamespaceId",
 		genTemplate.language AS "language",
 		genTemplate.gen_field_id AS "genFieldId",
+        genTemplate.version AS "version",
 		genTemplate.wiki_uri AS "wikiUri",
 		genField.name AS "genFieldName",
 		genTemplate.file_base_path AS "fileBasePath",
@@ -140,6 +141,9 @@
 			<if test="fileBasePath != null">
 				file_base_path,
 			</if>
+             <if test="version != null">
+                version,
+            </if>
 			<if test="wikiUri != null">
 				wiki_uri,
 			</if>
@@ -179,6 +183,9 @@
 			<if test="fileBasePath != null">
 				#{fileBasePath},
 			</if>
+            <if test="version != null">
+                #{version},
+            </if>
 			<if test="wikiUri != null">
 				#{wikiUri},
 			</if>
@@ -221,6 +228,9 @@
 			<if test="fileBasePath != null">
 				file_base_path = #{fileBasePath},
 			</if>
+            <if test="version != null">
+                version = #{version},
+            </if>
 			<if test="wikiUri != null">
 				wiki_uri = #{wikiUri},
 			</if>

@@ -20,11 +20,6 @@ public class SysOsgiPluginSchema {
     @ApiModelProperty(value = "名称", name = "name")
     private boolean name = true;
     /**
-     * 文件名称
-     */
-    @ApiModelProperty(value = "文件名称", name = "fileName")
-    private boolean fileName = true;
-    /**
      * 插件绑定类型
      */
     @ApiModelProperty(value = "插件绑定类型", name = "boundleType")
@@ -79,14 +74,6 @@ public class SysOsgiPluginSchema {
 
     public void setName(boolean name) {
         this.name = name;
-    }
-
-    public boolean isFileName() {
-        return fileName;
-    }
-
-    public void setFileName(boolean fileName) {
-        this.fileName = fileName;
     }
 
     public boolean isBoundleType() {
