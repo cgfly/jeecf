@@ -51,4 +51,10 @@ hs_err_pid*
 /jeecf-module-engine-mysql/.project
 /jeecf-module-engine-mysql/.classpath
 
+/jeecf-module-gen/target/
+/jeecf-module-gen/.settings/
+/jeecf-module-gen/.DS_Store
+/jeecf-module-gen/.project
+/jeecf-module-gen/.classpath
+
 

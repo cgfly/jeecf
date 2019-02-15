@@ -32,8 +32,7 @@ public class PluginManager {
     private Map<String, List<String>> urlMap = new HashMap<>(12);
 
     public PluginManager() {
-        boundleContextMap.put(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE.getName(),
-                new BoundleContext(new GenHandlerBoundle()));
+        boundleContextMap.put(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE.getName(), new BoundleContext(new GenHandlerBoundle()));
     }
 
     /**
@@ -47,8 +46,7 @@ public class PluginManager {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public void install(URL[] urls, BoundleEnum boundleEnum, boolean isInit)
-            throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void install(URL[] urls, BoundleEnum boundleEnum, boolean isInit) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         this.install(urls, boundleEnum, isInit, null);
     }
 
@@ -64,8 +62,7 @@ public class PluginManager {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public void install(URL[] urls, BoundleEnum boundleEnum, boolean isInit, ClassLoader loadder)
-            throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void install(URL[] urls, BoundleEnum boundleEnum, boolean isInit, ClassLoader loadder) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         if (urls == null || urls.length == 0) {
             return;
         }
@@ -125,7 +122,9 @@ public class PluginManager {
         List<String> allPackageNames = new ArrayList<>();
         for (URL url : urls) {
             List<String> packageNames = urlMap.get(url.getPath());
-            allPackageNames.addAll(packageNames);
+            if (CollectionUtils.isNotEmpty(packageNames)) {
+                allPackageNames.addAll(packageNames);
+            }
         }
         return boundle.getInstances(allPackageNames.toArray(new String[allPackageNames.size()]));
     }
@@ -161,8 +160,7 @@ public class PluginManager {
         BoundleContext context = boundleContextMap.get(boundleEnum.getName());
         List<Plugin> plugins = context.getPlugins();
         List<String> packageNames = urlMap.get(url.getPath());
-        List<Plugin> uninstallPlugins = context.getBoundle()
-                .uninstall(packageNames.toArray(new String[packageNames.size()]));
+        List<Plugin> uninstallPlugins = context.getBoundle().uninstall(packageNames.toArray(new String[packageNames.size()]));
         if (CollectionUtils.isNotEmpty(plugins)) {
             uninstallPlugins.forEach(uninstallPlugin -> {
                 for (Plugin plugin : plugins) {

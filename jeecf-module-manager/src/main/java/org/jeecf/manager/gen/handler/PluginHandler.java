@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.manager.common.chain.AbstractHandler;
+import org.jeecf.gen.chain.AbstractHandler;
+import org.jeecf.gen.chain.ChainContext;
 import org.jeecf.osgi.model.PluginRequest;
 import org.jeecf.osgi.model.PluginResponse;
 import org.jeecf.osgi.plugin.Plugin;
@@ -13,19 +14,26 @@ import org.jeecf.osgi.plugin.Plugin;
  * 插件处理 责任链
  * 
  * @author jianyiming
- *
+ * @since 1.0
  */
 public class PluginHandler extends AbstractHandler {
 
+    private Map<String, Object> extMap = null;
+
+    @Override
+    public void init(ChainContext context) {
+        super.init(context);
+        extMap = this.contextParams.getExtParams();
+    }
+
     @Override
     public void process() {
+        Map<String, Object> params = this.chainContext.getParams();
         @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-        @SuppressWarnings("unchecked")
-        List<Plugin> plugins = (List<Plugin>) this.chainContext.get("genHandlerPlugin");
-        Integer language = (Integer) this.chainContext.get("language");
-        Integer namespace = (Integer) this.chainContext.get("namespace");
-        String username = (String) this.chainContext.get("username");
+        List<Plugin> plugins = (List<Plugin>) extMap.get("genHandlerPlugin");
+        Integer language = (Integer) extMap.get("language");
+        String namespace = this.contextParams.getNamespaceId();
+        String username = this.contextParams.getUserId();
         if (CollectionUtils.isNotEmpty(plugins)) {
             PluginRequest request = new PluginRequest();
             request.setAttribute("language", language);

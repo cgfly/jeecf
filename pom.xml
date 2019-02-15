@@ -307,5 +307,6 @@
         <module>jeecf-module-manager</module>
         <module>jeecf-module-osgi</module>
         <module>jeecf-module-engine-mysql</module>
+        <module>jeecf-module-gen</module>
     </modules>
 </project>

@@ -6,42 +6,40 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.utils.DateFormatUtils;
-import org.jeecf.manager.common.chain.AbstractHandler;
-import org.jeecf.manager.common.chain.ChainContext;
-import org.jeecf.manager.gen.model.GenParams;
-import org.jeecf.manager.module.config.model.domain.SysNamespace;
-import org.jeecf.manager.module.userpower.model.domain.SysUser;
+import org.jeecf.gen.chain.AbstractHandler;
+import org.jeecf.gen.chain.ChainContext;
+import org.jeecf.gen.model.GenParams;
 
 /**
  * 基础参数责任链
  * 
  * @author jianyiming
- *
+ * @since 1.0
  */
 public class BaseParamHandler extends AbstractHandler {
 
+    private Map<String, Object> extMap = null;
+
     @Override
     public void init(ChainContext context) {
-        this.chainContext = context;
+        super.init(context);
+        extMap = this.contextParams.getExtParams();
     }
 
     @Override
     public void process() {
+        Map<String, Object> params = chainContext.getParams();
         @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map<String, Object>) this.chainContext.get("params");
-        @SuppressWarnings("unchecked")
-        List<GenParams> genParamsList = (List<GenParams>) this.chainContext.get("genParamsList");
-        SysNamespace sysNamespace = (SysNamespace) this.chainContext.get("sysNamespace");
-        SysUser sysUser = (SysUser) this.chainContext.get("sysUser");
+        List<GenParams> genParamsList = (List<GenParams>) extMap.get("genParamsList");
+
         params.put("nowDate", DateFormatUtils.getSfFormat().format(new Date()));
-        params.put("namespace", Integer.valueOf(sysNamespace.getId()));
-        params.put("username", sysUser.getUsername());
+        params.put("namespace", Integer.valueOf(this.contextParams.getNamespaceId()));
+        params.put("username", this.contextParams.getUserId());
         if (CollectionUtils.isNotEmpty(genParamsList)) {
             genParamsList.forEach(genParam -> {
                 params.put(genParam.getName(), genParam.getValue());
             });
         }
-        this.chainContext.put("params", params);
         this.chainContext.next();
     }
 

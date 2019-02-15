@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Request;
+import org.jeecf.gen.model.GenParams;
+import org.jeecf.gen.model.GenTemplateEntity;
 import org.jeecf.manager.Application;
-import org.jeecf.manager.gen.model.GenParams;
-import org.jeecf.manager.gen.model.GenTemplateEntity;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.query.GenTemplateQuery;
 import org.jeecf.manager.module.template.model.schema.GenTemplateSchema;
