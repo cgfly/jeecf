@@ -45,7 +45,6 @@ hs_err_pid*
 /jeecf-module-osgi/.project
 /jeecf-module-osgi/.classpath
 
-<<<<<<< Updated upstream
 /jeecf-module-engine-mysql/target/
 /jeecf-module-engine-mysql/.settings/
 /jeecf-module-engine-mysql/.DS_Store
@@ -58,11 +57,10 @@ hs_err_pid*
 /jeecf-module-gen/.project
 /jeecf-module-gen/.classpath
 
-=======
 .idea/
 jeecf-module-common/jeecf-module-common.iml
 jeecf-module-manager/jeecf-module-manager.iml
 jeecf-module-osgi/jeecf-module-osgi.iml
 jeecf-parent.iml
->>>>>>> Stashed changes
-
+jeecf-module-engine-mysql/jeecf-module-engine-mysql.iml
+jeecf-module-gen/jeecf-module-gen.iml
