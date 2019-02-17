@@ -247,6 +247,7 @@
         </pluginManagement>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <execution>
@@ -257,7 +258,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[1.8)</version>
+                                    <version>[1.8,9)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
