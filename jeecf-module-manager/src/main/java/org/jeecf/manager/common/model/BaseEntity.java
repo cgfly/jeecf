@@ -40,14 +40,10 @@ public class BaseEntity extends AbstractEntity {
 
     @Override
     public void preUpdate() {
-        if (this.getUpdateBy() == null) {
-            String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
-            String id = (String) RedisCacheUtils.getSysCache(sessionId);
-            this.setUpdateBy(id);
-        }
-        if (this.getUpdateDate() == null) {
-            this.setUpdateDate(new Date());
-        }
+        String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
+        String id = (String) RedisCacheUtils.getSysCache(sessionId);
+        this.setUpdateBy(id);
+        this.setUpdateDate(new Date());
     }
 
 }

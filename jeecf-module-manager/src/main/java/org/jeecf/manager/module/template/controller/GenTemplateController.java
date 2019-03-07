@@ -119,18 +119,21 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
     public Response<GenTemplateResult> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate) {
         SysUser sysUser = UserUtils.getCurrentUser();
         SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
+        String[] paths = genTemplate.getFileBasePath().split(SplitCharEnum.SLASH.getName());
+        String fileName = StringUtils.substringBeforeLast(paths[1], ".");
         if (genTemplate.isNewRecord()) {
             GenTemplateQuery query = new GenTemplateQuery();
             query.setName(genTemplate.getName());
+            if (StringUtils.isEmpty(genTemplate.getName())) {
+                query.setName(fileName);
+            }
             query.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             List<GenTemplateResult> genTemplateList = genTemplateService.findList(new GenTemplatePO(query)).getData();
             if (CollectionUtils.isNotEmpty(genTemplateList)) {
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
             }
         }
-        String[] paths = genTemplate.getFileBasePath().split(SplitCharEnum.SLASH.getName());
         TemplateUtils.unzip(paths[0], paths[1], sysNamespace.getName());
-        String fileName = StringUtils.substringBeforeLast(paths[1], ".");
         genTemplate.setFileBasePath(paths[0] + File.separator + fileName);
         genTemplate.setName(fileName);
         return genTemplateService.saveByAuth(genTemplate);

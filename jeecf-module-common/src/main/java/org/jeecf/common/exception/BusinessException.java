@@ -10,7 +10,7 @@ import org.jeecf.common.enums.ErrorEnum;
  * @author GloryJ
  *
  */
-public class BusinessException extends RuntimeException implements Serializable {
+public class BusinessException extends ThrowException implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

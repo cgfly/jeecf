@@ -6,7 +6,7 @@ package org.jeecf.engine.mysql.exception;
  * @author jianyiming
  *
  */
-public class TableColumnTypeEmptyException extends RuntimeException {
+public class TableColumnTypeEmptyException extends SqlEngineException {
 
     /**
      * 

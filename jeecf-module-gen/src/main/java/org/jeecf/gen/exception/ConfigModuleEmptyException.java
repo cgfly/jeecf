@@ -6,13 +6,13 @@ package org.jeecf.gen.exception;
  * @since 2.0
  *
  */
-public class ConfigModuleEmptyException extends RuntimeException {
+public class ConfigModuleEmptyException extends GenException {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+
     public ConfigModuleEmptyException() {
         super("config module is empty... ");
     }

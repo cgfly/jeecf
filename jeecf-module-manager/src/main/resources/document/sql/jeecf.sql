@@ -11,7 +11,7 @@
  Target Server Version : 50641
  File Encoding         : utf-8
 
- Date: 02/17/2019 19:41:30 PM
+ Date: 03/07/2019 16:20:28 PM
 */
 
 SET NAMES utf8;
@@ -36,7 +36,14 @@ CREATE TABLE `customer_action_log` (
   KEY `idx_user_name` (`user_name`) USING BTREE,
   KEY `idx_action_type` (`action_type`) USING BTREE,
   KEY `idx_update_date` (`update_date`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8mb4 COMMENT='客户日志';
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COMMENT='客户日志';
+
+-- ----------------------------
+--  Records of `customer_action_log`
+-- ----------------------------
+BEGIN;
+INSERT INTO `customer_action_log` VALUES ('1', '0:0:0:0:0:0:0:1', 'guest', '1', '', '', '2019-02-24 10:17:10', '231e7179e1494c25acc6396576096512', '2019-02-24 10:17:10', '231e7179e1494c25acc6396576096512'), ('2', '0:0:0:0:0:0:0:1', 'guest', '2', '', '', '2019-02-24 10:18:28', '231e7179e1494c25acc6396576096512', '2019-02-24 10:18:28', '231e7179e1494c25acc6396576096512'), ('3', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-24 10:18:51', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-24 10:18:51', 'be50e868ce4841ebb63bb1694b2413ef'), ('4', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-24 12:50:52', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-24 12:50:52', 'be50e868ce4841ebb63bb1694b2413ef'), ('5', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-24 16:23:51', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-24 16:23:51', 'be50e868ce4841ebb63bb1694b2413ef'), ('6', '0:0:0:0:0:0:0:1', 'admin', '2', '', '', '2019-02-24 16:27:07', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-24 16:27:07', 'be50e868ce4841ebb63bb1694b2413ef'), ('7', '0:0:0:0:0:0:0:1', 'guest', '1', '', '', '2019-02-24 16:27:19', '231e7179e1494c25acc6396576096512', '2019-02-24 16:27:19', '231e7179e1494c25acc6396576096512'), ('8', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-25 09:27:02', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-25 09:27:02', 'be50e868ce4841ebb63bb1694b2413ef'), ('9', '0:0:0:0:0:0:0:1', 'guest', '1', '', '', '2019-02-26 19:40:29', '231e7179e1494c25acc6396576096512', '2019-02-26 19:40:29', '231e7179e1494c25acc6396576096512'), ('10', '0:0:0:0:0:0:0:1', 'guest', '2', '', '', '2019-02-26 19:50:01', '231e7179e1494c25acc6396576096512', '2019-02-26 19:50:01', '231e7179e1494c25acc6396576096512'), ('11', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-27 18:42:42', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-27 18:42:42', 'be50e868ce4841ebb63bb1694b2413ef'), ('12', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-27 22:42:51', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-27 22:42:51', 'be50e868ce4841ebb63bb1694b2413ef'), ('13', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-02-28 10:13:24', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-28 10:13:24', 'be50e868ce4841ebb63bb1694b2413ef'), ('14', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-01 18:45:25', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-01 18:45:25', 'be50e868ce4841ebb63bb1694b2413ef'), ('15', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-04 22:37:24', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-04 22:37:24', 'be50e868ce4841ebb63bb1694b2413ef'), ('16', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-04 22:37:41', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-04 22:37:41', 'be50e868ce4841ebb63bb1694b2413ef'), ('17', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-06 10:33:15', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-06 10:33:15', 'be50e868ce4841ebb63bb1694b2413ef'), ('18', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-06 20:06:11', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-06 20:06:11', 'be50e868ce4841ebb63bb1694b2413ef'), ('19', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-07 13:25:27', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 13:25:27', 'be50e868ce4841ebb63bb1694b2413ef'), ('20', '0:0:0:0:0:0:0:1', 'admin', '2', '', '', '2019-03-07 13:25:48', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 13:25:48', 'be50e868ce4841ebb63bb1694b2413ef'), ('21', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-07 13:38:13', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 13:38:13', 'be50e868ce4841ebb63bb1694b2413ef'), ('22', '0:0:0:0:0:0:0:1', 'admin', '2', '', '', '2019-03-07 14:04:40', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:04:40', 'be50e868ce4841ebb63bb1694b2413ef'), ('23', '0:0:0:0:0:0:0:1', 'guest', '1', '', '', '2019-03-07 14:04:45', '231e7179e1494c25acc6396576096512', '2019-03-07 14:04:45', '231e7179e1494c25acc6396576096512'), ('24', '0:0:0:0:0:0:0:1', 'guest', '2', '', '', '2019-03-07 14:05:10', '231e7179e1494c25acc6396576096512', '2019-03-07 14:05:10', '231e7179e1494c25acc6396576096512'), ('25', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-07 14:05:14', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:05:14', 'be50e868ce4841ebb63bb1694b2413ef'), ('26', '0:0:0:0:0:0:0:1', 'admin', '2', '', '', '2019-03-07 14:51:07', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:51:07', 'be50e868ce4841ebb63bb1694b2413ef'), ('27', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-07 14:51:13', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:51:13', 'be50e868ce4841ebb63bb1694b2413ef'), ('28', '0:0:0:0:0:0:0:1', 'admin', '1', '', '', '2019-03-07 15:46:24', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 15:46:24', 'be50e868ce4841ebb63bb1694b2413ef');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `gen_field`
@@ -63,7 +70,7 @@ CREATE TABLE `gen_field` (
 --  Records of `gen_field`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gen_field` VALUES ('9', '多数据规则例子', '参数例子', '1', '', '2018-11-02 15:33:18', 'be50e868ce4841ebb63bb1694b2413ef', '2018-11-10 16:42:40', 'be50e868ce4841ebb63bb1694b2413ef'), ('10', '多数据规则例子', '参数例子', '5', '', '2018-12-02 14:05:10', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-02 14:05:10', 'be50e868ce4841ebb63bb1694b2413ef'), ('11', '多表规则例子', '参数例子', '1', '', '2018-12-19 14:32:10', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-19 14:32:10', 'be50e868ce4841ebb63bb1694b2413ef'), ('12', '多表规则例子', '参数例子', '5', '', '2018-12-21 13:13:00', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:13:00', 'be50e868ce4841ebb63bb1694b2413ef');
+INSERT INTO `gen_field` VALUES ('9', 'manyData', '多数据规则例子', '1', '', '2018-11-02 15:33:18', 'be50e868ce4841ebb63bb1694b2413ef', '2018-11-10 16:42:40', 'be50e868ce4841ebb63bb1694b2413ef'), ('10', 'manyData', '参数例子', '5', '', '2018-12-02 14:05:10', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-02 14:05:10', 'be50e868ce4841ebb63bb1694b2413ef'), ('11', 'manyTable', '多表规则例子', '1', '', '2018-12-19 14:32:10', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-19 14:32:10', 'be50e868ce4841ebb63bb1694b2413ef'), ('12', 'manyTable', '参数例子', '5', '', '2018-12-21 13:13:00', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:13:00', 'be50e868ce4841ebb63bb1694b2413ef');
 COMMIT;
 
 -- ----------------------------
@@ -85,13 +92,13 @@ CREATE TABLE `gen_field_column` (
   PRIMARY KEY (`id`),
   KEY `idx_gen_field_id` (`gen_field_id`) USING BTREE,
   KEY `idx_update_date` (`update_date`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COMMENT='生成参数列表';
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COMMENT='生成参数列表';
 
 -- ----------------------------
 --  Records of `gen_field_column`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gen_field_column` VALUES ('88', '9', 'packageName', '1', '', '包名', '', '2018-12-19 14:25:27', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-19 14:25:27', 'be50e868ce4841ebb63bb1694b2413ef'), ('89', '9', 'filterField', '1', 'sysNamespaceId', '数据过滤', '', '2018-12-19 14:25:27', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-19 14:25:27', 'be50e868ce4841ebb63bb1694b2413ef'), ('90', '9', 'groupField', '1', 'type', '分组字段', '', '2018-12-19 14:25:27', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-19 14:25:27', 'be50e868ce4841ebb63bb1694b2413ef'), ('99', '10', 'packageName', '1', '', '包名', '', '2018-12-21 13:09:32', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:09:32', 'be50e868ce4841ebb63bb1694b2413ef'), ('100', '10', 'filterField', '1', 'sysNamespaceId', '数据过滤', '', '2018-12-21 13:09:32', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:09:32', 'be50e868ce4841ebb63bb1694b2413ef'), ('101', '10', 'groupField', '1', 'type', '分组字段', '', '2018-12-21 13:09:32', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:09:32', 'be50e868ce4841ebb63bb1694b2413ef'), ('115', '11', 'packageName', '1', '', '包名', '', '2019-01-16 17:14:24', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-16 17:14:24', 'be50e868ce4841ebb63bb1694b2413ef'), ('116', '11', 'filterField', '1', 'sysNamespaceId', '过滤属性', '', '2019-01-16 17:14:24', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-16 17:14:24', 'be50e868ce4841ebb63bb1694b2413ef'), ('117', '11', 'manyField', '1', 'field', '分表字段', '', '2019-01-16 17:14:24', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-16 17:14:24', 'be50e868ce4841ebb63bb1694b2413ef'), ('124', '12', 'packageName', '1', '', '包名', '', '2019-02-02 21:21:50', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-02 21:21:50', 'be50e868ce4841ebb63bb1694b2413ef'), ('125', '12', 'filterField', '1', 'sysNamespaceId', '过滤属性', '', '2019-02-02 21:21:50', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-02 21:21:50', 'be50e868ce4841ebb63bb1694b2413ef'), ('126', '12', 'manyField', '1', 'field', '分表字段', '', '2019-02-02 21:21:50', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-02 21:21:50', 'be50e868ce4841ebb63bb1694b2413ef');
+INSERT INTO `gen_field_column` VALUES ('127', '12', 'packageName', '1', '', '包名', '', '2019-03-07 14:03:36', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:03:36', 'be50e868ce4841ebb63bb1694b2413ef'), ('128', '12', 'filterField', '1', 'sysNamespaceId', '过滤属性', '', '2019-03-07 14:03:36', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:03:36', 'be50e868ce4841ebb63bb1694b2413ef'), ('129', '12', 'manyField', '1', 'field', '分表字段', '', '2019-03-07 14:03:36', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:03:36', 'be50e868ce4841ebb63bb1694b2413ef'), ('130', '10', 'packageName', '1', '', '包名', '', '2019-03-07 14:03:54', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:03:54', 'be50e868ce4841ebb63bb1694b2413ef'), ('131', '10', 'filterField', '1', 'sysNamespaceId', '数据过滤', '', '2019-03-07 14:03:54', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:03:54', 'be50e868ce4841ebb63bb1694b2413ef'), ('132', '10', 'groupField', '1', 'type', '分组字段', '', '2019-03-07 14:03:54', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:03:54', 'be50e868ce4841ebb63bb1694b2413ef'), ('133', '11', 'packageName', '1', '', '包名', '', '2019-03-07 14:06:17', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:06:17', 'be50e868ce4841ebb63bb1694b2413ef'), ('134', '11', 'filterField', '1', 'sysNamespaceId', '过滤属性', '', '2019-03-07 14:06:17', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:06:17', 'be50e868ce4841ebb63bb1694b2413ef'), ('135', '11', 'manyField', '1', 'field', '分表字段', '', '2019-03-07 14:06:17', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:06:17', 'be50e868ce4841ebb63bb1694b2413ef'), ('136', '9', 'packageName', '1', '', '包名', '', '2019-03-07 14:06:48', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:06:48', 'be50e868ce4841ebb63bb1694b2413ef'), ('137', '9', 'filterField', '1', 'sysNamespaceId', '数据过滤', '', '2019-03-07 14:06:48', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:06:48', 'be50e868ce4841ebb63bb1694b2413ef'), ('138', '9', 'groupField', '1', 'type', '分组字段', '', '2019-03-07 14:06:48', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:06:48', 'be50e868ce4841ebb63bb1694b2413ef');
 COMMIT;
 
 -- ----------------------------
@@ -189,13 +196,13 @@ CREATE TABLE `gen_template` (
   KEY `idx_name` (`name`) USING BTREE,
   KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE,
   KEY `idx_update_date` (`update_date`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='代码生成模版信息';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COMMENT='代码生成模版信息';
 
 -- ----------------------------
 --  Records of `gen_template`
 -- ----------------------------
 BEGIN;
-INSERT INTO `gen_template` VALUES ('15', '多数据规则例子模版', '1', '1', '9', 'b972a628cf5441bb9b11e7521ce45616ovscs/dict', '', '/jianym/jeecf', '例子模版', '', '2018-11-02 15:33:45', 'be50e868ce4841ebb63bb1694b2413ef', '2018-11-21 20:15:56', 'be50e868ce4841ebb63bb1694b2413ef'), ('16', 'dict', '5', '1', '10', '898c6d34e037429fbb84db605eac8006waupv/dict', '1.0.0', '/jianym/jeecf', '多数据例子模版', '', '2018-12-02 14:06:00', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-02 14:06:00', 'be50e868ce4841ebb63bb1694b2413ef'), ('17', '多表规则例子模版', '1', '1', '11', 'e236040fc1704bf4932bf3857c8b54ednrnmb/tableDict', '', '/jianym/jeecf', '例子模版', '', '2018-12-19 14:36:56', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-19 14:36:56', 'be50e868ce4841ebb63bb1694b2413ef'), ('18', 'tableDict', '5', '1', '12', 'd3ef86febb2a4a3abff163ea3d4b2836pjjwv/tableDict', '1.0.0', '/jianym/jeecf', '多表例子模版', '', '2018-12-21 13:18:07', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:18:07', 'be50e868ce4841ebb63bb1694b2413ef');
+INSERT INTO `gen_template` VALUES ('16', 'dict', '5', '1', '10', '898c6d34e037429fbb84db605eac8006waupv/dict', '1.0.0', '/jianym/jeecf', '多数据例子模版', '', '2018-12-02 14:06:00', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:53:20', 'be50e868ce4841ebb63bb1694b2413ef'), ('18', 'tableDict', '5', '1', '12', 'd3ef86febb2a4a3abff163ea3d4b2836pjjwv/tableDict', '1.0.0', '/jianym/jeecf', '多表例子模版', '', '2018-12-21 13:18:07', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-21 13:18:07', 'be50e868ce4841ebb63bb1694b2413ef'), ('19', 'tableDict', '1', '1', '11', '167e4ee45cbb4eee99cba237f4c33be7iwwyb/tableDict', '1.0.0', '/jianym/jeecf/wiki', '多表例子模版', '', '2019-03-07 14:16:11', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:16:11', 'be50e868ce4841ebb63bb1694b2413ef'), ('20', 'dict', '1', '1', '9', 'd2140366203041c79f0ab9ce23937325gbmae/dict', '1.0.0', '/jianym/jeecf/wiki', '多数据模版例子', '', '2019-03-07 14:17:20', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:17:20', 'be50e868ce4841ebb63bb1694b2413ef');
 COMMIT;
 
 -- ----------------------------
@@ -321,7 +328,7 @@ CREATE TABLE `sys_namespace` (
 --  Records of `sys_namespace`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_namespace` VALUES ('1', 'work', '工作', 'config:sysNamespace:work', '', '0', '2018-11-24 08:53:18', 'be50e868ce4841ebb63bb1694b2413ef', '2018-11-24 08:53:18', 'be50e868ce4841ebb63bb1694b2413ef'), ('5', 'guest', '客户', 'config:sysNamespace:guest', '', '0', '2018-11-30 18:03:56', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-13 10:13:52', 'be50e868ce4841ebb63bb1694b2413ef');
+INSERT INTO `sys_namespace` VALUES ('1', 'work', '工作', 'config:sysNamespace:work', '', '0', '2018-11-24 08:53:18', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-01 18:53:07', 'be50e868ce4841ebb63bb1694b2413ef'), ('5', 'guest', '客户', 'config:sysNamespace:guest', '', '0', '2018-11-30 18:03:56', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-13 10:13:52', 'be50e868ce4841ebb63bb1694b2413ef');
 COMMIT;
 
 -- ----------------------------
@@ -370,13 +377,13 @@ CREATE TABLE `sys_osgi_plugin` (
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_unique` (`name`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='OSGI 插件管理表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='OSGI 插件管理表';
 
 -- ----------------------------
 --  Records of `sys_osgi_plugin`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_osgi_plugin` VALUES ('6', 'language', '0', '1', '/jianym/jeecf', '插件语言', '', '0', '2019-01-24 15:38:39', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-24 15:38:39', 'be50e868ce4841ebb63bb1694b2413ef'), ('8', 'language', '5', '1', '/jianym/jeecf', '插件语言', '', '0', '2019-01-24 15:38:39', 'be50e868ce4841ebb63bb1694b2413ef', '2019-01-24 15:38:39', 'be50e868ce4841ebb63bb1694b2413ef'), ('9', 'jeecf-osgi-language-0.0.1-SNAPSHOT.jar', '0', '1', '/jianym/jeecf', '线索状态', '', '0', '2019-02-02 21:06:47', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-02 21:06:47', 'be50e868ce4841ebb63bb1694b2413ef'), ('10', 'jeecf-osgi-language-0.0.1-SNAPSHOT.jar', '5', '1', '/jianym/jeecf', '线索状态', '', '0', '2019-02-02 21:06:47', 'be50e868ce4841ebb63bb1694b2413ef', '2019-02-02 21:06:47', 'be50e868ce4841ebb63bb1694b2413ef');
+INSERT INTO `sys_osgi_plugin` VALUES ('11', 'jeecf-plugin-language-1.1.0-SNAPSHOT.jar', '0', '1', '/jianym/jeecf/wiki', '语言插件', '', '0', '2019-03-07 14:26:53', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:26:53', 'be50e868ce4841ebb63bb1694b2413ef'), ('12', 'jeecf-plugin-language-1.1.0-SNAPSHOT.jar', '5', '1', '/jianym/jeecf/wiki', '语言插件', '', '0', '2019-03-07 14:26:53', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:26:53', 'be50e868ce4841ebb63bb1694b2413ef'), ('14', 'jeecf-plugin-language-1.1.0-SNAPSHOT.jar', '1', '1', '/jianym/jeecf/wiki', '语言插件', '', '0', '2019-03-07 14:26:53', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:26:53', 'be50e868ce4841ebb63bb1694b2413ef');
 COMMIT;
 
 -- ----------------------------
@@ -482,13 +489,13 @@ CREATE TABLE `sys_table_dict` (
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_unique` (`name`,`table_name`,`sys_dbsource_id`,`sys_namespace_id`) USING BTREE COMMENT '唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='系统表组字典';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='系统表组字典';
 
 -- ----------------------------
 --  Records of `sys_table_dict`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_table_dict` VALUES ('1', 'test', 'sys_dict', 'sysDict', '系统字典', 'test', '2', '1', '', '2018-12-16 11:49:57', '2018-12-16 13:26:09', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef'), ('2', 'test', 'sys_dict', 'sysDict', '数据字典', 'test', '2', '5', '', '2018-12-21 13:19:21', '2018-12-21 13:19:21', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef'), ('3', 'test', 'gen_field', 'genField', '生成参数', 'test', '2', '5', '', '2018-12-21 13:24:58', '2018-12-21 13:24:58', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef');
+INSERT INTO `sys_table_dict` VALUES ('1', 'test', 'sys_dict', 'sysDict', '系统字典', 'test', '2', '1', '', '2018-12-16 11:49:57', '2018-12-16 13:26:09', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef'), ('2', 'test', 'sys_dict', 'sysDict', '数据字典', 'test', '2', '5', '', '2018-12-21 13:19:21', '2018-12-21 13:19:21', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef'), ('3', 'test', 'gen_field', 'genField', '生成参数', 'test', '2', '5', '', '2018-12-21 13:24:58', '2018-12-21 13:24:58', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef'), ('4', 'test1', 'gen_field', 'genField', '生成参数', '生成参数', '2', '1', '', '2019-03-07 15:00:32', '2019-03-07 15:00:32', 'be50e868ce4841ebb63bb1694b2413ef', 'be50e868ce4841ebb63bb1694b2413ef');
 COMMIT;
 
 -- ----------------------------
@@ -554,6 +561,33 @@ INSERT INTO `sys_user` VALUES ('231e7179e1494c25acc6396576096512', 'guest', 'bff
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `sys_user_dbsource`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_dbsource`;
+CREATE TABLE `sys_user_dbsource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` varchar(50) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `dbsource_id` int(11) NOT NULL DEFAULT '0' COMMENT '数据源id',
+  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_by` varchar(100) NOT NULL DEFAULT '' COMMENT '创建人',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by` varchar(100) NOT NULL DEFAULT '' COMMENT '更新人',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_user` (`user_id`) USING BTREE,
+  KEY `idx_update` (`update_date`) USING BTREE,
+  KEY `idx_user_dbsource` (`user_id`,`dbsource_id`) USING BTREE,
+  KEY `idx_dbsource` (`dbsource_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+--  Records of `sys_user_dbsource`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_user_dbsource` VALUES ('3', 'be50e868ce4841ebb63bb1694b2413ef', '2', '', '2019-03-01 18:45:25', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-01 18:45:25', 'be50e868ce4841ebb63bb1694b2413ef'), ('4', '231e7179e1494c25acc6396576096512', '2', '', '2019-03-07 14:04:45', '231e7179e1494c25acc6396576096512', '2019-03-07 14:04:45', '231e7179e1494c25acc6396576096512');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `sys_user_namespace`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_namespace`;
@@ -567,17 +601,17 @@ CREATE TABLE `sys_user_namespace` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(100) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_namespace` (`user_id`,`namespace_id`) USING BTREE,
-  KEY `idx_user` (`user_id`) USING BTREE,
+  UNIQUE KEY `idx_user` (`user_id`) USING BTREE,
   KEY `idx_namespace` (`namespace_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  KEY `idx_update_date` (`update_date`) USING BTREE,
+  KEY `idx_user_namespace` (`user_id`,`namespace_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='用户命名空间 对应关系';
 
 -- ----------------------------
 --  Records of `sys_user_namespace`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_namespace` VALUES ('3', 'be50e868ce4841ebb63bb1694b2413ef', '5', '', '2018-09-27 13:57:46', 'be50e868ce4841ebb63bb1694b2413ef', '2018-11-21 19:23:21', 'be50e868ce4841ebb63bb1694b2413ef'), ('5', '231e7179e1494c25acc6396576096512', '5', '', '2018-11-30 19:32:02', '231e7179e1494c25acc6396576096512', '2018-11-30 19:32:02', '231e7179e1494c25acc6396576096512');
+INSERT INTO `sys_user_namespace` VALUES ('3', 'be50e868ce4841ebb63bb1694b2413ef', '1', '', '2018-09-27 13:57:46', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-07 14:53:37', 'be50e868ce4841ebb63bb1694b2413ef'), ('5', '231e7179e1494c25acc6396576096512', '5', '', '2018-11-30 19:32:02', '231e7179e1494c25acc6396576096512', '2018-11-30 19:32:02', '231e7179e1494c25acc6396576096512');
 COMMIT;
 
 -- ----------------------------

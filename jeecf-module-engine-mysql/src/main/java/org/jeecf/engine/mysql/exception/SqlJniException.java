@@ -6,7 +6,7 @@ package org.jeecf.engine.mysql.exception;
  * @author jianyiming
  *
  */
-public class SqlJniException extends RuntimeException {
+public class SqlJniException extends SqlEngineException {
 
     /**
      * 

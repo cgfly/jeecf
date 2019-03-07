@@ -3,6 +3,7 @@ package org.jeecf.manager.module.extend.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -13,6 +14,7 @@ import org.jeecf.common.utils.FileUtils;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.service.NamespaceAuthService;
 import org.jeecf.manager.common.utils.PluginUtils;
+import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.extend.dao.SysOsgiPluginDao;
 import org.jeecf.manager.module.extend.model.domain.SysOsgiPlugin;
 import org.jeecf.manager.module.extend.model.po.SysOsgiPluginPO;
@@ -109,6 +111,8 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
 
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<Integer> updateByName(SysOsgiPlugin sysOsgiPlugin) {
+        sysOsgiPlugin.setUpdateBy(UserUtils.getCurrentUserId());
+        sysOsgiPlugin.setUpdateDate(new Date());
         return new Response<>(dao.updateByName(sysOsgiPlugin));
     }
 

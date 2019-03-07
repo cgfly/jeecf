@@ -5,7 +5,7 @@ package org.jeecf.gen.exception;
  * @author jianyiming
  * @since 2.0
  */
-public class ConfigModuleNameEmptyException extends RuntimeException {
+public class ConfigModuleNameEmptyException extends GenException {
 
     /**
      * 

@@ -6,7 +6,7 @@ package org.jeecf.gen.exception;
  * @since 2.0
  *
  */
-public class ConfigModuleNotMatchRuleException extends RuntimeException {
+public class ConfigModuleNotMatchRuleException extends GenException {
 
     /**
      * 

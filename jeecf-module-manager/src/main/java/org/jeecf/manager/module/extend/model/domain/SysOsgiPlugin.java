@@ -1,10 +1,9 @@
 package org.jeecf.manager.module.extend.model.domain;
 
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.NamespaceAuthEntity;
+import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -49,7 +48,7 @@ public class SysOsgiPlugin extends NamespaceAuthEntity {
     private String description;
 
     @Length(min = 1, max = 50, message = "{plugin.name.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{plugin.name.pattern}", groups = { Add.class })
+    @English(message = "{plugin.name.english}",groups = { Add.class })
     public String getName() {
         return name;
     }

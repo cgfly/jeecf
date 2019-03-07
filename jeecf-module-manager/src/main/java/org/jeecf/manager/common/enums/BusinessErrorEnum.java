@@ -38,6 +38,18 @@ public enum BusinessErrorEnum implements ErrorEnum {
      */
     DECRYPT_FAIL(1007, "解密失败"),
     /**
+     * 代码生成异常
+     */
+    GEN_EXCPETION(1011, "代码生成异常"),
+    /**
+     * sql引擎异常
+     */
+    SQL_ENGINE_EXCPETION(1012, "sql引擎异常"),
+    /**
+     * 未处理异常
+     */
+    THROW_EXCPETION(1019, "未处理异常"),
+    /**
      * 用户不存在
      */
     USER_NOT(2001, "用户不存在"),

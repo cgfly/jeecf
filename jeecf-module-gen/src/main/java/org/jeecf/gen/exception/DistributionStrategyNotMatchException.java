@@ -5,7 +5,7 @@ package org.jeecf.gen.exception;
  * @author jianyiming
  * @since 2.0
  */
-public class DistributionStrategyNotMatchException extends RuntimeException {
+public class DistributionStrategyNotMatchException extends GenException {
 
     /**
      * 

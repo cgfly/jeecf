@@ -16,7 +16,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.jeecf.common.enums.SplitCharEnum;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 文件操作工具类 实现文件的创建、删除、复制、压缩、解压以及目录的创建、删除、复制、压缩解压等功能
@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j;
  * @author ThinkGem
  * @version 2015-3-16
  */
-@Log4j
+@Slf4j
 public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
