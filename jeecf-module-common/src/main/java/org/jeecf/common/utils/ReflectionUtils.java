@@ -58,7 +58,7 @@ public class ReflectionUtils {
                 object = invokeMethod(object, getterMethodName, new Class[] {}, new Object[] {});
             } else {
                 String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(names[i]);
-                invokeMethodByName(object, setterMethodName, new Object[] { value });
+                invokeMethodByName(object, setterMethodName, new Object[] {value });
             }
         }
     }
