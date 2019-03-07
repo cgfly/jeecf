@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecf.common.gen.model.BaseTable;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.gen.chain.AbstractHandler;
 import org.jeecf.gen.chain.ChainContext;
@@ -14,6 +13,7 @@ import org.jeecf.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.gen.exception.DataFilterEmptyException;
 import org.jeecf.gen.exception.RuleStrategyFieldEmptyException;
 import org.jeecf.gen.exception.RuleStrategyNameNotMatchException;
+import org.jeecf.gen.model.BaseTable;
 import org.jeecf.gen.model.config.ConfigContext;
 import org.jeecf.gen.model.config.DistributionEntity;
 import org.jeecf.gen.model.config.ModuleEntity;

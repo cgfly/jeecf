@@ -24,8 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.label)", message = "标签输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.route)", message = "路由输入不能为空", groups = { Add.class })
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.label)", message = "{menu.label.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.route)", message = "{menu.route.isEmpty}", groups = { Add.class })
 })
 @ApiModel(value = "sysMenu", description = "系统菜单实体")
 public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> implements Serializable {
@@ -70,8 +70,8 @@ public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> impleme
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "标签长度必须介于 1 和 20 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "标签只能由a-zA-Z组成", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{menu.label.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{menu.label.pattern}", groups = { Add.class })
     public String getLabel() {
         return label;
     }
@@ -80,8 +80,8 @@ public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> impleme
         this.label = label;
     }
 
-    @Length(min = 1, max = 20, message = "模块标签长度必须介于 1 和 20 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "模块标签只能由a-zA-Z组成", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{menu.moduleLabel.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{menu.moduleLabel.pattern}", groups = { Add.class })
     public String getModuleLabel() {
         return moduleLabel;
     }
@@ -90,8 +90,8 @@ public class SysMenu extends AbstractTreePermissionEntity<SysMenuResult> impleme
         this.moduleLabel = moduleLabel;
     }
 
-    @Min(value = 0, message = "路由输入错误", groups = { Add.class })
-    @Max(value = 1, message = "路由输入错误", groups = { Add.class })
+    @Min(value = 0, message = "{menu.route.min}", groups = { Add.class })
+    @Max(value = 1, message = "{menu.route.max}", groups = { Add.class })
     public Integer getRoute() {
         return route;
     }

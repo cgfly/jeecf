@@ -19,12 +19,12 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.leftEqual)", message = "左等式输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.rightEqual)", message = "右等式输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.event)", message = "事件输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.group)", message = "组别输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.result)", message = "产出输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "描述输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.leftEqual)", message = "{treeDict.leftEqual.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.rightEqual)", message = "{treeDict.rightEqual.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.event)", message = "{treeDict.event.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.groupName)", message = "{treeDict.groupName.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.result)", message = "{treeDict.result.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{treeDict.description.isEmpty}", groups = { Add.class }) 
 })
 @ApiModel(value = "sysTreeDict", description = "树组字典实体")
 public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> {
@@ -80,7 +80,7 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
         this.event = event;
     }
 
-    @Length(min = 1, max = 50, message = "产出长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{treeDict.result.length}", groups = { Add.class })
     public String getResult() {
         return result;
     }
@@ -89,7 +89,7 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
         this.result = result;
     }
 
-    @Length(min = 1, max = 50, message = "组别长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{treeDict.groupName.length}", groups = { Add.class })
     public String getGroupName() {
         return this.groupName;
     }
@@ -98,7 +98,7 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
         this.groupName = groupName;
     }
 
-    @Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{treeDict.description.length}", groups = { Add.class })
     public String getDescription() {
         return description;
     }
@@ -107,7 +107,7 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
         this.description = description;
     }
 
-    @Length(min = 1, max = 20, message = "左等式长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{treeDict.leftEqual.length}", groups = { Add.class })
     public String getLeftEqual() {
         return leftEqual;
     }
@@ -116,7 +116,7 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
         this.leftEqual = leftEqual;
     }
 
-    @Length(min = 1, max = 20, message = "右等式长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{treeDict.rightEqual.length}", groups = { Add.class })
     public String getRightEqual() {
         return rightEqual;
     }

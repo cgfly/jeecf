@@ -20,10 +20,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.keyName)", message = "关键字输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.url)", message = "连接串输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.userName)", message = "账号名输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)", message = "密码输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.keyName)", message = "{dbsource.keyName.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.url)", message = "{dbsource.url.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.userName)", message = "{dbsource.userName.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)", message = "{dbsource.password.isEmpty}", groups = { Add.class }) 
 })
 @ApiModel(value = "sysDbsource", description = "系统数据源实体")
 public class SysDbsource extends PermissionEntity implements Serializable {
@@ -63,8 +63,8 @@ public class SysDbsource extends PermissionEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "关键字长度必须介于 1 和 20 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "关键字只能由a-zA-Z组成", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{dbsource.keyName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{dbsource.keyName.pattern}", groups = { Add.class })
     public String getKeyName() {
         return keyName;
     }
@@ -73,8 +73,8 @@ public class SysDbsource extends PermissionEntity implements Serializable {
         this.keyName = keyName;
     }
 
-    @Length(min = 1, max = 150, message = "连接串长度必须介于 1 和 150 之间", groups = { Add.class })
-    @Jdbc(message = "连接串格式错误", groups = { Add.class })
+    @Length(min = 1, max = 150, message = "{dbsource.url.length}", groups = { Add.class })
+    @Jdbc(message = "{dbsource.url.jdbc}", groups = { Add.class })
     public String getUrl() {
         return url;
     }
@@ -83,7 +83,7 @@ public class SysDbsource extends PermissionEntity implements Serializable {
         this.url = url;
     }
 
-    @Length(min = 1, max = 20, message = "账号名长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{dbsource.userName.length}", groups = { Add.class })
     public String getUserName() {
         return userName;
     }
@@ -92,7 +92,7 @@ public class SysDbsource extends PermissionEntity implements Serializable {
         this.userName = userName;
     }
 
-    @Length(min = 1, max = 64, message = "密码长度必须介于 1 和 64 之间", groups = { Add.class })
+    @Length(min = 1, max = 64, message = "{dbsource.password.length}", groups = { Add.class })
     public String getPassword() {
         return password;
     }

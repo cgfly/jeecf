@@ -1,4 +1,4 @@
-package org.jeecf.common.gen.enums;
+package org.jeecf.gen.enums;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,36 +8,36 @@ import java.util.Map;
 import org.jeecf.common.mapper.JsonMapper;
 
 /**
- * form 表单类型
+ * 查询类型枚举
  * 
  * @author jianyiming
  *
  */
-public enum FormTypeEnum {
+public enum QueryTypeEnum {
     /**
-     * 文本框
+     * 等于
      */
-    TEXT(0, "文本框"),
+    EQUALS(0, "="),
     /**
-     * 文本域
+     * 不等于
      */
-    AREA(1, "文本域"),
+    NO_EQUALS(1, "!="),
     /**
-     * 数字框
+     * 大于 或 小于
      */
-    NUMBER(2, "数字框"),
+    OPEN_INTERVAL(2, "> or <"),
     /**
-     * 时间框
+     * 大于等于 或 小于等于
      */
-    TIME(3, "时间框"),
+    CLOSE_INTERVAL(3, ">= or <="),
     /**
-     * 下拉框
+     * like
      */
-    SELECT(4, "下拉框"),
+    LIKE(4, "like"),
     /**
-     * 表格下拉框
+     * right like
      */
-    TABLE_SELECT(5, "表格下拉框"),;
+    LIKE$(5, "like%"),;
 
     private final int code;
     private final String name;
@@ -50,13 +50,13 @@ public enum FormTypeEnum {
         return name;
     }
 
-    private FormTypeEnum(int code, String name) {
+    private QueryTypeEnum(int code, String name) {
         this.code = code;
         this.name = name;
     }
 
     public static Integer getCode(String name) {
-        for (FormTypeEnum e : FormTypeEnum.values()) {
+        for (QueryTypeEnum e : QueryTypeEnum.values()) {
             if (e.getName().equals(name)) {
                 return e.getCode();
             }
@@ -65,7 +65,7 @@ public enum FormTypeEnum {
     }
 
     public static String getName(int code) {
-        for (FormTypeEnum e : FormTypeEnum.values()) {
+        for (QueryTypeEnum e : QueryTypeEnum.values()) {
             if (e.getCode() == code) {
                 return e.getName();
             }
@@ -75,7 +75,7 @@ public enum FormTypeEnum {
 
     public static String toJsonString() {
         List<Map<String, Object>> dataMap = new ArrayList<>();
-        for (FormTypeEnum e : FormTypeEnum.values()) {
+        for (QueryTypeEnum e : QueryTypeEnum.values()) {
             Map<String, Object> map = new HashMap<String, Object>(10);
             map.put("code", e.getCode());
             map.put("name", e.getName());
@@ -83,5 +83,4 @@ public enum FormTypeEnum {
         }
         return JsonMapper.toJson(dataMap);
     }
-
 }

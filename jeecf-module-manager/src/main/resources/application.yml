@@ -3,7 +3,6 @@ server:
 spring:
    profiles: 
       active: dev
-      include: power,gen,template
    thymeleaf:
       cache: false  #是否开启模板缓存，默认true
       check-template-location: true #检查模板位置是否存在
@@ -56,6 +55,27 @@ spring:
 mybatis:
    mapper-locations: classpath:mappers/*/*Mapper.xml
 
+power:
+   function:
+      name: 权限
+   suffix:
+      base: 
+         name: base
+      edit:
+         name: edit
+      view:
+         name: view
+  
+management:
+   security:
+      enabled: false
+   endpoint:
+      prometheus:
+         enabled: true
+   endpoints:
+      web:
+         exposure:
+            include: '*'
+        
 logging:
   config: classpath:log/logback-${spring.profiles.active}.xml  
-

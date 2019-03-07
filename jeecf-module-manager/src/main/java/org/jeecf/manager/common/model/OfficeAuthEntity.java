@@ -11,7 +11,7 @@ import org.jeecf.manager.validate.groups.Add;
  * @author jianyiming
  *
  */
-@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysOfficeId)", message = "组织结构输入不能为空", groups = { Add.class })
+@ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysOfficeId)", message = "{office.isEmpty}", groups = { Add.class })
 public class OfficeAuthEntity extends BaseEntity {
 
     public OfficeAuthEntity() {

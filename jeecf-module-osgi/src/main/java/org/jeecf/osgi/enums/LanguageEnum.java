@@ -1,4 +1,4 @@
-package org.jeecf.common.gen.enums;
+package org.jeecf.osgi.enums;
 
 import java.util.ArrayList;
 import java.util.HashMap;

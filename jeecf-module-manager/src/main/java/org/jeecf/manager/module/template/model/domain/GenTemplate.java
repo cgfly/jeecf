@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.NamespaceAuthEntity;
+import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModel;
@@ -21,9 +22,9 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value = "genTemplate", description = "生成模版实体")
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.language)", message = "语言输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fileBasePath)", message = "模版文件基础路径输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.version)", message = "版本号输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.language)", message = "{genTemplate.language.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fileBasePath)", message = "{genTemplate.fileBasePath.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.version)", message = "{genTemplate.version.isEmpty}", groups = { Add.class }) 
 })
 public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
@@ -71,7 +72,8 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     public GenTemplate(String id) {
         super(id);
     }
-
+    
+    @English(message = "{genTemplate.name.english}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -80,8 +82,8 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         this.name = name;
     }
 
-    @Min(value = 1, message = "语言输入错误", groups = { Add.class })
-    @Max(value = 2, message = "语言输入错误", groups = { Add.class })
+    @Min(value = 1, message = "{genTemplate.language.min}", groups = { Add.class })
+    @Max(value = 2, message = "{genTemplate.language.max}", groups = { Add.class })
     public Integer getLanguage() {
         return language;
     }
@@ -98,7 +100,7 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         this.genFieldId = genFieldId;
     }
 
-    @Length(min = 1, max = 100, message = "模版文件基础路径长度必须介于 1 和 100 之间", groups = { Add.class })
+    @Length(min = 1, max = 100, message = "{genTemplate.fileBasePath.length}", groups = { Add.class })
     public String getFileBasePath() {
         return fileBasePath;
     }
@@ -107,7 +109,7 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         this.fileBasePath = fileBasePath;
     }
 
-    @Length(min = 1, max = 100, message = "wiki地址长度必须介于 1 和 100 之间", groups = { Add.class })
+    @Length(min = 1, max = 100, message = "{genTemplate.wikiUri.length}", groups = { Add.class })
     public String getWikiUri() {
         return wikiUri;
     }
@@ -116,7 +118,7 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         this.wikiUri = wikiUri;
     }
 
-    @Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{genTemplate.description.length}", groups = { Add.class })
     public String getDescription() {
         return description;
     }
@@ -125,7 +127,7 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         this.description = description;
     }
 
-    @Length(min = 1, max = 20, message = "版本号长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{genTemplate.version.length}", groups = { Add.class })
     public String getVersion() {
         return version;
     }

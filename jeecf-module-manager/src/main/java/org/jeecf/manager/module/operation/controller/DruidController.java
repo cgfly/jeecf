@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 public class DruidController {
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("operation:druid:view")
+    @RequiresPermissions("${permission.druid.view}")
     @ApiOperation(value = "视图", notes = "查看数据库连接池视图")
     public String index(ModelMap map) {
         return "module/operation/druid";

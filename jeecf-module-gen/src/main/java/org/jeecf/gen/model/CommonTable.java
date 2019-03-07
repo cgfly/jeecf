@@ -1,11 +1,11 @@
-package org.jeecf.common.gen.model;
+package org.jeecf.gen.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jeecf.common.gen.enums.QueryTypeEnum;
+import org.jeecf.gen.enums.QueryTypeEnum;
 
 /**
  * 

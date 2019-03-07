@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.enname)", message = "英文名称输入不能为空", groups = { Add.class }) })
+@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.enname)", message = "{office.enname.isEmpty}", groups = { Add.class }) })
 @ApiModel(value = "sysOffice", description = "组织结构实体")
 public class SysOffice extends AbstractTreeEntity<SysOfficeResult> {
 
@@ -43,8 +43,8 @@ public class SysOffice extends AbstractTreeEntity<SysOfficeResult> {
     @ApiModelProperty(value = "英文名称", name = "enname")
     private String enname;
 
-    @Length(min = 1, max = 20, message = "英文名称长度必须介于 1 和 20 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "英文名称只能由a-zA-Z_组成", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{office.enname.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{office.enname.pattern}", groups = { Add.class })
     public String getEnname() {
         return enname;
     }

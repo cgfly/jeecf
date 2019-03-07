@@ -1,4 +1,4 @@
-package org.jeecf.common.gen.model;
+package org.jeecf.gen.model;
 
 import org.apache.commons.lang3.StringUtils;
 

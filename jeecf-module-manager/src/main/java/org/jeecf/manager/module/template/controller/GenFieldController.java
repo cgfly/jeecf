@@ -57,7 +57,7 @@ public class GenFieldController implements CurdController<GenFieldQuery, GenFiel
     private GenFieldFacade genFieldFacade;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("template:genField:view")
+    @RequiresPermissions("${permission.genField.view}")
     @ApiOperation(value = "视图", notes = "查看模版参数视图")
     @Override
     public String index(ModelMap map) {
@@ -66,7 +66,7 @@ public class GenFieldController implements CurdController<GenFieldQuery, GenFiel
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("template:genField:view")
+    @RequiresPermissions("${permission.genField.view}")
     @ApiOperation(value = "列表", notes = "查询模版参数列表")
     @Override
     public Response<List<GenFieldResult>> list(@RequestBody Request<GenFieldQuery, GenFieldSchema> request) {
@@ -79,7 +79,7 @@ public class GenFieldController implements CurdController<GenFieldQuery, GenFiel
 
     @PostMapping(value = { "column/{genFieldId}" })
     @ResponseBody
-    @RequiresPermissions("template:genField:view")
+    @RequiresPermissions("${permission.genField.view}")
     @ApiOperation(value = "详情列表", notes = "查询模版参数详情列表")
     public Response<List<GenFieldColumnResult>> column(@PathVariable("genFieldId") Integer genFieldId) {
         GenFieldColumnQuery genFieldColumn = new GenFieldColumnQuery();
@@ -89,7 +89,7 @@ public class GenFieldController implements CurdController<GenFieldQuery, GenFiel
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("template:genField:edit")
+    @RequiresPermissions("${permission.genField.edit}")
     @ApiOperation(value = "更新", notes = "更新模版参数数据")
     @Override
     public Response<GenFieldResult> save(@RequestBody @Validated({ Add.class }) GenField genField) {
@@ -107,7 +107,7 @@ public class GenFieldController implements CurdController<GenFieldQuery, GenFiel
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("template:genField:edit")
+    @RequiresPermissions("${permission.genField.edit}")
     @ApiOperation(value = "删除", notes = "删除模版参数数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

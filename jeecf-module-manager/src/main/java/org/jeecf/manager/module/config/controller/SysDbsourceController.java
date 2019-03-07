@@ -80,7 +80,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
     private String encryptKey;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("config:sysDbsource:view")
+    @RequiresPermissions(" ${permission.sysDbsource.view} ")
     @ApiOperation(value = "视图", notes = "查看系统数据源视图")
     @Override
     public String index(ModelMap map) {
@@ -89,7 +89,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:view")
+    @RequiresPermissions(" ${permission.sysDbsource.view} ")
     @ApiOperation(value = "列表", notes = "查询系统数据源列表")
     @Override
     public Response<List<SysDbsourceResult>> list(@RequestBody Request<SysDbsourceQuery, SysDbsourceSchema> request) {
@@ -111,7 +111,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:edit")
+    @RequiresPermissions("${permission.sysDbsource.edit}")
     @ApiOperation(value = "更新", notes = "更新系统数据源数据")
     @Override
     public Response<SysDbsourceResult> save(@RequestBody @Validated({ Add.class }) SysDbsource sysDbsource) {
@@ -133,7 +133,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "invalid/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:edit")
+    @RequiresPermissions("${permission.sysDbsource.edit}")
     @ApiOperation(value = "失效", notes = "失效系统数据源数据")
     public Response<SysDbsourceResult> invalid(@PathVariable("id") String id) {
         SysDbsource sysDbsource = sysDbsourceService.get(new SysDbsource(id)).getData();
@@ -157,7 +157,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "active/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:edit")
+    @RequiresPermissions("${permission.sysDbsource.edit}")
     @ApiOperation(value = "激活", notes = "激活系统数据源数据")
     public Response<Integer> active(@PathVariable("id") String id) {
         SysDbsource sysDbSource = new SysDbsource(id);
@@ -168,12 +168,12 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "effect/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:view")
+    @RequiresPermissions("${permission.sysDbsource.view}")
     @ApiOperation(value = "生效", notes = "生效选中系统数据源")
     public Response<Integer> effect(@NotEmpty @PathVariable("id") String id) {
         SysDbsource sysDbSource = sysDbsourceService.getByAuth(new SysDbsource(id)).getData();
         if (sysDbSource != null) {
-            DynamicDataSourceContextHolder.setCurrentDataSourceValue(sysDbSource.getKeyName(), sysDbSource.getUsable());
+            DynamicDataSourceContextHolder.setCurrentDataSourceValue(sysDbSource.getKeyName(),Integer.valueOf(sysDbSource.getId()), sysDbSource.getUsable());
             return new Response<Integer>(1);
         }
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
@@ -181,7 +181,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "syncGen/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:edit")
+    @RequiresPermissions("${permission.sysDbsource.edit}")
     @ApiOperation(value = "同步", notes = "同步虚表数据")
     public Response<Integer> syncGen(@NotNull @PathVariable("id") Integer id) {
         String currentKeyName = DynamicDataSourceContextHolder.getCurrentDataSourceValue();
@@ -222,7 +222,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysDbsource:edit")
+    @RequiresPermissions("${permission.sysDbsource.edit}")
     @ApiOperation(value = "删除", notes = "删除系统数据源数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

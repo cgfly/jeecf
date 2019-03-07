@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiModelProperty;
  * @param <T>
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "名称输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "排序输入不能为空", groups = { Add.class })
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{tree.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "{tree.sort.isEmpty}", groups = { Add.class })
 })
 public abstract class AbstractTreeNamespaceEntity<T> extends NamespaceAuthEntity implements Serializable {
 
@@ -82,7 +82,7 @@ public abstract class AbstractTreeNamespaceEntity<T> extends NamespaceAuthEntity
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{tree.name.length}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -115,7 +115,7 @@ public abstract class AbstractTreeNamespaceEntity<T> extends NamespaceAuthEntity
         this.level = level;
     }
 
-    @Min(value = 1, message = "输入错误", groups = { Add.class })
+    @Min(value = 1, message = "{tree.sort.min}", groups = { Add.class })
     public Integer getSort() {
         return sort;
     }

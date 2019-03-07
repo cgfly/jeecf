@@ -39,7 +39,7 @@ public class CustomerActionLogController implements BaseController {
     private CustomerActionLogService customerActionLogService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("operation:customerActionLog:view")
+    @RequiresPermissions("${permission.customerActionLog.view}")
     @ApiOperation(value = "视图", notes = "查看api视图")
     @Override
     public String index(ModelMap map) {
@@ -48,7 +48,7 @@ public class CustomerActionLogController implements BaseController {
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("operation:customerActionLog:view")
+    @RequiresPermissions("${permission.customerActionLog.view}")
     @ApiOperation(value = "列表", notes = "客户操作日志列表")
     public Response<List<CustomerActionLogResult>> list(@RequestBody Request<CustomerActionLogQuery, CustomerActionLogSchema> request) {
         Response<List<CustomerActionLogResult>> customerActionLogRes = customerActionLogService.findPageByAuth(new CustomerActionLogPO(request));

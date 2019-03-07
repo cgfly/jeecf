@@ -46,7 +46,7 @@ public class SysOsgiPluginController implements BaseController {
     private SysOsgiPluginService sysOsgiPluginService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("extend:sysOsgiPlugin:view")
+    @RequiresPermissions("${permission.sysOsgiPlugin.view}")
     @ApiOperation(value = "视图", notes = "查看OSGI插件参数视图")
     @Override
     public String index(ModelMap map) {
@@ -55,7 +55,7 @@ public class SysOsgiPluginController implements BaseController {
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPlugin:view")
+    @RequiresPermissions("${permission.sysOsgiPlugin.view}")
     @ApiOperation(value = "列表", notes = "查询OSGI插件数据")
     public Response<List<SysOsgiPluginResult>> list(@RequestBody Request<SysOsgiPluginQuery, SysOsgiPluginSchema> request) {
         Response<List<SysOsgiPluginResult>> response = sysOsgiPluginService.findPageByAuth(new SysOsgiPluginPO(request));
@@ -70,7 +70,7 @@ public class SysOsgiPluginController implements BaseController {
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPlugin:edit")
+    @RequiresPermissions("${permission.sysOsgiPlugin.edit}")
     @ApiOperation(value = "删除", notes = "删除OSGI插件数据")
     public Response<Integer> delete(@PathVariable("id") String id) {
         return sysOsgiPluginService.deleteByAuth(new SysOsgiPlugin(id));
@@ -78,7 +78,7 @@ public class SysOsgiPluginController implements BaseController {
 
     @PostMapping(value = { "download/plugin/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPlugin:view")
+    @RequiresPermissions("${permission.sysOsgiPlugin.view}")
     @ApiOperation(value = "插件文件下载", notes = "下载")
     public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();

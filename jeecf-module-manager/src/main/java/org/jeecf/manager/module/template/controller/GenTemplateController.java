@@ -88,7 +88,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
     private SysOsgiPluginService sysOsgiPluginService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "视图", notes = "查看模版配置视图")
     @Override
     public String index(ModelMap map) {
@@ -97,7 +97,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "列表", notes = "查询模版配置列表")
     @Override
     public Response<List<GenTemplateResult>> list(@RequestBody Request<GenTemplateQuery, GenTemplateSchema> request) {
@@ -113,7 +113,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:edit")
+    @RequiresPermissions("${permission.genTemplate.edit}")
     @ApiOperation(value = "更新", notes = "更新模版配置数据")
     @Override
     public Response<GenTemplateResult> save(@RequestBody @Validated({ Add.class }) GenTemplate genTemplate) {
@@ -138,7 +138,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:edit")
+    @RequiresPermissions("${permission.genTemplate.edit}")
     @ApiOperation(value = "删除", notes = "删除模版配置数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
@@ -162,7 +162,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "field" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "查询", notes = "查询模版参数")
     public Response<List<GenFieldResult>> getField() {
         return genFieldService.findListByAuth(new GenFieldPO(new GenFieldQuery()));
@@ -170,7 +170,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "upload" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:edit")
+    @RequiresPermissions("${permission.genTemplate.edit}")
     @ApiOperation(value = "上传", notes = "上传模版文件")
     public Response<String> upload(@RequestParam("file") MultipartFile file) {
         SysUser sysUser = UserUtils.getCurrentUser();
@@ -180,7 +180,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "params/{genFieldId}" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "参数", notes = "查询模版参数")
     public Response<List<GenFieldColumnResult>> params(@PathVariable("genFieldId") Integer genFieldId) throws IOException {
         GenFieldColumnQuery columns = new GenFieldColumnQuery();
@@ -190,7 +190,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "updateFile" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:edit")
+    @RequiresPermissions("${permission.genTemplate.edit}")
     @ApiOperation(value = "更新", notes = "更新模版文件")
     public Response<String> updateFile(@RequestParam("file") MultipartFile file, String fileBasePath) {
         SysUser sysUser = UserUtils.getCurrentUser();
@@ -205,7 +205,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "gen" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "代码生成", notes = "代码生成")
     public Response<String> gen(@RequestBody GenTemplateEntity entity, HttpServletResponse response) throws IOException {
         GenTemplate queryTemplate = new GenTemplate();
@@ -230,8 +230,8 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "download/gen/{path}/{tableName}" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
-    @ApiOperation(value = "模版文件下载", notes = "下载")
+    @RequiresPermissions("${permission.genTemplate.view}")
+    @ApiOperation(value = "生成代码下载", notes = "下载")
     public void genDownload(@PathVariable("path") String path, @PathVariable("tableName") String tableName, HttpServletResponse response) throws IOException {
         SysUser sysUser = UserUtils.getCurrentUser();
         SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
@@ -242,7 +242,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "download/template/{id}" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "模版文件下载", notes = "下载")
     public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         GenTemplate genTemplate = genTemplateService.get(new GenTemplate(id)).getData();
@@ -259,7 +259,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
 
     @PostMapping(value = { "queryTableList" })
     @ResponseBody
-    @RequiresPermissions("template:genTemplate:view")
+    @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "列表", notes = "查询代码生成业务表列表")
     public Response<List<GenTableResult>> findTable() {
         return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));

@@ -15,5 +15,12 @@ import org.jeecf.manager.module.config.model.result.SysUserNamespaceResult;
  */
 @Mapper
 public interface SysUserNamespaceDao extends Dao<SysUserNamespacePO, SysUserNamespaceResult, SysUserNamespaceQuery, SysUserNamespace> {
-
+    /**
+     * 根据用户id 更新用户当前命名空间
+     * 
+     * @param userId
+     * @param namespaceId
+     * @return
+     */
+    public Integer updateByUserId(String userId, Integer namespaceId);
 }

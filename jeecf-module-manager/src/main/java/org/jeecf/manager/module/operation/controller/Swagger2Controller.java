@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 public class Swagger2Controller {
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("operation:swagger2:view")
+    @RequiresPermissions("${permission.swagger2.view}")
     @ApiOperation(value = "视图", notes = "查看api视图")
     public String index(ModelMap map) {
         return "module/operation/swagger2";

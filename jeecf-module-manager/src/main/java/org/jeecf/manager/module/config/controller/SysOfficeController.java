@@ -45,7 +45,7 @@ public class SysOfficeController implements CurdController<SysOfficeQuery, SysOf
     private SysOfficeService sysOfficeService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("config:sysOffice:view")
+    @RequiresPermissions("${permission.sysOffice.view}")
     @ApiOperation(value = "视图", notes = "查看组织结构视图")
     @Override
     public String index(ModelMap map) {
@@ -54,7 +54,7 @@ public class SysOfficeController implements CurdController<SysOfficeQuery, SysOf
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("config:sysOffice:view")
+    @RequiresPermissions("${permission.sysOffice.view}")
     @ApiOperation(value = "列表", notes = "查询组织结构列表")
     @Override
     public Response<List<SysOfficeResult>> list(@RequestBody Request<SysOfficeQuery, SysOfficeSchema> sysOfficeQuery) {
@@ -63,7 +63,7 @@ public class SysOfficeController implements CurdController<SysOfficeQuery, SysOf
 
     @PostMapping(value = { "getTreeData" })
     @ResponseBody
-    @RequiresPermissions("config:sysOffice:view")
+    @RequiresPermissions("${permission.sysOffice.view}")
     @ApiOperation(value = "列表", notes = "查询组织结构表格列表")
     public Response<List<SysOfficeResult>> getTreeData(SysOfficeQuery sysOfficeQuery) {
         return sysOfficeService.getTreeData(new SysOfficePO(sysOfficeQuery));
@@ -71,7 +71,7 @@ public class SysOfficeController implements CurdController<SysOfficeQuery, SysOf
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("config:sysOffice:edit")
+    @RequiresPermissions("${permission.sysOffice.edit}")
     @ApiOperation(value = "更新", notes = "更新组织结构数据")
     @Override
     public Response<SysOfficeResult> save(@RequestBody @Validated({ Add.class }) SysOffice sysOffice) {
@@ -88,7 +88,7 @@ public class SysOfficeController implements CurdController<SysOfficeQuery, SysOf
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysOffice:edit")
+    @RequiresPermissions("${permission.sysOffice.edit}")
     @ApiOperation(value = "删除", notes = "删除组织结构数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

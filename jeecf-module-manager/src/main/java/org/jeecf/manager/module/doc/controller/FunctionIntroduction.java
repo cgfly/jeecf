@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 public class FunctionIntroduction {
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("doc:functionIntroduction:view")
+    @RequiresPermissions("${permission.functionIntroduction.view}")
     @ApiOperation(value = "视图", notes = "查看api视图")
     public String index(ModelMap map) {
         return "module/doc/functionIntroduction";

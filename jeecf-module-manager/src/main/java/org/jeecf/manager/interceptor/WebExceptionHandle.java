@@ -31,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebExceptionHandle {
 
+
+
     @ExceptionHandler(value = UnauthorizedException.class)
     @ResponseBody
     public Response<String> unauthorizedExceptionHandler(UnauthorizedException e) {
@@ -75,7 +77,7 @@ public class WebExceptionHandle {
         if (bindingResult.hasErrors()) {
             String errorMsg = "";
             if (bindingResult.getGlobalError() != null) {
-                errorMsg = "错误原因:" + bindingResult.getGlobalError().getDefaultMessage();
+                errorMsg = "错误原因:" +  bindingResult.getGlobalError().getDefaultMessage();
             } else {
                 List<FieldError> errorList = bindingResult.getFieldErrors();
                 errorMsg = "错误原因:" + errorList.get(0).getDefaultMessage();

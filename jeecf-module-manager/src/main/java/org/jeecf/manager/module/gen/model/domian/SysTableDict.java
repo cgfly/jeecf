@@ -17,11 +17,11 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "名称输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.tableName)", message = "表名输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.field)", message = "属性输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "描述输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)", message = "注释输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{tableDict.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.tableName)", message = "{tableDict.tableName.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.field)", message = "{tableDict.field.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{tableDict.description.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)", message = "{tableDict.comment.isEmpty}", groups = { Add.class }) 
 })
 @ApiModel(value = "sysTableDict", description = "系统表组字典实体")
 public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializable {
@@ -54,7 +54,7 @@ public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializab
     @ApiModelProperty(value = "描述", name = "description")
     private String description;
 
-    @Length(min = 1, max = 30, message = "名称长度必须介于 1 和 30 之间", groups = { Add.class })
+    @Length(min = 1, max = 30, message = "{tableDict.name.length}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -63,7 +63,7 @@ public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializab
         this.name = name;
     }
 
-    @Length(min = 1, max = 30, message = "表名长度必须介于 1 和 30 之间", groups = { Add.class })
+    @Length(min = 1, max = 30, message = "{tableDict.tableName.length}", groups = { Add.class })
     public String getTableName() {
         return tableName;
     }
@@ -72,7 +72,7 @@ public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializab
         this.tableName = tableName;
     }
 
-    @Length(min = 1, max = 30, message = "属性长度必须介于 1 和 30 之间", groups = { Add.class })
+    @Length(min = 1, max = 30, message = "{tableDict.field.length}", groups = { Add.class })
     public String getField() {
         return field;
     }
@@ -81,7 +81,7 @@ public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializab
         this.field = field;
     }
 
-    @Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{tableDict.description.length}", groups = { Add.class })
     public String getDescription() {
         return description;
     }
@@ -90,7 +90,7 @@ public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializab
         this.description = description;
     }
 
-    @Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{tableDict.comment.length}", groups = { Add.class })
     public String getComment() {
         return comment;
     }

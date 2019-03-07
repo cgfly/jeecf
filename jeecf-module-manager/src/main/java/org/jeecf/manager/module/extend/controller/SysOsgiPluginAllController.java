@@ -55,7 +55,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
     private SysOsgiPluginService sysOsgiPluginService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("extend:sysOsgiPluginAll:view")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.view}")
     @ApiOperation(value = "视图", notes = "查看全量OSGI插件视图")
     @Override
     public String index(ModelMap map) {
@@ -64,7 +64,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:view")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.view}")
     @ApiOperation(value = "列表", notes = "查询OSGI插件数据")
     @Override
     public Response<List<SysOsgiPluginResult>> list(@RequestBody Request<SysOsgiPluginQuery, SysOsgiPluginSchema> request) {
@@ -81,7 +81,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.edit}")
     @ApiOperation(value = "更新", notes = "更新OSGI插件数据")
     @Override
     public Response<SysOsgiPluginResult> save(@RequestBody @Validated({ Add.class }) SysOsgiPlugin sysOsgiPlugin) {
@@ -101,7 +101,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "upload" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.edit}")
     @ApiOperation(value = "上传", notes = "上传模版文件")
     public Response<String> upload(@RequestParam("file") MultipartFile file) {
         String fileName = file.getOriginalFilename();
@@ -111,7 +111,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.edit}")
     @ApiOperation(value = "删除", notes = "删除OSGI插件数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
@@ -120,7 +120,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "download/plugin/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:view")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.view}")
     @ApiOperation(value = "插件文件下载", notes = "下载")
     public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
@@ -130,8 +130,8 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "gain/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
-    @ApiOperation(value = "删除", notes = "删除OSGI插件数据")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.edit}")
+    @ApiOperation(value = "获取", notes = "获取OSGI插件数据")
     public Response<SysOsgiPluginResult> gain(@PathVariable("id") String id) {
         SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
         if (sysOsgiPluginResult != null) {
@@ -150,7 +150,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "active/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.edit}")
     @ApiOperation(value = "激活", notes = "激活OSGI插件数据")
     public Response<Integer> active(@PathVariable("id") String id) {
         SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
@@ -165,7 +165,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
 
     @PostMapping(value = { "invalid/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysOsgiPluginAll:edit")
+    @RequiresPermissions("${permission.sysOsgiPluginAll.edit}")
     @ApiOperation(value = "失效", notes = "失效OSGI插件数据")
     public Response<Integer> effect(@NotEmpty @PathVariable("id") String id) {
         SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();

@@ -1,4 +1,4 @@
-package org.jeecf.common.gen.model;
+package org.jeecf.gen.model;
 
 import java.util.ArrayList;
 import java.util.List;

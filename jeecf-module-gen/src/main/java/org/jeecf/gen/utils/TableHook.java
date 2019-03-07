@@ -2,8 +2,8 @@ package org.jeecf.gen.utils;
 
 import java.util.List;
 
-import org.jeecf.common.gen.model.BaseTable;
 import org.jeecf.engine.mysql.model.query.WhereEntity;
+import org.jeecf.gen.model.BaseTable;
 
 /**
  * 

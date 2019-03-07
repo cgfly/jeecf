@@ -53,7 +53,7 @@ public enum SysErrorEnum implements ErrorEnum {
     /**
      * 加密错误
      */
-    ENCRYPT_ERROR(110, "加密错误"),
+    ENCRYPT_ERROR(111, "加密错误"),
     /**
      * 权限不足
      */

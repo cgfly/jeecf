@@ -55,7 +55,7 @@ public class SysTableDictController implements CurdController<SysTableDictQuery,
     private GenTableService genTableService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("gen:sysTableDict:view")
+    @RequiresPermissions("${permission.sysTableDict.view}")
     @ApiOperation(value = "视图", notes = "查看系统字典视图")
     @Override
     public String index(ModelMap map) {
@@ -64,7 +64,7 @@ public class SysTableDictController implements CurdController<SysTableDictQuery,
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTableDict:view")
+    @RequiresPermissions("${permission.sysTableDict.view}")
     @ApiOperation(value = "列表", notes = "查询系统字典列表")
     @Override
     public Response<List<SysTableDictResult>> list(@RequestBody Request<SysTableDictQuery, SysTableDictSchema> request) {
@@ -77,7 +77,7 @@ public class SysTableDictController implements CurdController<SysTableDictQuery,
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTableDict:edit")
+    @RequiresPermissions("${permission.sysTableDict.edit}")
     @ApiOperation(value = "更新", notes = "更新系统字典数据")
     @Override
     public Response<SysTableDictResult> save(@RequestBody @Validated({ Add.class }) SysTableDict sysTableDict) {
@@ -97,7 +97,7 @@ public class SysTableDictController implements CurdController<SysTableDictQuery,
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTableDict:edit")
+    @RequiresPermissions("${permission.sysTableDict.edit}")
     @ApiOperation(value = "删除", notes = "删除系统字典数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
@@ -106,7 +106,7 @@ public class SysTableDictController implements CurdController<SysTableDictQuery,
 
     @PostMapping(value = { "tables" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTableDict:view")
+    @RequiresPermissions("${permission.sysTableDict.view}")
     @ApiOperation(value = "列表", notes = "查询系统字典列表")
     public Response<List<GenTableResult>> tables() {
         return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));

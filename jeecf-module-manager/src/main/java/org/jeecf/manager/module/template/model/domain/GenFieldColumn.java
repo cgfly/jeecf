@@ -21,9 +21,9 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "参数字段名称输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "参数字段描述输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.isNull)", message = "参数字段是否为空为必填项", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{genFieldColumn.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{genFieldColumn.description.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.isNull)", message = "{genFieldColumn.isNull.isNull}", groups = { Add.class }) 
 })
 @ApiModel(value = "genFieldColumn", description = "模版参数列表实体")
 public class GenFieldColumn extends BaseEntity implements Serializable {
@@ -70,8 +70,8 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
         this.genFieldId = genFieldId;
     }
 
-    @Length(min = 1, max = 20, message = "参数字段名称长度必须介于 1 和 20 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "参数字段名称只能由a-zA-Z组成", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{genFieldColumn.name.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{genFieldColumn.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -80,7 +80,7 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    @Length(min = 1, max = 50, message = "参数字段描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{genFieldColumn.description.length}", groups = { Add.class })
     public String getDescription() {
         return description;
     }
@@ -89,8 +89,8 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
         this.description = description;
     }
 
-    @Min(value = 0, message = "参数字段是否为空输入错误", groups = { Add.class })
-    @Max(value = 1, message = "参数字段是否为空输入错误", groups = { Add.class })
+    @Min(value = 0, message = "{genFieldColumn.isNull.min}", groups = { Add.class })
+    @Max(value = 1, message = "{genFieldColumn.isNull.max}", groups = { Add.class })
     public Integer getIsNull() {
         return isNull;
     }
@@ -99,7 +99,7 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
         this.isNull = isNull;
     }
 
-    @Length(min = 0, max = 30, message = "默认值长度必须介于 0 和 30 之间", groups = { Add.class })
+    @Length(min = 0, max = 30, message = "{genFieldColumn.defaultValue.length}", groups = { Add.class })
     public String getDefaultValue() {
         return defaultValue;
     }

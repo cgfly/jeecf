@@ -56,7 +56,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
     private GenTableFacade genTableFacade;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("template:genTable:view")
+    @RequiresPermissions("${permission.genTable.view}")
     @ApiOperation(value = "视图", notes = "查看代码生成业务表视图")
     @Override
     public String index(ModelMap map) {
@@ -65,7 +65,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("template:genTable:view")
+    @RequiresPermissions("${permission.genTable.view}")
     @ApiOperation(value = "列表", notes = "查询代码生成业务表数据")
     @Override
     public Response<List<GenTableResult>> list(@RequestBody Request<GenTableQuery, GenTableSchema> request) {
@@ -78,7 +78,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("template:genTable:edit")
+    @RequiresPermissions("${permission.genTable.edit}")
     @ApiOperation(value = "更新", notes = "更新代码生成业务表数据")
     @Override
     public Response<GenTableResult> save(@RequestBody @Validated({ Add.class }) GenTable genTable) {
@@ -95,7 +95,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
 
     @PostMapping(value = { "queryBaseTableList" })
     @ResponseBody
-    @RequiresPermissions("template:genTable:view")
+    @RequiresPermissions("${permission.genTable.view}")
     @ApiOperation(value = "列表", notes = "查询代码生成基本表数据")
     public Response<List<GenTableResult>> getBaseTableList() {
         return genTableService.findListByAuth(new GenTablePO(new GenTableQuery()));
@@ -103,7 +103,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("template:genTable:edit")
+    @RequiresPermissions("${permission.genTable.edit}")
     @ApiOperation(value = "删除", notes = "删除代码生成业务表数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
@@ -112,7 +112,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
 
     @PostMapping(value = { "queryBaseTableColumnList/{tableName}" })
     @ResponseBody
-    @RequiresPermissions("template:genTable:view")
+    @RequiresPermissions("${permission.genTable.view}")
     @ApiOperation(value = "列表", notes = "查询代码生成基本字段表数据")
     public Response<List<GenTableColumnResult>> getBaseTableColumnList(@PathVariable String tableName) {
         GenTableQuery queryTable = new GenTableQuery();

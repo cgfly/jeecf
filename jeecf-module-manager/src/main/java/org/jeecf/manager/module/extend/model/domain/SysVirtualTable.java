@@ -20,9 +20,9 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "名称输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)", message = "注释输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysVirtualTableColumns)", message = "属性列表输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{virtualTable.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)", message = "{virtualTable.comment.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysVirtualTableColumns)", message = "{virtualTable.tableColumns.isEmpty}", groups = { Add.class }) 
 })
 public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Serializable {
 
@@ -54,7 +54,7 @@ public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Seriali
     @ApiModelProperty(value = "表字段", name = "sysVirtualTableColumns")
     private List<SysVirtualTableColumn> sysVirtualTableColumns;
 
-    @Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{virtualTable.name.length}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -63,7 +63,7 @@ public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Seriali
         this.name = name;
     }
 
-    @Length(min = 1, max = 50, message = "注释长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{virtualTable.comment.length}", groups = { Add.class })
     public String getComment() {
         return comment;
     }
@@ -73,7 +73,7 @@ public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Seriali
     }
 
     @Valid
-    @Size(min = 1, max = 30, message = "超过范围，最大可添加30个参数", groups = { Add.class })
+    @Size(min = 1, max = 30, message = "{virtualTable.tableColumns.size}", groups = { Add.class })
     public List<SysVirtualTableColumn> getSysVirtualTableColumns() {
         return sysVirtualTableColumns;
     }

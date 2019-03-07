@@ -50,7 +50,7 @@ public class SysDictController implements CurdController<SysDictQuery, SysDictRe
     private SysDictService sysDictService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("gen:sysDict:view")
+    @RequiresPermissions("${permission.sysDict.view}")
     @ApiOperation(value = "视图", notes = "查看系统字典视图")
     @Override
     public String index(ModelMap map) {
@@ -59,7 +59,7 @@ public class SysDictController implements CurdController<SysDictQuery, SysDictRe
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("gen:sysDict:view")
+    @RequiresPermissions("${permission.sysDict.view}")
     @ApiOperation(value = "列表", notes = "查询系统字典列表")
     @Override
     public Response<List<SysDictResult>> list(@RequestBody Request<SysDictQuery, SysDictSchema> request) {
@@ -72,7 +72,7 @@ public class SysDictController implements CurdController<SysDictQuery, SysDictRe
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("gen:sysDict:edit")
+    @RequiresPermissions("${permission.sysDict.edit}")
     @ApiOperation(value = "更新", notes = "更新系统字典数据")
     @Override
     public Response<SysDictResult> save(@RequestBody @Validated({ Add.class }) SysDict sysDict) {
@@ -96,7 +96,7 @@ public class SysDictController implements CurdController<SysDictQuery, SysDictRe
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("gen:sysDict:edit")
+    @RequiresPermissions("${permission.sysDict.edit}")
     @ApiOperation(value = "删除", notes = "删除系统字典数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

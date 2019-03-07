@@ -37,9 +37,9 @@ public class SysPwd extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "新密码", name = "password")
     private String newPassword;
 
-    @NotBlank(message = "密码输入不能为空", groups = { Add.class })
-    @Length(min = 1, max = 64, message = "密码长度必须介于 1 和 64 之间", groups = { Add.class })
-    @English(message = "密码只能为英文字符", groups = { Add.class })
+    @NotBlank(message = "{pwd.password.isEmpty}", groups = { Add.class })
+    @Length(min = 1, max = 64, message = "{pwd.password.length}", groups = { Add.class })
+    @English(message = "{pwd.password.english}", groups = { Add.class })
     public String getPassword() {
         return password;
     }
@@ -48,9 +48,9 @@ public class SysPwd extends BaseEntity implements Serializable {
         this.password = password;
     }
 
-    @NotBlank(message = "新密码输入不能为空", groups = { Add.class })
-    @Length(min = 1, max = 64, message = "新密码长度必须介于 1 和 64 之间", groups = { Add.class })
-    @English(message = "新密码只能为英文字符", groups = { Add.class })
+    @NotBlank(message = "{pwd.newPassword.isEmpty}", groups = { Add.class })
+    @Length(min = 1, max = 64, message = "{pwd.newPassword.length}", groups = { Add.class })
+    @English(message = "{pwd.newPassword.english}", groups = { Add.class })
     public String getNewPassword() {
         return newPassword;
     }

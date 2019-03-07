@@ -65,7 +65,7 @@ public class SysRoleController implements CurdController<SysRoleQuery, SysRoleRe
     private SecurityFacade securityFacade;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("userpower:sysRole:view")
+    @RequiresPermissions("${permission.sysRole.view}")
     @ApiOperation(value = "视图", notes = "查看系统角色视图")
     @Override
     public String index(ModelMap map) {
@@ -74,7 +74,7 @@ public class SysRoleController implements CurdController<SysRoleQuery, SysRoleRe
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysRole:view")
+    @RequiresPermissions("${permission.sysRole.view}")
     @ApiOperation(value = "列表", notes = "查询系统角色列表")
     @Override
     public Response<List<SysRoleResult>> list(@RequestBody Request<SysRoleQuery, SysRoleSchema> request) {
@@ -83,7 +83,7 @@ public class SysRoleController implements CurdController<SysRoleQuery, SysRoleRe
 
     @PostMapping(value = { "getTree/{roleId}" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysRole:view")
+    @RequiresPermissions("${permission.sysRole.view}")
     @ApiOperation(value = "列表", notes = "查询系统角色树结构列表")
     public Response<SysRoleResult> getTree(@PathVariable("roleId") String roleId) {
         SysRole queryRole = new SysRole(roleId);
@@ -113,7 +113,7 @@ public class SysRoleController implements CurdController<SysRoleQuery, SysRoleRe
 
     @PostMapping(value = { "getAllTree" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysRole:view")
+    @RequiresPermissions("${permission.sysRole.view}")
     @ApiOperation(value = "列表", notes = "查询系统权限列表")
     public Response<List<SysPowerResult>> getPowerTree() {
         return sysPowerService.findList(new SysPowerPO(new SysPowerQuery()));
@@ -121,7 +121,7 @@ public class SysRoleController implements CurdController<SysRoleQuery, SysRoleRe
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysRole:edit")
+    @RequiresPermissions("${permission.sysRole.edit}")
     @ApiOperation(value = "更新", notes = "更新系统角色数据")
     @Override
     public Response<SysRoleResult> save(@RequestBody @Validated({ Add.class }) SysRole sysRole) {
@@ -138,7 +138,7 @@ public class SysRoleController implements CurdController<SysRoleQuery, SysRoleRe
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysRole:edit")
+    @RequiresPermissions("${permission.sysRole.edit}")
     @ApiOperation(value = "删除", notes = "删除系统角色数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

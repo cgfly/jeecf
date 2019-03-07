@@ -3,11 +3,11 @@ package org.jeecf.manager.module.common.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.common.model.Response;
 import org.jeecf.engine.mysql.enums.TableTypeEnum;
 import org.jeecf.manager.common.enums.TreeEventEnum;
 import org.jeecf.osgi.enums.BoundleEnum;
+import org.jeecf.osgi.enums.LanguageEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

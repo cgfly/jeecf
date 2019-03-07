@@ -84,7 +84,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
     private GenTableService genTableService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("extend:sysVirtualTable:view")
+    @RequiresPermissions("${permission.sysVirtualTable.view}")
     @ApiOperation(value = "视图", notes = "查看虚表参数视图")
     @Override
     public String index(ModelMap map) {
@@ -93,7 +93,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:view")
+    @RequiresPermissions("${permission.sysVirtualTable.view}")
     @ApiOperation(value = "列表", notes = "查询虚表数据")
     @Override
     public Response<List<SysVirtualTableResult>> list(@RequestBody Request<SysVirtualTableQuery, SysVirtualTableSchema> request) {
@@ -106,7 +106,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:edit")
+    @RequiresPermissions("${permission.sysVirtualTable.edit}")
     @ApiOperation(value = "更新", notes = "更新虚表数据")
     @Override
     public Response<SysVirtualTableResult> save(@RequestBody @Validated({ Add.class }) SysVirtualTable sysVirtualTable) {
@@ -125,7 +125,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:edit")
+    @RequiresPermissions("${permission.sysVirtualTable.edit}")
     @ApiOperation(value = "删除", notes = "删除虚表数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
@@ -134,7 +134,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "column/{sysVirtualTableId}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:view")
+    @RequiresPermissions("${permission.sysVirtualTable.view}")
     @ApiOperation(value = "详情列表", notes = "查询模版参数详情列表")
     public Response<List<SysVirtualTableColumnResult>> column(@PathVariable("sysVirtualTableId") Integer sysVirtualTableId) {
         SysVirtualTableColumnQuery query = new SysVirtualTableColumnQuery();
@@ -150,7 +150,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "syncGen/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:edit")
+    @RequiresPermissions("${permission.sysVirtualTable.edit}")
     @ApiOperation(value = "同步", notes = "同步虚表数据")
     public Response<Integer> syncGen(@PathVariable("id") String id) {
         Response<SysVirtualTableResult> tableRes = sysVirtualTableService.get(new SysVirtualTable(id));
@@ -190,7 +190,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "createTable/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:edit")
+    @RequiresPermissions("${permission.sysVirtualTable.edit}")
     @ApiOperation(value = "建表", notes = "建表")
     public Response<Integer> createTable(@PathVariable("id") String id) {
         Response<SysVirtualTableResult> tableRes = sysVirtualTableService.getByAuth(new SysVirtualTable(id));
@@ -222,7 +222,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
 
     @PostMapping(value = { "dropTable/{id}" })
     @ResponseBody
-    @RequiresPermissions("extend:sysVirtualTable:edit")
+    @RequiresPermissions("${permission.sysVirtualTable.edit}")
     @ApiOperation(value = "删表", notes = "删表")
     public Response<Integer> dropTable(@PathVariable("id") String id) {
         Response<SysVirtualTableResult> tableRes = sysVirtualTableService.getByAuth(new SysVirtualTable(id));

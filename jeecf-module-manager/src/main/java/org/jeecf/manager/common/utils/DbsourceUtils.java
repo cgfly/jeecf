@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.lang.StringUtils;
+import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.config.DynamicDataSourceContextHolder;
 import org.jeecf.manager.module.config.model.po.SysDbsourcePO;
@@ -39,6 +40,18 @@ public class DbsourceUtils {
             }
         }
         return Integer.valueOf(dbsourceId);
+    }
+
+    public static Integer getSysDbsourceId(String name) {
+        SysDbsourceService sysDbsourceService = (SysDbsourceService) SpringContextUtils.getBean("sysDbsourceService");
+        SysDbsourceQuery sysDbsourceQuery = new SysDbsourceQuery();
+        sysDbsourceQuery.setKeyName(name);
+        SysDbsourcePO sysDbsourcePO = new SysDbsourcePO(sysDbsourceQuery);
+        Response<List<SysDbsourceResult>> sysDbsourceResultRes = sysDbsourceService.findList(sysDbsourcePO);
+        if (CollectionUtils.isNotEmpty(sysDbsourceResultRes.getData())) {
+            return Integer.valueOf(sysDbsourceResultRes.getData().get(0).getId());
+        }
+        return null;
     }
 
 }

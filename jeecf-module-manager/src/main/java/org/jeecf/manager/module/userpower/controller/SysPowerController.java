@@ -49,7 +49,7 @@ public class SysPowerController implements CurdController<SysPowerQuery, SysPowe
     private SecurityFacade securityFacade;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("userpower:sysPower:view")
+    @RequiresPermissions("${permission.sysPower.view}")
     @ApiOperation(value = "视图", notes = "查看系统权限视图")
     @Override
     public String index(ModelMap map) {
@@ -58,7 +58,7 @@ public class SysPowerController implements CurdController<SysPowerQuery, SysPowe
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysPower:view")
+    @RequiresPermissions("${permission.sysPower.view}")
     @ApiOperation(value = "列表", notes = "查询系统权限列表")
     @Override
     public Response<List<SysPowerResult>> list(@RequestBody Request<SysPowerQuery, SysPowerSchema> request) {
@@ -67,7 +67,7 @@ public class SysPowerController implements CurdController<SysPowerQuery, SysPowe
 
     @PostMapping(value = { "getTreeData" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysPower:view")
+    @RequiresPermissions("${permission.sysPower.view}")
     @ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
     public Response<List<SysPowerResult>> getTreeData(SysPowerQuery sysPowerQuery) {
         return sysPowerService.getTreeData(new SysPowerPO(sysPowerQuery));
@@ -75,7 +75,7 @@ public class SysPowerController implements CurdController<SysPowerQuery, SysPowe
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysPower:edit")
+    @RequiresPermissions("${permission.sysPower.edit}")
     @ApiOperation(value = "更新", notes = "更新系统权限数据")
     @Override
     public Response<SysPowerResult> save(@RequestBody @Validated({ Add.class }) SysPower sysPower) {
@@ -92,7 +92,7 @@ public class SysPowerController implements CurdController<SysPowerQuery, SysPowe
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysPower:edit")
+    @RequiresPermissions("${permission.sysPower.edit}")
     @ApiOperation(value = "删除", notes = "删除系统权限数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

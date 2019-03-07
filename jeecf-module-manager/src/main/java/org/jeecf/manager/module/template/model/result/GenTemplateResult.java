@@ -2,8 +2,8 @@ package org.jeecf.manager.module.template.model.result;
 
 import java.io.Serializable;
 
-import org.jeecf.common.gen.enums.LanguageEnum;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
+import org.jeecf.osgi.enums.LanguageEnum;
 
 import io.swagger.annotations.ApiModelProperty;
 

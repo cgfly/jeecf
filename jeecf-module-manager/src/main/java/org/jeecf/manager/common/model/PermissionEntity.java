@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.permission)", message = "权限输入不能为空", groups = { Add.class }) })
+@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.permission)", message = "{permission.isEmpty}", groups = { Add.class }) })
 public class PermissionEntity extends BaseEntity {
 
     /**
@@ -31,8 +31,8 @@ public class PermissionEntity extends BaseEntity {
         super(id);
     }
 
-    @Length(min = 1, max = 50, message = "权限长度必须介于 1 和 50 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z:]*[a-zA-Z]$", message = "权限只能由a-zA-Z:组成", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{permission.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z:]*[a-zA-Z]$", message = "{permission.pattern}", groups = { Add.class })
     public String getPermission() {
         return permission;
     }

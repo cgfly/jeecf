@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.service;
 
+import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.service.BaseService;
 import org.jeecf.manager.module.config.dao.SysUserNamespaceDao;
 import org.jeecf.manager.module.config.model.domain.SysUserNamespace;
@@ -17,4 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserNamespaceService extends BaseService<SysUserNamespaceDao, SysUserNamespacePO, SysUserNamespaceResult, SysUserNamespaceQuery, SysUserNamespace> {
 
+    public Response<Integer> updateByUserId(String userId, Integer namespaceId) {
+        return new Response<>(this.dao.updateByUserId(userId, namespaceId));
+    }
 }

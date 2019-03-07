@@ -45,7 +45,7 @@ public class SysMenuController implements CurdController<SysMenuQuery, SysMenuRe
     private SysMenuService sysMenuService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("config:sysMenu:view")
+    @RequiresPermissions("${permission.sysMenu.view}")
     @ApiOperation(value = "视图", notes = "查看系统菜单视图")
     @Override
     public String index(ModelMap map) {
@@ -54,7 +54,7 @@ public class SysMenuController implements CurdController<SysMenuQuery, SysMenuRe
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("config:sysMenu:view")
+    @RequiresPermissions("${permission.sysMenu.view}")
     @ApiOperation(value = "列表", notes = "查询系统菜单列表")
     @Override
     public Response<List<SysMenuResult>> list(@RequestBody Request<SysMenuQuery, SysMenuSchema> sysMenuQuery) {
@@ -63,7 +63,7 @@ public class SysMenuController implements CurdController<SysMenuQuery, SysMenuRe
 
     @PostMapping(value = { "getTreeData" })
     @ResponseBody
-    @RequiresPermissions("config:sysMenu:view")
+    @RequiresPermissions("${permission.sysMenu.view}")
     @ApiOperation(value = "列表", notes = "查询系统菜单树表格列表")
     public Response<List<SysMenuResult>> getTreeData(SysMenuQuery sysMenuQuery) {
         return sysMenuService.getTreeData(new SysMenuPO(sysMenuQuery));
@@ -71,7 +71,7 @@ public class SysMenuController implements CurdController<SysMenuQuery, SysMenuRe
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("config:sysMenu:edit")
+    @RequiresPermissions("${permission.sysMenu.edit}")
     @ApiOperation(value = "更新", notes = "更新系统菜单数据")
     @Override
     public Response<SysMenuResult> save(@RequestBody @Validated({ Add.class }) SysMenu sysMenu) {
@@ -88,7 +88,7 @@ public class SysMenuController implements CurdController<SysMenuQuery, SysMenuRe
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysMenu:edit")
+    @RequiresPermissions("${permission.sysMenu.edit}")
     @ApiOperation(value = "删除", notes = "删除系统菜单数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

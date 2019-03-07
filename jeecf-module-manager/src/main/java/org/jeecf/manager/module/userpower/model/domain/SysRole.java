@@ -21,9 +21,9 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "名称不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.enname)", message = "英文名称不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysPowerIds)", message = "权限输入不能为空", groups = { Add.class }) 
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{role.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.enname)", message = "{role.enname.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysPowerIds)", message = "{role.powerIds.isNull}", groups = { Add.class }) 
 })
 @ApiModel(value = "sysRole", description = "系统角色实体")
 public class SysRole extends BaseEntity implements Serializable {
@@ -54,7 +54,7 @@ public class SysRole extends BaseEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "中文名长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{role.name.length}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -63,7 +63,7 @@ public class SysRole extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    @Length(min = 1, max = 20, message = "英文名长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{role.enname.length}", groups = { Add.class })
     @English(message = "英文名只能为英文字符", groups = { Add.class })
     public String getEnname() {
         return enname;
@@ -73,7 +73,7 @@ public class SysRole extends BaseEntity implements Serializable {
         this.enname = enname;
     }
 
-    @Size(min = 1, max = 100, message = "超过范围，最大可添加100个参数", groups = { Add.class })
+    @Size(min = 1, max = 100, message = "{role.powerIds.size}", groups = { Add.class })
     public List<String> getSysPowerIds() {
         return sysPowerIds;
     }

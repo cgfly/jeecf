@@ -1,23 +1,33 @@
 package org.jeecf.manager.config;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 
+import org.apache.shiro.authz.aop.AuthenticatedAnnotationMethodInterceptor;
+import org.apache.shiro.authz.aop.AuthorizingAnnotationMethodInterceptor;
+import org.apache.shiro.authz.aop.GuestAnnotationMethodInterceptor;
+import org.apache.shiro.authz.aop.RoleAnnotationMethodInterceptor;
+import org.apache.shiro.authz.aop.UserAnnotationMethodInterceptor;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.jeecf.manager.cache.RedisShiroCacheManager;
 import org.jeecf.manager.cache.RedisSessionDAO;
+import org.jeecf.manager.cache.RedisShiroCacheManager;
+import org.jeecf.manager.interceptor.SelfPermissionAnnotationMethodInterceptor;
 import org.jeecf.manager.security.realm.SysShiroRealm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -36,7 +46,8 @@ public class ShiroConfiguration {
     private RedisSessionDAO sessionDAO;
     @Resource
     private RedisShiroCacheManager redisShiroCacheManager;
-
+    @Autowired
+    private SelfPermissionAnnotationMethodInterceptor permissionInterceptor;
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在
      * 初始化ShiroFilterFactoryBean的时候需要注入：SecurityManager
@@ -71,6 +82,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/libs/**", "anon");
+        filterChainDefinitionMap.put("/cli/**", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "perms[operation:swagger2:view]");
         filterChainDefinitionMap.put("/swagger-resources", "perms[operation:swagger2:view]");
         filterChainDefinitionMap.put("/v2/api-docs", "perms[operation:swagger2:view]");
@@ -90,7 +102,6 @@ public class ShiroConfiguration {
         securityManager.setCacheManager(redisShiroCacheManager);
         // 自定义session管理 使用redis
         securityManager.setSessionManager(sessionManager());
-
         // 注入记住我管理器;
         securityManager.setRememberMeManager(rememberMeManager());
         return securityManager;
@@ -134,6 +145,15 @@ public class ShiroConfiguration {
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        AopAllianceAnnotationsAuthorizingMethodInterceptor advice = new AopAllianceAnnotationsAuthorizingMethodInterceptor();
+        Collection<AuthorizingAnnotationMethodInterceptor> methodInterceptors = new ArrayList<AuthorizingAnnotationMethodInterceptor>(5);
+        methodInterceptors.add(new RoleAnnotationMethodInterceptor());
+        methodInterceptors.add(permissionInterceptor);
+        methodInterceptors.add(new AuthenticatedAnnotationMethodInterceptor());
+        methodInterceptors.add(new UserAnnotationMethodInterceptor());
+        methodInterceptors.add(new GuestAnnotationMethodInterceptor());
+        advice.setMethodInterceptors(methodInterceptors);
+        authorizationAttributeSourceAdvisor.setAdvice(advice);
         return authorizationAttributeSourceAdvisor;
     }
 

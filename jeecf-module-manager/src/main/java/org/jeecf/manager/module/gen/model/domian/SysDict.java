@@ -19,11 +19,11 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "名称输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.type)", message = "类型输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.label)", message = "标签输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "描述输入不能为空", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.value)", message = "值输入不能为空", groups = { Add.class })
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{dict.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.type)", message = "{dict.type.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.label)", message = "{dict.label.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{dict.description.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.value)", message = "{dict.value.isEmpty}", groups = { Add.class })
 })
 @ApiModel(value = "sysDict", description = "系统字典实体")
 public class SysDict extends NamespaceAuthEntity implements Serializable {
@@ -68,8 +68,8 @@ public class SysDict extends NamespaceAuthEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 50, message = "类型长度必须介于 1 和 50 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "标签只能由a-zA-Z组成", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{dict.type.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{dict.type.pattern}", groups = { Add.class })
     public String getType() {
         return type;
     }
@@ -78,7 +78,7 @@ public class SysDict extends NamespaceAuthEntity implements Serializable {
         this.type = type;
     }
 
-    @Length(min = 1, max = 20, message = "名称长度必须介于 1 和 20 之间", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{dict.name.length}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -87,8 +87,8 @@ public class SysDict extends NamespaceAuthEntity implements Serializable {
         this.name = name;
     }
 
-    @Length(min = 1, max = 20, message = "标签长度必须介于 1 和 20 之间", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "标签只能由a-zA-Z_组成", groups = { Add.class })
+    @Length(min = 1, max = 20, message = "{dict.label.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{dict.label.pattern}", groups = { Add.class })
     public String getLabel() {
         return label;
     }
@@ -105,7 +105,7 @@ public class SysDict extends NamespaceAuthEntity implements Serializable {
         this.value = value;
     }
 
-    @Length(min = 1, max = 50, message = "描述长度必须介于 1 和 50 之间", groups = { Add.class })
+    @Length(min = 1, max = 50, message = "{dict.description.length}", groups = { Add.class })
     public String getDescription() {
         return description;
     }

@@ -35,7 +35,7 @@ public class SysPwdController implements BaseController {
     private SecurityFacade securityFacade;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("userpower:sysPwd:view")
+    @RequiresPermissions("${permission.sysPwd.view}")
     @ApiOperation(value = "视图", notes = "查看系统用户密码视图")
     @Override
     public String index(ModelMap map) {
@@ -44,7 +44,7 @@ public class SysPwdController implements BaseController {
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysPwd:edit")
+    @RequiresPermissions("${permission.sysPwd.edit}")
     @ApiOperation(value = "更新", notes = "更新系统用户密码数据")
     public Response<SysUserResult> save(@RequestBody @Validated({ Add.class }) SysPwd sysPwd) {
         return securityFacade.updatePassword(sysPwd);

@@ -46,7 +46,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
     private SysTreeDictService sysTreeDictService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("gen:sysTreeDict:view")
+    @RequiresPermissions("${permission.sysTreeDict.view}")
     @ApiOperation(value = "视图", notes = "查看系统权限视图")
     @Override
     public String index(ModelMap map) {
@@ -55,7 +55,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTreeDict:view")
+    @RequiresPermissions("${permission.sysTreeDict.view}")
     @ApiOperation(value = "列表", notes = "查询系统权限列表")
     @Override
     public Response<List<SysTreeDictResult>> list(@RequestBody Request<SysTreeDictQuery, SysTreeDictSchema> rquest) {
@@ -71,7 +71,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
 
     @PostMapping(value = { "getTreeData" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTreeDict:view")
+    @RequiresPermissions("${permission.sysTreeDict.view}")
     @ApiOperation(value = "列表", notes = "查询系统权限数表格列表")
     public Response<List<SysTreeDictResult>> getTreeData(SysTreeDictQuery sysTreeDictQuery) {
         Response<List<SysTreeDictResult>> response = sysTreeDictService.getTreeData(new SysTreeDictPO(sysTreeDictQuery));
@@ -83,7 +83,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTreeDict:edit")
+    @RequiresPermissions("${permission.sysTreeDict.edit}")
     @ApiOperation(value = "更新", notes = "更新系统权限数据")
     @Override
     public Response<SysTreeDictResult> save(@RequestBody @Validated({ Add.class }) SysTreeDict sysTreeDict) {
@@ -101,7 +101,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("gen:sysTreeDict:edit")
+    @RequiresPermissions("${permission.sysTreeDict.edit}")
     @ApiOperation(value = "删除", notes = "删除系统权限数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

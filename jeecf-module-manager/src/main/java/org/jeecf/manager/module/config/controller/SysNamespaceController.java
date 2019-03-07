@@ -56,7 +56,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
     private SysUserNamespaceService sysUserNamespaceService;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("config:sysNamespace:view")
+    @RequiresPermissions("${permission.sysNamespace.view}")
     @ApiOperation(value = "视图", notes = "查看系统命名空间视图")
     @Override
     public String index(ModelMap map) {
@@ -65,7 +65,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("config:sysNamespace:view")
+    @RequiresPermissions("${permission.sysNamespace.view}")
     @ApiOperation(value = "列表", notes = "查询系统命名空间列表")
     @Override
     public Response<List<SysNamespaceResult>> list(@RequestBody Request<SysNamespaceQuery, SysNamespaceSchema> request) {
@@ -74,7 +74,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("config:sysNamespace:edit")
+    @RequiresPermissions("${permission.sysNamespace.edit}")
     @ApiOperation(value = "更新", notes = "更新系统命名空间数据")
     @Override
     public Response<SysNamespaceResult> save(@RequestBody @Validated({ Add.class }) SysNamespace sysNamespace) {
@@ -92,7 +92,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @PostMapping(value = { "invalid/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysNamespace:edit")
+    @RequiresPermissions("${permission.sysNamespace.edit}")
     @ApiOperation(value = "删除", notes = "删除系统命名空间数据")
     public Response<SysNamespaceResult> invalid(@PathVariable("id") String id) {
         Integer currentId = NamespaceUtils.getNamespaceId();
@@ -106,7 +106,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @PostMapping(value = { "active/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysNamespace:edit")
+    @RequiresPermissions("${permission.sysNamespace.edit}")
     @ApiOperation(value = "激活", notes = "激活系统命名空间数据")
     public Response<Integer> active(@PathVariable("id") String id) {
         SysNamespace sysNamespace = new SysNamespace(id);
@@ -117,7 +117,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @PostMapping(value = { "effect/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysNamespace:view")
+    @RequiresPermissions("${permission.sysNamespace.view}")
     @ApiOperation(value = "生效", notes = "生效选中命名空间")
     public Response<SysUserNamespaceResult> effect(@PathVariable String id) {
         String userId = UserUtils.getCurrentUserId();
@@ -137,7 +137,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("config:sysNamespace:edit")
+    @RequiresPermissions("${permission.sysNamespace.edit}")
     @ApiOperation(value = "删除", notes = "删除命名空间数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {

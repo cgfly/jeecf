@@ -71,7 +71,7 @@ public class SysUserController implements CurdController<SysUserQuery, SysUserRe
     private SecurityFacade securityFacade;
 
     @GetMapping(value = { "", "index" })
-    @RequiresPermissions("userpower:sysUser:view")
+    @RequiresPermissions("${permission.sysUser.view}")
     @ApiOperation(value = "视图", notes = "查看系统用户视图")
     @Override
     public String index(ModelMap map) {
@@ -80,7 +80,7 @@ public class SysUserController implements CurdController<SysUserQuery, SysUserRe
 
     @PostMapping(value = { "list" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysUser:view")
+    @RequiresPermissions("${permission.sysUser.view}")
     @ApiOperation(value = "列表", notes = "查询系统用户列表")
     @Override
     public Response<List<SysUserResult>> list(@RequestBody Request<SysUserQuery, SysUserSchema> request) {
@@ -95,7 +95,7 @@ public class SysUserController implements CurdController<SysUserQuery, SysUserRe
 
     @PostMapping(value = { "roles/{userId}" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysUser:view")
+    @RequiresPermissions("${permission.sysUser.view}")
     @ApiOperation(value = "列表", notes = "查询系统角色列表")
     public Response<List<SysRoleResult>> roles(@PathVariable("userId") String userId) {
         Response<List<SysRoleResult>> sysRoleRes = sysRoleService.findList(new SysRolePO(new SysRoleQuery()));
@@ -117,7 +117,7 @@ public class SysUserController implements CurdController<SysUserQuery, SysUserRe
 
     @PostMapping(value = { "save" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysUser:edit")
+    @RequiresPermissions("${permission.sysUser.edit}")
     @ApiOperation(value = "更新", notes = "更新系统用户数据")
     @Override
     public Response<SysUserResult> save(@RequestBody @Validated({ Add.class }) SysUser sysUser) {
@@ -137,7 +137,7 @@ public class SysUserController implements CurdController<SysUserQuery, SysUserRe
 
     @PostMapping(value = { "delete/{id}" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysUser:edit")
+    @RequiresPermissions("${permission.sysUser.edit}")
     @ApiOperation(value = "删除", notes = "删除系统用户数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
@@ -146,7 +146,7 @@ public class SysUserController implements CurdController<SysUserQuery, SysUserRe
 
     @PostMapping(value = { "getTreeData" })
     @ResponseBody
-    @RequiresPermissions("userpower:sysUser:view")
+    @RequiresPermissions("${permission.sysUser.view}")
     @ApiOperation(value = "列表", notes = "查询组织结构表格列表")
     public Response<List<SysOfficeResult>> getTreeData() {
         return sysOfficeService.getTreeData(new SysOfficePO(new SysOfficeQuery()));

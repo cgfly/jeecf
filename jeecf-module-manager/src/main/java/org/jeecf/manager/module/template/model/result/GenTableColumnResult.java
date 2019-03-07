@@ -3,8 +3,8 @@ package org.jeecf.manager.module.template.model.result;
 import java.io.Serializable;
 
 import org.jeecf.common.enums.IfTypeEnum;
-import org.jeecf.common.gen.enums.FormTypeEnum;
-import org.jeecf.common.gen.enums.QueryTypeEnum;
+import org.jeecf.gen.enums.FormTypeEnum;
+import org.jeecf.gen.enums.QueryTypeEnum;
 import org.jeecf.manager.module.template.model.domain.GenTableColumn;
 
 import io.swagger.annotations.ApiModelProperty;

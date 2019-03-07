@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.jeecf.common.exception.BusinessException;
-import org.jeecf.common.gen.model.BaseTable;
-import org.jeecf.common.gen.model.BaseTableColumn;
-import org.jeecf.common.gen.model.CommonTable;
 import org.jeecf.common.model.Response;
 import org.jeecf.engine.mysql.model.query.SelectTable;
 import org.jeecf.engine.mysql.model.query.SelectTableColumn;
 import org.jeecf.engine.mysql.model.query.WhereEntity;
+import org.jeecf.gen.model.BaseTable;
+import org.jeecf.gen.model.BaseTableColumn;
+import org.jeecf.gen.model.CommonTable;
 import org.jeecf.gen.utils.TableHook;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.SpringContextUtils;
