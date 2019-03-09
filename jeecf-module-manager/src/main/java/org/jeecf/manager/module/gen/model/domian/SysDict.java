@@ -69,7 +69,7 @@ public class SysDict extends NamespaceAuthEntity implements Serializable {
     }
 
     @Length(min = 1, max = 50, message = "{dict.type.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{dict.type.pattern}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{dict.type.pattern}", groups = { Add.class })
     public String getType() {
         return type;
     }

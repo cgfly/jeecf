@@ -44,7 +44,7 @@ public class SysOffice extends AbstractTreeEntity<SysOfficeResult> {
     private String enname;
 
     @Length(min = 1, max = 20, message = "{office.enname.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{office.enname.pattern}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{office.enname.pattern}", groups = { Add.class })
     public String getEnname() {
         return enname;
     }

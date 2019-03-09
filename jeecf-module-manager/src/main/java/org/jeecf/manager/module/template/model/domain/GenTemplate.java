@@ -73,7 +73,7 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         super(id);
     }
     
-    @Pattern(regexp= "^[a-zA-Z_-.]+$",message="{genTemplate.name.pattern}",groups = { Add.class })
+    @Pattern(regexp= "^[a-zA-Z0-9_.-]+$",message="{genTemplate.name.pattern}",groups = { Add.class })
     public String getName() {
         return name;
     }

@@ -2,6 +2,8 @@ package org.jeecf.manager.module.gen.model.domian;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.NamespaceAndDbAuthEntity;
@@ -55,6 +57,7 @@ public class SysTableDict extends NamespaceAndDbAuthEntity implements Serializab
     private String description;
 
     @Length(min = 1, max = 30, message = "{tableDict.name.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{tableDict.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }

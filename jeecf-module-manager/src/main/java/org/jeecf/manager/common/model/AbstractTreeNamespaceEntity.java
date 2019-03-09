@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
@@ -83,6 +84,7 @@ public abstract class AbstractTreeNamespaceEntity<T> extends NamespaceAuthEntity
     }
 
     @Length(min = 1, max = 20, message = "{tree.name.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{tree.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }

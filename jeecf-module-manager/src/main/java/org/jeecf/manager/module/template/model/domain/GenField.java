@@ -55,7 +55,7 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{genField.name.length}", groups = { Add.class })
-    @Pattern(regexp= "^[a-zA-Z_-.]+$",message="{genField.name.pattern}",groups = { Add.class })
+    @Pattern(regexp= "^[a-zA-Z0-9_.-]+$",message="{genField.name.pattern}",groups = { Add.class })
     public String getName() {
         return name;
     }
