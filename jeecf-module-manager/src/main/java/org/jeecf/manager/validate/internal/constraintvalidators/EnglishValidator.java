@@ -15,7 +15,7 @@ import org.jeecf.manager.validate.constraints.English;
  */
 public class EnglishValidator implements ConstraintValidator<English, CharSequence> {
 
-    private String pattern = "^[a-zA-Z0-9_?!@<>^%&();&~{}+-^#$.,:]+$";
+    private String pattern = "^[a-zA-Z0-9_-.]+$";
 
     @Override
     public void initialize(English constraintAnnotation) {
