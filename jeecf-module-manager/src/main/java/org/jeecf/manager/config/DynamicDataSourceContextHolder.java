@@ -24,7 +24,6 @@ import org.jeecf.manager.module.config.model.result.SysUserDbsourceResult;
 import org.jeecf.manager.module.config.service.SysUserDbsourceService;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
-//import org.springframework.boot.bind.RelaxedDataBinder;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
 /**

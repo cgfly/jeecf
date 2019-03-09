@@ -75,6 +75,7 @@ public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
         RedisCacheUtils.delCache(PREFIX + session.getId().toString());
     }
 
+    @Override
     public Collection<Session> getActiveSessions() {
         Collection<Session> sessions = new ArrayList<>();
         Set<Object> keys = this.getCacheManager().getCache(this.getActiveSessionsCacheName()).keys();

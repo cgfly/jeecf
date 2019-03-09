@@ -10,9 +10,6 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.context.properties.bind.Bindable;
-//import org.springframework.boot.bind.RelaxedDataBinder;
-//import org.springframework.boot.bind.RelaxedPropertyResolver;
-//import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.EnvironmentAware;
@@ -29,19 +26,19 @@ import org.springframework.core.type.AnnotationMetadata;
 public class DataSourceConfiguration implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
     private DataSource defaultDataSource;
-    
+
     private Binder binder;
-    
+
     @Override
     public void setEnvironment(Environment env) {
-        this.binder =  Binder.get(env);
+        this.binder = Binder.get(env);
         this.initPrimaryDataSources(env);
         DynamicDataSourceContextHolder.setBinder(this.binder);
     }
 
     @SuppressWarnings("unchecked")
     private void initPrimaryDataSources(Environment env) {
-       
+
         // 读取配置文件获取更多数据源，也可以通过defaultDataSource读取数据库获取更多数据源
         Map<String, Object> propertyResolver = binder.bind("spring.datasource.primary", Map.class).get();
         if (defaultDataSource == null) {

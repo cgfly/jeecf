@@ -40,21 +40,22 @@ public class SysIExpressionObjectFactory implements IExpressionObjectFactory {
 
     @Override
     public Object buildObject(IExpressionContext context, String expressionObjectName) {
-        if (null == expressionObjectName)
+        if (null == expressionObjectName) {
             return null;
+        }
         Object obj = null;
         switch (expressionObjectName) {
-        case USER_NAME:
-            obj = new Users();
-            break;
-        case NAMESPACE_NAME:
-            obj = new Namespaces();
-            break;
-        case DBSOURCE_NAME:
-            obj = new Dbsources();
-            break;
-        default:
-            break;
+            case USER_NAME:
+                obj = new Users();
+                break;
+            case NAMESPACE_NAME:
+                obj = new Namespaces();
+                break;
+            case DBSOURCE_NAME:
+                obj = new Dbsources();
+                break;
+            default:
+                break;
         }
         return obj;
     }

@@ -18,7 +18,7 @@ import redis.clients.jedis.Jedis;
  */
 public class RedisCacheUtils {
 
-    public static final String[] CACHE_TYPE = { "SYS" };
+    public static final String[] CACHE_TYPE = {"SYS" };
 
     private static final int DEFAULT_TIMEOUT = 24 * 60 * 60;
 
