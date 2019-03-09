@@ -71,7 +71,7 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{genFieldColumn.name.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{genFieldColumn.name.pattern}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z_]+$", message = "{genFieldColumn.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }

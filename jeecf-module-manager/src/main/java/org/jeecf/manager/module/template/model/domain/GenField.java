@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.NamespaceAuthEntity;
-import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModel;
@@ -55,7 +55,7 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{genField.name.length}", groups = { Add.class })
-    @English(message = "{genField.name.english}",groups = { Add.class })
+    @Pattern(regexp= "^[a-zA-Z_-.]+$",message="{genField.name.pattern}",groups = { Add.class })
     public String getName() {
         return name;
     }

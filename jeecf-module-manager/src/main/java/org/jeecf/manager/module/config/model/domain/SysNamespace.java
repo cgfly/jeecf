@@ -2,6 +2,8 @@ package org.jeecf.manager.module.config.model.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.PermissionEntity;
@@ -44,6 +46,7 @@ public class SysNamespace extends PermissionEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{namespace.name.length}", groups = { Add.class })
+    @Pattern(regexp= "^[a-zA-Z_-.]+$",message="{namespace.name.pattern}",groups = { Add.class })
     public String getName() {
         return name;
     }

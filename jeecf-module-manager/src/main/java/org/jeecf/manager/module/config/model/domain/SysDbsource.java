@@ -64,7 +64,7 @@ public class SysDbsource extends PermissionEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{dbsource.keyName.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{dbsource.keyName.pattern}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z_-.]+$", message = "{dbsource.keyName.pattern}", groups = { Add.class })
     public String getKeyName() {
         return keyName;
     }
