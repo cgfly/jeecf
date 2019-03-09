@@ -39,7 +39,7 @@ import org.springframework.context.annotation.DependsOn;
  *
  */
 @Configuration
-@DependsOn(value = { "redisConfig", "redisSessionDAO" })
+@DependsOn(value = { "redisSessionDAO" })
 public class ShiroConfiguration {
 
     @Resource
@@ -48,6 +48,7 @@ public class ShiroConfiguration {
     private RedisShiroCacheManager redisShiroCacheManager;
     @Autowired
     private SelfPermissionAnnotationMethodInterceptor permissionInterceptor;
+
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在
      * 初始化ShiroFilterFactoryBean的时候需要注入：SecurityManager
@@ -88,6 +89,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/v2/api-docs", "perms[operation:swagger2:view]");
         filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "perms[operation:swagger2:view]");
         filterChainDefinitionMap.put("/druid/**", "perms[operation:druid:view]");
+        filterChainDefinitionMap.put("/actuator/**", "perms[operation:actuator:view]");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

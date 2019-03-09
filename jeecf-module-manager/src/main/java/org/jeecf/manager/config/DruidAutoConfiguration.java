@@ -27,9 +27,9 @@ public class DruidAutoConfiguration {
      * @return
      */
     @Bean
-    public ServletRegistrationBean druidStatViewServlet() {
+    public ServletRegistrationBean<StatViewServlet> druidStatViewServlet() {
         // org.springframework.boot.context.embedded.ServletRegistrationBean提供类的进行注册.
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<StatViewServlet>(new StatViewServlet(), "/druid/*");
         // 添加初始化参数：initParams
         // 是否能够重置数据.
         servletRegistrationBean.addInitParameter("resetEnable", resetEnable);
@@ -42,9 +42,9 @@ public class DruidAutoConfiguration {
      * @return
      */
     @Bean
-    public FilterRegistrationBean druidStatFilter() {
+    public FilterRegistrationBean<WebStatFilter> druidStatFilter() {
 
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<WebStatFilter>(new WebStatFilter());
 
         // 添加过滤规则.
         filterRegistrationBean.addUrlPatterns("/*");

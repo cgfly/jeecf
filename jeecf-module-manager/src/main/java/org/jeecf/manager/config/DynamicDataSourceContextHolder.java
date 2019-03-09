@@ -1,8 +1,6 @@
 package org.jeecf.manager.config;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -24,12 +22,10 @@ import org.jeecf.manager.module.config.model.po.SysUserDbsourcePO;
 import org.jeecf.manager.module.config.model.query.SysUserDbsourceQuery;
 import org.jeecf.manager.module.config.model.result.SysUserDbsourceResult;
 import org.jeecf.manager.module.config.service.SysUserDbsourceService;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyValues;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.bind.RelaxedDataBinder;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
+//import org.springframework.boot.bind.RelaxedDataBinder;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
 /**
  * 动态数据源持有类
@@ -49,9 +45,10 @@ public class DynamicDataSourceContextHolder {
 
     private static final String DEFAULT_DATASOURCE_KEY = "defaultDataSourceKey";
 
-    private static ConversionService CONVERSION_SERVICE = new DefaultConversionService();
+    // private static ConversionService CONVERSION_SERVICE = new
+    // DefaultConversionService();
 
-    private static PropertyValues DATASOURCE_PROPERTYVALUES;
+    private static Binder BINDER;
 
     public static final String DATA_SOURCE_SUFFIX = "dataSourceKey";
 
@@ -83,15 +80,14 @@ public class DynamicDataSourceContextHolder {
     public static String getDafualtKey() {
         return DynamicDataSourceContextHolder.DEFAULT_DATASOURCE_KEY;
     }
+//
+//    public static ConversionService getConversionService() {
+//        return CONVERSION_SERVICE;
+//    }
 
-    public static ConversionService getConversionService() {
-        return CONVERSION_SERVICE;
-    }
-
-    public static void setDataSourcePropertyValues(Map<String, Object> rpr) {
-        if (DATASOURCE_PROPERTYVALUES == null) {
-            Map<String, Object> values = new HashMap<>(rpr);
-            DATASOURCE_PROPERTYVALUES = new MutablePropertyValues(values);
+    public static void setBinder(Binder binder) {
+        if (BINDER == null) {
+            BINDER = binder;
         }
     }
 
@@ -103,15 +99,10 @@ public class DynamicDataSourceContextHolder {
             String username = sysDbSource.getUserName();
             String password = sysDbSource.getPassword();
             Class<? extends DataSource> dataSourceType = (Class<? extends DataSource>) Class.forName(JdbcUtils.DBSOURCE_NAME);
-            DataSourceBuilder factory = DataSourceBuilder.create().driverClassName(JdbcUtils.DRIVER_CLASS_NAME).url(url).username(username).password(password).type(dataSourceType);
+            DataSourceBuilder<?> factory = DataSourceBuilder.create().driverClassName(JdbcUtils.DRIVER_CLASS_NAME).url(url).username(username).password(password).type(dataSourceType);
             dataSource = DEFAULT_DATASOURCE = factory.build();
-            if (DATASOURCE_PROPERTYVALUES != null) {
-                RelaxedDataBinder dataBinder = new RelaxedDataBinder(dataSource);
-                dataBinder.setConversionService(CONVERSION_SERVICE);
-                dataBinder.setIgnoreNestedProperties(false);
-                dataBinder.setIgnoreInvalidFields(false);
-                dataBinder.setIgnoreUnknownFields(true);
-                dataBinder.bind(DATASOURCE_PROPERTYVALUES);
+            if (BINDER != null) {
+                BINDER.bind("spring.datasource.common.pool", Bindable.ofInstance(dataSource));
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

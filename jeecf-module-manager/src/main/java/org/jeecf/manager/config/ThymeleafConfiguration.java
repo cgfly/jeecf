@@ -32,7 +32,7 @@ public class ThymeleafConfiguration {
      */
     @Bean
     public SysDialect sysDialect() {
-        return new SysDialect();
+        return new SysDialect(" sys dialect ");
     }
 
 }

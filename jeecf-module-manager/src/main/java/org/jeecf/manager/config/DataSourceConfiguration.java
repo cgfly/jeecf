@@ -9,9 +9,12 @@ import org.jeecf.manager.common.utils.JdbcUtils;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.bind.RelaxedDataBinder;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.boot.context.properties.bind.Bindable;
+//import org.springframework.boot.bind.RelaxedDataBinder;
+//import org.springframework.boot.bind.RelaxedPropertyResolver;
+//import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
@@ -26,33 +29,31 @@ import org.springframework.core.type.AnnotationMetadata;
 public class DataSourceConfiguration implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
     private DataSource defaultDataSource;
-
+    
+    private Binder binder;
+    
     @Override
     public void setEnvironment(Environment env) {
+        this.binder =  Binder.get(env);
         this.initPrimaryDataSources(env);
-        Map<String, Object> commonPool = new RelaxedPropertyResolver(env, "spring.datasource.common.pool").getSubProperties(".");
-        DynamicDataSourceContextHolder.setDataSourcePropertyValues(commonPool);
+        DynamicDataSourceContextHolder.setBinder(this.binder);
     }
 
     @SuppressWarnings("unchecked")
     private void initPrimaryDataSources(Environment env) {
+       
         // 读取配置文件获取更多数据源，也可以通过defaultDataSource读取数据库获取更多数据源
-        RelaxedPropertyResolver propertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.primary.");
+        Map<String, Object> propertyResolver = binder.bind("spring.datasource.primary", Map.class).get();
         if (defaultDataSource == null) {
             try {
-                String url = propertyResolver.getProperty("url");
-                String username = propertyResolver.getProperty("username");
-                String password = propertyResolver.getProperty("password");
+                String url = propertyResolver.get("url").toString();
+                String username = propertyResolver.get("username").toString();
+                String password = propertyResolver.get("password").toString();
                 Class<? extends DataSource> dataSourceType = (Class<? extends DataSource>) Class.forName(JdbcUtils.DBSOURCE_NAME);
-                DataSourceBuilder factory = DataSourceBuilder.create().driverClassName(JdbcUtils.DRIVER_CLASS_NAME).url(url).username(username).password(password).type(dataSourceType);
+                DataSourceBuilder<? extends DataSource> factory = DataSourceBuilder.create().driverClassName(JdbcUtils.DRIVER_CLASS_NAME).url(url).username(username).password(password)
+                        .type(dataSourceType);
                 defaultDataSource = factory.build();
-                Map<String, Object> primaryPool = new RelaxedPropertyResolver(env, "spring.datasource.primary.pool").getSubProperties(".");
-                RelaxedDataBinder dataBinder = new RelaxedDataBinder(defaultDataSource);
-                dataBinder.setConversionService(DynamicDataSourceContextHolder.getConversionService());
-                dataBinder.setIgnoreNestedProperties(false);
-                dataBinder.setIgnoreInvalidFields(false);
-                dataBinder.setIgnoreUnknownFields(true);
-                dataBinder.bind(new MutablePropertyValues(primaryPool));
+                binder.bind("spring.datasource.primary.pool", Bindable.ofInstance(defaultDataSource));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

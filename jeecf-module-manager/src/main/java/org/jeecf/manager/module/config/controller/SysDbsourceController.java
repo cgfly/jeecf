@@ -3,11 +3,11 @@ package org.jeecf.manager.module.config.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;

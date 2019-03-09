@@ -10,7 +10,7 @@
     <artifactId>jeecf-module-manager</artifactId>
 
     <properties>
-        <thymeleaf.extras.shiro.version>1.0.2</thymeleaf.extras.shiro.version>
+        <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
         <docker.hub.domain>local</docker.hub.domain>
         <docker.image.prefix>cgfly</docker.image.prefix>
         <docker.image.tag>v1</docker.image.tag>
@@ -60,6 +60,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+
+        <!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-jdbc</artifactId> 
+            </dependency> -->
 
 
         <dependency>
@@ -144,7 +152,6 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
-            <version>1.1.2</version>
         </dependency>
 
 

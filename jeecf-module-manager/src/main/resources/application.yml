@@ -44,10 +44,6 @@ spring:
       filters: stat,wall,log4j # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
    transaction:
       rollback-on-commit-failure: true
-   mvc:
-      static-path-pattern: /**  # 静态文件请求匹配方式
-   resources: # 修改默认的静态寻址资源目录
-      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/include/
    http:
       multipart: #文件大小设置
          maxFileSize: 15MB

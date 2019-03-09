@@ -21,8 +21,11 @@ public class UserUtils {
      */
     public static String getCurrentUserId() {
         String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
-        String id = (String) RedisCacheUtils.getSysCache(sessionId);
-        return id;
+        return (String) RedisCacheUtils.getSysCache(sessionId);
+    }
+
+    public static String getUserId(String sessionId) {
+        return (String) RedisCacheUtils.getSysCache(sessionId);
     }
 
     /**

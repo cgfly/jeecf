@@ -2,8 +2,9 @@ package org.jeecf.manager.module.userpower.model.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.jeecf.manager.common.model.BaseEntity;
 import org.jeecf.manager.validate.constraints.English;
 import org.jeecf.manager.validate.groups.Add;

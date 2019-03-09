@@ -1,47 +1,24 @@
 package org.jeecf.manager.common.thymeleaf;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.jeecf.manager.common.thymeleaf.expression.Dbsources;
-import org.jeecf.manager.common.thymeleaf.expression.Namespaces;
-import org.jeecf.manager.common.thymeleaf.expression.Users;
-import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.dialect.AbstractDialect;
-import org.thymeleaf.dialect.IExpressionEnhancingDialect;
+import org.thymeleaf.dialect.IExpressionObjectDialect;
+import org.thymeleaf.expression.IExpressionObjectFactory;
 
 /**
- * thymeleaf 方言
+ * 系统方言
  * 
  * @author jianyiming
- *
+ * @version 1.0
  */
-public class SysDialect extends AbstractDialect implements IExpressionEnhancingDialect {
+public class SysDialect extends AbstractDialect implements IExpressionObjectDialect {
 
-    private static final Map<String, Object> EXPRESSION_MAP = initExpressionMap();
-
-    private static final String USER_NAME = "users";
-
-    private static final String NAMESPACE_NAME = "namespaces";
-
-    private static final String DBSOURCE_NAME = "dbsources";
-
-    private static Map<String, Object> initExpressionMap() {
-        Map<String, Object> expressionMap = new HashMap<String, Object>(10);
-        expressionMap.put(USER_NAME, new Users());
-        expressionMap.put(NAMESPACE_NAME, new Namespaces());
-        expressionMap.put(DBSOURCE_NAME, new Dbsources());
-        return expressionMap;
+    public SysDialect(String name) {
+        super(name);
     }
 
     @Override
-    public String getPrefix() {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> getAdditionalExpressionObjects(IProcessingContext processingContext) {
-        return EXPRESSION_MAP;
+    public IExpressionObjectFactory getExpressionObjectFactory() {
+        return new SysIExpressionObjectFactory();
     }
 
 }

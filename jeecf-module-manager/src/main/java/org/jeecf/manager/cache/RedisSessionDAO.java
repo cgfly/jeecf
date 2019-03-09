@@ -1,10 +1,15 @@
 package org.jeecf.manager.cache;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +20,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
+
+    @Autowired
+    public RedisSessionDAO(CacheManager redisShiroCacheManager) {
+        this.setCacheManager(redisShiroCacheManager);
+    }
 
     /**
      * session 在redis过期时间是30分钟30*60
@@ -63,5 +73,15 @@ public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
     protected void doDelete(Session session) {
         super.doDelete(session);
         RedisCacheUtils.delCache(PREFIX + session.getId().toString());
+    }
+
+    public Collection<Session> getActiveSessions() {
+        Collection<Session> sessions = new ArrayList<>();
+        Set<Object> keys = this.getCacheManager().getCache(this.getActiveSessionsCacheName()).keys();
+        keys.forEach(key -> {
+            Object obj = RedisCacheUtils.getCache(key.toString());
+            sessions.add((Session) obj);
+        });
+        return sessions;
     }
 }

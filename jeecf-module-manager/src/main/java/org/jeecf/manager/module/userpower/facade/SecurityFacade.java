@@ -13,6 +13,8 @@ import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.IdGenUtils;
 import org.jeecf.common.utils.ResponseUtils;
 import org.jeecf.common.utils.SysEntrypt;
+import org.jeecf.manager.cache.RedisSessionDAO;
+import org.jeecf.manager.cache.ShiroCache;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.PermissionUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -37,6 +39,7 @@ import org.jeecf.manager.module.userpower.service.SysRolePowerService;
 import org.jeecf.manager.module.userpower.service.SysRoleService;
 import org.jeecf.manager.module.userpower.service.SysUserRoleService;
 import org.jeecf.manager.module.userpower.service.SysUserService;
+import org.jeecf.manager.security.realm.SysShiroRealm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +53,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class SecurityFacade {
+
+    @Autowired
+    private SysShiroRealm realm;
+
+    @Autowired
+    private RedisSessionDAO redisSessionDAO;
 
     @Autowired
     private SysRolePowerService sysRolePowerService;
@@ -112,6 +121,7 @@ public class SecurityFacade {
 
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<SysRoleResult> saveRole(SysRole sysRole) {
+        boolean isNewRecord = sysRole.isNewRecord();
         Response<SysRoleResult> sysRoleRes = sysRoleService.save(sysRole);
         List<String> sysPowerIds = sysRole.getSysPowerIds();
         if (CollectionUtils.isNotEmpty(sysPowerIds)) {
@@ -128,6 +138,9 @@ public class SecurityFacade {
                 sysRolePower.setSysPower(sysPower);
                 sysRolePowerService.save(sysRolePower);
             });
+            if (!isNewRecord) {
+                ShiroCache.reloadAuthorizingAll(realm, redisSessionDAO);
+            }
         }
         return sysRoleRes;
     }
@@ -142,6 +155,7 @@ public class SecurityFacade {
         SysUserRole deleteUserRole = new SysUserRole();
         deleteUserRole.setSysRole(sysRole);
         sysUserRoleService.delete(deleteUserRole);
+        ShiroCache.reloadAuthorizingAll(realm, redisSessionDAO);
         return new Response<Integer>(true, 1);
     }
 
@@ -179,6 +193,7 @@ public class SecurityFacade {
 
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<SysUserResult> saveUser(SysUser sysUser) {
+        boolean isNewRecord = sysUser.isNewRecord();
         if (StringUtils.isEmpty(sysUser.getId())) {
             sysUser.setNewRecord(true);
             sysUser.setId(IdGenUtils.uuid());
@@ -200,6 +215,9 @@ public class SecurityFacade {
                 sysUserRole.setSysUser(sysUser);
                 sysUserRoleService.save(sysUserRole);
             });
+            if (!isNewRecord) {
+                ShiroCache.reloadAuthorizing(realm, redisSessionDAO, sysUser.getId());
+            }
         }
         return sysUserRes;
     }

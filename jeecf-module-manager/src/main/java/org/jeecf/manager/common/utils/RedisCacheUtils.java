@@ -1,5 +1,9 @@
 package org.jeecf.manager.common.utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.manager.config.RedisObjectSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -14,7 +18,7 @@ import redis.clients.jedis.Jedis;
  */
 public class RedisCacheUtils {
 
-    public static final String[] CACHE_TYPE = {"SYS" };
+    public static final String[] CACHE_TYPE = { "SYS" };
 
     private static final int DEFAULT_TIMEOUT = 24 * 60 * 60;
 
@@ -85,6 +89,44 @@ public class RedisCacheUtils {
         } finally {
             jedis.close();
         }
+    }
+
+    public static void delCache(Set<String> keys) {
+        Jedis jedis = RedisUtils.getJedis();
+        try {
+            if (CollectionUtils.isNotEmpty(keys)) {
+                for (String key : keys) {
+                    jedis.del(STRING_REDIS_SERIALIZER.serialize(key));
+                }
+            }
+        } finally {
+            jedis.close();
+        }
+    }
+
+    public static void expire(String key, int timeout) {
+        Jedis jedis = RedisUtils.getJedis();
+        try {
+            jedis.expire(STRING_REDIS_SERIALIZER.serialize(key), timeout);
+        } finally {
+            jedis.close();
+        }
+    }
+
+    public static Set<String> keys(String match) {
+        Jedis jedis = RedisUtils.getJedis();
+        Set<String> arraySet = new HashSet<String>();
+        try {
+            Set<byte[]> keys = jedis.keys(STRING_REDIS_SERIALIZER.serialize(match));
+            if (CollectionUtils.isNotEmpty(keys)) {
+                keys.forEach(key -> {
+                    arraySet.add(STRING_REDIS_SERIALIZER.deserialize(key));
+                });
+            }
+        } finally {
+            jedis.close();
+        }
+        return arraySet;
     }
 
 }
