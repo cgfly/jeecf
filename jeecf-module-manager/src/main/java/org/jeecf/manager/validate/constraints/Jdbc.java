@@ -28,7 +28,7 @@ import org.jeecf.manager.validate.internal.constraintvalidators.JdbcValidator;
 @Retention(RUNTIME)
 public @interface Jdbc {
 
-    String message() default "{org.hibernate.validator.constraints.Length.message}";
+    String message() default "{org.jeecf.validator.constraints.jdbc.message}";
 
     Class<?>[] groups() default {};
 

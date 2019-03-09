@@ -28,7 +28,7 @@ import org.jeecf.manager.validate.internal.constraintvalidators.EnglishValidator
 @Retention(RUNTIME)
 public @interface English {
 
-    String message() default "{org.hibernate.validator.constraints.Length.message}";
+    String message() default "{org.jeecf.validator.constraints.english.message}";
 
     Class<?>[] groups() default {};
 
