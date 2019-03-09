@@ -21,11 +21,13 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ApiModel(value = "genTemplate", description = "生成模版实体")
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.language)", message = "{genTemplate.language.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fileBasePath)", message = "{genTemplate.fileBasePath.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.version)", message = "{genTemplate.version.isEmpty}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.language)", message = "{genTemplate.language.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fileBasePath)", message = "{genTemplate.fileBasePath.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.version)", message = "{genTemplate.version.isEmpty}", groups = {
+                Add.class }) })
 public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,8 +74,8 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     public GenTemplate(String id) {
         super(id);
     }
-    
-    @Pattern(regexp= "^[a-zA-Z0-9_.-]+$",message="{genTemplate.name.pattern}",groups = { Add.class })
+
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{genTemplate.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }
@@ -135,5 +137,5 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     public void setVersion(String version) {
         this.version = version;
     }
-    
+
 }

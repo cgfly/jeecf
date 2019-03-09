@@ -18,10 +18,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{namespace.name.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{namespace.description.isEmpty}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{namespace.name.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{namespace.description.isEmpty}", groups = {
+                Add.class }) })
 @ApiModel(value = "sysNamespace", description = "命名空间配置实体")
 public class SysNamespace extends PermissionEntity implements Serializable {
 
@@ -46,7 +46,7 @@ public class SysNamespace extends PermissionEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{namespace.name.length}", groups = { Add.class })
-    @Pattern(regexp= "^[a-zA-Z0-9_.-]+$",message="{namespace.name.pattern}",groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{namespace.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }

@@ -21,11 +21,12 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{genField.name.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{genField.description.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genFieldColumn)", message = "{genField.fieldColumn.isNull}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{genField.name.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{genField.description.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genFieldColumn)", message = "{genField.fieldColumn.isNull}", groups = {
+                Add.class }) })
 @ApiModel(value = "genField", description = "模版参数实体")
 public class GenField extends NamespaceAuthEntity implements Serializable {
 
@@ -55,7 +56,7 @@ public class GenField extends NamespaceAuthEntity implements Serializable {
     }
 
     @Length(min = 1, max = 20, message = "{genField.name.length}", groups = { Add.class })
-    @Pattern(regexp= "^[a-zA-Z0-9_.-]+$",message="{genField.name.pattern}",groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{genField.name.pattern}", groups = { Add.class })
     public String getName() {
         return name;
     }
