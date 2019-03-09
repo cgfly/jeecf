@@ -123,7 +123,7 @@ public class TemplateController {
     }
 
     @PostMapping(value = { "pull/{namespace}/{name}" })
-    @ApiOperation(value = "下载", notes = "下载模版")
+    @ApiOperation(value = "获取", notes = "获取模版定位")
     public Response<String> pull(@RequestBody AuthModel authModel, @PathVariable String namespace, @PathVariable String name, HttpServletResponse response) {
         SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
         sysNamespaceQuery.setName(namespace);
@@ -150,7 +150,7 @@ public class TemplateController {
     }
 
     @PostMapping(value = { "gen" })
-    @ApiOperation(value = "当前", notes = "返回用户当前数据源名称")
+    @ApiOperation(value = "代码生成", notes = "生成代码")
     public Response<String> code(@RequestBody TemplateCodeInput templateCodeInput, HttpServletRequest request, HttpServletResponse response) {
         String id = userAuthService.login(templateCodeInput.getUsername(), templateCodeInput.getPassword(), request, response);
         SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
@@ -206,7 +206,7 @@ public class TemplateController {
     }
 
     @PostMapping(value = { "download/{uuid}" })
-    @ApiOperation(value = "下载", notes = "下载")
+    @ApiOperation(value = "下载", notes = "下载模版")
     public void download(@PathVariable String uuid, HttpServletResponse response) {
         String path = RedisCacheUtils.getSysCache(CACHE_TMPL_PREFIX + uuid);
         if (StringUtils.isNotEmpty(path)) {
@@ -216,7 +216,7 @@ public class TemplateController {
     }
 
     @PostMapping(value = { "download/code/{uuid}" })
-    @ApiOperation(value = "下载", notes = "下载")
+    @ApiOperation(value = "下载", notes = "下载生成代码")
     public void downloadCode(@PathVariable String uuid, HttpServletResponse response) {
         String path = RedisCacheUtils.getSysCache(CACHE_CODE_PREFIX + uuid);
         if (StringUtils.isNotEmpty(path)) {
