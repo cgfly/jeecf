@@ -75,7 +75,7 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
             Response<SysOsgiPluginResult> sysOsgiPluginResultRes = super.insert(sysOsgiPlugin);
             boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getName()), PluginUtils.getFilePath(sysOsgiPlugin.getName()), true);
             if (flag) {
-                pluginManager.install(new URL[] { new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
+                pluginManager.install(new URL[] {new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
                         applicationContext.getClassLoader());
                 return sysOsgiPluginResultRes;
             }
