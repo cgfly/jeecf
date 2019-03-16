@@ -3,14 +3,11 @@ package org.jeecf.manager.common.service;
 import java.util.List;
 import java.util.Set;
 
-import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.model.Contain;
-import org.jeecf.common.model.Page;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.OfficeAuthEntity;
-import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.OfficeUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,52 +45,38 @@ public class OfficeAuthService<D extends Dao<P, R, Q, T>, P extends AbstractEnti
 
     @Override
     public Response<List<R>> findListByAuth(P p) {
-        Set<String> officeIds = OfficeUtils.findChilds(UserUtils.getCurrentUserId());
-        officeIds.add(String.valueOf(UserUtils.getCurrentUser().getSysOfficeId()));
+        String officeId = String.valueOf(UserUtils.getCurrentUser().getSysOfficeId());
+        Set<String> officeIds = OfficeUtils.findChilds(officeId);
+        officeIds.add(officeId);
         Contain contain = new Contain();
         contain.setColumnName("sysOfficeId");
         contain.setColumnValue(officeIds);
         p.setContain(contain);
-        p.buildSorts();
-        p.buildContains();
-        p.getData().setDelFlag(DelFlagEnum.NO.getCode());
-        Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
-        JqlUtils.build(p.getSchema(), res.getData());
-        return res;
+        return super.findList(p);
     }
 
     @Override
     public Response<Integer> countByAuth(P p) {
-        Set<String> officeIds = OfficeUtils.findChilds(UserUtils.getCurrentUserId());
-        officeIds.add(String.valueOf(UserUtils.getCurrentUser().getSysOfficeId()));
+        String officeId = String.valueOf(UserUtils.getCurrentUser().getSysOfficeId());
+        Set<String> officeIds = OfficeUtils.findChilds(officeId);
+        officeIds.add(officeId);
         Contain contain = new Contain();
         contain.setColumnName("sysOfficeId");
         contain.setColumnValue(officeIds);
         p.setContain(contain);
-        p.buildContains();
-        p.getData().setDelFlag(DelFlagEnum.NO.getCode());
-        return new Response<Integer>(true, dao.count(p));
+        return super.count(p);
     }
 
     @Override
     public Response<List<R>> findPageByAuth(P p) {
-        Page page = p.getPage();
-        Set<String> officeIds = OfficeUtils.findChilds(UserUtils.getCurrentUserId());
-        officeIds.add(String.valueOf(UserUtils.getCurrentUser().getSysOfficeId()));
+        String officeId = String.valueOf(UserUtils.getCurrentUser().getSysOfficeId());
+        Set<String> officeIds = OfficeUtils.findChilds(officeId);
+        officeIds.add(officeId);
         Contain contain = new Contain();
         contain.setColumnName("sysOfficeId");
         contain.setColumnValue(officeIds);
         p.setContain(contain);
-        p.buildSorts();
-        p.buildContains();
-        p.getData().setDelFlag(DelFlagEnum.NO.getCode());
-        if (page != null) {
-            page.setTotal(dao.count(p));
-            page.setStartNo();
-        }
-        Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
-        JqlUtils.build(p.getSchema(), res.getData());
-        return res;
+        return super.findPage(p);
     }
 
     @Override

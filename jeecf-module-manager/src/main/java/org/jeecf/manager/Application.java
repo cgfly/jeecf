@@ -1,5 +1,6 @@
 package org.jeecf.manager;
 
+import org.jeecf.cache.EnableCache;
 import org.jeecf.manager.common.utils.JdbcUtils;
 import org.jeecf.manager.config.DataSourceConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement(proxyTargetClass = true)
+@EnableCache
 @Import({ DataSourceConfiguration.class })
 @PropertySource(value = { "classpath:properties/permission.properties" }, encoding = "UTF-8")
 public class Application {

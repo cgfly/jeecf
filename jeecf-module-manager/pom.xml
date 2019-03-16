@@ -37,6 +37,12 @@
 
         <dependency>
             <groupId>org.jeecf</groupId>
+            <artifactId>jeecf-module-cache</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jeecf</groupId>
             <artifactId>jeecf-module-engine-mysql</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

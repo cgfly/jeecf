@@ -74,4 +74,4 @@ management:
             include: '*'
         
 logging:
-  config: classpath:log/logback-${spring.profiles.active}.xml  
+   config: classpath:log/logback-${spring.profiles.active}.xml  

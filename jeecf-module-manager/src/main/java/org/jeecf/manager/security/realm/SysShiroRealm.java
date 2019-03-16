@@ -23,6 +23,7 @@ import org.jeecf.common.utils.ResponseUtils;
 import org.jeecf.common.utils.SysEntrypt;
 import org.jeecf.manager.common.utils.PermissionUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
+import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
 import org.jeecf.manager.module.userpower.model.domain.SysRole;
@@ -32,7 +33,6 @@ import org.jeecf.manager.module.userpower.model.query.SysUserQuery;
 import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.jeecf.manager.module.userpower.service.SysUserService;
 import org.jeecf.manager.security.model.SysUserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * shiro 用户权限验证
@@ -42,14 +42,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class SysShiroRealm extends AuthorizingRealm {
 
-    @Autowired
-    private SysUserService sysUserService;
-
-    @Autowired
-    private SecurityFacade securityFacade;
-
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        SecurityFacade securityFacade = (SecurityFacade) SpringContextUtils.getBean("securityFacade");
         String principal = (String) principalCollection.getPrimaryPrincipal();
         Response<List<SysRole>> sysRoleRes = securityFacade.findRole(principal);
         Set<String> roleSet = new HashSet<>();
@@ -90,6 +85,7 @@ public class SysShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authToken) throws AuthenticationException {
+        SysUserService sysUserService = (SysUserService) SpringContextUtils.getBean("sysUserService");
         UsernamePasswordToken token = (UsernamePasswordToken) authToken;
         SysUserQuery queryUser = new SysUserQuery();
         queryUser.setUsername((String) token.getPrincipal());

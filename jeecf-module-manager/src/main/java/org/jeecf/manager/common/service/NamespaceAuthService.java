@@ -10,7 +10,6 @@ import org.jeecf.manager.common.dao.Dao;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.NamespaceAuthEntity;
-import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,33 +30,23 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
     @Override
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> insertByAuth(T t) {
-        t.preInsert();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         if (sysNamespaceId == null) {
             throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
         }
         t.setSysNamespaceId(sysNamespaceId);
-        Integer result = dao.insert(t);
-        if (result != null && result > 0) {
-            return new Response<>(true, dao.get(t));
-        }
-        throw new BusinessException(BusinessErrorEnum.INSERT_DATA_FAIL);
+        return super.insert(t);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> updateByAuth(T t) {
-        t.preUpdate();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         if (sysNamespaceId == null) {
             throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
         }
         t.setSysNamespaceId(sysNamespaceId);
-        Integer result = dao.update(t);
-        if (result != null && result > 0) {
-            return new Response<>(true, dao.get(t));
-        }
-        throw new BusinessException(BusinessErrorEnum.UPDATE_DATA_FAIL);
+        return super.update(t);
     }
 
     @Override
@@ -67,39 +56,32 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
             return new Response<>(true, null);
         }
         t.setSysNamespaceId(sysNamespaceId);
-        return new Response<R>(true, dao.get(t));
+        return super.get(t);
     }
 
     @Override
     public Response<List<R>> findListByAuth(P p) {
-        p.buildSorts();
-        p.buildContains();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         if (sysNamespaceId == null) {
             return new Response<>(true, new ArrayList<>());
         }
         p.getData().setSysNamespaceId(sysNamespaceId);
-        Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
-        JqlUtils.build(p.getSchema(), res.getData());
-        return res;
+        return super.findList(p);
     }
 
     @Override
     public Response<Integer> countByAuth(P p) {
-        p.buildContains();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         if (sysNamespaceId == null) {
             return new Response<>(true, 0);
         }
         p.getData().setSysNamespaceId(sysNamespaceId);
-        return new Response<Integer>(true, dao.count(p));
+        return super.count(p);
     }
 
     @Override
     public Response<List<R>> findPageByAuth(P p) {
         Page page = p.getPage();
-        p.buildSorts();
-        p.buildContains();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         if (sysNamespaceId == null) {
             if (page != null) {
@@ -109,13 +91,7 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
             return new Response<>(true, new ArrayList<R>(), page);
         }
         p.getData().setSysNamespaceId(sysNamespaceId);
-        if (page != null) {
-            page.setTotal(dao.count(p));
-            page.setStartNo();
-        }
-        Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
-        JqlUtils.build(p.getSchema(), res.getData());
-        return res;
+        return super.findPage(p);
     }
 
     @Override
@@ -126,7 +102,7 @@ public class NamespaceAuthService<D extends Dao<P, R, Q, T>, P extends AbstractE
             throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
         }
         t.setSysNamespaceId(sysNamespaceId);
-        return new Response<Integer>(true, dao.delete(t));
+        return super.delete(t);
     }
 
 }

@@ -3,6 +3,7 @@ package org.jeecf.manager.common.model;
 import java.util.Date;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.UnavailableSecurityManagerException;
 import org.jeecf.common.model.AbstractEntity;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 
@@ -40,10 +41,13 @@ public class BaseEntity extends AbstractEntity {
 
     @Override
     public void preUpdate() {
-        String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
-        String id = (String) RedisCacheUtils.getSysCache(sessionId);
-        this.setUpdateBy(id);
-        this.setUpdateDate(new Date());
+        try {
+            String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
+            String id = (String) RedisCacheUtils.getSysCache(sessionId);
+            this.setUpdateBy(id);
+        } catch (UnavailableSecurityManagerException e) {
+            this.setUpdateDate(new Date());
+        }
     }
 
 }

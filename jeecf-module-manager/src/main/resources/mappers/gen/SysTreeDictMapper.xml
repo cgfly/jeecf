@@ -40,6 +40,18 @@
 				<if test="data.sysNamespaceId != null and data.sysNamespaceId != '' ">
 					And sysTreeDict.sys_namespace_id = #{data.sysNamespaceId}
 				</if>
+                <if test="data.parentId != null and data.parentId != '' ">
+                    And sysTreeDict.parent_id = #{data.parentId}
+                </if>
+                <if test="data.parentIds != null and data.parentIds != '' ">
+                    And sysTreeDict.parent_ids like CONCAT('%',#{data.parentIds},'%')
+                </if>
+                <if test="data.level != null and data.level != '' ">
+                    And sysTreeDict.level = #{data.level}
+                </if>
+                <if test="data.sort != null and data.sort != '' ">
+                    And sysTreeDict.sort = #{data.sort}
+                </if>
 				<include refid="reginWhere" />
 			</if>
 			<include refid="containWhere" />

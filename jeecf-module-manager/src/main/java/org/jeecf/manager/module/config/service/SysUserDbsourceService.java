@@ -1,5 +1,6 @@
 package org.jeecf.manager.module.config.service;
 
+import org.jeecf.cache.annotation.FlushCache;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.service.BaseService;
 import org.jeecf.manager.module.config.dao.SysUserDbsourceDao;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserDbsourceService extends BaseService<SysUserDbsourceDao, SysUserDbsourcePO, SysUserDbsourceResult, SysUserDbsourceQuery, SysUserDbsource> {
 
+    @FlushCache
     public Response<Integer> updateByUserId(String userId, Integer dbsourceId) {
         return new Response<>(this.dao.updateByUserId(userId, dbsourceId));
     }

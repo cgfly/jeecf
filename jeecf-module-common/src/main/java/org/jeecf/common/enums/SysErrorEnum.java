@@ -55,6 +55,10 @@ public enum SysErrorEnum implements ErrorEnum {
      */
     ENCRYPT_ERROR(111, "加密错误"),
     /**
+     * 解析错误
+     */
+    PARSE_ERROR(112, "解析错误"),
+    /**
      * 权限不足
      */
     UNAUTHORIZED_ERROR(403, "权限不足"),;

@@ -327,5 +327,6 @@
         <module>jeecf-module-osgi</module>
         <module>jeecf-module-engine-mysql</module>
         <module>jeecf-module-gen</module>
+        <module>jeecf-module-cache</module>
     </modules>
 </project>

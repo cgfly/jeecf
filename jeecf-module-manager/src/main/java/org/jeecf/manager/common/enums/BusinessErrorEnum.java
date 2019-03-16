@@ -185,7 +185,11 @@ public enum BusinessErrorEnum implements ErrorEnum {
     /**
      * 模版参数不存在
      */
-    FIELD_NOT_EXIST(8002, "field not exist");
+    FIELD_NOT_EXIST(8002, "field not exist"),
+    /**
+     * 方法没有找到
+     */
+    FUNCTION_NOT_FOUND(9001, "method not found");
 
     public final int code;
     public final String msg;

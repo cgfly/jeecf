@@ -36,7 +36,7 @@
 					And sysOffice.parent_id = #{data.parentId}
 				</if>
 				<if test="data.parentIds != null and data.parentIds != '' ">
-					And sysOffice.parent_ids = #{data.parentIds}
+					And sysOffice.parent_ids like CONCAT('%',#{data.parentIds},'%')
 				</if>
 				<if test="data.level != null and data.level != '' ">
 					And sysOffice.level = #{data.level}

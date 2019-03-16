@@ -57,6 +57,12 @@ hs_err_pid*
 /jeecf-module-gen/.project
 /jeecf-module-gen/.classpath
 
+/jeecf-module-cache/target/
+/jeecf-module-cache/.settings/
+/jeecf-module-cache/.DS_Store
+/jeecf-module-cache/.project
+/jeecf-module-cache/.classpath
+
 .idea/
 jeecf-module-common/jeecf-module-common.iml
 jeecf-module-manager/jeecf-module-manager.iml
@@ -64,3 +70,4 @@ jeecf-module-osgi/jeecf-module-osgi.iml
 jeecf-parent.iml
 jeecf-module-engine-mysql/jeecf-module-engine-mysql.iml
 jeecf-module-gen/jeecf-module-gen.iml
+jeecf-module-cache/jeecf-module-cache.iml

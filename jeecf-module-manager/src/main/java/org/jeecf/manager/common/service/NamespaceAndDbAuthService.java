@@ -11,7 +11,6 @@ import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.model.AbstractEntityPO;
 import org.jeecf.manager.common.model.NamespaceAndDbAuthEntity;
 import org.jeecf.manager.common.utils.DbsourceUtils;
-import org.jeecf.manager.common.utils.JqlUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,6 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
     @Override
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> insertByAuth(T t) {
-        t.preInsert();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
         if (sysNamespaceId == null) {
@@ -43,17 +41,12 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         t.setSysNamespaceId(sysNamespaceId);
         t.setSysDbsourceId(sysDbsourceId);
-        Integer result = dao.insert(t);
-        if (result != null && result > 0) {
-            return new Response<>(true, dao.get(t));
-        }
-        throw new BusinessException(BusinessErrorEnum.INSERT_DATA_FAIL);
+        return super.insert(t);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> updateByAuth(T t) {
-        t.preUpdate();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
         if (sysNamespaceId == null) {
@@ -64,11 +57,7 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         t.setSysNamespaceId(sysNamespaceId);
         t.setSysDbsourceId(sysDbsourceId);
-        Integer result = dao.update(t);
-        if (result != null && result > 0) {
-            return new Response<>(true, dao.get(t));
-        }
-        throw new BusinessException(BusinessErrorEnum.UPDATE_DATA_FAIL);
+        return super.update(t);
     }
 
     @Override
@@ -80,13 +69,11 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         t.setSysNamespaceId(sysNamespaceId);
         t.setSysDbsourceId(sysDbsourceId);
-        return new Response<R>(true, dao.get(t));
+        return super.get(t);
     }
 
     @Override
     public Response<List<R>> findListByAuth(P p) {
-        p.buildSorts();
-        p.buildContains();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
         if (sysNamespaceId == null || sysDbsourceId == null) {
@@ -94,14 +81,12 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         p.getData().setSysNamespaceId(sysNamespaceId);
         p.getData().setSysDbsourceId(sysDbsourceId);
-        Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
-        JqlUtils.build(p.getSchema(), res.getData());
+        Response<List<R>> res = super.findList(p);
         return res;
     }
 
     @Override
     public Response<Integer> countByAuth(P p) {
-        p.buildContains();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
         if (sysNamespaceId == null || sysDbsourceId == null) {
@@ -109,14 +94,12 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         p.getData().setSysNamespaceId(sysNamespaceId);
         p.getData().setSysDbsourceId(sysDbsourceId);
-        return new Response<Integer>(true, dao.count(p));
+        return super.count(p);
     }
 
     @Override
     public Response<List<R>> findPageByAuth(P p) {
         Page page = p.getPage();
-        p.buildSorts();
-        p.buildContains();
         Integer sysNamespaceId = NamespaceUtils.getNamespaceId();
         Integer sysDbsourceId = DbsourceUtils.getSysDbsourceId();
         if (sysNamespaceId == null || sysDbsourceId == null) {
@@ -128,13 +111,7 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         p.getData().setSysNamespaceId(sysNamespaceId);
         p.getData().setSysDbsourceId(sysDbsourceId);
-        if (page != null) {
-            page.setTotal(dao.count(p));
-            page.setStartNo();
-        }
-        Response<List<R>> res = new Response<List<R>>(true, dao.query(p), page);
-        JqlUtils.build(p.getSchema(), res.getData());
-        return res;
+        return super.findPage(p);
     }
 
     @Override
@@ -150,7 +127,7 @@ public class NamespaceAndDbAuthService<D extends Dao<P, R, Q, T>, P extends Abst
         }
         t.setSysNamespaceId(sysNamespaceId);
         t.setSysDbsourceId(sysDbsourceId);
-        return new Response<Integer>(true, dao.delete(t));
+        return super.delete(t);
     }
 
 }

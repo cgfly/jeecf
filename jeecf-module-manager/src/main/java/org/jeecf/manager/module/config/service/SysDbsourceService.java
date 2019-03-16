@@ -106,7 +106,7 @@ public class SysDbsourceService extends PermissionAuthService<SysDbsourceDao, Sy
                     sysDbSource.setKeyName(sysDb.getKeyName());
                     sysDbSource.setUserName(sysDb.getUserName());
                     sysDbSource.setPassword(sysDb.getPassword());
-                    super.dao.update(sysDbSource);
+                    super.update(sysDbSource);
                 } else {
                     if (sysDbSource.getUsable() == UsableEnum.YES.getCode()) {
                         try {
@@ -123,7 +123,7 @@ public class SysDbsourceService extends PermissionAuthService<SysDbsourceDao, Sy
         if (!isDefualtExit) {
             sysDb.setCreateDate(new Date());
             sysDb.setUpdateDate(new Date());
-            super.dao.insert(sysDb);
+            super.insert(sysDb);
         }
         MultipleDataSource muliSource = SpringContextUtils.getBean(MultipleDataSource.class);
         muliSource.addTargetDataSources(targetDataSources);

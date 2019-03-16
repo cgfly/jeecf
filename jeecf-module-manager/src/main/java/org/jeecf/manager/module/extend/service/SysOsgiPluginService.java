@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.jeecf.cache.annotation.FlushCache;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Response;
@@ -69,12 +70,12 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
     @Override
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<SysOsgiPluginResult> insert(SysOsgiPlugin sysOsgiPlugin) {
-        
+
         try {
             Response<SysOsgiPluginResult> sysOsgiPluginResultRes = super.insert(sysOsgiPlugin);
             boolean flag = FileUtils.copyFileCover(PluginUtils.getTmpFilePath(sysOsgiPlugin.getName()), PluginUtils.getFilePath(sysOsgiPlugin.getName()), true);
             if (flag) {
-                pluginManager.install(new URL[] {new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
+                pluginManager.install(new URL[] { new URL("file:" + PluginUtils.getFilePath(sysOsgiPlugin.getName())) }, BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE, true,
                         applicationContext.getClassLoader());
                 return sysOsgiPluginResultRes;
             }
@@ -109,6 +110,7 @@ public class SysOsgiPluginService extends NamespaceAuthService<SysOsgiPluginDao,
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
     }
 
+    @FlushCache
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<Integer> updateByName(SysOsgiPlugin sysOsgiPlugin) {
         sysOsgiPlugin.setUpdateBy(UserUtils.getCurrentUserId());
