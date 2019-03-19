@@ -15,7 +15,7 @@ import org.jeecf.manager.validate.constraints.Jdbc;
  */
 public class JdbcValidator implements ConstraintValidator<Jdbc, CharSequence> {
 
-    private String pattern = "jdbc:mysql://([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}:([1-9]|[1-9]\\d{3}|[1-6][0-5][0-5][0-3][0-5])/([a-zA-Z_]{1,20}|[a-zA-Z]{1,20}[?]{1}.*)";
+    private String pattern = "jdbc:mysql://([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}:([1-9]|[1-9]\\d{3}|[1-6][0-5][0-5][0-3][0-5])/([a-zA-Z_]{1,20}|[a-zA-Z_]{1,20}[?]{1}.*)";
 
     @Override
     public void initialize(Jdbc constraintAnnotation) {

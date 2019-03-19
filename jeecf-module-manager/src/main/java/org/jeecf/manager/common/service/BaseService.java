@@ -60,6 +60,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
     }
 
     @FlushCache
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> insert0(T t) {
         t.preInsert();
         Integer result = dao.insert(t);
@@ -76,6 +77,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
     }
 
     @FlushCache
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> update0(T t) {
         t.preUpdate();
         Integer result = dao.update(t);
@@ -164,6 +166,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
     }
 
     @FlushCache
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<Integer> delete0(T t) {
         return new Response<Integer>(true, dao.delete(t));
     }
