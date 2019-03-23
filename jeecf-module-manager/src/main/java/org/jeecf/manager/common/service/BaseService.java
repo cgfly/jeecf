@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <Q>
  * @param <T>
  */
-@Cache(cacheLoadStore = QueryCacheLoadStore.class, cacheFlush = ClassCacheFlush.class)
+@Cache(cacheLoadStore = QueryCacheLoadStore.class, cacheFlush = ClassCacheFlush.class, timeout = 60 * 60 * 24)
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q>, R extends T, Q extends T, T extends AbstractEntity> implements Service<P, R, Q, T>, BeanSelfAware {
 
