@@ -11,8 +11,7 @@
 
     <properties>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
-        <docker.hub.domain>local</docker.hub.domain>
-        <docker.image.prefix>cgfly</docker.image.prefix>
+        <docker.hub.domain>bcgm</docker.hub.domain>
         <docker.image.tag>v1</docker.image.tag>
     </properties>
 
@@ -242,7 +241,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <imageName>${docker.hub.domain}/${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</imageName>
+                            <imageName>${docker.hub.domain}/${build.finalName}:${docker.image.tag}</imageName>
                             <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                             <resources>
                                 <resource>

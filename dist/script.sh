@@ -15,6 +15,8 @@ jeecf_home=/Users/jianyiming/jeecf
 log_home=$jeecf_home/log
 #日志名称
 log_name=log.$current_time
+#端口号
+server_port=8801
 #堆内存设置
 JAVA_OPTS=" -Xms512M -Xmx512M "
 #数据库连接url
@@ -37,6 +39,7 @@ file_tmpl_download_path="$file_tmpl_home/download"
 file_tmpl_upload_path="$file_tmpl_home/real"
 file_tmpl_upload_tmp_path="$file_tmpl_home/tmp"      
 
+server="--server.port=$server_port"
 db="--spring.datasource.primary.url=$db_url --spring.datasource.primary.username=$db_username --spring.datasource.primary.password=$db_password"
 redis="--redis.host=$redis_host --redis.port=$redis_port"
 file="--file.plugin.upload.path=$file_plugin_upload_path --file.plugin.upload.tmp.path=$file_plugin_upload_tmp_path --file.tmpl.download.prefix.path=$file_tmpl_download_path --file.tmpl.upload.path=$file_tmpl_upload_path --file.tmpl.upload.tmp.path=$file_tmpl_upload_tmp_path"
@@ -59,7 +62,7 @@ start(){
   if [ -n "$pid" ]; then
     echo '进程已存在'
   else
-    nohup java -jar $jar_name $JAVA_OPTS $db $redis $file > $log_home/$log_name &
+    nohup java -jar $jar_name $JAVA_OPTS $server $db $redis $file > $log_home/$log_name &
     echo "进程启动中，请等待......"
     sleep $delay_time
     pid0=$(ps -ef | grep $jar_name | grep -v grep | awk '{print $2}')

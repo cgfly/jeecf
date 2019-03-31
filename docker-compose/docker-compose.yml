@@ -1,0 +1,37 @@
+version: '3'
+services:
+    mysql57:
+        environment:
+            MYSQL_ROOT_PASSWORD: "12345678"
+            MYSQL_USER: 'test'
+            MYSQL_PASS: 'test'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: jeecf
+        image: "docker.io/mysql:5.7" 
+        restart: always
+        volumes:
+            - "./db:/var/lib/mysql"
+        ports:
+            - "33060:3306"
+    redis:
+        image: "redis"
+        ports:
+            - "63791:6379"  
+    server:
+        image: bcgm/jeecf-manager:v1
+        ports:
+            - "8801:8801"
+        restart: always  
+        depends_on:
+            - mysql57
+            - redis 
+        environment:
+            DB_HOST: mysql57
+            REDIS_HOST: redis
+        volumes:
+            - "/Users/jianyiming/jeecf:/Users/jeecf"
+        links:
+            - "mysql57:mysql57"
+            - "redis:redis"
+
+
