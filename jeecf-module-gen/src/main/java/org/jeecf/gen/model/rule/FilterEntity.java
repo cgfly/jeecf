@@ -16,7 +16,7 @@ public class FilterEntity {
     /**
      * 过滤规则类型
      */
-    private String type = "param";
+    private String type = "default";
     /**
      * 过滤规则属性
      */

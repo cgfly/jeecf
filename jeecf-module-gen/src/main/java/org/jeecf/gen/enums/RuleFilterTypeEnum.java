@@ -15,7 +15,11 @@ public enum RuleFilterTypeEnum {
     /**
      * 参数
      */
-    PARAM(2, "param"),;
+    PARAM(2, "param"),
+    /**
+     * 默认 先执行param 没有则执行cure
+     */
+    DEFAULT(3, "default"),;
 
     public final int code;
     public final String name;

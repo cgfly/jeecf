@@ -15,7 +15,7 @@ public class StrategyEntity {
     /**
      * 策略类型
      */
-    private String type = "param";
+    private String type = "default";
     /**
      * 策略属性
      */

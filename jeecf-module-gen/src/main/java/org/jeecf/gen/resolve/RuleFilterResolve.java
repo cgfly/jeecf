@@ -91,7 +91,7 @@ public class RuleFilterResolve {
             }
             throw new RuleFilterTypeException("rule filter type is error ... ");
         }
-        return "param";
+        return "default";
     }
 
     /**
@@ -107,6 +107,13 @@ public class RuleFilterResolve {
                 return fieldNode.asText();
             } else if (type.equals(RuleFilterTypeEnum.PARAM.getName())) {
                 return (String) paramsMap.get(fieldNode.asText());
+            } else if (type.equals(RuleFilterTypeEnum.DEFAULT.getName())) {
+                Object obj = paramsMap.get(fieldNode.asText());
+                if (obj == null) {
+                    return fieldNode.asText();
+                } else {
+                    return (String) obj;
+                }
             }
         }
         return (String) paramsMap.get("filterField");

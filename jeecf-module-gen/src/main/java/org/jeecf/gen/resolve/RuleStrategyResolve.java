@@ -3,6 +3,7 @@ package org.jeecf.gen.resolve;
 import java.util.Map;
 
 import org.jeecf.common.lang.StringUtils;
+import org.jeecf.gen.enums.RuleFilterTypeEnum;
 import org.jeecf.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.gen.enums.RuleStrategyTypeEnum;
 import org.jeecf.gen.exception.RuleStrategyNameException;
@@ -61,7 +62,7 @@ public class RuleStrategyResolve {
             }
             throw new RuleStrategyTypeException("rule strategy type is error ... ");
         }
-        return "param";
+        return "default";
     }
 
     /**
@@ -78,6 +79,13 @@ public class RuleStrategyResolve {
                 return fieldNode.asText();
             } else if (type.equals(RuleStrategyTypeEnum.PARAM.getName())) {
                 return (String) paramsMap.get(fieldNode.asText());
+            } else if (type.equals(RuleFilterTypeEnum.DEFAULT.getName())) {
+                Object obj = paramsMap.get(fieldNode.asText());
+                if (obj == null) {
+                    return fieldNode.asText();
+                } else {
+                    return (String) obj;
+                }
             }
         }
         return (String) paramsMap.get("strategyField");

@@ -80,7 +80,7 @@ public class ConfigDistributionResolve {
             }
             throw new DistributionTypeException("distribution type is error ... ");
         }
-        return "param";
+        return "default";
     }
 
     /**
@@ -97,9 +97,16 @@ public class ConfigDistributionResolve {
                 return fieldNode.asText();
             } else if (type.equals(RuleFilterTypeEnum.PARAM.getName())) {
                 return (String) paramsMap.get(fieldNode.asText());
+            } else if (type.equals(RuleFilterTypeEnum.DEFAULT.getName())) {
+                Object obj = paramsMap.get(fieldNode.asText());
+                if (obj == null) {
+                    return fieldNode.asText();
+                } else {
+                    return (String) obj;
+                }
             }
         }
-        return (String) paramsMap.get("filterField");
+        return (String) paramsMap.get("distributionField");
     }
 
 }

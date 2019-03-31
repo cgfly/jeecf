@@ -20,7 +20,7 @@ public class DistributionEntity {
     /**
      * 分发规则类型
      */
-    private String type = "param";
+    private String type = "default";
     /**
      * 分发规则属性
      */
