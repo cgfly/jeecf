@@ -28,7 +28,7 @@ public class UserController {
     private UserAuthService userAuthService;
 
     @PostMapping(value = { "login" })
-    @ApiOperation(value = "列表", notes = "返回用户模版属性列表")
+    @ApiOperation(value = "登录", notes = "登录信息验证")
     public Response<SysUserResult> list(@RequestBody AuthModel authModel) {
         return userAuthService.auth(authModel);
     }
