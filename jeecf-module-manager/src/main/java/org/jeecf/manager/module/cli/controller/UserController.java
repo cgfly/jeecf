@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping(value = { "cli/user" })
-@Api(value = "命令行命名空间 api", tags = { "命令行命名空间接口" })
+@Api(value = "命令行用户操作 api", tags = { "命令行用户接口" })
 public class UserController {
 
     @Autowired
