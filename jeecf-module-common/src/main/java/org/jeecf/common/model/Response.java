@@ -107,11 +107,12 @@ public class Response<T> implements Serializable {
         this.page = page;
     }
 
-    public <V> void copyValue(Response<V> response) {
+    public <V> Response<T> copyValue(Response<V> response) {
         this.setPage(response.getPage());
         this.setErrorCode(response.getErrorCode());
         this.setErrorMessage(response.getErrorMessage());
         this.setSuccess(response.isSuccess());
+        return this;
     }
 
 }

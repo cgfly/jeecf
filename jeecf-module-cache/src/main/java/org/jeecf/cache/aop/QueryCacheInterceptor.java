@@ -40,26 +40,29 @@ public class QueryCacheInterceptor {
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == Cache.class) {
                     Cache cache = (Cache) annotation;
-                    Integer timeout = cache.timeout();
-                    CacheLoadStore cacheLoadStore = cache.cacheLoadStore().newInstance();
-                    if (StringUtils.isNotEmpty(cache.name())) {
-                        className = cache.name();
+                    if (cache.open()) {
+                        Integer timeout = cache.timeout();
+                        CacheLoadStore cacheLoadStore = cache.cacheLoadStore().newInstance();
+                        if (StringUtils.isNotEmpty(cache.name())) {
+                            className = cache.name();
+                        }
+                        CacheContext context = new CacheContext();
+                        context.setClassName(className);
+                        context.setMethodName(methodName);
+                        context.setArgs(args);
+                        context.setClazz(cls);
+                        context.setType(queryCache.type());
+                        context.setReturnClass(returnClass);
+                        context.setTimeout(timeout);
+                        String key = cacheLoadStore.getKey(context);
+                        Object obj = cacheLoadStore.load(context, key);
+                        if (obj == null) {
+                            obj = pjp.proceed();
+                            cacheLoadStore.store(context, key, obj);
+                        }
+                        return obj;
                     }
-                    CacheContext context = new CacheContext();
-                    context.setClassName(className);
-                    context.setMethodName(methodName);
-                    context.setArgs(args);
-                    context.setClazz(cls);
-                    context.setType(queryCache.type());
-                    context.setReturnClass(returnClass);
-                    context.setTimeout(timeout);
-                    String key = cacheLoadStore.getKey(context);
-                    Object obj = cacheLoadStore.load(context, key);
-                    if (obj == null) {
-                        obj = pjp.proceed();
-                        cacheLoadStore.store(context, key, obj);
-                    }
-                    return obj;
+                    return pjp.proceed();
                 }
             }
         }

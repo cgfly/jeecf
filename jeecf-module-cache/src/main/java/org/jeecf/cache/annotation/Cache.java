@@ -34,6 +34,13 @@ public @interface Cache {
     public int timeout() default 60 * 60;
 
     /**
+     * 开启缓存 默认开启
+     * 
+     * @return
+     */
+    public boolean open() default true;
+
+    /**
      * 用于查询缓存实现
      * 
      * @return

@@ -39,20 +39,22 @@ public class FlushCacheInterceptor {
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == Cache.class) {
                     Cache cache = (Cache) annotation;
-                    Integer timeout = cache.timeout();
-                    CacheFlush cacheFlush = cache.cacheFlush().newInstance();
-                    if (StringUtils.isNotEmpty(cache.name())) {
-                        className = cache.name();
-                    }
-                    CacheContext context = new CacheContext();
-                    context.setClassName(className);
-                    context.setMethodName(methodName);
-                    context.setArgs(args);
-                    context.setClazz(cls);
-                    context.setTimeout(timeout);
-                    String key = cacheFlush.getKey(context);
-                    if (StringUtils.isNotEmpty(key)) {
-                        cacheFlush.clear(context, key);
+                    if (cache.open()) {
+                        Integer timeout = cache.timeout();
+                        CacheFlush cacheFlush = cache.cacheFlush().newInstance();
+                        if (StringUtils.isNotEmpty(cache.name())) {
+                            className = cache.name();
+                        }
+                        CacheContext context = new CacheContext();
+                        context.setClassName(className);
+                        context.setMethodName(methodName);
+                        context.setArgs(args);
+                        context.setClazz(cls);
+                        context.setTimeout(timeout);
+                        String key = cacheFlush.getKey(context);
+                        if (StringUtils.isNotEmpty(key)) {
+                            cacheFlush.clear(context, key);
+                        }
                     }
                     return;
                 }
