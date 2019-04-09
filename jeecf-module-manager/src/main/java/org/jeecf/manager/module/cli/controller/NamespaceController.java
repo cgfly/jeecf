@@ -100,7 +100,7 @@ public class NamespaceController {
                 SysNamespaceResult sysNamespaceResult = sysNamespaceResultList.get(0);
                 for (String permission : permissions) {
                     if (sysNamespaceResult.getPermission().equals(permission)) {
-                        sysUserNamespaceService.updateByUserId(sysUser.getId(), Integer.valueOf(sysNamespaceResult.getId()));
+                        return sysUserNamespaceService.updateByUserId(sysUser.getId(), Integer.valueOf(sysNamespaceResult.getId()));
                     }
                 }
                 throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
