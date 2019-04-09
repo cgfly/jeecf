@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2.0
  */
 @Service
-@Cache(cacheLoadStore = QueryCacheLoadStore.class, cacheFlush = ClassCacheFlush.class, timeout = 60 * 60 * 24,open=false)
+@Cache(cacheLoadStore = QueryCacheLoadStore.class, cacheFlush = ClassCacheFlush.class, timeout = 60 * 60 * 24, open = false)
 public class SysUserDbsourceService extends BaseService<SysUserDbsourceDao, SysUserDbsourcePO, SysUserDbsourceResult, SysUserDbsourceQuery, SysUserDbsource> {
 
     @FlushCache
