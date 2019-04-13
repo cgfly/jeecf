@@ -9,14 +9,13 @@ import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.module.cli.model.AuthModel;
 import org.jeecf.manager.module.cli.service.UserAuthService;
-import org.jeecf.manager.module.config.model.po.SysNamespacePO;
-import org.jeecf.manager.module.config.model.query.SysNamespaceQuery;
-import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
+import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.template.model.po.GenFieldPO;
 import org.jeecf.manager.module.template.model.query.GenFieldQuery;
 import org.jeecf.manager.module.template.model.result.GenFieldResult;
 import org.jeecf.manager.module.template.service.GenFieldService;
+import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,17 +48,14 @@ public class FieldController {
 
     @PostMapping(value = { "list/{namespace}" })
     @ApiOperation(value = "列表", notes = "返回用户模版属性列表")
-    public Response<List<String>> list(@RequestBody AuthModel authModel, @PathVariable String namespace) {
-        SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-        sysNamespaceQuery.setName(namespace);
-        SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-        Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-        if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
+    public Response<List<String>> list(@RequestBody AuthModel authModel, @PathVariable(required = false) String namespace) {
+        Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), namespace);
+        if (sysNamespace != null) {
             List<String> fieldList = new ArrayList<>();
-            SysNamespaceResult sysNamespaceResult = sysNamespaceResultListRes.getData().get(0);
-            userAuthService.auth(authModel, sysNamespaceResult.getPermission());
+            userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             GenFieldQuery genFieldQuery = new GenFieldQuery();
-            genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
+            genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             GenFieldPO genFieldPO = new GenFieldPO(genFieldQuery);
             Response<List<GenFieldResult>> genFieldResultListRes = genFieldService.findList(genFieldPO);
             if (CollectionUtils.isNotEmpty(genFieldResultListRes.getData())) {
@@ -72,18 +68,15 @@ public class FieldController {
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }
 
-    @PostMapping(value = { "detail/{namespace}/{name}" })
+    @PostMapping(value = { "detail/{namespace}/{name}", "detail/{name}" })
     @ApiOperation(value = "详情", notes = "返回用户模版属性详情")
-    public Response<GenFieldResult> detail(@RequestBody AuthModel authModel, @PathVariable String namespace, @PathVariable String name) {
-        SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-        sysNamespaceQuery.setName(namespace);
-        SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-        Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-        if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
-            SysNamespaceResult sysNamespaceResult = sysNamespaceResultListRes.getData().get(0);
-            userAuthService.auth(authModel, sysNamespaceResult.getPermission());
+    public Response<GenFieldResult> detail(@RequestBody AuthModel authModel, @PathVariable(required = false) String namespace, @PathVariable String name) {
+        Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), namespace);
+        if (sysNamespace != null) {
+            userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             GenFieldQuery genFieldQuery = new GenFieldQuery();
-            genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
+            genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             genFieldQuery.setName(name);
             GenFieldPO genFieldPO = new GenFieldPO(genFieldQuery);
             Response<List<GenFieldResult>> genFieldResultListRes = genFieldService.findList(genFieldPO);

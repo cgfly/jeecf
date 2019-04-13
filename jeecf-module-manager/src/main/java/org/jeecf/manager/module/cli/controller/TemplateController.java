@@ -25,6 +25,7 @@ import org.jeecf.manager.module.cli.model.TemplateCodeInput;
 import org.jeecf.manager.module.cli.model.TemplateField;
 import org.jeecf.manager.module.cli.model.TemplateInput;
 import org.jeecf.manager.module.cli.service.UserAuthService;
+import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.model.po.SysNamespacePO;
 import org.jeecf.manager.module.config.model.query.SysNamespaceQuery;
 import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
@@ -44,6 +45,7 @@ import org.jeecf.manager.module.template.service.GenFieldColumnService;
 import org.jeecf.manager.module.template.service.GenFieldService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
+import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.jeecf.osgi.enums.BoundleEnum;
 import org.jeecf.osgi.enums.LanguageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,17 +101,14 @@ public class TemplateController {
 
     @PostMapping(value = { "list/{namespace}" })
     @ApiOperation(value = "列表", notes = "返回用户模版列表")
-    public Response<List<String>> list(@RequestBody AuthModel authModel, @PathVariable String namespace) {
-        SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-        sysNamespaceQuery.setName(namespace);
-        SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-        Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-        if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
+    public Response<List<String>> list(@RequestBody AuthModel authModel, @PathVariable(required = false) String namespace) {
+        Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), namespace);
+        if (sysNamespace != null) {
             List<String> fieldList = new ArrayList<>();
-            SysNamespaceResult sysNamespaceResult = sysNamespaceResultListRes.getData().get(0);
-            userAuthService.auth(authModel, sysNamespaceResult.getPermission());
+            userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
-            genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
+            genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
@@ -122,24 +121,21 @@ public class TemplateController {
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }
 
-    @PostMapping(value = { "pull/{namespace}/{name}" })
+    @PostMapping(value = { "pull/{namespace}/{name}", "pull/{name}" })
     @ApiOperation(value = "获取", notes = "获取模版定位")
-    public Response<String> pull(@RequestBody AuthModel authModel, @PathVariable String namespace, @PathVariable String name, HttpServletResponse response) {
-        SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-        sysNamespaceQuery.setName(namespace);
-        SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-        Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-        if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
-            SysNamespaceResult sysNamespaceResult = sysNamespaceResultListRes.getData().get(0);
-            userAuthService.auth(authModel, sysNamespaceResult.getPermission());
+    public Response<String> pull(@RequestBody AuthModel authModel, @PathVariable(required = false) String namespace, @PathVariable String name, HttpServletResponse response) {
+        Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), namespace);
+        if (sysNamespace != null) {
+            userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
-            genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
+            genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             genTemplateQuery.setName(name);
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
-                String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespaceResult.getName());
+                String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_TMPL_PREFIX + uuid, zipFilePath);
                 return new Response<>(uuid);
