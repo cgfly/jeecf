@@ -120,6 +120,19 @@ public class UserAuthService {
     }
 
     @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
+    public void authPermission(String userId, String validPermission) {
+        Set<String> permissions = securityFacade.findPermission(userId).getData();
+        if (CollectionUtils.isNotEmpty(permissions)) {
+            for (String permission : permissions) {
+                if (permission.equals(validPermission)) {
+                    return;
+                }
+            }
+        }
+        throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
     public Response<String> auth(String id, String validPermission) {
         Set<String> permissions = securityFacade.findPermission(id).getData();
         if (CollectionUtils.isNotEmpty(permissions)) {
