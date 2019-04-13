@@ -119,10 +119,7 @@ public class PluginController {
             sysOsgiPluginQuery.setName(name);
             SysOsgiPluginPO sysOsgiPluginPO = new SysOsgiPluginPO(sysOsgiPluginQuery);
             Response<List<SysOsgiPluginResult>> sysOsgiPluginResultListRes = sysOsgiPluginService.findList(sysOsgiPluginPO);
-            if (CollectionUtils.isNotEmpty(sysOsgiPluginResultListRes.getData())) {
-                return new Response<>(sysOsgiPluginResultListRes.getData().get(0));
-            }
-            throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+            return new Response<>(sysOsgiPluginResultListRes.getData().get(0));
         }
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }

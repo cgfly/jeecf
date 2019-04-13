@@ -80,10 +80,7 @@ public class FieldController {
             genFieldQuery.setName(name);
             GenFieldPO genFieldPO = new GenFieldPO(genFieldQuery);
             Response<List<GenFieldResult>> genFieldResultListRes = genFieldService.findList(genFieldPO);
-            if (CollectionUtils.isNotEmpty(genFieldResultListRes.getData())) {
-                return new Response<>(genFieldResultListRes.getData().get(0));
-            }
-            throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+            return new Response<>(genFieldResultListRes.getData().get(0));
         }
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }
