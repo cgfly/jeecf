@@ -80,7 +80,10 @@ public class FieldController {
             genFieldQuery.setName(name);
             GenFieldPO genFieldPO = new GenFieldPO(genFieldQuery);
             Response<List<GenFieldResult>> genFieldResultListRes = genFieldService.findList(genFieldPO);
-            return new Response<>(genFieldResultListRes.getData().get(0));
+            if (CollectionUtils.isNotEmpty(genFieldResultListRes.getData())) {
+                return new Response<>(genFieldResultListRes.getData().get(0));
+            }
+            return new Response<>(null);
         }
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }

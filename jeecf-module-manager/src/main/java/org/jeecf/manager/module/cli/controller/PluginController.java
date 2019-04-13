@@ -5,16 +5,11 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.exception.BusinessException;
-import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
-import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.module.cli.model.AuthModel;
 import org.jeecf.manager.module.cli.service.UserAuthService;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
-import org.jeecf.manager.module.config.model.po.SysNamespacePO;
-import org.jeecf.manager.module.config.model.query.SysNamespaceQuery;
-import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.extend.model.po.SysOsgiPluginPO;
 import org.jeecf.manager.module.extend.model.query.SysOsgiPluginQuery;
@@ -67,18 +62,7 @@ public class PluginController {
     @ApiOperation(value = "列表", notes = "返回用户插件列表")
     public Response<List<String>> plugins(@RequestBody AuthModel authModel, @PathVariable(required = false) String namespace) {
         Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
-        SysNamespace sysNamespace = null;
-        if (StringUtils.isEmpty(namespace)) {
-            sysNamespace = NamespaceUtils.getNamespace(sysUserResultRes.getData().getId());
-        } else {
-            SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-            sysNamespaceQuery.setName(namespace);
-            SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-            Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-            if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
-                sysNamespace = sysNamespaceResultListRes.getData().get(0);
-            }
-        }
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), namespace);
         if (sysNamespace != null) {
             List<String> pluginList = new ArrayList<>();
             userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
@@ -100,18 +84,7 @@ public class PluginController {
     @ApiOperation(value = "详情", notes = "返回用户插件详情")
     public Response<SysOsgiPluginResult> detail(@RequestBody AuthModel authModel, @PathVariable(required = false) String namespace, @PathVariable String name) {
         Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
-        SysNamespace sysNamespace = null;
-        if (StringUtils.isEmpty(namespace)) {
-            sysNamespace = NamespaceUtils.getNamespace(sysUserResultRes.getData().getId());
-        } else {
-            SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-            sysNamespaceQuery.setName(namespace);
-            SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-            Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-            if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
-                sysNamespace = sysNamespaceResultListRes.getData().get(0);
-            }
-        }
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), namespace);
         if (sysNamespace != null) {
             userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             SysOsgiPluginQuery sysOsgiPluginQuery = new SysOsgiPluginQuery();
@@ -119,7 +92,10 @@ public class PluginController {
             sysOsgiPluginQuery.setName(name);
             SysOsgiPluginPO sysOsgiPluginPO = new SysOsgiPluginPO(sysOsgiPluginQuery);
             Response<List<SysOsgiPluginResult>> sysOsgiPluginResultListRes = sysOsgiPluginService.findList(sysOsgiPluginPO);
-            return new Response<>(sysOsgiPluginResultListRes.getData().get(0));
+            if (CollectionUtils.isNotEmpty(sysOsgiPluginResultListRes.getData())) {
+                return new Response<>(sysOsgiPluginResultListRes.getData().get(0));
+            }
+            return new Response<>(null);
         }
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }
