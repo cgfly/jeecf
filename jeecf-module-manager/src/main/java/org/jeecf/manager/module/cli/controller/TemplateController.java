@@ -227,14 +227,11 @@ public class TemplateController {
         AuthModel authModel = new AuthModel();
         authModel.setUsername(templateInput.getUsername());
         authModel.setUsername(templateInput.getPassword());
-        SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-        sysNamespaceQuery.setName(templateInput.getNamespace());
-        SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-        Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-        if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
-            SysNamespaceResult sysNamespaceResult = sysNamespaceResultListRes.getData().get(0);
-            userAuthService.auth(authModel, sysNamespaceResult.getPermission());
-            String result = TemplateUtils.upload(file, sysNamespaceResult);
+        Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
+        SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), templateInput.getNamespace());
+        if (sysNamespace != null) {
+            userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
+            String result = TemplateUtils.upload(file, sysNamespace);
             if (StringUtils.isNotEmpty(result)) {
                 String version = templateInput.getVersion();
                 Integer language = DEFAULT_LANGUAGE;
@@ -251,7 +248,7 @@ public class TemplateController {
                 if (StringUtils.isNotEmpty(templateInput.getField())) {
                     GenFieldQuery genFieldQuery = new GenFieldQuery();
                     genFieldQuery.setName(templateInput.getField());
-                    genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
+                    genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
                     GenFieldPO genFieldPO = new GenFieldPO(genFieldQuery);
                     Response<List<GenFieldResult>> genFieldResultListRes = genFieldService.findList(genFieldPO);
                     if (CollectionUtils.isEmpty(genFieldResultListRes.getData())) {
@@ -266,7 +263,7 @@ public class TemplateController {
                 genTemplate.setVersion(version);
                 genTemplate.setGenFieldId(field);
                 genTemplate.setName(templateInput.getName());
-                genTemplate.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
+                genTemplate.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
                 return genTemplateService.save(genTemplate);
             }
         }

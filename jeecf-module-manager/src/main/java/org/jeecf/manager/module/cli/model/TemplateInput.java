@@ -1,5 +1,9 @@
 package org.jeecf.manager.module.cli.model;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -47,6 +51,7 @@ public class TemplateInput extends AuthModel {
     @ApiModelProperty(value = "描述", name = "description")
     private String description;
 
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{genTemplate.name.pattern}")
     public String getName() {
         return name;
     }
@@ -79,6 +84,7 @@ public class TemplateInput extends AuthModel {
         this.namespace = namespace;
     }
 
+    @Length(min = 1, max = 20, message = "{genTemplate.version.length}")
     public String getVersion() {
         return version;
     }
@@ -87,6 +93,7 @@ public class TemplateInput extends AuthModel {
         this.version = version;
     }
 
+    @Length(min = 1, max = 100, message = "{genTemplate.wikiUri.length}")
     public String getWikiUri() {
         return wikiUri;
     }
@@ -95,6 +102,7 @@ public class TemplateInput extends AuthModel {
         this.wikiUri = wikiUri;
     }
 
+    @Length(min = 1, max = 50, message = "{genTemplate.description.length}")
     public String getDescription() {
         return description;
     }
