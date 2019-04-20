@@ -166,7 +166,7 @@ public class TemplateController {
             GenSingleModel genSingleModel = genModel.getGenSingleModel();
             userAuthService.auth(userId, validPermissions);
             threadLocalProperties.set(DynamicDataSourceAspect.THREAD_DB_NAME, sysDbsourceResult.getKeyName());
-            
+
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
             genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             genTemplateQuery.setName(sysNamespace.getName());
@@ -176,7 +176,7 @@ public class TemplateController {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
                 List<GenParams> paramsList = new ArrayList<>();
                 if (genTemplateResult.getGenFieldId() != null) {
-                    
+
                     List<TemplateField> templateFieldList = genSingleModel.getFields();
                     GenFieldColumnQuery genFieldColumnQuery = new GenFieldColumnQuery();
                     genFieldColumnQuery.setGenFieldId(genTemplateResult.getGenFieldId());

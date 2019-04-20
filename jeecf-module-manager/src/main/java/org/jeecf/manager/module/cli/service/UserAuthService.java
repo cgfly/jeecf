@@ -147,7 +147,7 @@ public class UserAuthService {
 
     @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
     public Response<String> auth(String id, List<String> validPermissions) {
-        if(CollectionUtils.isEmpty(validPermissions)) {
+        if (CollectionUtils.isEmpty(validPermissions)) {
             throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
         }
         int validCount = validPermissions.size();
@@ -162,7 +162,7 @@ public class UserAuthService {
                 }
             }
         }
-        if(validCount == 0) {
+        if (validCount == 0) {
             return new Response<>(id);
         }
         throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
