@@ -31,7 +31,7 @@ public class NamespaceUtils {
 
     private static final ThreadLocalProperties THREAD_LOCAL_PROPERTIES = SpringContextUtils.getBean("threadLocalProperties", ThreadLocalProperties.class);
 
-    private static final String NAMESPACE_ID = "namespaceId";
+    public static final String NAMESPACE_ID = "namespaceId";
 
     /**
      * 获取当前命名空间 标识

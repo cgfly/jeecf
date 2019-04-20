@@ -24,7 +24,7 @@ public class DbsourceUtils {
 
     private static final SysDbsourceService SYS_DBSOURCE_SERVICE = SpringContextUtils.getBean("sysDbsourceService", SysDbsourceService.class);
 
-    private static final String DBSOURCE_ID = "dbsourceId";
+    public static final String DBSOURCE_ID = "dbsourceId";
 
     public static Integer getSysDbsourceId() {
         String dbsourceId = THREAD_LOCAL_PROPERTIES.get(DBSOURCE_ID);

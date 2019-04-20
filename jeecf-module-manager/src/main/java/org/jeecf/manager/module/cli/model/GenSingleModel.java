@@ -12,6 +12,11 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class GenSingleModel {
     /**
+     * 模版名称
+     */
+    @ApiModelProperty(value = "模版名称", name = "templateName")
+    private String templateName;
+    /**
      * 表名
      */
     @ApiModelProperty(value = "表名", name = "tableName")
@@ -21,6 +26,14 @@ public class GenSingleModel {
      */
     @ApiModelProperty(value = "模版属性", name = "fields")
     private List<TemplateField> fields;
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
 
     public String getTableName() {
         return tableName;

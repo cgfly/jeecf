@@ -19,6 +19,7 @@ import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.common.utils.DbsourceUtils;
 import org.jeecf.manager.common.utils.DownloadUtils;
+import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.gen.utils.GenUtils;
@@ -166,10 +167,11 @@ public class TemplateController {
             GenSingleModel genSingleModel = genModel.getGenSingleModel();
             userAuthService.auth(userId, validPermissions);
             threadLocalProperties.set(DynamicDataSourceAspect.THREAD_DB_NAME, sysDbsourceResult.getKeyName());
-
+            threadLocalProperties.set(DbsourceUtils.DBSOURCE_ID, sysDbsourceResult.getId());
+            threadLocalProperties.set(NamespaceUtils.NAMESPACE_ID, sysNamespace.getId());
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
             genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-            genTemplateQuery.setName(sysNamespace.getName());
+            genTemplateQuery.setName(genSingleModel.getTemplateName());
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
