@@ -54,4 +54,16 @@ public class DbsourceUtils {
         return null;
     }
 
+    public static SysDbsourceResult getSysDbsource(String name) {
+        SysDbsourceService sysDbsourceService = (SysDbsourceService) SpringContextUtils.getBean("sysDbsourceService");
+        SysDbsourceQuery sysDbsourceQuery = new SysDbsourceQuery();
+        sysDbsourceQuery.setKeyName(name);
+        SysDbsourcePO sysDbsourcePO = new SysDbsourcePO(sysDbsourceQuery);
+        Response<List<SysDbsourceResult>> sysDbsourceResultRes = sysDbsourceService.findList(sysDbsourcePO);
+        if (CollectionUtils.isNotEmpty(sysDbsourceResultRes.getData())) {
+            return sysDbsourceResultRes.getData().get(0);
+        }
+        return null;
+    }
+
 }

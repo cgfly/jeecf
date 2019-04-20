@@ -15,19 +15,19 @@ public class TemplateField {
      * 参数名
      */
     @ApiModelProperty(value = "参数名", name = "key")
-    private String key;
+    private String name;
     /**
      * 参数值
      */
     @ApiModelProperty(value = "参数值", name = "value")
     private String value;
 
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getValue() {

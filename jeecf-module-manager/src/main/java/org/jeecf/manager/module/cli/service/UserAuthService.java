@@ -145,6 +145,29 @@ public class UserAuthService {
         throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
     }
 
+    @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
+    public Response<String> auth(String id, List<String> validPermissions) {
+        if(CollectionUtils.isEmpty(validPermissions)) {
+            throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
+        }
+        int validCount = validPermissions.size();
+        Set<String> permissions = securityFacade.findPermission(id).getData();
+        if (CollectionUtils.isNotEmpty(permissions)) {
+            for (String permission : permissions) {
+                for (String validPermission : validPermissions) {
+                    if (permission.equals(validPermission)) {
+                        validCount--;
+                        break;
+                    }
+                }
+            }
+        }
+        if(validCount == 0) {
+            return new Response<>(id);
+        }
+        throw new BusinessException(SysErrorEnum.UNAUTHORIZED_ERROR);
+    }
+
     public String login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         Subject subject = new WebSubject.Builder(request, response).buildWebSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, true);

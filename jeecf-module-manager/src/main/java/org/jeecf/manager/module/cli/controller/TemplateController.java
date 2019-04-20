@@ -16,19 +16,21 @@ import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.IdGenUtils;
 import org.jeecf.gen.model.GenParams;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.properties.ThreadLocalProperties;
+import org.jeecf.manager.common.utils.DbsourceUtils;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.gen.utils.GenUtils;
+import org.jeecf.manager.interceptor.DynamicDataSourceAspect;
 import org.jeecf.manager.module.cli.model.AuthModel;
-import org.jeecf.manager.module.cli.model.TemplateCodeInput;
+import org.jeecf.manager.module.cli.model.GenModel;
+import org.jeecf.manager.module.cli.model.GenSingleModel;
 import org.jeecf.manager.module.cli.model.TemplateField;
 import org.jeecf.manager.module.cli.model.TemplateInput;
 import org.jeecf.manager.module.cli.service.UserAuthService;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
-import org.jeecf.manager.module.config.model.po.SysNamespacePO;
-import org.jeecf.manager.module.config.model.query.SysNamespaceQuery;
-import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
+import org.jeecf.manager.module.config.model.result.SysDbsourceResult;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.extend.service.SysOsgiPluginService;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
@@ -70,6 +72,9 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = { "cli/tmpl" })
 @Api(value = "命令行模版 api", tags = { "命令行模版接口" })
 public class TemplateController {
+
+    @Autowired
+    private ThreadLocalProperties threadLocalProperties;
 
     @Autowired
     private UserAuthService userAuthService;
@@ -147,25 +152,32 @@ public class TemplateController {
 
     @PostMapping(value = { "gen" })
     @ApiOperation(value = "代码生成", notes = "生成代码")
-    public Response<String> code(@RequestBody TemplateCodeInput templateCodeInput, HttpServletRequest request, HttpServletResponse response) {
-        String id = userAuthService.login(templateCodeInput.getUsername(), templateCodeInput.getPassword(), request, response);
-        SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-        sysNamespaceQuery.setName(templateCodeInput.getNamespace());
-        SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
-        Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
-        if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {
-            SysNamespaceResult sysNamespaceResult = sysNamespaceResultListRes.getData().get(0);
-            userAuthService.auth(id, sysNamespaceResult.getPermission());
+    public Response<String> code(@RequestBody GenModel genModel, HttpServletRequest request, HttpServletResponse response) {
+        String userId = userAuthService.login(genModel.getUsername(), genModel.getPassword(), request, response);
+        SysNamespace sysNamespace = sysNamespaceService.get(userId, genModel.getNamespace());
+        if (sysNamespace != null) {
+            SysDbsourceResult sysDbsourceResult = DbsourceUtils.getSysDbsource(genModel.getDbsource());
+            if (sysDbsourceResult == null) {
+                throw new BusinessException(BusinessErrorEnum.DARASOURCE_NOT);
+            }
+            List<String> validPermissions = new ArrayList<>();
+            validPermissions.add(sysNamespace.getPermission());
+            validPermissions.add(sysDbsourceResult.getPermission());
+            GenSingleModel genSingleModel = genModel.getGenSingleModel();
+            userAuthService.auth(userId, validPermissions);
+            threadLocalProperties.set(DynamicDataSourceAspect.THREAD_DB_NAME, sysDbsourceResult.getKeyName());
+            
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
-            genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespaceResult.getId()));
-            genTemplateQuery.setName(templateCodeInput.getName());
+            genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
+            genTemplateQuery.setName(sysNamespace.getName());
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
                 List<GenParams> paramsList = new ArrayList<>();
                 if (genTemplateResult.getGenFieldId() != null) {
-                    List<TemplateField> templateFieldList = templateCodeInput.getTemplateFields();
+                    
+                    List<TemplateField> templateFieldList = genSingleModel.getFields();
                     GenFieldColumnQuery genFieldColumnQuery = new GenFieldColumnQuery();
                     genFieldColumnQuery.setGenFieldId(genTemplateResult.getGenFieldId());
                     GenFieldColumnPO genFieldColumnPO = new GenFieldColumnPO(genFieldColumnQuery);
@@ -178,7 +190,7 @@ public class TemplateController {
                     }
                     if (CollectionUtils.isNotEmpty(templateFieldList)) {
                         templateFieldList.forEach(templateField -> {
-                            fieldMap.put(templateField.getKey(), templateField.getValue());
+                            fieldMap.put(templateField.getName(), templateField.getValue());
                         });
                     }
                     fieldMap.forEach((key, value) -> {
@@ -188,10 +200,10 @@ public class TemplateController {
                         paramsList.add(params);
                     });
                 }
-                String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespaceResult.getName());
-                String outPath = GenUtils.build(paramsList, templateCodeInput.getTableName(), sourcePath, genTemplateResult.getLanguage(), sysNamespaceResult, new SysUser(id),
+                String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
+                String outPath = GenUtils.build(paramsList, genSingleModel.getTableName(), sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId),
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
-                String targetPath = TemplateUtils.getUnzipPath(outPath + SplitCharEnum.SLASH.getName() + templateCodeInput.getTableName(), sysNamespaceResult.getName());
+                String targetPath = TemplateUtils.getUnzipPath(outPath + SplitCharEnum.SLASH.getName() + genSingleModel.getTableName(), sysNamespace.getName());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_CODE_PREFIX + uuid, TemplateUtils.getDownloadPath(targetPath));
                 return new Response<>(uuid);
