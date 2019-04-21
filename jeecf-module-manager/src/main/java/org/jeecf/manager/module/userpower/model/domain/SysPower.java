@@ -8,6 +8,7 @@ import org.jeecf.manager.common.model.AbstractTreePermissionEntity;
 import org.jeecf.manager.module.userpower.model.result.SysPowerResult;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 系统权限
@@ -19,6 +20,11 @@ import io.swagger.annotations.ApiModel;
 public class SysPower extends AbstractTreePermissionEntity<SysPowerResult> implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签", name = "label")
+    private Integer label;
 
     public SysPower() {
         super();
@@ -26,6 +32,14 @@ public class SysPower extends AbstractTreePermissionEntity<SysPowerResult> imple
 
     public SysPower(String id) {
         super(id);
+    }
+
+    public Integer getLabel() {
+        return label;
+    }
+
+    public void setLabel(Integer label) {
+        this.label = label;
     }
 
     @Override

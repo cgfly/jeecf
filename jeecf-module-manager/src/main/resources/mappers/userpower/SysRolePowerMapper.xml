@@ -1,163 +1,165 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
-	namespace="org.jeecf.manager.module.userpower.dao.SysRolePowerDao">
+    namespace="org.jeecf.manager.module.userpower.dao.SysRolePowerDao">
 
-	<sql id="columnList">
-		sysRolePower.role_id AS "sysRole.id",
-		sysRolePower.power_id
-		AS "sysPower.id",
-		power.permission As "sysPower.permission"
-	</sql>
+    <sql id="columnList">
+        sysRolePower.role_id AS "sysRole.id",
+        sysRolePower.power_id AS "sysPower.id",
+        power.label AS "sysPower.label",
+        power.permission AS "sysPower.permission"
+    </sql>
 
-	<sql id="commonWhere">
-		<where>
-			<if test="data != null">
-				<if
-					test="data.sysRole != null and data.sysRole.id != null and data.sysRole.id != '' ">
-					And sysRolePower.role_id = #{data.sysRole.id}
-				</if>
-				<if
-					test="data.sysPower != null and data.sysPower.id != null and data.sysPower.id != '' ">
-					And sysRolePower.power_id = #{data.sysPower.id}
-				</if>
-				<include refid="reginWhere" />
-			</if>
-			<include refid="containWhere" />
-		</where>
-	</sql>
+    <sql id="commonWhere">
+        <where>
+            <if test="data != null">
+                <if
+                    test="data.sysRole != null and data.sysRole.id != null and data.sysRole.id != '' ">
+                    And sysRolePower.role_id = #{data.sysRole.id}
+                </if>
+                <if
+                    test="data.sysPower != null and data.sysPower.id != null and data.sysPower.id != '' ">
+                    And sysRolePower.power_id = #{data.sysPower.id}
+                </if>
+                <include refid="reginWhere" />
+            </if>
+            <include refid="containWhere" />
+        </where>
+    </sql>
 
-	<!-- 通用范围区间查询 -->
-	<sql id="reginWhere">
-	</sql>
+    <!-- 通用范围区间查询 -->
+    <sql id="reginWhere">
+    </sql>
 
-	<!-- in 和 not in的通用查询where -->
-	<sql id="containWhere">
-		<if test="contains != null and contains.size > 0">
-			<foreach item="item" index="i" collection="contains">
-				And ${item.columnName} in
-				<foreach item="value" index="i"
-					collection="item.columnValue" separator="," open="(" close=")">
-					#{value}
-				</foreach>
-			</foreach>
-		</if>
-	</sql>
+    <!-- in 和 not in的通用查询where -->
+    <sql id="containWhere">
+        <if test="contains != null and contains.size > 0">
+            <foreach item="item" index="i" collection="contains">
+                And ${item.columnName} in
+                <foreach item="value" index="i"
+                    collection="item.columnValue" separator="," open="("
+                    close=")">
+                    #{value}
+                </foreach>
+            </foreach>
+        </if>
+    </sql>
 
-	<!-- 通用排序处理 -->
-	<sql id="commonSorts">
-		<if test="sorts != null and sorts.size > 0">
-			ORDER BY
-			<foreach collection="sorts" item="item" separator=",">
-				${item.columnName} ${item.sortMode}
-			</foreach>
-		</if>
-		<if test="sorts == null">
-			ORDER BY sysRolePower.update_date desc
-		</if>
-	</sql>
+    <!-- 通用排序处理 -->
+    <sql id="commonSorts">
+        <if test="sorts != null and sorts.size > 0">
+            ORDER BY
+            <foreach collection="sorts" item="item"
+                separator=",">
+                ${item.columnName} ${item.sortMode}
+            </foreach>
+        </if>
+        <if test="sorts == null">
+            ORDER BY sysRolePower.update_date desc
+        </if>
+    </sql>
 
-	<!-- 关联查询 -->
-	<sql id="leftJoinColumn">
-		LEFT JOIN sys_role role on sysRolePower.role_id = role.id
-		LEFT JOIN sys_power power on sysRolePower.power_id = power.id
-	</sql>
-
-
-
-	<select id="query"
-		resultType="org.jeecf.manager.module.userpower.model.result.SysRolePowerResult">
-		select
-		<include refid="columnList" />
-		from
-		sys_role_power sysRolePower
-		<include refid="leftJoinColumn" />
-		<include refid="commonWhere" />
-		<include refid="commonSorts" />
-		<if test="page != null">
-			limit ${page.startNo},${page.size}
-		</if>
-	</select>
-
-	<select id="get"
-		resultType="org.jeecf.manager.module.userpower.model.result.SysRolePowerResult">
-		select
-		<include refid="columnList" />
-		from
-		sys_role_power sysRolePower
-		<include refid="leftJoinColumn" />
-		where sysRolePower.id = #{id}
-	</select>
-
-	<insert id="insert">
-		insert into sys_role_power
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="sysRole.id != null">
-				role_id,
-			</if>
-			<if test="sysPower.id != null">
-				power_id,
-			</if>
-			<if test="remark != null">
-				remark,
-			</if>
-			<if test="createDate != null">
-				create_date,
-			</if>
-			<if test="updateDate != null">
-				update_date,
-			</if>
-			<if test="createBy != null">
-				create_by,
-			</if>
-			<if test="updateBy != null">
-				update_by,
-			</if>
-		</trim>
-		values
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="sysRole.id != null">
-				#{sysRole.id},
-			</if>
-			<if test="sysPower.id != null">
-				#{sysPower.id},
-			</if>
-			<if test="remark != null">
-				#{remark},
-			</if>
-			<if test="createDate != null">
-				#{createDate},
-			</if>
-			<if test="updateDate != null">
-				#{updateDate},
-			</if>
-			<if test="createBy != null">
-				#{createBy},
-			</if>
-			<if test="updateBy != null">
-				#{updateBy}
-			</if>
-		</trim>
-	</insert>
+    <!-- 关联查询 -->
+    <sql id="leftJoinColumn">
+        LEFT JOIN sys_role role on sysRolePower.role_id = role.id
+        LEFT JOIN sys_power power on sysRolePower.power_id = power.id
+    </sql>
 
 
-	<select id="count" resultType="int">
-		select count(1) from sys_role_power sysRolePower
-		<include refid="leftJoinColumn" />
-		<include refid="commonWhere" />
-	</select>
 
-	<delete id="delete">
-		delete from sys_role_power
-		where
-		<if
-			test="sysRole != null and sysRole.id != null and sysRole.id != '' ">
-			sys_role_power.role_id = #{sysRole.id}
-		</if>
-		<if
-			test="sysPower != null and sysPower.id != null and sysPower.id != '' ">
-			sys_role_power.power_id = #{sysPower.id}
-		</if>
-	</delete>
+    <select id="query"
+        resultType="org.jeecf.manager.module.userpower.model.result.SysRolePowerResult">
+        select
+        <include refid="columnList" />
+        from
+        sys_role_power sysRolePower
+        <include refid="leftJoinColumn" />
+        <include refid="commonWhere" />
+        <include refid="commonSorts" />
+        <if test="page != null">
+            limit ${page.startNo},${page.size}
+        </if>
+    </select>
+
+    <select id="get"
+        resultType="org.jeecf.manager.module.userpower.model.result.SysRolePowerResult">
+        select
+        <include refid="columnList" />
+        from
+        sys_role_power sysRolePower
+        <include refid="leftJoinColumn" />
+        where sysRolePower.id = #{id}
+    </select>
+
+    <insert id="insert">
+        insert into sys_role_power
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysRole.id != null">
+                role_id,
+            </if>
+            <if test="sysPower.id != null">
+                power_id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysRole.id != null">
+                #{sysRole.id},
+            </if>
+            <if test="sysPower.id != null">
+                #{sysPower.id},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy}
+            </if>
+        </trim>
+    </insert>
+
+
+    <select id="count" resultType="int">
+        select count(1) from sys_role_power sysRolePower
+        <include refid="leftJoinColumn" />
+        <include refid="commonWhere" />
+    </select>
+
+    <delete id="delete">
+        delete from sys_role_power
+        where
+        <if
+            test="sysRole != null and sysRole.id != null and sysRole.id != '' ">
+            sys_role_power.role_id = #{sysRole.id}
+        </if>
+        <if
+            test="sysPower != null and sysPower.id != null and sysPower.id != '' ">
+            sys_role_power.power_id = #{sysPower.id}
+        </if>
+    </delete>
 
 </mapper>

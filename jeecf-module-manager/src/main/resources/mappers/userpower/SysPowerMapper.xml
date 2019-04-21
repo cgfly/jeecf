@@ -11,6 +11,7 @@
 		sysPower.parent_ids AS "parentIds",
 		sysPower.level AS "level",
 		sysPower.sort AS "sort",
+        sysPower.label AS "label",
 		sysPower.remark AS "remark",
 		
 		parent.id As "parent.id",
@@ -38,12 +39,15 @@
 				<if test="data.parentIds != null and data.parentIds != '' ">
 					And sysPower.parent_ids like CONCAT('%',#{data.parentIds},'%')
 				</if>
-				<if test="data.level != null and data.level != '' ">
+				<if test="data.level != null ">
 					And sysPower.level = #{data.level}
 				</if>
-				<if test="data.sort != null and data.sort != '' ">
+				<if test="data.sort != null  ">
 					And sysPower.sort = #{data.sort}
 				</if>
+                <if test="data.label != null ">
+                    And sysPower.label = #{data.label}
+                </if>
 				<if test="data.remark != null and data.remark != '' ">
 					And sysPower.remark = #{data.remark}
 				</if>
@@ -148,6 +152,9 @@
 			<if test="sort != null">
 				sort,
 			</if>
+            <if test="label != null">
+                label,
+            </if>
 			<if test="remark != null">
 				remark,
 			</if>
@@ -184,6 +191,9 @@
 			<if test="sort != null">
 				#{sort},
 			</if>
+            <if test="label != null">
+                #{label},
+            </if>
 			<if test="remark != null">
 				#{remark},
 			</if>
@@ -223,6 +233,9 @@
 			<if test="sort != null">
 				sort = #{sort},
 			</if>
+            <if test="label != null">
+                label = #{label},
+            </if> 
 			<if test="remark != null">
 				remark = #{remark},
 			</if>

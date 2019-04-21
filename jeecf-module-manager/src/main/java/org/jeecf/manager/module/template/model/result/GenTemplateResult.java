@@ -29,6 +29,11 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
      */
     @ApiModelProperty(value = "语言名称", name = "languageName")
     private String languageName;
+    /**
+     * 是否在其他命名空间中存在
+     */
+    @ApiModelProperty(value = "是否存在", name = "isExit")
+    private Integer isExit;
 
     public String getGenFieldName() {
         return genFieldName;
@@ -44,6 +49,14 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
 
     public void setLanguageName(String languageName) {
         this.languageName = languageName;
+    }
+    
+    public Integer getIsExit() {
+        return isExit;
+    }
+
+    public void setIsExit(Integer isExit) {
+        this.isExit = isExit;
     }
 
     public void toConvert() {

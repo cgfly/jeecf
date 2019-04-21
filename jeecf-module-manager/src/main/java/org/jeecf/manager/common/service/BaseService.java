@@ -88,6 +88,7 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<R> save(T t) {
         if (t.isNewRecord()) {
             return this.insert(t);

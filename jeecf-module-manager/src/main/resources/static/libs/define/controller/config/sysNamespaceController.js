@@ -119,6 +119,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			};
 			$scope.updateSysNamespace = {};
 			$page.init($scope, $page.getPageSize());
+			$scope.queryPermissions();
 		}
 
 		$scope.effectForm = function(index) {
@@ -130,6 +131,14 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 				} else {
 					$jBoxcm.error("操作失败," + res.errorMessage);
 				}
+			});
+		}
+		
+		$scope.queryPermissions = function() {
+			$httpRequest.post($ctx.getWebPath()+"config/sysNamespace/permissions").then(function(res) {
+				if (res.success) {
+					$scope.permissions = res.data;
+				}	
 			});
 		}
 		

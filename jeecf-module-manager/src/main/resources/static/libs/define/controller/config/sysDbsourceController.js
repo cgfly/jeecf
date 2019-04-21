@@ -129,6 +129,15 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.updateSysDbsource = {};
 			$scope.sysDbsource = {};
 			$page.init($scope, $page.getPageSize());
+			$scope.queryPermissions();
+		}
+		
+		$scope.queryPermissions = function() {
+			$httpRequest.post($ctx.getWebPath()+"config/sysDbsource/permissions").then(function(res) {
+				if (res.success) {
+					$scope.permissions = res.data;
+				}	
+			});
 		}
 		
 		

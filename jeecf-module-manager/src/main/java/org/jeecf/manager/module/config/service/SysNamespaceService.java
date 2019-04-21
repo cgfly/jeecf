@@ -39,4 +39,14 @@ public class SysNamespaceService extends PermissionAuthService<SysNamespaceDao, 
         return sysNamespace;
     }
 
+    /**
+     * 通过id集合 查询列表
+     * 
+     * @param ids
+     * @return
+     */
+    public Response<List<SysNamespaceResult>> findListByIds(List<Integer> ids) {
+        return new Response<>(this.dao.findListByIds(ids));
+    }
+
 }

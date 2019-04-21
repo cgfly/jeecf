@@ -85,6 +85,11 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$scope.sysPower = {};
 			$page.init($scope, $page.getPageSize());
 			$scope.initSection();
+			$ctx.getEnum($rootScope,"permissionLabelEnum",function(result){
+				$scope.$apply(function () {
+					$scope.permissionLabelEnums = result;
+				});
+			});
 		}
 		
 		

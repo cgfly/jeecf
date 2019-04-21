@@ -66,6 +66,11 @@ public class GenTemplateSchema {
      */
     @ApiModelProperty(value = "代码属性名称", name = "genFieldName")
     private boolean genFieldName = true;
+    /**
+     * 命名空间
+     */
+    @ApiModelProperty(value = "命名空间", name = "sysNamespaceId")
+    private boolean sysNamespaceId = true;
 
     public boolean isId() {
         return id;
@@ -153,6 +158,14 @@ public class GenTemplateSchema {
 
     public void setUpdateDate(boolean updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public boolean isSysNamespaceId() {
+        return sysNamespaceId;
+    }
+
+    public void setSysNamespaceId(boolean sysNamespaceId) {
+        this.sysNamespaceId = sysNamespaceId;
     }
 
 }

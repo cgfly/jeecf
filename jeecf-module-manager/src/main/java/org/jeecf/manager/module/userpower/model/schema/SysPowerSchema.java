@@ -58,6 +58,12 @@ public class SysPowerSchema {
     @ApiModelProperty(value = "同级排序", name = "sort")
     private boolean sort = true;
 
+    /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签", name = "label")
+    private boolean label = true;
+
     public boolean isId() {
         return id;
     }
@@ -112,6 +118,14 @@ public class SysPowerSchema {
 
     public void setSort(boolean sort) {
         this.sort = sort;
+    }
+
+    public boolean isLabel() {
+        return label;
+    }
+
+    public void setLabel(boolean label) {
+        this.label = label;
     }
 
     public boolean isParent() {

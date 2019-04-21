@@ -1,6 +1,10 @@
 package org.jeecf.manager.module.config.controller;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -10,6 +14,7 @@ import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.PermissionLabelEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -23,6 +28,7 @@ import org.jeecf.manager.module.config.model.result.SysUserNamespaceResult;
 import org.jeecf.manager.module.config.model.schema.SysNamespaceSchema;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.config.service.SysUserNamespaceService;
+import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +60,9 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
 
     @Autowired
     private SysUserNamespaceService sysUserNamespaceService;
+
+    @Autowired
+    private SecurityFacade securityFacade;
 
     @GetMapping(value = { "", "index" })
     @RequiresPermissions("${permission.sysNamespace.view}")
@@ -142,6 +151,24 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
         return sysNamespaceService.deleteByAuth(new SysNamespace(id));
+    }
+
+    @PostMapping(value = { "permissions" })
+    @ResponseBody
+    @RequiresPermissions("${permission.sysNamespace.edit}")
+    @ApiOperation(value = "权限", notes = "获取命名空间权限")
+    public Response<List<Map<String, String>>> permissions() {
+        List<Map<String, String>> result = new ArrayList<>();
+        Response<Set<String>> res = securityFacade.findPermission(UserUtils.getCurrentUserId(), PermissionLabelEnum.NAMESPACE.getCode());
+        if (CollectionUtils.isNotEmpty(res.getData())) {
+            res.getData().forEach(data -> {
+                Map<String, String> resultMap = new LinkedHashMap<>();
+                resultMap.put("code", data);
+                resultMap.put("name", data);
+                result.add(resultMap);
+            });
+        }
+        return new Response<>(result).copyValue(res);
     }
 
 }

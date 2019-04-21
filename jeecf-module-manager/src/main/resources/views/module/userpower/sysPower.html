@@ -1,7 +1,8 @@
 <div ng-init="sysPowerAs.init()"></div>
 <ul id="top-tab" class="nav nav-tabs">
 	<li class="active"><a href="#sysPowerListTab" data-toggle="tab">系统权限配置列表</a></li>
-	<li shiro:hasPermission="userpower:sysPower:edit"><a href="#sysPowerFormTab" data-toggle="tab">系统权限配置添加</a></li>
+	<li shiro:hasPermission="userpower:sysPower:edit"><a
+		href="#sysPowerFormTab" data-toggle="tab">系统权限配置添加</a></li>
 </ul>
 <br />
 <div class="tab-content">
@@ -13,7 +14,7 @@
 		<form class="form-inline" ng-submit="searchForm()">
 			<div class="form-group">
 				<label>权限名称:</label> <input type="text" class="form-control"
-					 ng-model="request.data.name" />
+					ng-model="request.data.name" />
 			</div>
 			<div class="form-group">
 				<label>权限标识:</label> <input type="text" class="form-control"
@@ -30,6 +31,7 @@
 					<th>序号</th>
 					<th>权限名称</th>
 					<th>权限标识</th>
+					<th>标签</th>
 					<th>等级</th>
 					<th>排序</th>
 					<th shiro:hasPermission="userpower:sysPower:edit">操作</th>
@@ -44,13 +46,15 @@
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysPower.name }}</td>
 					<td>{{ sysPower.permission }}</td>
+					<td>{{ sysPower.labelName }}</td>
 					<td>{{ sysPower.level }}</td>
 					<td>{{ sysPower.sort }}</td>
-					<td shiro:hasPermission="userpower:sysPower:edit">
-					   <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级权限</a></span> 
-					   <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> 
-					   <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
-					</td>
+					<td shiro:hasPermission="userpower:sysPower:edit"><span><a
+							href="javascript:void(0)" ng-click="addModal($index)">添加下级权限</a></span>
+						<span><a href="javascript:void(0)"
+							ng-click="updateModal($index)">修改</a></span> <span><a
+							href="javascript:void(0)" data-content="{{ $index }}"
+							class="target-click" data-confirm="data-confirm">删除</a></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -84,9 +88,9 @@
 								<label class="col-sm-2 control-label">权限名称：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName" name="name"
-											ng-model="updateSysPower.name" placeholder="请输入权限名称"
-											required="required" />
+										<input type="text" class="form-control" id="updateName"
+											name="name" ng-model="updateSysPower.name"
+											placeholder="请输入权限名称" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
@@ -112,6 +116,18 @@
 									</div>
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">标签：</label>
+								<div class="col-sm-8">
+									<div class="col-sm-6" style="padding-left: 0">
+										<select class="form-control" ng-model="updateSysPower.label"
+											id="updateLabel" style="height: 25px;" name="label"
+											ng-options="permissionLabelEnum.code as permissionLabelEnum.name for permissionLabelEnum in permissionLabelEnums"></select>
+									</div>
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label">排序：</label>
 								<div class="col-sm-8">
@@ -192,12 +208,24 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">标签：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-6" style="padding-left: 0">
+							<select class="form-control" ng-model="sysPower.label" id="label"
+								ng-init="sysPower.label=1" style="height: 25px;" name="label"
+								ng-options="permissionLabelEnum.code as permissionLabelEnum.name for permissionLabelEnum in permissionLabelEnums"></select>
+						</div>
+					</div>
+				</div>
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label">排序：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
 							<input type="number" class="form-control" id="sort" name="sort"
-								ng-model="sysPower.sort" placeholder="请输入排序" required="required"/>
+								ng-model="sysPower.sort" placeholder="请输入排序" required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"

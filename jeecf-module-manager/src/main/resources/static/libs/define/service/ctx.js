@@ -18,6 +18,12 @@ define([ 'jquery', 'app' ], function($, app) {
 				setTimeout(function() {
 					callback($rootScope[name]);
 				}, 1000);
+			},
+			initNamespace : function($rootScope, data) {
+				$rootScope["namespaceName"] = data;
+			},
+			getNamespace : function($rootScope) {
+				return $rootScope["namespaceName"];
 			}
 		}
 	});

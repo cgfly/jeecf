@@ -251,6 +251,10 @@ public class SecurityFacade {
     }
 
     public Response<Set<String>> findPermission(String userId) {
+        return this.findPermission(userId, null);
+    }
+
+    public Response<Set<String>> findPermission(String userId, Integer label) {
         Response<List<SysRole>> sysRoleRes = this.findRole(userId);
         Set<String> roleSet = new HashSet<>();
         Set<String> powerSet = new HashSet<String>();
@@ -261,13 +265,15 @@ public class SecurityFacade {
                 if (ResponseUtils.isNotEmpty(sysPowerRes)) {
                     sysPowerRes.getData().forEach(sysPower -> {
                         String afterLast = StringUtils.substringAfterLast(sysPower.getPermission(), ":");
-                        if (PermissionUtils.MATCH_PERMISSION.equals(afterLast)) {
-                            String beforeLast = StringUtils.substringBeforeLast(sysPower.getPermission(), ":");
-                            for (String value : PermissionUtils.RESOLVE_PERMISSION) {
-                                powerSet.add(beforeLast + ":" + value);
+                        if (label == null || label.equals(sysPower.getLabel())) {
+                            if (PermissionUtils.MATCH_PERMISSION.equals(afterLast)) {
+                                String beforeLast = StringUtils.substringBeforeLast(sysPower.getPermission(), ":");
+                                for (String value : PermissionUtils.RESOLVE_PERMISSION) {
+                                    powerSet.add(beforeLast + ":" + value);
+                                }
+                            } else {
+                                powerSet.add(sysPower.getPermission());
                             }
-                        } else {
-                            powerSet.add(sysPower.getPermission());
                         }
                     });
                 }

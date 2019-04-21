@@ -8,20 +8,21 @@ services:
             MYSQL_ROOT_HOST: '%'
             MYSQL_DATABASE: jeecf
         image: "docker.io/mysql:5.7" 
-        restart: always
+        restart: unless-stopped
         volumes:
             - "./db:/var/lib/mysql"
         ports:
             - "33060:3306"
     redis:
         image: "redis"
+        restart: unless-stopped
         ports:
             - "63791:6379"  
     server:
         image: bcgm/jeecf-manager:v1
         ports:
             - "8801:8801"
-        restart: always  
+        restart: unless-stopped  
         depends_on:
             - mysql57
             - redis 

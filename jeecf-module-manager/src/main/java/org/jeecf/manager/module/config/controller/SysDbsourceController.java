@@ -1,7 +1,10 @@
 package org.jeecf.manager.module.config.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,6 +19,7 @@ import org.jeecf.common.utils.DesEncryptUtils;
 import org.jeecf.common.utils.HumpUtils;
 import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.PermissionLabelEnum;
 import org.jeecf.manager.common.enums.UsableEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -35,6 +39,7 @@ import org.jeecf.manager.module.template.model.query.GenTableQuery;
 import org.jeecf.manager.module.template.model.result.GenTableColumnResult;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 import org.jeecf.manager.module.template.service.GenTableService;
+import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.proxy.TargetTableProxy;
 import org.jeecf.manager.validate.groups.Add;
 import org.springframework.beans.BeanUtils;
@@ -72,6 +77,9 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
 
     @Autowired
     private GenTableService genTableService;
+
+    @Autowired
+    private SecurityFacade securityFacade;
 
     @Autowired
     private TargetTableProxy targetTableProxy;
@@ -173,7 +181,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
     public Response<Integer> effect(@NotEmpty @PathVariable("id") String id) {
         SysDbsource sysDbSource = sysDbsourceService.getByAuth(new SysDbsource(id)).getData();
         if (sysDbSource != null) {
-            DynamicDataSourceContextHolder.setCurrentDataSourceValue(sysDbSource.getKeyName(),Integer.valueOf(sysDbSource.getId()), sysDbSource.getUsable());
+            DynamicDataSourceContextHolder.setCurrentDataSourceValue(sysDbSource.getKeyName(), Integer.valueOf(sysDbSource.getId()), sysDbSource.getUsable());
             return new Response<Integer>(1);
         }
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
@@ -227,6 +235,24 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
         return sysDbsourceService.deleteByAuth(new SysDbsource(id));
+    }
+
+    @PostMapping(value = { "permissions" })
+    @ResponseBody
+    @RequiresPermissions("${permission.sysDbsource.edit}")
+    @ApiOperation(value = "权限", notes = "获取数据源权限")
+    public Response<List<Map<String, String>>> permissions() {
+        List<Map<String, String>> result = new ArrayList<>();
+        Response<Set<String>> res = securityFacade.findPermission(UserUtils.getCurrentUserId(), PermissionLabelEnum.DB.getCode());
+        if (CollectionUtils.isNotEmpty(res.getData())) {
+            res.getData().forEach(data -> {
+                Map<String, String> resultMap = new LinkedHashMap<>();
+                resultMap.put("code", data);
+                resultMap.put("name", data);
+                result.add(resultMap);
+            });
+        }
+        return new Response<>(result).copyValue(res);
     }
 
 }

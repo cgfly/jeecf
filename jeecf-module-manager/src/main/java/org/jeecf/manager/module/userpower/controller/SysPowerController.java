@@ -9,6 +9,7 @@ import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.PermissionLabelEnum;
 import org.jeecf.manager.module.userpower.facade.SecurityFacade;
 import org.jeecf.manager.module.userpower.model.domain.SysPower;
 import org.jeecf.manager.module.userpower.model.po.SysPowerPO;
@@ -62,7 +63,13 @@ public class SysPowerController implements CurdController<SysPowerQuery, SysPowe
     @ApiOperation(value = "列表", notes = "查询系统权限列表")
     @Override
     public Response<List<SysPowerResult>> list(@RequestBody Request<SysPowerQuery, SysPowerSchema> request) {
-        return sysPowerService.getTreeData(new SysPowerPO(request));
+        Response<List<SysPowerResult>> res = sysPowerService.getTreeData(new SysPowerPO(request));
+        if (CollectionUtils.isNotEmpty(res.getData())) {
+            res.getData().forEach(sysPower -> {
+                sysPower.setLabelName(PermissionLabelEnum.getName(sysPower.getLabel()));
+            });
+        }
+        return res;
     }
 
     @PostMapping(value = { "getTreeData" })
