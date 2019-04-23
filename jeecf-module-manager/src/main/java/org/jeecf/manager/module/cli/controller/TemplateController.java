@@ -142,8 +142,6 @@ public class TemplateController {
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
                 String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
-                System.out.println(zipFilePath);
-                System.out.println(">>>>>>>>>");
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_TMPL_PREFIX + uuid, zipFilePath);
                 return new Response<>(uuid);
