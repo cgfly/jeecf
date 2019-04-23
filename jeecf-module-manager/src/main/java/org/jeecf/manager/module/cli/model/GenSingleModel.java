@@ -2,6 +2,7 @@ package org.jeecf.manager.module.cli.model;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
+@ApiModel(value = "genSingleModel", description = "代码生成单例实体")
 public class GenSingleModel {
     /**
      * 模版名称

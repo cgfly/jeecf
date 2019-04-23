@@ -2,6 +2,7 @@ package org.jeecf.manager.module.cli.model;
 
 import org.jeecf.manager.module.cli.enums.GenStrategyEnum;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
+@ApiModel(value = "genModel", description = "代码生成实体")
 public class GenModel extends AuthModel {
     /**
      * 策略
