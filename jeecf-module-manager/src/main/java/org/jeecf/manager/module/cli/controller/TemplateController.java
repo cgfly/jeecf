@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
@@ -52,6 +51,7 @@ import org.jeecf.manager.module.userpower.model.result.SysUserResult;
 import org.jeecf.osgi.enums.BoundleEnum;
 import org.jeecf.osgi.enums.LanguageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -142,6 +142,8 @@ public class TemplateController {
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
                 String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
+                System.out.println(zipFilePath);
+                System.out.println(">>>>>>>>>");
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_TMPL_PREFIX + uuid, zipFilePath);
                 return new Response<>(uuid);
@@ -205,9 +207,8 @@ public class TemplateController {
                 String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
                 String outPath = GenUtils.build(paramsList, genSingleModel.getTableName(), sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId),
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
-                String targetPath = TemplateUtils.getUnzipPath(outPath + SplitCharEnum.SLASH.getName() + genSingleModel.getTableName(), sysNamespace.getName());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
-                RedisCacheUtils.setSysCache(CACHE_CODE_PREFIX + uuid, TemplateUtils.getDownloadPath(targetPath));
+                RedisCacheUtils.setSysCache(CACHE_CODE_PREFIX + uuid, outPath);
                 return new Response<>(uuid);
             }
             throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
@@ -215,7 +216,7 @@ public class TemplateController {
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);
     }
 
-    @PostMapping(value = { "download/{uuid}" })
+    @GetMapping(value = { "download/{uuid}" })
     @ApiOperation(value = "下载", notes = "下载模版")
     public void download(@PathVariable String uuid, HttpServletResponse response) {
         String path = RedisCacheUtils.getSysCache(CACHE_TMPL_PREFIX + uuid);
@@ -225,7 +226,7 @@ public class TemplateController {
         return;
     }
 
-    @PostMapping(value = { "download/code/{uuid}" })
+    @GetMapping(value = { "download/code/{uuid}" })
     @ApiOperation(value = "下载", notes = "下载生成代码")
     public void downloadCode(@PathVariable String uuid, HttpServletResponse response) {
         String path = RedisCacheUtils.getSysCache(CACHE_CODE_PREFIX + uuid);
