@@ -239,7 +239,7 @@ public class TemplateController {
     public Response<GenTemplateResult> upload(@RequestParam("file") MultipartFile file, TemplateInput templateInput) {
         AuthModel authModel = new AuthModel();
         authModel.setUsername(templateInput.getUsername());
-        authModel.setUsername(templateInput.getPassword());
+        authModel.setPassword(templateInput.getPassword());
         Response<SysUserResult> sysUserResultRes = userAuthService.auth(authModel);
         SysNamespace sysNamespace = sysNamespaceService.get(sysUserResultRes.getData().getId(), templateInput.getNamespace());
         if (sysNamespace != null) {
