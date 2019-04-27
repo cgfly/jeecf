@@ -17,32 +17,32 @@ public class GenSingleModel {
      * 模版名称
      */
     @ApiModelProperty(value = "模版名称", name = "templateName")
-    private String templateName;
+    private String template;
     /**
-     * 表名
+     * 表信息
      */
-    @ApiModelProperty(value = "表名", name = "tableName")
-    private String tableName;
+    @ApiModelProperty(value = "表信息", name = "table")
+    private TableModel table;
     /**
      * 模版属性
      */
     @ApiModelProperty(value = "模版属性", name = "fields")
     private List<TemplateField> fields;
 
-    public String getTemplateName() {
-        return templateName;
+    public String getTemplate() {
+        return template;
     }
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName;
+    public void setTemplate(String template) {
+        this.template = template;
     }
 
-    public String getTableName() {
-        return tableName;
+    public TableModel getTable() {
+        return table;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setTable(TableModel table) {
+        this.table = table;
     }
 
     public List<TemplateField> getFields() {

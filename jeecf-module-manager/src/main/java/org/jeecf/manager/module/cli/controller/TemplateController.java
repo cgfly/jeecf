@@ -171,7 +171,7 @@ public class TemplateController {
             threadLocalProperties.set(NamespaceUtils.NAMESPACE_ID, sysNamespace.getId());
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
             genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-            genTemplateQuery.setName(genSingleModel.getTemplateName());
+            genTemplateQuery.setName(genSingleModel.getTemplate());
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
@@ -202,8 +202,12 @@ public class TemplateController {
                         paramsList.add(params);
                     });
                 }
+                String tableName = null;
+                if (genSingleModel.getTable() != null && StringUtils.isNotEmpty(genSingleModel.getTable().getName())) {
+                    tableName = genSingleModel.getTable().getName();
+                }
                 String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
-                String outPath = GenUtils.build(paramsList, genSingleModel.getTableName(), sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId),
+                String outPath = GenUtils.build(paramsList, tableName, sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId),
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_CODE_PREFIX + uuid, outPath);
