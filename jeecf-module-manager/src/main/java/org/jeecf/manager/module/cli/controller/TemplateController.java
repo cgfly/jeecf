@@ -281,6 +281,7 @@ public class TemplateController {
                 genTemplate.setGenFieldId(field);
                 genTemplate.setName(templateInput.getName());
                 genTemplate.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
+                genTemplate.setCreateBy(sysUserResultRes.getData().getId());
                 return genTemplateService.save(genTemplate);
             }
         }

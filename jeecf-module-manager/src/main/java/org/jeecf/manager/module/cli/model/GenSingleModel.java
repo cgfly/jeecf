@@ -16,7 +16,7 @@ public class GenSingleModel {
     /**
      * 模版名称
      */
-    @ApiModelProperty(value = "模版名称", name = "templateName")
+    @ApiModelProperty(value = "模版名称", name = "template")
     private String template;
     /**
      * 表信息
