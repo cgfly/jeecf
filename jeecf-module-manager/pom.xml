@@ -175,6 +175,7 @@
                 </includes>
                 <excludes>
                     <exclude>
+
 						**/logback-spring/**
 					</exclude>
                 </excludes>
