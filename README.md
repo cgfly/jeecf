@@ -2,7 +2,6 @@
 ## 徽章  
 [![license Status](https://img.shields.io/badge/License-Apache%202.0-blue.svg?branch=v2.0)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Build Status](https://travis-ci.org/cgfly/jeecf.svg?branch=v2.0)](https://travis-ci.org/cgfly/jeecf)  
-jeecf.git
 ## 介绍  
 Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企业业务开发效率与代码规范的平衡问题，通过使用通用的抽象模版即保证了业务开发效率，又保证了代码的规范,解决了多人开发风格差异化，可读性差等痛点问题，易于项目的维护与升级。
 
