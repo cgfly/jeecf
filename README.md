@@ -14,7 +14,12 @@ Jee Cloud Factory 是基于模版化的代码生成平台，致力于解决企�
 5.插件模版文件在 dist/example-plugin文件夹下  
 6.基于docker-compose启动，jeecf-parent/docker-compose 文件夹下  
 7.命令行客户端项目地址:https://github.com/cgfly/jeecf-cli
-## 功能说明  
+## 功能优势
+1.基于模版化，多语言适用  
+2.强大的模版配置规则  
+3.基于插件进行功能扩展  
+4.提供命令行客户端  
+## 使用说明  
 wiki:https://github.com/cgfly/jeecf/wiki 
 ## v2.0 新功能与优化  
 1.基于like和正则的模块匹配策略  
