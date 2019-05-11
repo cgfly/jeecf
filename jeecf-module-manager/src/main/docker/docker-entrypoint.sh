@@ -37,4 +37,4 @@ do
 done
 
 mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USERNAME} -p${DB_PASSWORD} $DB_NAME < ./exec.sql
-nohup java -jar $DIST_NAME.jar ${JAVA_OPTS} $SERVER $DB $REDIS $FILE > $lOG_HOME/$LOG_NAME
+nohup java -jar $DIST_NAME.jar ${JAVA_OPTS} $SERVER $DB $REDIS $FILE > $LOG_HOME/$LOG_NAME 2>&1
