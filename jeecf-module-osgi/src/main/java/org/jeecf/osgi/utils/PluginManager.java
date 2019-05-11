@@ -160,19 +160,21 @@ public class PluginManager {
         BoundleContext context = boundleContextMap.get(boundleEnum.getName());
         List<Plugin> plugins = context.getPlugins();
         List<String> packageNames = urlMap.get(url.getPath());
-        List<Plugin> uninstallPlugins = context.getBoundle().uninstall(packageNames.toArray(new String[packageNames.size()]));
-        if (CollectionUtils.isNotEmpty(plugins)) {
-            uninstallPlugins.forEach(uninstallPlugin -> {
-                for (Plugin plugin : plugins) {
-                    if (plugin == uninstallPlugin) {
-                        plugins.remove(plugin);
-                        break;
+        if (CollectionUtils.isNotEmpty(packageNames)) {
+            List<Plugin> uninstallPlugins = context.getBoundle().uninstall(packageNames.toArray(new String[packageNames.size()]));
+            if (CollectionUtils.isNotEmpty(plugins)) {
+                uninstallPlugins.forEach(uninstallPlugin -> {
+                    for (Plugin plugin : plugins) {
+                        if (plugin == uninstallPlugin) {
+                            plugins.remove(plugin);
+                            break;
+                        }
                     }
-                }
-            });
+                });
+            }
+            uninstallPlugins = null;
         }
         urlMap.remove(url.getPath());
-        uninstallPlugins = null;
     }
 
 }
