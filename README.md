@@ -24,7 +24,8 @@ wiki:https://github.com/cgfly/jeecf/wiki
 1.基于like和正则的模块匹配策略  
 2.加入全量模版  
 3.提供客户端服务支持  
-4.优化代码若干  
+4.提供docker-compose支持  
+5.优化代码若干  
 ## 总体架构
 ![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture.png)
 ## MVC架构  
