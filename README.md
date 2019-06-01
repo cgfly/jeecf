@@ -50,4 +50,4 @@ jeecf 开源公用库
 https://mvnrepository.com/search?q=jeecf
 
 ## 通知
-jeecf企业端 jeecf-moudle-manager 迁移至 https://github.com/cgfly/jeecf-manager
+jeecf企业端 jeecf-module-manager 迁移至 https://github.com/cgfly/jeecf-manager
