@@ -26,12 +26,6 @@ hs_err_pid*
 /.classpathgs/
 /.settings/
 
-/jeecf-module-manager/target/
-/jeecf-module-manager/.settings/
-/jeecf-module-manager/.DS_Store
-/jeecf-module-manager/.project
-/jeecf-module-manager/.classpath
-
 /jeecf-module-common/target/
 /jeecf-module-common/.settings/
 /jeecf-module-common/.DS_Store
@@ -64,7 +58,6 @@ hs_err_pid*
 
 .idea/
 jeecf-module-common/jeecf-module-common.iml
-jeecf-module-manager/jeecf-module-manager.iml
 jeecf-module-osgi/jeecf-module-osgi.iml
 jeecf-parent.iml
 jeecf-module-engine-mysql/jeecf-module-engine-mysql.iml
