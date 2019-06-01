@@ -6,3 +6,33 @@
 jeecf 开源公用库
 
 ## 使用
+### cache  
+<dependency>
+    <groupId>org.jeecf</groupId>
+    <artifactId>jeecf-module-cache</artifactId>
+    <version>2.0.0-RELEASE</version>
+</dependency>
+### common  
+<dependency>  
+    <groupId>org.jeecf</groupId>  
+    <artifactId>jeecf-module-common</artifactId>  
+    <version>2.0.0-RELEASE</version>  
+</dependency>
+### osgi  
+<dependency>
+    <groupId>org.jeecf</groupId>  
+    <artifactId>jeecf-module-osgi</artifactId>
+    <version>2.0.0-RELEASE</version>
+</dependency>
+### gen
+<dependency>
+    <groupId>org.jeecf</groupId>
+    <artifactId>jeecf-module-gen</artifactId>
+    <version>2.0.0-RELEASE</version>
+</dependency>
+### engine-mysql
+<dependency>
+    <groupId>org.jeecf</groupId>
+    <artifactId>jeecf-module-engine-mysql</artifactId>
+    <version>2.0.0-RELEASE</version>
+</dependency>
