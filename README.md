@@ -46,3 +46,5 @@ jeecf 开源公用库
     <version>2.0.0-RELEASE</version>
 </dependency>
 ``` 
+## 其他版本  
+https://mvnrepository.com/search?q=jeecf
