@@ -6,7 +6,7 @@
 jeecf 开源公用库
 
 ## 使用
-### cache  
+### 1.cache  
 ``` 
 <dependency>
     <groupId>org.jeecf</groupId>
@@ -14,7 +14,7 @@ jeecf 开源公用库
     <version>2.0.0-RELEASE</version>
 </dependency>
 ``` 
-### common  
+### 2.common  
 ``` 
 <dependency>  
     <groupId>org.jeecf</groupId>  
@@ -22,7 +22,7 @@ jeecf 开源公用库
     <version>2.0.0-RELEASE</version>  
 </dependency>
 ``` 
-### osgi  
+### 3.osgi  
 ``` 
 <dependency>
     <groupId>org.jeecf</groupId>  
@@ -30,7 +30,7 @@ jeecf 开源公用库
     <version>2.0.0-RELEASE</version>
 </dependency>
 ```  
-### gen  
+### 4.gen  
 ``` 
 <dependency>
     <groupId>org.jeecf</groupId>
@@ -38,7 +38,7 @@ jeecf 开源公用库
     <version>2.0.0-RELEASE</version>
 </dependency>
 ``` 
-### engine-mysql  
+### 5.engine-mysql  
 ``` 
 <dependency>
     <groupId>org.jeecf</groupId>
