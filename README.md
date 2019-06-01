@@ -48,3 +48,6 @@ jeecf 开源公用库
 ``` 
 ## 其他版本  
 https://mvnrepository.com/search?q=jeecf
+
+## 通知
+jeecf企业端 jeecf-moudle-manager 迁移至 https://github.com/cgfly/jeecf-manager
