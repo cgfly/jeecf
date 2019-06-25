@@ -10,7 +10,7 @@ public class GenParams {
     /**
      * 名称
      */
-    private String name;
+    private String columnName;
     /**
      * 值
      */
@@ -20,12 +20,12 @@ public class GenParams {
      */
     private String descrition;
 
-    public String getName() {
-        return name;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 
     public String getValue() {

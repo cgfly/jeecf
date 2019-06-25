@@ -40,15 +40,19 @@ public class ConfigResolveHandler extends AbstractHandler {
         ConfigContext context = new ConfigContext();
         String outDir = codePath;
         String globalParams = "";
+        String outBaseDir = "";
         File configFile = new File(configPath);
         FileInputStream configIs;
         try {
             configIs = new FileInputStream(configFile);
             JsonNode node = GenUtils.getConfig(configIs);
-            String outBaseDir = node.get("outBaseDir").asText();
+            JsonNode outBaseDirNode = node.get("outBaseDir");
             JsonNode globalNode = node.get("params");
             JsonNode modulesNode = node.get("module");
             JsonNode distributionNode = node.get("distribution");
+            if (outBaseDirNode != null) {
+                outBaseDir = outBaseDirNode.asText();
+            }
             if (StringUtils.isNotEmpty(outBaseDir)) {
                 outDir = codePath + File.separator + outBaseDir;
             }

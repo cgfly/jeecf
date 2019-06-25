@@ -21,7 +21,35 @@ public enum LanguageEnum {
     /**
      * go
      */
-    GO(2, "go"),;
+    GO(2, "go"),
+    /**
+     * python
+     */
+    PYTHON(3, "python"),
+    /**
+     * js
+     */
+    JS(4, "js"),
+    /**
+     * css
+     */
+    CSS(5, "css"),
+    /**
+     * css
+     */
+    HTML(6, "html"),
+    /**
+     * css
+     */
+    WEB(7, "web"),
+    /**
+     * python
+     */
+    PHP(8, "php"),
+    /**
+     * c
+     */
+    C(9, "c"),;
 
     private final int code;
     private final String name;
