@@ -8,6 +8,8 @@
         <version>2.0.0-RELEASE</version>
     </parent>
     <artifactId>jeecf-module-osgi</artifactId>
+    <version>2.0.1-RELEASE</version>
+    
     <dependencies>
         <dependency>
             <groupId>org.jeecf</groupId>
