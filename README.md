@@ -17,7 +17,7 @@ jeecf 开源公用库
 ### 2.common  
 ``` 
 <dependency>  
-    <groupId>org.jeecf</groupId>  
+    <groupId>org.jeecf</groupId>
     <artifactId>jeecf-module-common</artifactId>  
     <version>2.0.0-RELEASE</version>  
 </dependency>
@@ -27,7 +27,7 @@ jeecf 开源公用库
 <dependency>
     <groupId>org.jeecf</groupId>  
     <artifactId>jeecf-module-osgi</artifactId>
-    <version>2.0.0-RELEASE</version>
+    <version>2.0.1-RELEASE</version>
 </dependency>
 ```  
 ### 4.gen  
@@ -35,7 +35,7 @@ jeecf 开源公用库
 <dependency>
     <groupId>org.jeecf</groupId>
     <artifactId>jeecf-module-gen</artifactId>
-    <version>2.0.0-RELEASE</version>
+    <version>2.0.1</version>
 </dependency>
 ``` 
 ### 5.engine-mysql  
