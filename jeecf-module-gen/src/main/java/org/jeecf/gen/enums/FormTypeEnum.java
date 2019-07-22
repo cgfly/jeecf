@@ -37,7 +37,31 @@ public enum FormTypeEnum {
     /**
      * 表格下拉框
      */
-    TABLE_SELECT(5, "表格下拉框"),;
+    TABLE_SELECT(5, "表格下拉框"),
+    /**
+     * 多选下拉框
+     */
+    MANY_SELECT(6, "多选下拉框"),
+    /**
+     * 树形选择框
+     */
+    TREE_SELECT(7, "树形选择框"),
+    /**
+     * 标签框
+     */
+    LABEL_SELECT(8, "标签框"),
+    /**
+     * 单选按钮
+     */
+    SELECT_BUTTON(9, "单选按钮"),
+    /**
+     * 多选按钮
+     */
+    MANY_SELECT_BUTTON(10, "多选按钮"),
+    /**
+     * 按钮组
+     */
+    GROUP_SELECT_BUTTON(11, "按钮组"),;
 
     private final int code;
     private final String name;
