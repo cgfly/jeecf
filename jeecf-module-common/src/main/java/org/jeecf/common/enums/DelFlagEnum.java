@@ -21,7 +21,11 @@ public enum DelFlagEnum {
     /**
      * 删除
      */
-    YES(1, "删除");
+    YES(1, "删除"),
+    /**
+     * 所有
+     */
+    ALL(-1, "所有");
 
     private final int code;
     private final String name;

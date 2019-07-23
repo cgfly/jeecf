@@ -11,7 +11,7 @@ jeecf 开源公用库
 <dependency>
     <groupId>org.jeecf</groupId>
     <artifactId>jeecf-module-cache</artifactId>
-    <version>2.0.0-RELEASE</version>
+    <version>2.0.1-RELEASE</version>
 </dependency>
 ``` 
 ### 2.common  
@@ -19,7 +19,7 @@ jeecf 开源公用库
 <dependency>  
     <groupId>org.jeecf</groupId>
     <artifactId>jeecf-module-common</artifactId>  
-    <version>2.0.0-RELEASE</version>  
+    <version>2.0.1-RELEASE</version>  
 </dependency>
 ``` 
 ### 3.osgi  

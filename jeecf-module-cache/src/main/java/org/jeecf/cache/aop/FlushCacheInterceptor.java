@@ -11,6 +11,7 @@ import org.jeecf.cache.CacheFlush;
 import org.jeecf.cache.annotation.Cache;
 import org.jeecf.cache.annotation.FlushCache;
 import org.jeecf.cache.exception.CacheNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +26,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlushCacheInterceptor {
 
+    @Value("${jeecf.cache:true}")
+    private boolean cache;
+
     @After("@annotation(flushCache)")
     public void afterMethod(JoinPoint pjp, FlushCache flushCache) throws Throwable {
+        if (!cache) {
+            return;
+        }
         Class<? extends Object> cls = pjp.getTarget().getClass();
         Annotation[] annotations = cls.getAnnotations();
         String className = pjp.getTarget().getClass().getName();
