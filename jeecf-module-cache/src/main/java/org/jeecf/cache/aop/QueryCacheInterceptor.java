@@ -11,6 +11,7 @@ import org.jeecf.cache.CacheLoadStore;
 import org.jeecf.cache.annotation.Cache;
 import org.jeecf.cache.annotation.QueryCache;
 import org.jeecf.cache.exception.CacheNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +26,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class QueryCacheInterceptor {
 
+    @Value("${jeecf.cache:true}")
+    private boolean cache;
+
     @Around("@annotation(queryCache)")
     public Object aroundMethod(ProceedingJoinPoint pjp, QueryCache queryCache) throws Throwable {
+        if (!cache) {
+            return pjp.proceed();
+        }
         Class<? extends Object> cls = pjp.getTarget().getClass();
         Annotation[] annotations = cls.getAnnotations();
         String className = pjp.getTarget().getClass().getName();
