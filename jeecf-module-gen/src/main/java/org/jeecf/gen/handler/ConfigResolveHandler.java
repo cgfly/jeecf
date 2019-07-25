@@ -10,6 +10,7 @@ import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.gen.chain.AbstractHandler;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.gen.model.config.ConfigContext;
 import org.jeecf.gen.model.config.DistributionEntity;
 import org.jeecf.gen.resolve.ConfigDistributionResolve;
@@ -33,7 +34,7 @@ public class ConfigResolveHandler extends AbstractHandler {
     @Override
     public void process() {
         Map<String, Object> paramsMap = this.chainContext.getParams();
-
+        ContextConfigParams contextParams = this.chainContext.getContextParams();
         String sourcePath = contextParams.getSourcePath();
         String configPath = sourcePath + File.separator + CONFIG_FILE_NAME;
         String codePath = sourcePath + File.separator + CODE_PATH_SUFFIX;

@@ -12,18 +12,12 @@ public abstract class AbstractHandler {
      */
     protected ChainContext chainContext = null;
     /**
-     * 上下参数
-     */
-    protected ContextConfigParams contextParams = null;
-
-    /**
      * 责任链初始方法
      * 
      * @param context
      */
     public void init(ChainContext context) {
         this.chainContext = context;
-        this.contextParams = context.getContextParams();
     }
 
     /**

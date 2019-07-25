@@ -18,6 +18,7 @@ import org.jeecf.common.utils.FileUtils;
 import org.jeecf.common.utils.XmlResolve;
 import org.jeecf.common.utils.ZipUtils;
 import org.jeecf.gen.chain.AbstractHandler;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.gen.model.GenSchemaTemplate;
 import org.jeecf.gen.model.config.ConfigContext;
@@ -38,6 +39,7 @@ public class GenHandler extends AbstractHandler {
 
     @Override
     public void process() {
+        ContextConfigParams contextParams = this.chainContext.getContextParams();
         Map<String, Object> params = this.chainContext.getParams();
         String sourcePath = contextParams.getSourcePath();
         String codePath = sourcePath + File.separator + CODE_PATH_SUFFIX;

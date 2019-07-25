@@ -35,7 +35,7 @@ jeecf 开源公用库
 <dependency>
     <groupId>org.jeecf</groupId>
     <artifactId>jeecf-module-gen</artifactId>
-    <version>2.0.2-RELEASE</version>
+    <version>2.0.3-RELEASE</version>
 </dependency>
 ``` 
 ### 5.engine-mysql  

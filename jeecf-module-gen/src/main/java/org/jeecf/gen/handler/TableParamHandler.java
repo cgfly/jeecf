@@ -8,6 +8,7 @@ import java.util.Map;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.gen.chain.AbstractHandler;
 import org.jeecf.gen.chain.ChainContext;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.gen.enums.DistributionStrategyEnum;
 import org.jeecf.gen.enums.RuleStrategyNameEnum;
 import org.jeecf.gen.exception.DataFilterEmptyException;
@@ -35,16 +36,15 @@ import org.jeecf.gen.utils.TableHook;
  */
 public class TableParamHandler extends AbstractHandler {
 
-    private TableHook tableHook = null;
-
     @Override
     public void init(ChainContext context) {
         super.init(context);
-        this.tableHook = this.chainContext.getTableHook();
     }
 
     @Override
     public void process() {
+        ContextConfigParams contextParams = this.chainContext.getContextParams();
+        TableHook tableHook = this.chainContext.getTableHook();
         String tableName = contextParams.getTableName();
         ConfigContext configContext = contextParams.getConfigContext();
         List<RuleContext> ruleContexts = contextParams.getRuleContexts();
@@ -66,7 +66,7 @@ public class TableParamHandler extends AbstractHandler {
             }
         });
         for (Map.Entry<RuleContext, List<ModuleEntity>> entry : filterMap.entrySet()) {
-            this.buildFactory(tableName, entry.getKey(), entry.getValue(), configContext.getDistributionEntity());
+            this.buildFactory(tableName, entry.getKey(), entry.getValue(), configContext.getDistributionEntity(), tableHook);
         }
         this.chainContext.next();
     }
@@ -79,7 +79,7 @@ public class TableParamHandler extends AbstractHandler {
      * @param ruleContext
      * @param moduleEntitys
      */
-    private void buildFactory(String tableName, RuleContext ruleContext, List<ModuleEntity> moduleEntitys, DistributionEntity distributionEntity) {
+    private void buildFactory(String tableName, RuleContext ruleContext, List<ModuleEntity> moduleEntitys, DistributionEntity distributionEntity, TableHook tableHook) {
         if (StringUtils.isNotEmpty(tableName)) {
             BaseTable table = tableHook.build(tableName);
             if (ruleContext.isData()) {
@@ -92,7 +92,7 @@ public class TableParamHandler extends AbstractHandler {
                     if (StringUtils.isBlank(strategyEntity.getField())) {
                         throw new RuleStrategyFieldEmptyException("rule strategy field is empty ...");
                     }
-                    buildStrategy(data, table, strategyEntity, moduleEntitys, distributionEntity);
+                    buildStrategy(data, table, strategyEntity, moduleEntitys, distributionEntity, tableHook);
                 } else {
                     buildData(moduleEntitys, data, table, distributionEntity);
                 }
@@ -113,9 +113,9 @@ public class TableParamHandler extends AbstractHandler {
      * @param moduleEntitys
      * @param builder
      */
-    private void buildStrategy(String data, Object table, StrategyEntity strategyEntity, List<ModuleEntity> moduleEntitys, DistributionEntity distributionEntity) {
+    private void buildStrategy(String data, Object table, StrategyEntity strategyEntity, List<ModuleEntity> moduleEntitys, DistributionEntity distributionEntity, TableHook tableHook) {
         if (strategyEntity.getName().equals(RuleStrategyNameEnum.MANY.name)) {
-            buildTables(moduleEntitys, data, strategyEntity.getField(), distributionEntity);
+            buildTables(moduleEntitys, data, strategyEntity.getField(), distributionEntity, tableHook);
             return;
         } else if (strategyEntity.getName().equals(RuleStrategyNameEnum.GROUP.name)) {
             buildDatas(moduleEntitys, data, table, strategyEntity.getField(), distributionEntity);
@@ -182,7 +182,7 @@ public class TableParamHandler extends AbstractHandler {
      * @param field
      * @param distributionEntity
      */
-    private void buildTables(List<ModuleEntity> moduleEntitys, String data, String field, DistributionEntity distributionEntity) {
+    private void buildTables(List<ModuleEntity> moduleEntitys, String data, String field, DistributionEntity distributionEntity, TableHook tableHook) {
         if (distributionEntity.isActive()) {
             moduleEntitys.forEach(moduleEntity -> {
                 String distributionData = buildDistributionStrategy(data, distributionEntity.getField(), moduleEntity.getMatch(), distributionEntity.getStrategy());

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.gen.chain.AbstractHandler;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.gen.model.rule.RuleContext;
 import org.jeecf.gen.resolve.RuleFilterResolve;
 import org.jeecf.gen.resolve.RuleStrategyResolve;
@@ -30,6 +31,7 @@ public class RuleResolveHandler extends AbstractHandler {
 
     @Override
     public void process() {
+        ContextConfigParams contextParams = this.chainContext.getContextParams();
         Map<String, Object> paramsMap = this.chainContext.getParams();
         String sourcePath = contextParams.getSourcePath();
         String rulePath = sourcePath + File.separator + RULE_FILE_NAME;
@@ -44,10 +46,10 @@ public class RuleResolveHandler extends AbstractHandler {
                     Iterator<JsonNode> rulesIter = rulesNode.iterator();
                     while (rulesIter.hasNext()) {
                         JsonNode ruleNode = rulesIter.next();
-                        ruleContexts.add(this.buildRuleContext(ruleNode, paramsMap));
+                        ruleContexts.add(this.buildRuleContext(ruleNode, paramsMap, contextParams));
                     }
                 } else {
-                    ruleContexts.add(this.buildRuleContext(rulesNode, paramsMap));
+                    ruleContexts.add(this.buildRuleContext(rulesNode, paramsMap, contextParams));
                 }
             } else {
                 ruleContexts.add(new RuleContext());
@@ -65,7 +67,7 @@ public class RuleResolveHandler extends AbstractHandler {
      * @param ruleNode
      * @return
      */
-    private RuleContext buildRuleContext(JsonNode ruleNode, Map<String, Object> paramsMap) {
+    private RuleContext buildRuleContext(JsonNode ruleNode, Map<String, Object> paramsMap, ContextConfigParams contextParams) {
         RuleContext context = new RuleContext();
         context.setName(resolveName(ruleNode.get("name")));
         context.setData(resolveData(ruleNode.get("data")));
